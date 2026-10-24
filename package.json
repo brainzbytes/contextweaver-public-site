@@ -1,0 +1,16 @@
+{
+  "name": "contextweaver-public-site",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Standalone public product site for the ContextWeaver governed AI platform.",
+  "scripts": {
+    "build": "python tools/generate_site.py && python tools/generate_diagrams.py",
+    "test": "node --test tests/site.test.mjs",
+    "serve": "python -m http.server 4173"
+  },
+  "engines": {
+    "node": ">=20",
+    "python": ">=3.11"
+  }
+}
+
