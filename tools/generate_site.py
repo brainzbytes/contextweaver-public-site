@@ -69,7 +69,7 @@ def page(name: str, title: str, description: str, content: str) -> str:
       <meta name="theme-color" content="#07110f">
       <title>{title}</title>
       <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
-      <link rel="stylesheet" href="assets/css/site.css?v=20261025-1">
+      <link rel="stylesheet" href="assets/css/site.css?v=20261025-2">
     </head>
     <body data-page="{name}">
       {header()}
@@ -77,7 +77,7 @@ def page(name: str, title: str, description: str, content: str) -> str:
         {content}
       </main>
       {footer()}
-      <script src="assets/js/site.js?v=20261025-1"></script>
+      <script src="assets/js/site.js?v=20261025-2"></script>
     </body>
     </html>
     """).lstrip()

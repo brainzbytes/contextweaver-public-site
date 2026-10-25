@@ -281,7 +281,7 @@ h1 em { color: var(--mint); font-style: normal; }
   display: grid;
   grid-template-columns: repeat(5, 1fr);
   gap: 1px;
-  margin: 0 0 44px;
+  margin: 0 auto 44px;
   border: 1px solid var(--line);
   border-radius: 18px;
   background: var(--line);
