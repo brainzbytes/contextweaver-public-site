@@ -381,6 +381,11 @@ RUNTIME = """
   {governed_run}
 </section>
 
+<section id="generic-agent-runtime" class="container section compact">
+  <div class="section-head"><div><p class="section-kicker">Profile-bound Agents</p><h2>One hardened image. Many isolated logical Agents.</h2></div><p>Role, schemas, executor, MCP access, budgets, queues, and runtime compatibility are injected through immutable profiles. Each logical Agent retains independent identity, networking, scaling, rollout, and rollback.</p></div>
+  {generic_agent_runtime}
+</section>
+
 <section id="scenarios" class="container section scenario-section">
   <div class="section-head">
     <div><p class="section-kicker">See it run</p><h2>Three outcomes. One governed execution pattern.</h2></div>
@@ -913,6 +918,11 @@ def main() -> None:
             "governed-run",
             "Governed Dynamic Service Run",
             "The player shows identity and policy paths, parallel Agent work, MCP side effects, human approval, durable state, and final evidence.",
+        ),
+        "generic_agent_runtime": diagram(
+            "generic-agent-runtime",
+            "Generic Agent Runtime",
+            "Risk, Readiness, and Synthesis use one platform image with separate immutable profiles, queues, identities, scaling, and rollback.",
         ),
         "scale_path": diagram(
             "scale-path",

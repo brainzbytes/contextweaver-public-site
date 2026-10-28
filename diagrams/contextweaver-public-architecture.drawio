@@ -74,6 +74,83 @@
       </root>
     </mxGraphModel>
   </diagram>
+  <diagram id="generic-agent-runtime" name="Generic Agent Runtime">
+    <mxGraphModel dx="1600" dy="1000" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1200" pageHeight="720">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="generic-agent-runtime-title" value="&lt;b&gt;Generic Agent Runtime&lt;/b&gt;&lt;br&gt;One platform image becomes multiple isolated logical Agents through immutable, profile-bound deployments." style="text;html=1;strokeColor=none;fillColor=none;whiteSpace=wrap;fontSize=18;fontColor=#12251f;align=left;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry x="35" y="20" width="1100" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="generic-agent-runtime-registry" value="&lt;b&gt;Immutable AgentCards&lt;/b&gt;&lt;br&gt;Profile + schemas + digest" style="rounded=1;whiteSpace=wrap;html=1;shadow=1;arcSize=16;fillColor=#e6f8ef;strokeColor=#3c9b72;strokeWidth=2;fontSize=14;fontColor=#12251f;align=center;verticalAlign=middle;spacing=10;" vertex="1" parent="1">
+          <mxGeometry x="42" y="85" width="210" height="105" as="geometry" />
+        </mxCell>
+        <mxCell id="generic-agent-runtime-compiler" value="&lt;b&gt;Workflow Compiler&lt;/b&gt;&lt;br&gt;Resolve + pin exact profile" style="rounded=1;whiteSpace=wrap;html=1;shadow=1;arcSize=16;fillColor=#e6f8ef;strokeColor=#3c9b72;strokeWidth=2;fontSize=14;fontColor=#12251f;align=center;verticalAlign=middle;spacing=10;" vertex="1" parent="1">
+          <mxGeometry x="328" y="85" width="210" height="105" as="geometry" />
+        </mxCell>
+        <mxCell id="generic-agent-runtime-coordinator" value="&lt;b&gt;Run Coordinator&lt;/b&gt;&lt;br&gt;Authorize + dispatch" style="rounded=1;whiteSpace=wrap;html=1;shadow=1;arcSize=16;fillColor=#e6f8ef;strokeColor=#3c9b72;strokeWidth=2;fontSize=14;fontColor=#12251f;align=center;verticalAlign=middle;spacing=10;" vertex="1" parent="1">
+          <mxGeometry x="614" y="85" width="210" height="105" as="geometry" />
+        </mxCell>
+        <mxCell id="generic-agent-runtime-rabbit" value="&lt;b&gt;RabbitMQ&lt;/b&gt;&lt;br&gt;Durable command delivery" style="rounded=1;whiteSpace=wrap;html=1;shadow=1;arcSize=16;fillColor=#e6f8ef;strokeColor=#3c9b72;strokeWidth=2;fontSize=14;fontColor=#12251f;align=center;verticalAlign=middle;spacing=10;" vertex="1" parent="1">
+          <mxGeometry x="900" y="85" width="210" height="105" as="geometry" />
+        </mxCell>
+        <mxCell id="generic-agent-runtime-image" value="&lt;b&gt;Generic runtime image&lt;/b&gt;&lt;br&gt;cw-generic-agent-runtime:0.2.0" style="rounded=1;whiteSpace=wrap;html=1;shadow=1;arcSize=16;fillColor=#e6f8ef;strokeColor=#3c9b72;strokeWidth=2;fontSize=14;fontColor=#12251f;align=center;verticalAlign=middle;spacing=10;" vertex="1" parent="1">
+          <mxGeometry x="477" y="250" width="245" height="105" as="geometry" />
+        </mxCell>
+        <mxCell id="generic-agent-runtime-risk" value="&lt;b&gt;Risk Agent&lt;/b&gt;&lt;br&gt;Generic image + Risk profile" style="rounded=1;whiteSpace=wrap;html=1;shadow=1;arcSize=16;fillColor=#e6f8ef;strokeColor=#3c9b72;strokeWidth=2;fontSize=14;fontColor=#12251f;align=center;verticalAlign=middle;spacing=10;" vertex="1" parent="1">
+          <mxGeometry x="50" y="360" width="185" height="105" as="geometry" />
+        </mxCell>
+        <mxCell id="generic-agent-runtime-readiness" value="&lt;b&gt;Readiness Agent&lt;/b&gt;&lt;br&gt;Generic image + Readiness profile" style="rounded=1;whiteSpace=wrap;html=1;shadow=1;arcSize=16;fillColor=#e6f8ef;strokeColor=#3c9b72;strokeWidth=2;fontSize=14;fontColor=#12251f;align=center;verticalAlign=middle;spacing=10;" vertex="1" parent="1">
+          <mxGeometry x="50" y="525" width="185" height="105" as="geometry" />
+        </mxCell>
+        <mxCell id="generic-agent-runtime-synthesis" value="&lt;b&gt;Synthesis Agent&lt;/b&gt;&lt;br&gt;Generic image + Synthesis profile" style="rounded=1;whiteSpace=wrap;html=1;shadow=1;arcSize=16;fillColor=#e6f8ef;strokeColor=#3c9b72;strokeWidth=2;fontSize=14;fontColor=#12251f;align=center;verticalAlign=middle;spacing=10;" vertex="1" parent="1">
+          <mxGeometry x="430" y="445" width="205" height="110" as="geometry" />
+        </mxCell>
+        <mxCell id="generic-agent-runtime-approval" value="&lt;b&gt;Human approval&lt;/b&gt;&lt;br&gt;Expected action hash" style="rounded=1;whiteSpace=wrap;html=1;shadow=1;arcSize=16;fillColor=#fff3d8;strokeColor=#c28a2c;strokeWidth=2;fontSize=14;fontColor=#12251f;align=center;verticalAlign=middle;spacing=10;" vertex="1" parent="1">
+          <mxGeometry x="710" y="445" width="205" height="110" as="geometry" />
+        </mxCell>
+        <mxCell id="generic-agent-runtime-publisher" value="&lt;b&gt;Publisher MCP&lt;/b&gt;&lt;br&gt;Separate approved side effect" style="rounded=1;whiteSpace=wrap;html=1;shadow=1;arcSize=16;fillColor=#e6f8ef;strokeColor=#3c9b72;strokeWidth=2;fontSize=14;fontColor=#12251f;align=center;verticalAlign=middle;spacing=10;" vertex="1" parent="1">
+          <mxGeometry x="990" y="445" width="180" height="110" as="geometry" />
+        </mxCell>
+        <mxCell id="generic-agent-runtime-g1" value="resolve" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeWidth=2;strokeColor=#4b98a8;dashed=0;fontSize=10;fontColor=#365047;" edge="1" parent="1" source="generic-agent-runtime-registry" target="generic-agent-runtime-compiler">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="generic-agent-runtime-g2" value="immutable plan" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeWidth=2;strokeColor=#7c60b3;dashed=1;fontSize=10;fontColor=#365047;" edge="1" parent="1" source="generic-agent-runtime-compiler" target="generic-agent-runtime-coordinator">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="generic-agent-runtime-g3" value="profile-bound command" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeWidth=2;strokeColor=#4b98a8;dashed=0;fontSize=10;fontColor=#365047;" edge="1" parent="1" source="generic-agent-runtime-coordinator" target="generic-agent-runtime-rabbit">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="generic-agent-runtime-g4" value="deliver" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeWidth=2;strokeColor=#4b98a8;dashed=0;fontSize=10;fontColor=#365047;" edge="1" parent="1" source="generic-agent-runtime-rabbit" target="generic-agent-runtime-image">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="generic-agent-runtime-g5" value="mount Risk profile" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeWidth=2;strokeColor=#4b98a8;dashed=0;fontSize=10;fontColor=#365047;" edge="1" parent="1" source="generic-agent-runtime-image" target="generic-agent-runtime-risk">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="generic-agent-runtime-g6" value="mount Readiness profile" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeWidth=2;strokeColor=#4b98a8;dashed=0;fontSize=10;fontColor=#365047;" edge="1" parent="1" source="generic-agent-runtime-image" target="generic-agent-runtime-readiness">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="generic-agent-runtime-g6b" value="mount Synthesis profile" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeWidth=2;strokeColor=#4b98a8;dashed=0;fontSize=10;fontColor=#365047;" edge="1" parent="1" source="generic-agent-runtime-image" target="generic-agent-runtime-synthesis">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="generic-agent-runtime-g7" value="typed risk result" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeWidth=2;strokeColor=#4b98a8;dashed=0;fontSize=10;fontColor=#365047;" edge="1" parent="1" source="generic-agent-runtime-risk" target="generic-agent-runtime-synthesis">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="generic-agent-runtime-g8" value="typed readiness result" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeWidth=2;strokeColor=#4b98a8;dashed=0;fontSize=10;fontColor=#365047;" edge="1" parent="1" source="generic-agent-runtime-readiness" target="generic-agent-runtime-synthesis">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="generic-agent-runtime-g9" value="recommendation" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeWidth=2;strokeColor=#7c60b3;dashed=1;fontSize=10;fontColor=#365047;" edge="1" parent="1" source="generic-agent-runtime-synthesis" target="generic-agent-runtime-approval">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="generic-agent-runtime-g10" value="approved action" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeWidth=2;strokeColor=#7c60b3;dashed=1;fontSize=10;fontColor=#365047;" edge="1" parent="1" source="generic-agent-runtime-approval" target="generic-agent-runtime-publisher">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="generic-agent-runtime-g11" value="receipt" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeWidth=2;strokeColor=#3c9b72;dashed=0;fontSize=10;fontColor=#365047;" edge="1" parent="1" source="generic-agent-runtime-publisher" target="generic-agent-runtime-coordinator">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
   <diagram id="platform-planes" name="Eight Platform Planes">
     <mxGraphModel dx="1600" dy="1000" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1200" pageHeight="720">
       <root>
