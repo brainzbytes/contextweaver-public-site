@@ -7,7 +7,7 @@
       <meta name="theme-color" content="#07110f">
       <title>ContextWeaver Runtime — Governed dynamic Service execution</title>
       <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
-      <link rel="stylesheet" href="assets/css/site.css?v=20261025-3">
+      <link rel="stylesheet" href="assets/css/site.css?v=20261025-12">
     </head>
     <body data-page="runtime">
 
@@ -18,7 +18,7 @@
           <span class="brand-mark" aria-hidden="true"></span>
           <span class="brand-copy"><strong>ContextWeaver</strong><span>by BrainzBytes</span></span>
         </a>
-        <nav class="primary-nav" data-primary-nav aria-label="Primary navigation"><a href="index.html" data-nav-page="home">Overview</a><a href="platform.html" data-nav-page="platform">Platform</a><a href="studio.html" data-nav-page="studio">Studio</a><a href="runtime.html" data-nav-page="runtime">Runtime</a><a href="governance.html" data-nav-page="governance">Governance</a><a href="solutions.html" data-nav-page="solutions">Solutions</a><a href="architecture.html" data-nav-page="architecture">Architecture</a></nav>
+        <nav class="primary-nav" data-primary-nav aria-label="Primary navigation"><a href="index.html" data-nav-page="landing">Home</a><a href="overview.html" data-nav-page="overview">Overview</a><a href="platform.html" data-nav-page="platform">Platform</a><a href="studio.html" data-nav-page="studio">Studio</a><a href="runtime.html" data-nav-page="runtime">Runtime</a><a href="governance.html" data-nav-page="governance">Governance</a><a href="solutions.html" data-nav-page="solutions">Solutions</a><a href="architecture.html" data-nav-page="architecture">Architecture</a><a href="library.html" data-nav-page="library">Library</a><a href="company.html" data-nav-page="company">Company</a></nav>
         <div class="nav-actions">
           <button class="icon-button" type="button" data-theme-toggle aria-label="Change color theme">☀</button>
           <button class="menu-button" type="button" data-menu-toggle aria-label="Open navigation" aria-expanded="false">☰</button>
@@ -54,6 +54,60 @@
 
 </section>
 
+<section id="scenarios" class="container section scenario-section">
+  <div class="section-head">
+    <div><p class="section-kicker">See it run</p><h2>Three outcomes. One governed execution pattern.</h2></div>
+    <p>These illustrative journeys make the architecture concrete. Exact connectors and side effects depend on the admitted capabilities in a customer deployment.</p>
+  </div>
+  <div class="scenario-tabs" role="tablist" aria-label="Illustrative ContextWeaver scenarios">
+    <button class="scenario-tab active" id="scenario-tab-incident" role="tab" aria-selected="true" aria-controls="scenario-incident" data-scenario="scenario-incident">Production incident</button>
+    <button class="scenario-tab" id="scenario-tab-sales" role="tab" aria-selected="false" aria-controls="scenario-sales" data-scenario="scenario-sales">Customer renewal</button>
+    <button class="scenario-tab" id="scenario-tab-travel" role="tab" aria-selected="false" aria-controls="scenario-travel" data-scenario="scenario-travel">Travel coordination</button>
+  </div>
+  <div class="scenario-stage">
+    <article class="scenario-panel active" id="scenario-incident" role="tabpanel" aria-labelledby="scenario-tab-incident">
+      <div class="scenario-heading"><div><span class="status-badge illustrative">Illustrative</span><h3>Investigate a production regression</h3></div><p>An SRE asks for an evidence-backed assessment without giving an Agent unrestricted production authority.</p></div>
+      <ol class="scenario-flow">
+        <li><b>Intent</b><span>“Explain the error spike after the latest release and prepare the safest next action.”</span></li>
+        <li><b>Admit</b><span>Resolve the incident, telemetry, repository, release, and runbook capabilities allowed for this operator.</span></li>
+        <li><b>Dry run</b><span>Show proposed queries, data scopes, parallel investigations, budgets, and any action that would need approval.</span></li>
+        <li><b>Authorize</b><span>Policy permits read-only investigation and draft preparation; rollback or incident acknowledgment remains human-controlled.</span></li>
+        <li><b>Execute</b><span>Agents inspect logs, traces, recent changes, and known patterns in parallel while durable state preserves progress.</span></li>
+        <li><b>Prove</b><span>Return the diagnosis, confidence, citations, tool receipts, policy decisions, and a separately reviewable remediation plan.</span></li>
+      </ol>
+    </article>
+    <article class="scenario-panel" id="scenario-sales" role="tabpanel" aria-labelledby="scenario-tab-sales" hidden>
+      <div class="scenario-heading"><div><span class="status-badge illustrative">Illustrative</span><h3>Prepare a customer renewal brief</h3></div><p>An account team needs a current, source-backed view without mixing customer data or sending unreviewed communication.</p></div>
+      <ol class="scenario-flow">
+        <li><b>Intent</b><span>“Prepare the renewal brief, identify open commitments, and draft the customer follow-up.”</span></li>
+        <li><b>Admit</b><span>Resolve approved CRM, support, contract, product, and document sources for the user, account, and purpose.</span></li>
+        <li><b>Dry run</b><span>Preview the fields to retrieve, the comparison logic, and the proposed communication before protected work begins.</span></li>
+        <li><b>Authorize</b><span>Policy filters account data, excludes unrelated customers, and requires an account owner to approve external communication.</span></li>
+        <li><b>Execute</b><span>Workers assemble history, commitments, risks, usage evidence, and recommended actions into a typed brief.</span></li>
+        <li><b>Prove</b><span>Deliver citations, freshness, missing-data warnings, approval state, and a draft that cannot be sent autonomously.</span></li>
+      </ol>
+    </article>
+    <article class="scenario-panel" id="scenario-travel" role="tabpanel" aria-labelledby="scenario-tab-travel" hidden>
+      <div class="scenario-heading"><div><span class="status-badge target">Profile-dependent</span><h3>Coordinate a policy-compliant trip</h3></div><p>A traveler wants an itinerary assembled across providers while retaining explicit approval for booking and payment.</p></div>
+      <ol class="scenario-flow">
+        <li><b>Intent</b><span>“Plan the trip within company policy, compare practical options, and prepare it for approval.”</span></li>
+        <li><b>Admit</b><span>Resolve travel policy, calendar, approved search providers, expense limits, identity, and regional constraints.</span></li>
+        <li><b>Dry run</b><span>Present candidate providers, data shared with each one, estimated cost, timing, and proposed booking actions.</span></li>
+        <li><b>Authorize</b><span>Policy removes disallowed options and requires the traveler or delegated approver before any external commitment.</span></li>
+        <li><b>Execute</b><span>Search tasks run in parallel; a Workflow joins the results, applies preferences, and pauses durably for approval.</span></li>
+        <li><b>Prove</b><span>Return the itinerary, comparison evidence, approval record, and provider receipts when configured connectors perform a booking.</span></li>
+      </ol>
+    </article>
+  </div>
+</section>
+
+<section class="container section compact">
+  <div class="plain-language" data-reveal>
+    <div><p class="section-kicker">Plain-language model</p><h2>A relay race with signed handoffs.</h2></div>
+    <p>A Workflow is not one Agent improvising from start to finish. Each specialist receives only the baton it needs, passes a typed result to the next stage, and records the handoff. Checkpoints let the race pause for approval or resume with another worker after failure.</p>
+  </div>
+</section>
+
 <section class="container section">
   <div class="section-head"><div><p class="section-kicker">Run lifecycle</p><h2>The simple view of a rigorous execution model.</h2></div><p>The full design contains more granular authorization, retrieval, binding, checkpoint, disclosure, and audit states; users see a comprehensible progression.</p></div>
   <div class="steps">
@@ -77,6 +131,13 @@
   </div>
 </section>
 
+<section class="container section compact">
+  <div class="chapter-next">
+    <div><p class="section-kicker">Next chapter</p><h2>Understand the authority, credential, policy, and evidence boundaries.</h2><p>The scenarios become trustworthy only when the runtime cannot expand its own permissions.</p></div>
+    <a class="button primary" href="governance.html">Open the trust model →</a>
+  </div>
+</section>
+
       </main>
 
     <footer class="site-footer">
@@ -86,15 +147,15 @@
           <p style="margin-top:16px">Turn specifications, enterprise information, Agents, MCPs, Workflows, models, policy, and infrastructure into governed, deployable Services with evidence attached.</p>
         </div>
         <div><h3>Explore</h3><div class="footer-links"><a href="platform.html">Platform model</a><a href="studio.html">Agent/MCP Studio</a><a href="runtime.html">Dynamic runtime</a></div></div>
-        <div><h3>Trust</h3><div class="footer-links"><a href="governance.html">Governance</a><a href="architecture.html">Architecture</a><a href="architecture.html#downloads">Diagram downloads</a></div></div>
-        <div><h3>Adopt</h3><div class="footer-links"><a href="solutions.html#individual">Individuals</a><a href="solutions.html#small-business">Small business</a><a href="solutions.html#enterprise">Enterprise</a></div></div>
+        <div><h3>Trust</h3><div class="footer-links"><a href="governance.html">Governance</a><a href="architecture.html">Architecture</a><a href="library.html">Technical library</a></div></div>
+        <div><h3>Company</h3><div class="footer-links"><a href="company.html#about">About BrainzBytes</a><a href="company.html#about">Founder</a><a href="company.html#company-paths">Careers · planned</a></div></div>
       </div>
       <div class="container footer-bottom">
         <span>© 2026 BrainzBytes. ContextWeaver product architecture.</span>
-        <span>Architecture refreshed October 24, 2026. Compliance and deployment outcomes remain customer-specific.</span>
+        <span>Architecture refreshed October 25, 2026. Compliance and deployment outcomes remain customer-specific.</span>
       </div>
     </footer>
 
-      <script src="assets/js/site.js?v=20261025-3"></script>
+      <script src="assets/js/site.js?v=20261025-12"></script>
     </body>
     </html>

@@ -7,7 +7,7 @@
       <meta name="theme-color" content="#07110f">
       <title>ContextWeaver Interactive Architecture Explorer</title>
       <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
-      <link rel="stylesheet" href="assets/css/site.css?v=20261025-3">
+      <link rel="stylesheet" href="assets/css/site.css?v=20261025-12">
     </head>
     <body data-page="architecture">
 
@@ -18,7 +18,7 @@
           <span class="brand-mark" aria-hidden="true"></span>
           <span class="brand-copy"><strong>ContextWeaver</strong><span>by BrainzBytes</span></span>
         </a>
-        <nav class="primary-nav" data-primary-nav aria-label="Primary navigation"><a href="index.html" data-nav-page="home">Overview</a><a href="platform.html" data-nav-page="platform">Platform</a><a href="studio.html" data-nav-page="studio">Studio</a><a href="runtime.html" data-nav-page="runtime">Runtime</a><a href="governance.html" data-nav-page="governance">Governance</a><a href="solutions.html" data-nav-page="solutions">Solutions</a><a href="architecture.html" data-nav-page="architecture">Architecture</a></nav>
+        <nav class="primary-nav" data-primary-nav aria-label="Primary navigation"><a href="index.html" data-nav-page="landing">Home</a><a href="overview.html" data-nav-page="overview">Overview</a><a href="platform.html" data-nav-page="platform">Platform</a><a href="studio.html" data-nav-page="studio">Studio</a><a href="runtime.html" data-nav-page="runtime">Runtime</a><a href="governance.html" data-nav-page="governance">Governance</a><a href="solutions.html" data-nav-page="solutions">Solutions</a><a href="architecture.html" data-nav-page="architecture">Architecture</a><a href="library.html" data-nav-page="library">Library</a><a href="company.html" data-nav-page="company">Company</a></nav>
         <div class="nav-actions">
           <button class="icon-button" type="button" data-theme-toggle aria-label="Change color theme">☀</button>
           <button class="menu-button" type="button" data-menu-toggle aria-label="Open navigation" aria-expanded="false">☰</button>
@@ -28,12 +28,34 @@
 
       <main id="main-content">
 
-<section class="container hero" style="min-height:590px">
-  <div>
-    <p class="eyebrow">Architecture explorer</p>
-    <h1>Inspect the whole system. <em>Then zoom into the flow.</em></h1>
-    <p class="lede">The diagrams below share one semantic model and ship in four formats: clickable interactive HTML, editable Draw.io, static SVG, and presentation-ready animated GIF.</p>
-    <div class="hero-actions"><a class="button primary" href="#explore">Explore diagrams</a><a class="button" href="diagrams/contextweaver-public-architecture.drawio">Download editable Draw.io</a></div>
+<section id="nextgen-atlas" class="container architecture-atlas-hero">
+  <div class="architecture-atlas-intro">
+    <p class="eyebrow">Master architecture</p>
+    <h1>See the whole ContextWeaver platform. <em>Then inspect every layer.</em></h1>
+    <p class="lede">This is the top-level architecture for Workspaces, Agent, MCP, Service and Workflow Studios, safe dry runs, Cerebro governance, the Weave capability fabric, durable execution, evidence, the Capability Operator, and portable Loom infrastructure.</p>
+    <div class="hero-actions">
+      <a class="button primary" href="#explore">Explore deeper diagrams</a>
+      <a class="button" href="diagrams/contextweaver-nextgen-architecture.drawio">Download master Draw.io</a>
+    </div>
+  </div>
+  <div class="diagram-shell architecture-atlas-shell" data-reveal>
+    <div class="diagram-toolbar">
+      <strong>ContextWeaver NextGen Architecture Atlas</strong>
+      <a href="diagrams/contextweaver-nextgen-architecture.html" target="_blank">Open full screen ↗</a>
+      <a href="diagrams/contextweaver-nextgen-architecture.drawio">Editable Draw.io</a>
+      <a href="diagrams/contextweaver-nextgen-architecture.svg">Static SVG</a>
+      <a href="diagrams/contextweaver-nextgen-architecture.png">Static PNG</a>
+      <a href="diagrams/contextweaver-nextgen-architecture.gif">Animated GIF</a>
+    </div>
+    <iframe class="diagram-frame architecture-atlas-frame" data-auto-height="contextweaver-atlas-height" src="diagrams/contextweaver-nextgen-architecture.html?embed=1&amp;v=20261025-10" title="ContextWeaver NextGen Architecture Atlas" loading="eager"></iframe>
+  </div>
+  <p class="diagram-note">Click any component to inspect its responsibility, or use Play, Pause, Previous, Next, Reset, and the stage indicators to walk through the complete governed lifecycle.</p>
+</section>
+
+<section class="container section compact architecture-explorer-intro">
+  <div class="section-head">
+    <div><p class="section-kicker">Detailed architecture explorers</p><h2>Zoom from the master atlas into one concern at a time.</h2></div>
+    <p>The diagrams below share the same semantic model and focus separately on platform planes, capability creation, lifecycle promotion, governed runtime, and scale.</p>
   </div>
   <div class="card amber"><div class="meta">Diagram semantics</div><h3>Motion communicates meaning.</h3><ul><li>Solid pulse: active request or data</li><li>Dashed pulse: identity, policy, or authorization</li><li>Green: validated output or success</li><li>Amber: approval, waiting, retry, or compensation</li><li>Red: denial or failed validation</li><li>Parallel pulses: concurrent Agent work</li></ul></div>
 </section>
@@ -104,6 +126,28 @@
   </div>
 </section>
 
+<section id="cloud-posture" class="container section">
+  <div class="section-head">
+    <div><p class="section-kicker">Cloud and deployment posture</p><h2>Portable contracts. Honest qualification status.</h2></div>
+    <p>ContextWeaver separates the cloud-neutral control-plane design from the qualification of a specific provider profile. “Target adapter” means the contract is designed; it does not claim production parity.</p>
+  </div>
+  <div class="posture-table-wrap" data-reveal>
+    <table class="posture-table">
+      <thead><tr><th>Capability</th><th>Azure</th><th>AWS</th><th>Google Cloud</th><th>Private / sovereign</th></tr></thead>
+      <tbody>
+        <tr><th>Kubernetes runtime</th><td>AKS</td><td>EKS target</td><td>GKE target</td><td>Conformant Kubernetes</td></tr>
+        <tr><th>Workload identity</th><td>Active adapter</td><td>Target adapter</td><td>Target adapter</td><td>Profile-specific</td></tr>
+        <tr><th>Secrets</th><td>Key Vault adapter</td><td>Secrets Manager target</td><td>Secret Manager target</td><td>Native / OpenBao target</td></tr>
+        <tr><th>Object and durable state</th><td>Active realization</td><td>Target adapters</td><td>Target adapters</td><td>PostgreSQL + S3-compatible profile</td></tr>
+        <tr><th>Search and retrieval</th><td>Active realization</td><td>OpenSearch target</td><td>Search/vector target</td><td>OpenSearch / Qdrant target</td></tr>
+        <tr><th>Model providers</th><td>Azure OpenAI adapter</td><td>Bedrock target</td><td>Vertex AI target</td><td>OpenAI-compatible local target</td></tr>
+        <tr><th>Observability</th><td colspan="4">OpenTelemetry, Prometheus, Grafana, logs, traces, metrics, and provider-specific export adapters</td></tr>
+        <tr class="posture-status"><th>Current posture</th><td><span class="status-badge active">Active realization</span></td><td><span class="status-badge target">Target profile</span></td><td><span class="status-badge target">Target profile</span></td><td><span class="status-badge mixed">Profile-dependent</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
 <section id="downloads" class="container section">
   <div class="section-head"><div><p class="section-kicker">Portable assets</p><h2>Use the architecture in reviews, proposals, presentations, and implementation planning.</h2></div><p>The editable source contains one Draw.io page per diagram. Static SVG works for print and documentation; GIF works when an interactive player is unavailable.</p></div>
   <div class="grid four">
@@ -118,6 +162,13 @@
   <div class="section-head"><div><p class="section-kicker">Product truth</p><h2>Architecture is a contract and direction—not a claim that every box is production-qualified today.</h2></div><p>The website intentionally distinguishes implemented foundations, active realization, and target architecture. Readiness must be demonstrated for the exact release, deployment profile, risk tier, cloud, region, and customer control environment.</p></div>
 </section>
 
+<section class="container section compact">
+  <div class="chapter-next">
+    <div><p class="section-kicker">Final chapter</p><h2>Move from visual architecture into the technical reasoning behind it.</h2><p>Explore the curated briefs on security, identity, runtime resilience, RAG, observability, cloud neutrality, and deployment readiness.</p></div>
+    <a class="button primary" href="library.html">Open the technical library →</a>
+  </div>
+</section>
+
       </main>
 
     <footer class="site-footer">
@@ -127,15 +178,15 @@
           <p style="margin-top:16px">Turn specifications, enterprise information, Agents, MCPs, Workflows, models, policy, and infrastructure into governed, deployable Services with evidence attached.</p>
         </div>
         <div><h3>Explore</h3><div class="footer-links"><a href="platform.html">Platform model</a><a href="studio.html">Agent/MCP Studio</a><a href="runtime.html">Dynamic runtime</a></div></div>
-        <div><h3>Trust</h3><div class="footer-links"><a href="governance.html">Governance</a><a href="architecture.html">Architecture</a><a href="architecture.html#downloads">Diagram downloads</a></div></div>
-        <div><h3>Adopt</h3><div class="footer-links"><a href="solutions.html#individual">Individuals</a><a href="solutions.html#small-business">Small business</a><a href="solutions.html#enterprise">Enterprise</a></div></div>
+        <div><h3>Trust</h3><div class="footer-links"><a href="governance.html">Governance</a><a href="architecture.html">Architecture</a><a href="library.html">Technical library</a></div></div>
+        <div><h3>Company</h3><div class="footer-links"><a href="company.html#about">About BrainzBytes</a><a href="company.html#about">Founder</a><a href="company.html#company-paths">Careers · planned</a></div></div>
       </div>
       <div class="container footer-bottom">
         <span>© 2026 BrainzBytes. ContextWeaver product architecture.</span>
-        <span>Architecture refreshed October 24, 2026. Compliance and deployment outcomes remain customer-specific.</span>
+        <span>Architecture refreshed October 25, 2026. Compliance and deployment outcomes remain customer-specific.</span>
       </div>
     </footer>
 
-      <script src="assets/js/site.js?v=20261025-3"></script>
+      <script src="assets/js/site.js?v=20261025-12"></script>
     </body>
     </html>

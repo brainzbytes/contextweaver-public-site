@@ -4,7 +4,7 @@
   "private": true,
   "description": "Standalone public product site for the ContextWeaver governed AI platform.",
   "scripts": {
-    "build": "python tools/generate_site.py && python tools/generate_diagrams.py",
+    "build": "python tools/generate_site.py && python tools/generate_diagrams.py && python tools/generate_nextgen_architecture_atlas.py",
     "test": "node --test tests/site.test.mjs",
     "serve": "python -m http.server 4173"
   },
@@ -13,4 +13,3 @@
     "python": ">=3.11"
   }
 }
-

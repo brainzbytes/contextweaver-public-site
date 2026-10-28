@@ -18,13 +18,16 @@ Open `http://localhost:4173`.
 
 ## Site structure
 
-- `index.html` — product promise and end-to-end service factory
+- `index.html` — visual ContextWeaver product story and universal AI capability factory
+- `overview.html` — product promise and end-to-end service factory
 - `platform.html` — Cerebro, Weave, Loom, and the eight platform planes
 - `studio.html` — no-code and developer Agent/MCP creation
-- `runtime.html` — governed dynamic service execution
+- `runtime.html` — governed dynamic service execution and concrete scenario journeys
 - `governance.html` — security, policy, approval, evidence, and lifecycle
 - `solutions.html` — individual, small-business, enterprise, and industry paths
-- `architecture.html` — architecture explorer and downloadable diagrams
+- `architecture.html` — architecture explorer, cloud posture, and downloadable diagrams
+- `library.html` — curated technical briefs
+- `company.html` — BrainzBytes About and founder profile, with room for Careers and company news
 - `diagrams/` — five interactive HTML diagrams, static SVGs, GIFs, and one
   multi-page editable Draw.io source
 

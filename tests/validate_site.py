@@ -11,12 +11,15 @@ from PIL import Image
 ROOT = Path(__file__).resolve().parents[1]
 PAGES = (
     "index.html",
+    "overview.html",
     "platform.html",
     "studio.html",
     "runtime.html",
     "governance.html",
     "solutions.html",
     "architecture.html",
+    "library.html",
+    "company.html",
 )
 DIAGRAMS = (
     "service-factory",
@@ -25,6 +28,7 @@ DIAGRAMS = (
     "governed-run",
     "scale-path",
 )
+ATLAS = "contextweaver-nextgen-architecture"
 
 
 class PageParser(HTMLParser):
@@ -108,12 +112,35 @@ def validate_drawio() -> None:
         assert_true({"0", "1"}.issubset(ids), f"Draw.io page {page.get('name')} lacks root cells")
 
 
+def validate_atlas() -> None:
+    html_path = ROOT / "diagrams" / f"{ATLAS}.html"
+    svg_path = ROOT / "diagrams" / f"{ATLAS}.svg"
+    png_path = ROOT / "diagrams" / f"{ATLAS}.png"
+    gif_path = ROOT / "diagrams" / f"{ATLAS}.gif"
+    drawio_path = ROOT / "diagrams" / f"{ATLAS}.drawio"
+    for path in (html_path, svg_path, png_path, gif_path, drawio_path):
+        assert_true(path.exists() and path.stat().st_size > 500, f"{ATLAS}: missing or empty {path.suffix}")
+    validate_page(html_path)
+    ET.parse(svg_path)
+    atlas_pages = ET.parse(drawio_path).getroot().findall("diagram")
+    assert_true(len(atlas_pages) == 4, "NextGen atlas Draw.io must contain four pages")
+    with Image.open(png_path) as image:
+        assert_true(image.size == (1600, 960), "NextGen atlas PNG must be 1600x960")
+    with Image.open(gif_path) as image:
+        assert_true(image.size == (1200, 720), "NextGen atlas GIF must be 1200x720")
+        assert_true(image.n_frames == 8, "NextGen atlas GIF must contain eight stages")
+        for frame in range(image.n_frames):
+            image.seek(frame)
+            assert_true(image.info.get("duration") == 1000, f"NextGen atlas frame {frame} is not 1,000 ms")
+
+
 def main() -> None:
     for page in PAGES:
         validate_page(ROOT / page)
     for slug in DIAGRAMS:
         validate_diagram(slug)
     validate_drawio()
+    validate_atlas()
     git_config = (ROOT / ".git" / "config").read_text(encoding="utf-8")
     assert_true("[remote " not in git_config, "A Git remote was configured before approval")
     print(f"Validated {len(PAGES)} pages and {len(DIAGRAMS)} complete diagram deliverables.")
@@ -121,4 +148,3 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
-
