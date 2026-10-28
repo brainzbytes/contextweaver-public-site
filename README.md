@@ -1,8 +1,8 @@
 # ContextWeaver public site
 
-This is a new, standalone public website for **BrainzBytes ContextWeaver**. It
-is intentionally separate from the existing `brainzbytes` publishing target
-and has no Git remote configured.
+This is the standalone public website for **BrainzBytes ContextWeaver**. It is
+intentionally separate from the existing `brainzbytes` publishing target and
+is published from the `brainzbytes/contextweaver-public-site` repository.
 
 ## Preview locally
 

@@ -141,8 +141,6 @@ def main() -> None:
         validate_diagram(slug)
     validate_drawio()
     validate_atlas()
-    git_config = (ROOT / ".git" / "config").read_text(encoding="utf-8")
-    assert_true("[remote " not in git_config, "A Git remote was configured before approval")
     print(f"Validated {len(PAGES)} pages and {len(DIAGRAMS)} complete diagram deliverables.")
 
 

@@ -61,7 +61,7 @@ test("diagram deliverables are complete", async () => {
   await access(join(root, "diagrams", "contextweaver-public-architecture.drawio"));
 });
 
-test("repository remains local-only", async () => {
-  const config = await readFile(join(root, ".git", "config"), "utf8");
-  assert.doesNotMatch(config, /\[remote "/, "a Git remote was configured before approval");
+test("repository publishing metadata is explicit", async () => {
+  const readme = await readFile(join(root, "README.md"), "utf8");
+  assert.match(readme, /brainzbytes\/contextweaver-public-site/);
 });
