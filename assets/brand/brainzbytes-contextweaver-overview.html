@@ -57,7 +57,7 @@ body.embedded{display:block;height:100vh;padding:0;background:var(--bg)}body.emb
           <p>ContextWeaver, Cerebros, Weave, and Loom unite design, reasoning, execution, governance, and proof from first intent through production.</p>
         </div>
       </div>
-      <div class="audio-gate" id="audioGate"><button type="button" id="beginStory">Enable jazz + female narration<small>The visual story continues without interruption</small></button></div>
+      <div class="audio-gate" id="audioGate"><button type="button" id="beginStory">Start jazz + female narration<small>Or press any key to begin the narrated story</small></button></div>
     </div>
     <aside class="portal-rail portal-rail--context">
       <div class="logo-plate"><img src="contextweaver-c1.svg" alt="ContextWeaver"></div>
@@ -182,12 +182,24 @@ function render(announce=false){
 }
 function startStory(){if(storyStarted)return;storyStarted=true;openingState.classList.add("is-leaving");timer=setTimeout(()=>{openingState.hidden=true;openingState.classList.remove("is-leaving");render(true)},820)}
 function showOpening(){clearTimeout(timer);stopSpeech();storyStarted=false;closing=false;openingState.hidden=false;openingState.classList.remove("is-leaving");closingState.hidden=true;syncFactoryPlane(0);byId("stageCount").textContent="Opening";byId("stageLabel").textContent="Opening";byId("stageTitle").textContent="A governed path from intent to outcome.";byId("stageCaption").textContent="The architecture remains inside one connected BrainzBytes and ContextWeaver brand portal.";timer=setTimeout(startStory,2800)}
-async function beginAudio(){
+function beginAudio(){
+  if(audioStarted)return true;
   audioStarted=true;byId("audioGate").hidden=true;
-  if(musicEnabled){try{await jazz.play()}catch{byId("audioGate").hidden=false}}
-  if(storyStarted&&!closing)speak(stages[index]);
+  if("speechSynthesis" in window)speechSynthesis.resume();
+  if(musicEnabled)jazz.play().catch(()=>{musicEnabled=false;byId("music").ariaPressed="false";byId("music").textContent="Music off"});
+  if(!storyStarted&&!closing){
+    clearTimeout(timer);storyStarted=true;openingState.hidden=true;openingState.classList.remove("is-leaving");render(true);
+  }else if(!closing)speak(stages[index]);
   return true
 }
+function tryIntroMusic(){if(!musicEnabled)return;jazz.play().catch(()=>{byId("audioGate").hidden=false})}
+function unlockFromGesture(event){
+  if(audioStarted||event?.isTrusted===false)return false;
+  beginAudio();
+  return true
+}
+window.unlockIntroAudio=()=>beginAudio();
+window.isIntroAudioUnlocked=()=>audioStarted;
 byId("beginStory").addEventListener("click",beginAudio);
 byId("playPause").addEventListener("click",()=>{playing=!playing;if(!playing){clearTimeout(timer);stopSpeech()}else if(closing)showClosing();else if(storyStarted)render(true);else showOpening();byId("playPause").textContent=playing?"Pause":"Play"});
 byId("previous").addEventListener("click",()=>{storyStarted=true;closing=false;closingState.hidden=true;openingState.hidden=true;index=(index-1+stages.length)%stages.length;render(true)});
@@ -197,10 +209,11 @@ byId("music").addEventListener("click",async()=>{musicEnabled=!musicEnabled;byId
 byId("narration").addEventListener("click",()=>{narrationEnabled=!narrationEnabled;byId("narration").ariaPressed=String(narrationEnabled);byId("narration").textContent=narrationEnabled?"Narration on":"Narration off";if(narrationEnabled){audioStarted=true;byId("audioGate").hidden=true;if(storyStarted&&!closing)speak(stages[index])}else{stopSpeech();if(storyStarted&&!closing)scheduleFallback(stages[index])}});
 byId("popout").textContent=popout?"Back · Esc":"Pop out ↗";
 byId("popout").addEventListener("click",()=>{if(popout){window.close();setTimeout(()=>{if(history.length>1)history.back();else location.href="brainzbytes-contextweaver-overview.html"},80)}else{const url=new URL(location.href);url.searchParams.set("popout","1");url.searchParams.delete("embedded");url.searchParams.delete("intro");window.open(url,"brainzbytes-overview","popup,width=1460,height=940,noopener")}});
-addEventListener("keydown",event=>{if(["INPUT","TEXTAREA","BUTTON"].includes(document.activeElement?.tagName))return;if(event.key===" "){event.preventDefault();byId("playPause").click()}if(event.key==="ArrowLeft")byId("previous").click();if(event.key==="ArrowRight")byId("next").click();if(event.key==="Home")byId("reset").click();if(event.key.toLowerCase()==="m")byId("music").click();if(event.key.toLowerCase()==="n")byId("narration").click();if(event.key==="Escape"&&popout)byId("popout").click()});
+addEventListener("pointerdown",event=>{if(!event.target.closest("button,a"))unlockFromGesture(event)},{capture:true});
+addEventListener("keydown",event=>{if(event.key==="Escape"&&popout){byId("popout").click();return}if(unlockFromGesture(event)){event.preventDefault();return}if(["INPUT","TEXTAREA","BUTTON"].includes(document.activeElement?.tagName))return;if(event.key===" "){event.preventDefault();byId("playPause").click()}if(event.key==="ArrowLeft")byId("previous").click();if(event.key==="ArrowRight")byId("next").click();if(event.key==="Home")byId("reset").click();if(event.key.toLowerCase()==="m")byId("music").click();if(event.key.toLowerCase()==="n")byId("narration").click()});
 addEventListener("pagehide",()=>{clearTimeout(timer);stopSpeech();jazz.pause()});
 showOpening();
-beginAudio();
+tryIntroMusic();
 </script>
 </body>
 </html>

@@ -70,6 +70,7 @@
   const introReplayButtons = [...document.querySelectorAll("[data-intro-replay]")];
   const introStorageKey = "contextweaver-company-intro-seen";
   let introReturnFocus = null;
+  let introAudioUnlocked = false;
 
   const readIntroSeen = () => {
     try {
@@ -112,6 +113,7 @@
   const openIntro = (trigger = null) => {
     if (!intro || !introFrame) return;
     introReturnFocus = trigger;
+    introAudioUnlocked = false;
     intro.hidden = false;
     introFrame.src = introFrame.dataset.src || "";
     document.body.classList.add("site-intro-open");
@@ -137,6 +139,15 @@
     if (event.key === "Escape" && intro && !intro.hidden) {
       event.preventDefault();
       closeIntro();
+      return;
+    }
+    if (intro && !intro.hidden && !introAudioUnlocked && !event.ctrlKey && !event.altKey && !event.metaKey) {
+      const frameWindow = introFrame?.contentWindow;
+      if (frameWindow?.unlockIntroAudio) {
+        event.preventDefault();
+        introAudioUnlocked = true;
+        frameWindow.unlockIntroAudio();
+      }
     }
   });
 

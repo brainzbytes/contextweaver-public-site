@@ -112,7 +112,7 @@ def page(name: str, title: str, description: str, content: str) -> str:
           <div class="site-intro__stage">
             <iframe
               data-intro-frame
-              data-src="assets/brand/brainzbytes-contextweaver-overview.html?embedded=1&amp;intro=1&amp;v=20261101-23"
+              data-src="assets/brand/brainzbytes-contextweaver-overview.html?embedded=1&amp;intro=1&amp;v=20261101-24"
               title="BrainzBytes and ContextWeaver narrated company overview"
               loading="eager"
               allow="autoplay"
@@ -120,7 +120,7 @@ def page(name: str, title: str, description: str, content: str) -> str:
             ></iframe>
           </div>
           <div class="site-intro__footer">
-            <p>A warm female narration advances only after each sentence finishes. If browser sound is blocked, select <strong>Enable jazz + female narration</strong> inside the logo portal.</p>
+            <p>Intro music begins when the browser permits it. Press any key or select <strong>Start jazz + female narration</strong> inside the logo portal to begin the narrated story automatically.</p>
             <button class="button primary" type="button" data-intro-enter>Enter ContextWeaver</button>
           </div>
         </div>

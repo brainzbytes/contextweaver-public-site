@@ -213,7 +213,7 @@ test("product hierarchy and consumer journey remain explicit", async () => {
   assert.doesNotMatch(architecture, /architecture-block-view/);
   assert.match(story, /user-facing Solution/);
   assert.match(landing, /data-site-intro/);
-  assert.match(landing, /data-src="assets\/brand\/brainzbytes-contextweaver-overview\.html\?embedded=1&amp;intro=1&amp;v=20261101-23"/);
+  assert.match(landing, /data-src="assets\/brand\/brainzbytes-contextweaver-overview\.html\?embedded=1&amp;intro=1&amp;v=20261101-24"/);
   assert.match(landing, /data-intro-skip/);
   assert.match(landing, /data-intro-enter/);
   assert.match(landing, /data-intro-replay/);
@@ -227,8 +227,8 @@ test("product hierarchy and consumer journey remain explicit", async () => {
   assert.match(siteJs, /event\.key === "Escape"/);
   assert.match(siteJs, /prefers-reduced-motion: reduce/);
   assert.match(siteCss, /\.site-intro\[hidden\]\s*\{\s*display:\s*none;\s*\}/);
-  assert.match(companyIntro, /Enable jazz \+ female narration/);
-  assert.match(companyIntro, /beginAudio\(\);\s*<\/script>/);
+  assert.match(companyIntro, /Start jazz \+ female narration/);
+  assert.match(companyIntro, /showOpening\(\);\s*tryIntroMusic\(\);\s*<\/script>/);
   assert.match(companyIntro, /const introMode=params\.get\("intro"\)==="1"/);
   assert.match(companyIntro, /brainzbytes-intro-complete/);
   assert.match(companyIntro, /class="logo-portal"/);
@@ -240,6 +240,13 @@ test("product hierarchy and consumer journey remain explicit", async () => {
   assert.doesNotMatch(companyIntro, /syncSpatialPlane/);
   assert.match(companyIntro, /narrationWatchdogDelay/);
   assert.match(companyIntro, /speechSynthesis\.resume\(\)/);
+  assert.match(companyIntro, /window\.unlockIntroAudio=\(\)=>beginAudio\(\)/);
+  assert.match(companyIntro, /window\.isIntroAudioUnlocked=\(\)=>audioStarted/);
+  assert.match(companyIntro, /function beginAudio\(\)[\s\S]*storyStarted=true[\s\S]*render\(true\)/);
+  assert.match(companyIntro, /addEventListener\("pointerdown"[\s\S]*unlockFromGesture/);
+  assert.match(companyIntro, /showOpening\(\);\s*tryIntroMusic\(\)/);
+  assert.doesNotMatch(companyIntro, /showOpening\(\);\s*beginAudio\(\)/);
+  assert.match(siteJs, /frameWindow\?\.unlockIntroAudio/);
   assert.doesNotMatch(companyIntro, /contextweaver-spatial-architecture\.html/);
   assert.match(architecture, /id="interactive-factory-architecture"/);
   assert.match(architecture, /service-factory-static-master\.png/);
