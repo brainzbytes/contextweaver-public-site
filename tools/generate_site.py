@@ -1,8 +1,16 @@
+import json
+import os
 from pathlib import Path
 from textwrap import dedent
 
 ROOT = Path(__file__).resolve().parents[1]
-CURRENT_DATE = "October 25, 2026"
+CURRENT_DATE = "November 1, 2026"
+PUBLIC_SITE_URL = os.environ.get(
+    "PUBLIC_SITE_URL",
+    "https://brainzbytes.com",
+).rstrip("/")
+SOURCE_TRUTH = json.loads((ROOT / "content" / "source-truth.json").read_text(encoding="utf-8"))
+FACTS = {fact["id"]: fact for fact in SOURCE_TRUTH["facts"]}
 
 NAV = (
     ("landing", "Home", "index.html"),
@@ -13,6 +21,7 @@ NAV = (
     ("governance", "Governance", "governance.html"),
     ("solutions", "Solutions", "solutions.html"),
     ("architecture", "Architecture", "architecture.html"),
+    ("learning", "Learn", "learning.html"),
     ("library", "Library", "library.html"),
     ("company", "Company", "company.html"),
 )
@@ -33,7 +42,7 @@ def header() -> str:
         </a>
         <nav class="primary-nav" data-primary-nav aria-label="Primary navigation">{links}</nav>
         <div class="nav-actions">
-          <button class="icon-button" type="button" data-theme-toggle aria-label="Change color theme">☀</button>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Change dark contrast theme">◑</button>
           <button class="menu-button" type="button" data-menu-toggle aria-label="Open navigation" aria-expanded="false">☰</button>
         </div>
       </div>
@@ -72,7 +81,7 @@ def page(name: str, title: str, description: str, content: str) -> str:
       <meta name="theme-color" content="#07110f">
       <title>{title}</title>
       <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
-      <link rel="stylesheet" href="assets/css/site.css?v=20261025-12">
+      <link rel="stylesheet" href="assets/css/site.css?v=20261101-13">
     </head>
     <body data-page="{name}">
       {header()}
@@ -80,7 +89,7 @@ def page(name: str, title: str, description: str, content: str) -> str:
         {content}
       </main>
       {footer()}
-      <script src="assets/js/site.js?v=20261025-12"></script>
+      <script src="assets/js/site.js?v=20261101-13"></script>
     </body>
     </html>
     """).lstrip()
@@ -99,6 +108,19 @@ def diagram(name: str, title: str, note: str) -> str:
     </div>
     <p class="diagram-note">{note}</p>
     """
+
+
+def fact_cards(*fact_ids: str) -> str:
+    cards = []
+    for fact_id in fact_ids:
+        fact = FACTS[fact_id]
+        status_class = "mint" if fact["status"] == "Implemented foundation" else "amber"
+        cards.append(
+            f'<article class="card {status_class}" data-fact-id="{fact_id}" data-reveal>'
+            f'<div class="meta">{fact["status"]}</div>'
+            f'<h3>{fact["title"]}</h3><p>{fact["summary"]}</p></article>'
+        )
+    return "".join(cards)
 
 
 LANDING = """
@@ -188,6 +210,14 @@ HOME = """
 <div class="container trust-strip" aria-label="Supported creation inputs">
   <span>Specifications & RFCs</span><span>OpenAPI & AsyncAPI</span><span>Wikis & enterprise data</span><span>Agents & MCP servers</span><span>Models & solution packs</span>
 </div>
+
+<section class="container section current-realization">
+  <div class="section-head">
+    <div><p class="section-kicker">Implementation snapshot · November 1, 2026</p><h2>What changed since the October 28 public baseline.</h2></div>
+    <p>These are reviewed implementation facts, not roadmap promises. Detailed readiness remains release-, environment-, risk-, and customer-profile specific.</p>
+  </div>
+  <div class="grid three">{current_facts}</div>
+</section>
 
 <section id="reading-path" class="container section reader-journey" aria-labelledby="reader-journey-title">
   <div class="section-head">
@@ -307,9 +337,9 @@ PLATFORM = """
 STUDIO = """
 <section class="container hero" style="min-height:640px">
   <div>
-    <p class="eyebrow">Agent + MCP Studio</p>
-    <h1>Extend the platform <em>from inside the platform.</em></h1>
-    <p class="lede">A guided GUI for non-programmers and a complete engineering path for developers. Start with a requirement, Swagger/OpenAPI file, RFC, wiki, product documentation, existing MCP server, code repository, or blank canvas.</p>
+    <p class="eyebrow">Unified capability Studio</p>
+    <h1>Move from one intent to <em>five governed contexts.</em></h1>
+    <p class="lede">MCPs, Agents, Workflows, Services, and Solutions now share one tabbed workspace. A guided GUI supports non-programmers while typed drafts, schemas, dependency graphs, code, and review remain available to engineers.</p>
     <div class="hero-actions"><a class="button primary" href="#create">See the creation flow</a><a class="button" href="architecture.html#capability-lifecycle">See lifecycle architecture</a></div>
   </div>
   <div class="grid" style="align-self:center">
@@ -317,6 +347,11 @@ STUDIO = """
     <article class="card sky"><div class="meta">Developer</div><h3>VS Code, CLI, SDK</h3><p>Author portable specs, schemas, tests, tool implementations, deployment overlays, and evaluation fixtures.</p></article>
     <article class="card violet"><div class="meta">Research</div><h3>Jupyter workspaces</h3><p>Explore approved data and models, validate retrieval, experiment with scoring, and convert work into governed assets.</p></article>
   </div>
+</section>
+
+<section class="container section compact">
+  <div class="section-head"><div><p class="section-kicker">Current realization</p><h2>The authoring workspace is connected to real Registry contracts.</h2></div><p>AI interpretation proposes normalized intent and exact references from governed context. Deterministic compilation validates the result; authoring does not publish, deploy, execute, grant authority, or apply side effects.</p></div>
+  <div class="grid three">{studio_facts}</div>
 </section>
 
 <section id="create" class="container section compact">
@@ -379,6 +414,16 @@ RUNTIME = """
 <section id="flow" class="container section compact">
   <div class="section-head"><div><p class="section-kicker">Prompt to proved outcome</p><h2>A run is a state machine, not a stream of hopeful messages.</h2></div><p>Click components and step through the active path. The diagram distinguishes identity and policy, authorized data, Agent reasoning, MCP side effects, approval, durable execution, and evidence.</p></div>
   {governed_run}
+</section>
+
+<section id="generic-agent-runtime" class="container section compact">
+  <div class="section-head"><div><p class="section-kicker">Profile-bound Agents</p><h2>One hardened image. Many isolated logical Agents.</h2></div><p>Role, schemas, executor, MCP access, budgets, queues, and runtime compatibility are injected through immutable profiles. Each logical Agent retains independent identity, networking, scaling, rollout, and rollback.</p></div>
+  {generic_agent_runtime}
+</section>
+
+<section class="container section compact">
+  <div class="section-head"><div><p class="section-kicker">Current runtime realization</p><h2>Composition, delegation, retrieval, and approval now share one evidence model.</h2></div><p>Plans are exact-version and digest pinned. Agents receive only authorized MCP bindings, retrieval returns citations and receipts, and policy-required dynamic plans cannot execute before approval of the exact immutable plan.</p></div>
+  <div class="grid three">{runtime_facts}</div>
 </section>
 
 <section id="scenarios" class="container section scenario-section">
@@ -478,6 +523,11 @@ GOVERNANCE = """
     <article class="card amber"><div class="meta">Policy</div><h3>What is permitted?</h3><p>Purpose, environment, region, data class, model, source, capability, operation, arguments, risk, and disclosure.</p></article>
     <article class="card mint"><div class="meta">Evidence</div><h3>What actually happened?</h3><p>Decision IDs, plan and artifact hashes, release digests, approvals, citations, receipts, evaluations, metrics, logs, and traces.</p></article>
   </div>
+</section>
+
+<section class="container section compact">
+  <div class="section-head"><div><p class="section-kicker">Current control realization</p><h2>Authority is bound to identity, resource, purpose, and side effect.</h2></div><p>Interactive roles do not imply side-effect authority. External clients receive identity-filtered discovery, provider credentials remain platform-owned, and each permitted action is bound to exact policy and entitlement evidence.</p></div>
+  <div class="grid three">{governance_facts}</div>
 </section>
 
 <section class="container section compact">
@@ -669,6 +719,11 @@ ARCHITECTURE = """
       </tbody>
     </table>
   </div>
+</section>
+
+<section class="container section compact">
+  <div class="section-head"><div><p class="section-kicker">Current deployment baseline</p><h2>Identity, workspace data, and delivery are being qualified as one operational profile.</h2></div><p>The local and Azure realization now includes repaired Keycloak entry, governed MongoDB workspace access, and reusable immutable CI/CD with SBOM, provenance, rollout-safe updates, and rollback.</p></div>
+  <div class="grid three">{architecture_facts}</div>
 </section>
 
 <section id="downloads" class="container section">
@@ -891,6 +946,176 @@ COMPANY = """
 </section>
 """
 
+LEARNING = """
+<section class="learning-atlas" data-learning-atlas>
+  <div class="container learning-hero">
+    <div class="learning-hero-copy">
+      <p class="eyebrow">ContextWeaver Learning Atlas</p>
+      <h1>Understand the whole platform. <em>At your depth.</em></h1>
+      <p class="learning-lede">Start with a 60-second explanation or explore the contracts, trust boundaries, data stores, cluster, identity, failure modes, and recovery paths behind a governed AI outcome.</p>
+      <div class="learning-actions">
+        <a class="button primary" href="#learning-path">Start my path <span aria-hidden="true">→</span></a>
+        <a class="button" href="#component-atlas">Explore every component</a>
+      </div>
+      <div class="learning-proof" aria-label="Learning Atlas scope">
+        <span><b>30</b> chapters</span>
+        <span><b>48</b> local services</span>
+        <span><b>10</b> audience lenses</span>
+        <span><b>1</b> canonical truth</span>
+      </div>
+    </div>
+    <div class="learning-orbit" aria-label="From AI concepts to governed outcomes">
+      <div class="learning-orbit-core"><span>YOUR GOAL</span><strong data-learning-goal-label>Understand</strong><small>Choose a path. Change depth anytime.</small></div>
+      <span class="learning-orbit-node node-ai">AI</span>
+      <span class="learning-orbit-node node-rag">RAG</span>
+      <span class="learning-orbit-node node-agent">Agent</span>
+      <span class="learning-orbit-node node-mcp">MCP</span>
+      <span class="learning-orbit-node node-service">Service</span>
+      <span class="learning-orbit-node node-trust">Trust</span>
+      <svg viewBox="0 0 560 470" aria-hidden="true">
+        <path d="M70 236 C150 45 410 45 490 236 C410 425 150 425 70 236Z"></path>
+        <path d="M116 236 C176 102 384 102 444 236 C384 370 176 370 116 236Z"></path>
+      </svg>
+    </div>
+  </div>
+
+  <section class="container learning-config" aria-labelledby="learning-config-title">
+    <div class="learning-config-head">
+      <div><p class="section-kicker">Shape the experience</p><h2 id="learning-config-title">What are you here to do?</h2></div>
+      <p>No lock-in. These choices only prioritize the right explanations and examples.</p>
+    </div>
+    <div class="learning-control-group" role="group" aria-label="Select your goal">
+      <button class="learning-choice active" type="button" data-learning-goal="understand" aria-pressed="true"><span>01</span><b>Understand</b><small>Plain language</small></button>
+      <button class="learning-choice" type="button" data-learning-goal="explain" aria-pressed="false"><span>02</span><b>Explain</b><small>Marketing story</small></button>
+      <button class="learning-choice" type="button" data-learning-goal="sell" aria-pressed="false"><span>03</span><b>Sell</b><small>Problems and value</small></button>
+      <button class="learning-choice" type="button" data-learning-goal="build" aria-pressed="false"><span>04</span><b>Build</b><small>Studios and code</small></button>
+      <button class="learning-choice" type="button" data-learning-goal="architect" aria-pressed="false"><span>05</span><b>Architect</b><small>Boundaries and scale</small></button>
+      <button class="learning-choice" type="button" data-learning-goal="operate" aria-pressed="false"><span>06</span><b>Operate</b><small>Health and recovery</small></button>
+    </div>
+    <div class="learning-depth-row">
+      <span>Depth</span>
+      <div role="group" aria-label="Select explanation depth">
+        <button class="learning-depth active" type="button" data-learning-depth="essentials" aria-pressed="true">Essentials · 15 min</button>
+        <button class="learning-depth" type="button" data-learning-depth="practitioner" aria-pressed="false">Practitioner · 60 min</button>
+        <button class="learning-depth" type="button" data-learning-depth="deep" aria-pressed="false">Deep dive · complete</button>
+      </div>
+      <button class="learning-jargon" type="button" data-learning-jargon aria-pressed="false">Explain jargon inline</button>
+    </div>
+  </section>
+
+  <section id="learning-path" class="container learning-route" aria-labelledby="learning-route-title">
+    <div class="learning-route-summary">
+      <p class="section-kicker">Recommended for you</p>
+      <h2 id="learning-route-title" data-learning-route-title>From AI basics to one governed result</h2>
+      <p data-learning-route-copy>Learn why language models need enterprise knowledge, bounded Agents, approved capabilities, durable Workflows, policy, and evidence before they can produce trusted business outcomes.</p>
+      <div class="learning-route-meta"><span data-learning-route-time>15 minutes</span><span>8 stops</span><span>No prerequisites</span></div>
+    </div>
+    <ol class="learning-timeline">
+      <li class="active"><span>01</span><div><b>AI and LLMs</b><small>What models can and cannot do</small></div></li>
+      <li><span>02</span><div><b>RAG</b><small>Ground answers in authorized knowledge</small></div></li>
+      <li><span>03</span><div><b>Agents</b><small>Bounded reasoning with typed contracts</small></div></li>
+      <li><span>04</span><div><b>MCP</b><small>Governed access to external capabilities</small></div></li>
+      <li><span>05</span><div><b>Workflows</b><small>Durable coordination, retries, and approval</small></div></li>
+      <li><span>06</span><div><b>Services</b><small>Stable reusable business contracts</small></div></li>
+      <li><span>07</span><div><b>ContextWeaver</b><small>Cerebro, Weave, and Loom</small></div></li>
+      <li><span>08</span><div><b>Verified result</b><small>Evidence, receipts, citations, and history</small></div></li>
+    </ol>
+  </section>
+
+  <section class="container learning-deep-dive" aria-labelledby="agent-deep-dive-title">
+    <div class="learning-deep-head">
+      <div><p class="section-kicker">See progressive depth in action</p><h2 id="agent-deep-dive-title">What is an AI Agent?</h2></div>
+      <span class="learning-status">Foundation concept</span>
+    </div>
+    <div class="learning-definition">
+      <div class="learning-definition-mark" aria-hidden="true">A</div>
+      <div><span>60-second explanation</span><p>An Agent is a specialist role that uses a model to decide the next safe step, but only within typed instructions, approved knowledge, permitted tools, budgets, and stop conditions.</p></div>
+      <button type="button" data-learning-jargon-term="typed contract">What is a typed contract?</button>
+    </div>
+    <div class="learning-lens-layout">
+      <div class="learning-lens-tabs" role="tablist" aria-label="Agent explanation lenses">
+        <button class="active" type="button" role="tab" data-learning-lens="business" aria-selected="true">Business</button>
+        <button type="button" role="tab" data-learning-lens="sales" aria-selected="false">Sales</button>
+        <button type="button" role="tab" data-learning-lens="engineering" aria-selected="false">Engineering</button>
+        <button type="button" role="tab" data-learning-lens="architecture" aria-selected="false">Architecture</button>
+        <button type="button" role="tab" data-learning-lens="operations" aria-selected="false">Operations</button>
+      </div>
+      <div class="learning-lens-panel" data-learning-lens-panel>
+        <div>
+          <span class="learning-panel-kicker">Why it matters</span>
+          <h3>Turn repeatable expertise into a governed capability.</h3>
+          <p>An Agent can apply a specialist role consistently while the platform preserves ownership, limits, approvals, and evidence. It augments a process; it does not become an unaccountable digital employee.</p>
+        </div>
+        <div class="learning-agent-loop" aria-label="Bounded Agent loop">
+          <span>Observe</span><i>→</i><span>Plan</span><i>→</i><span>Act</span><i>→</i><span>Inspect</span><i>→</i><b>Stop</b>
+        </div>
+        <div class="learning-panel-grid">
+          <article><span>Good fit</span><b>Research, classify, compare, recommend, draft</b></article>
+          <article><span>Needs control</span><b>Side effects, sensitive data, high-risk decisions</b></article>
+          <article><span>ContextWeaver adds</span><b>Identity, policy, MCP boundaries, approval, evidence</b></article>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="component-atlas" class="container component-atlas" aria-labelledby="component-atlas-title">
+    <div class="component-atlas-head">
+      <div><p class="section-kicker">Every component. No black boxes.</p><h2 id="component-atlas-title">Explore the platform by responsibility.</h2></div>
+      <p>Each component page connects purpose, ownership, identity, data, protocols, dependencies, health, failure behavior, recovery, and implementation status.</p>
+    </div>
+    <div class="component-filter" role="group" aria-label="Filter platform components">
+      <button class="active" type="button" data-component-filter="all" aria-pressed="true">All domains</button>
+      <button type="button" data-component-filter="identity" aria-pressed="false">Identity</button>
+      <button type="button" data-component-filter="data" aria-pressed="false">Data and messaging</button>
+      <button type="button" data-component-filter="runtime" aria-pressed="false">Runtime</button>
+      <button type="button" data-component-filter="cluster" aria-pressed="false">Cluster</button>
+      <button type="button" data-component-filter="observe" aria-pressed="false">Observability</button>
+    </div>
+    <div class="component-grid">
+      <article class="component-card" data-component-domain="identity"><div class="component-icon">ID</div><div class="component-title"><span>Identity provider</span><h3>Keycloak</h3></div><p>Authenticates users, publishes OIDC metadata, owns realms and clients, and supports delegated token exchange.</p><div class="component-tags"><span>Active · Kubernetes</span><span>OIDC / OAuth</span></div><a href="#keycloak-path">Open deep dive <span>→</span></a></article>
+      <article class="component-card" data-component-domain="data"><div class="component-icon">SQL</div><div class="component-title"><span>Durable state</span><h3>PostgreSQL + pgvector</h3></div><p>Stores platform state, configuration revisions, run checkpoints, RAG generations, chunks, embeddings, inboxes, and outboxes.</p><div class="component-tags"><span>Active · Local and K8s</span><span>SQL / vector</span></div><a href="#data-path">Open deep dive <span>→</span></a></article>
+      <article class="component-card" data-component-domain="data runtime"><div class="component-icon">MQ</div><div class="component-title"><span>Durable messaging</span><h3>RabbitMQ</h3></div><p>Moves signed commands, results, and events between isolated workers without coupling work to an HTTP request lifetime.</p><div class="component-tags"><span>Active foundation</span><span>AMQP</span></div><a href="#runtime-path">Open deep dive <span>→</span></a></article>
+      <article class="component-card" data-component-domain="runtime"><div class="component-icon">RC</div><div class="component-title"><span>Orchestration</span><h3>Run Coordinator</h3></div><p>Commits durable run state, dispatches typed work, tracks checkpoints, applies retries, and drives finalization.</p><div class="component-tags"><span>Active realization</span><span>Workflow runtime</span></div><a href="#runtime-path">Open deep dive <span>→</span></a></article>
+      <article class="component-card" data-component-domain="cluster"><div class="component-icon">K8S</div><div class="component-title"><span>Portable foundation</span><h3>Kubernetes + Cilium</h3></div><p>Provides workload lifecycle, namespace trust boundaries, service discovery, storage, policy enforcement, and recovery.</p><div class="component-tags"><span>Active · kind and AKS</span><span>Cloud-neutral</span></div><a href="#cluster-path">Open deep dive <span>→</span></a></article>
+      <article class="component-card" data-component-domain="observe"><div class="component-icon">OBS</div><div class="component-title"><span>Evidence and health</span><h3>Prometheus · Loki · Tempo</h3></div><p>Collects metrics, logs, and traces through Alloy and presents operational evidence through Grafana.</p><div class="component-tags"><span>Active foundation</span><span>OpenTelemetry</span></div><a href="#observe-path">Open deep dive <span>→</span></a></article>
+      <article class="component-card" data-component-domain="data"><div class="component-icon">OBJ</div><div class="component-title"><span>Artifacts and content</span><h3>Object storage</h3></div><p>Preserves private artifacts, source snapshots, extracted content, context packs, reports, and immutable evidence.</p><div class="component-tags"><span>MinIO / S3 contract</span><span>Encrypted storage</span></div><a href="#data-path">Open deep dive <span>→</span></a></article>
+      <article class="component-card" data-component-domain="identity runtime"><div class="component-icon">GW</div><div class="component-title"><span>Capability boundary</span><h3>Authentication and token gateways</h3></div><p>Maintain principal context, broker scoped credentials, and keep provider secrets out of Agents and user-facing clients.</p><div class="component-tags"><span>Fail closed</span><span>Delegated authority</span></div><a href="#keycloak-path">Open deep dive <span>→</span></a></article>
+    </div>
+  </section>
+
+  <section class="container learning-system-map" aria-labelledby="system-map-title">
+    <div class="learning-system-copy">
+      <p class="section-kicker">Follow one request end to end</p>
+      <h2 id="system-map-title">From signed-in user to verified result.</h2>
+      <p>Select any stage to learn who owns it, what data crosses the boundary, which identity is used, how it fails, and what evidence remains.</p>
+      <div class="learning-map-legend"><span><i class="current"></i>Active foundation</span><span><i class="realizing"></i>Active realization</span><span><i class="target"></i>Target</span></div>
+    </div>
+    <div class="learning-flow" aria-label="Governed request flow">
+      <div><span>01</span><b>User portal</b><small>Intent and identity</small></div><i>→</i>
+      <div><span>02</span><b>Auth + policy</b><small>Scope and authority</small></div><i>→</i>
+      <div><span>03</span><b>Compiler</b><small>Immutable plan</small></div><i>→</i>
+      <div><span>04</span><b>Coordinator</b><small>Durable execution</small></div><i>→</i>
+      <div><span>05</span><b>Agent + MCP</b><small>Bounded work</small></div><i>→</i>
+      <div><span>06</span><b>Evidence</b><small>Verified result</small></div>
+    </div>
+  </section>
+
+  <section class="container learning-guide" aria-labelledby="learning-guide-title">
+    <div>
+      <p class="section-kicker">Generate my guide</p>
+      <h2 id="learning-guide-title">Your path, assembled from canonical material.</h2>
+      <p>The guide keeps implementation-status labels, source links, diagrams, and the complete glossary. It never invents architecture or unsupported product claims.</p>
+    </div>
+    <div class="learning-guide-preview">
+      <span>Guide preview</span>
+      <strong data-learning-guide-title>ContextWeaver essentials for a new learner</strong>
+      <ul data-learning-guide-list><li>AI, LLM, and RAG in plain language</li><li>Agent, MCP, Workflow, Service, and Solution</li><li>One governed journey with evidence</li></ul>
+      <button class="button primary" type="button" data-learning-generate>Generate guide <span aria-hidden="true">→</span></button>
+    </div>
+  </section>
+</section>
+"""
+
 
 def main() -> None:
     diagrams = {
@@ -914,10 +1139,39 @@ def main() -> None:
             "Governed Dynamic Service Run",
             "The player shows identity and policy paths, parallel Agent work, MCP side effects, human approval, durable state, and final evidence.",
         ),
+        "generic_agent_runtime": diagram(
+            "generic-agent-runtime",
+            "Generic Agent Runtime",
+            "Risk, Readiness, and Synthesis use one platform image with separate immutable profiles, queues, identities, scaling, and rollback.",
+        ),
         "scale_path": diagram(
             "scale-path",
             "Individual to Sovereign Enterprise",
             "Stable capability contracts remain portable while governance, tenancy, isolation, deployment, and assurance become progressively stronger.",
+        ),
+        "current_facts": fact_cards(*FACTS),
+        "studio_facts": fact_cards(
+            "unified-studios",
+            "connector-control-plane",
+            "hello-world-qualification",
+        ),
+        "runtime_facts": fact_cards(
+            "multi-agent-composition",
+            "agent-tool-delegation",
+            "profile-bound-agents",
+            "rag-ingestion-safety",
+            "retrieval-evidence",
+            "durable-service-runs",
+        ),
+        "governance_facts": fact_cards(
+            "policy-entitlements",
+            "external-delegated-clients",
+            "agent-tool-delegation",
+        ),
+        "architecture_facts": fact_cards(
+            "reusable-cicd",
+            "identity-and-workspaces",
+            "external-delegated-clients",
         ),
     }
 
@@ -970,6 +1224,12 @@ def main() -> None:
             "Explore clickable animated ContextWeaver architecture diagrams and download editable Draw.io, static SVG, and GIF assets.",
             ARCHITECTURE.format(**diagrams),
         ),
+        "learning.html": page(
+            "learning",
+            "ContextWeaver Learning Atlas — From AI basics to platform architecture",
+            "Choose a role and depth to learn ContextWeaver from AI fundamentals through Agents, MCP, Workflows, Services, identity, data, Kubernetes, governance, operations, and every platform component.",
+            LEARNING,
+        ),
         "library.html": page(
             "library",
             "ContextWeaver Technical Library",
@@ -988,7 +1248,7 @@ def main() -> None:
         (ROOT / filename).write_text(content, encoding="utf-8", newline="\n")
 
     sitemap = "\n".join(
-        f"  <url><loc>https://brainzbytes.com/{filename}</loc></url>"
+        f"  <url><loc>{PUBLIC_SITE_URL}/{filename}</loc></url>"
         for filename in pages
     )
     (ROOT / "sitemap.xml").write_text(
@@ -997,7 +1257,7 @@ def main() -> None:
         newline="\n",
     )
     (ROOT / "robots.txt").write_text(
-        "User-agent: *\nAllow: /\nSitemap: https://brainzbytes.com/sitemap.xml\n",
+        f"User-agent: *\nAllow: /\nSitemap: {PUBLIC_SITE_URL}/sitemap.xml\n",
         encoding="utf-8",
         newline="\n",
     )

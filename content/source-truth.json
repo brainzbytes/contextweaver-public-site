@@ -1,0 +1,113 @@
+{
+  "schemaVersion": 1,
+  "auditedAt": "2026-11-01",
+  "previousPublicBaseline": "2026-10-28",
+  "publicationModel": "Reviewed claims in this ledger feed generated pages. Implementation repositories remain authoritative for code and operational detail.",
+  "sources": {
+    "contextweaver-nextgen-docs": "f2bbcc636ac003e410cb57d5b8e95310a70bd735",
+    "contextweaver-nextgen-infrastructure": "915fef218df71e2e51b1dd50d79923d3c34de7f3",
+    "cw-source-catalog": "2f41c1397a18b7ea819d4a914880da013cb26677",
+    "cw-solution-composer": "fb16d0c96e6f0cd1e6dd65a17d58c97c3082e55a",
+    "cw-generic-agent-runtime": "e38aaab8195d65299263a4d984ee5951b7fd638e",
+    "cw-rag-ingestion": "25b75d7f3a28941a42946e75ce734f445583bfc0",
+    "cw-rag-retrieval": "2c7dcb95f3f5d3508ba8f533e5ef161d3001d53a",
+    "cw-capability-protocol-gateway": "6ee92abeb5f37bf6ba0e42fe0907920f599e8a03",
+    "cw-user-web": "fa1940bfe20d4505547fe9973d0ea9b671d99d87",
+    "cw-registry-service": "1d4e753d4ac1bd0d0631bbc296cb8bbd4ebec9e6",
+    "cw-run-coordinator": "74444285be406ba6b8b9be98e2ab61217964521e",
+    "cw-policy-decision-service": "d0f89b57b55782aac681d5ae80e7fbdc1c73b460"
+  },
+  "facts": [
+    {
+      "id": "connector-control-plane",
+      "title": "Governed connector instances",
+      "status": "Active realization",
+      "summary": "Source Catalog manages tenant-scoped connector instances while retaining only opaque secret references and governed connection metadata.",
+      "evidence": ["cw-source-catalog/README.md"]
+    },
+    {
+      "id": "multi-agent-composition",
+      "title": "Version-pinned multi-Agent composition",
+      "status": "Active realization",
+      "summary": "Solution Composer persists immutable dependency plans with exact capability versions and digests, qualification evidence, cache reuse, and stale-plan invalidation.",
+      "evidence": ["cw-solution-composer/README.md", "cw-user-web/README.md"]
+    },
+    {
+      "id": "agent-tool-delegation",
+      "title": "Least-privilege Agent tool delegation",
+      "status": "Active realization",
+      "summary": "Agents declare MCP requirements; Workflows authorize exact bindings without turning MCPs into hidden Workflow steps or giving Agents provider credentials.",
+      "evidence": ["cw-registry-service/README.md", "cw-user-web/README.md"]
+    },
+    {
+      "id": "profile-bound-agents",
+      "title": "Immutable profile-bound Agents",
+      "status": "Active realization",
+      "summary": "One hardened Generic Agent image supports isolated logical Agents with immutable profiles, separate identities, queues, scaling, network policy, rollout, and rollback.",
+      "evidence": ["contextweaver-nextgen-docs/content/generic-agent-runtime.md", "cw-generic-agent-runtime/README.md"]
+    },
+    {
+      "id": "hello-world-qualification",
+      "title": "Qualified Hello World path",
+      "status": "Implemented foundation",
+      "summary": "The promoted Hello World AgentCards are version 0.2.1, and publication remains a separate MCP action after human approval.",
+      "evidence": ["contextweaver-nextgen-docs/content/hello-world-studios-onboarding-guide.md"]
+    },
+    {
+      "id": "rag-ingestion-safety",
+      "title": "Production-shaped RAG ingestion",
+      "status": "Active realization",
+      "summary": "Durable PostgreSQL jobs, shadow generations, RabbitMQ delivery, pgvector, Tika, ClamAV, Presidio, ACL and lineage checks, and fail-closed external adapters now shape ingestion.",
+      "evidence": ["cw-rag-ingestion/README.md"]
+    },
+    {
+      "id": "retrieval-evidence",
+      "title": "Content-minimized retrieval evidence",
+      "status": "Active realization",
+      "summary": "Retrieval returns ContextPack, CitationManifest, and receipts while retaining content-minimized evidence for 30 days by default.",
+      "evidence": ["cw-rag-retrieval/README.md"]
+    },
+    {
+      "id": "external-delegated-clients",
+      "title": "External Copilot and Claude access",
+      "status": "Active realization",
+      "summary": "MCP-capable clients use delegated user identity, identity-filtered discovery, purpose and policy context, and platform-owned upstream credentials through the capability gateway.",
+      "evidence": ["cw-capability-protocol-gateway/README.md"]
+    },
+    {
+      "id": "unified-studios",
+      "title": "One governed Studio workspace",
+      "status": "Active realization",
+      "summary": "MCPs, Agents, Workflows, Services, and Solutions share one searchable, tabbed workspace with typed drafts, dependency graphs, AI-assisted interpretation, and explicit runtime links.",
+      "evidence": ["cw-user-web/README.md", "cw-registry-service/README.md"]
+    },
+    {
+      "id": "policy-entitlements",
+      "title": "Resource-bound policy and entitlements",
+      "status": "Active realization",
+      "summary": "Tool decisions bind the exact resource, purpose, input digest, side-effect class, approval, policy rules, and entitlement IDs; side effects require an explicit scope.",
+      "evidence": ["cw-policy-decision-service/README.md"]
+    },
+    {
+      "id": "durable-service-runs",
+      "title": "Durable admitted Service Runs",
+      "status": "Active realization",
+      "summary": "Run Coordinator admits intent before persistence, records evidence, supports constrained dynamic composition, and blocks execution behind an exact-plan approval when required.",
+      "evidence": ["cw-run-coordinator/README.md"]
+    },
+    {
+      "id": "reusable-cicd",
+      "title": "Reusable immutable delivery",
+      "status": "Active realization",
+      "summary": "Shared CI/CD builds immutable images with SBOM and provenance, then performs rollout-safe deployment updates and rollback.",
+      "evidence": ["contextweaver-nextgen-infrastructure/README.md"]
+    },
+    {
+      "id": "identity-and-workspaces",
+      "title": "Repaired identity and governed workspaces",
+      "status": "Active realization",
+      "summary": "The public Keycloak login path is restored, and governed MongoDB workspace access uses controlled identity and secret-reference boundaries.",
+      "evidence": ["contextweaver-nextgen-infrastructure/README.md"]
+    }
+  ]
+}

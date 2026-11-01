@@ -7,7 +7,7 @@
       <meta name="theme-color" content="#07110f">
       <title>ContextWeaver Runtime — Governed dynamic Service execution</title>
       <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
-      <link rel="stylesheet" href="assets/css/site.css?v=20261025-12">
+      <link rel="stylesheet" href="assets/css/site.css?v=20261101-13">
     </head>
     <body data-page="runtime">
 
@@ -18,9 +18,9 @@
           <span class="brand-mark" aria-hidden="true"></span>
           <span class="brand-copy"><strong>ContextWeaver</strong><span>by BrainzBytes</span></span>
         </a>
-        <nav class="primary-nav" data-primary-nav aria-label="Primary navigation"><a href="index.html" data-nav-page="landing">Home</a><a href="overview.html" data-nav-page="overview">Overview</a><a href="platform.html" data-nav-page="platform">Platform</a><a href="studio.html" data-nav-page="studio">Studio</a><a href="runtime.html" data-nav-page="runtime">Runtime</a><a href="governance.html" data-nav-page="governance">Governance</a><a href="solutions.html" data-nav-page="solutions">Solutions</a><a href="architecture.html" data-nav-page="architecture">Architecture</a><a href="library.html" data-nav-page="library">Library</a><a href="company.html" data-nav-page="company">Company</a></nav>
+        <nav class="primary-nav" data-primary-nav aria-label="Primary navigation"><a href="index.html" data-nav-page="landing">Home</a><a href="overview.html" data-nav-page="overview">Overview</a><a href="platform.html" data-nav-page="platform">Platform</a><a href="studio.html" data-nav-page="studio">Studio</a><a href="runtime.html" data-nav-page="runtime">Runtime</a><a href="governance.html" data-nav-page="governance">Governance</a><a href="solutions.html" data-nav-page="solutions">Solutions</a><a href="architecture.html" data-nav-page="architecture">Architecture</a><a href="learning.html" data-nav-page="learning">Learn</a><a href="library.html" data-nav-page="library">Library</a><a href="company.html" data-nav-page="company">Company</a></nav>
         <div class="nav-actions">
-          <button class="icon-button" type="button" data-theme-toggle aria-label="Change color theme">☀</button>
+          <button class="icon-button" type="button" data-theme-toggle aria-label="Change dark contrast theme">◑</button>
           <button class="menu-button" type="button" data-menu-toggle aria-label="Open navigation" aria-expanded="false">☰</button>
         </div>
       </div>
@@ -52,6 +52,27 @@
     </div>
     <p class="diagram-note">The player shows identity and policy paths, parallel Agent work, MCP side effects, human approval, durable state, and final evidence.</p>
 
+</section>
+
+<section id="generic-agent-runtime" class="container section compact">
+  <div class="section-head"><div><p class="section-kicker">Profile-bound Agents</p><h2>One hardened image. Many isolated logical Agents.</h2></div><p>Role, schemas, executor, MCP access, budgets, queues, and runtime compatibility are injected through immutable profiles. Each logical Agent retains independent identity, networking, scaling, rollout, and rollback.</p></div>
+
+    <div class="diagram-shell" data-reveal>
+      <div class="diagram-toolbar">
+        <strong>Generic Agent Runtime</strong>
+        <a href="diagrams/generic-agent-runtime.html" target="_blank" rel="noopener">Open full screen ↗</a>
+        <a href="diagrams/generic-agent-runtime.svg">Static SVG</a>
+        <a href="diagrams/generic-agent-runtime.gif">Animated GIF</a>
+      </div>
+      <iframe class="diagram-frame" src="diagrams/generic-agent-runtime.html" title="Generic Agent Runtime" loading="lazy"></iframe>
+    </div>
+    <p class="diagram-note">Risk, Readiness, and Synthesis use one platform image with separate immutable profiles, queues, identities, scaling, and rollback.</p>
+
+</section>
+
+<section class="container section compact">
+  <div class="section-head"><div><p class="section-kicker">Current runtime realization</p><h2>Composition, delegation, retrieval, and approval now share one evidence model.</h2></div><p>Plans are exact-version and digest pinned. Agents receive only authorized MCP bindings, retrieval returns citations and receipts, and policy-required dynamic plans cannot execute before approval of the exact immutable plan.</p></div>
+  <div class="grid three"><article class="card amber" data-fact-id="multi-agent-composition" data-reveal><div class="meta">Active realization</div><h3>Version-pinned multi-Agent composition</h3><p>Solution Composer persists immutable dependency plans with exact capability versions and digests, qualification evidence, cache reuse, and stale-plan invalidation.</p></article><article class="card amber" data-fact-id="agent-tool-delegation" data-reveal><div class="meta">Active realization</div><h3>Least-privilege Agent tool delegation</h3><p>Agents declare MCP requirements; Workflows authorize exact bindings without turning MCPs into hidden Workflow steps or giving Agents provider credentials.</p></article><article class="card amber" data-fact-id="profile-bound-agents" data-reveal><div class="meta">Active realization</div><h3>Immutable profile-bound Agents</h3><p>One hardened Generic Agent image supports isolated logical Agents with immutable profiles, separate identities, queues, scaling, network policy, rollout, and rollback.</p></article><article class="card amber" data-fact-id="rag-ingestion-safety" data-reveal><div class="meta">Active realization</div><h3>Production-shaped RAG ingestion</h3><p>Durable PostgreSQL jobs, shadow generations, RabbitMQ delivery, pgvector, Tika, ClamAV, Presidio, ACL and lineage checks, and fail-closed external adapters now shape ingestion.</p></article><article class="card amber" data-fact-id="retrieval-evidence" data-reveal><div class="meta">Active realization</div><h3>Content-minimized retrieval evidence</h3><p>Retrieval returns ContextPack, CitationManifest, and receipts while retaining content-minimized evidence for 30 days by default.</p></article><article class="card amber" data-fact-id="durable-service-runs" data-reveal><div class="meta">Active realization</div><h3>Durable admitted Service Runs</h3><p>Run Coordinator admits intent before persistence, records evidence, supports constrained dynamic composition, and blocks execution behind an exact-plan approval when required.</p></article></div>
 </section>
 
 <section id="scenarios" class="container section scenario-section">
@@ -152,10 +173,10 @@
       </div>
       <div class="container footer-bottom">
         <span>© 2026 BrainzBytes. ContextWeaver product architecture.</span>
-        <span>Architecture refreshed October 25, 2026. Compliance and deployment outcomes remain customer-specific.</span>
+        <span>Architecture refreshed November 1, 2026. Compliance and deployment outcomes remain customer-specific.</span>
       </div>
     </footer>
 
-      <script src="assets/js/site.js?v=20261025-12"></script>
+      <script src="assets/js/site.js?v=20261101-13"></script>
     </body>
     </html>

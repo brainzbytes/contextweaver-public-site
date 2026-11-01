@@ -1,7 +1,7 @@
 from __future__ import annotations
 
+import argparse
 from dataclasses import dataclass
-from datetime import datetime, timezone
 from html import escape as html_escape
 from pathlib import Path
 from textwrap import wrap
@@ -22,9 +22,9 @@ COLORS = {
     "line": "#38544a",
     "mint": "#70e6b1",
     "amber": "#ffc76a",
-    "coral": "#ff8a72",
-    "violet": "#c0a6ff",
-    "sky": "#7dd8e8",
+    "coral": "#7fb98d",
+    "violet": "#9bcf9f",
+    "sky": "#52b788",
     "red": "#ff6f69",
 }
 
@@ -296,14 +296,14 @@ def write_svg() -> None:
     svg = svg_markup()
     css = """
 <style>
-.diagram-title{fill:#f4f8f2;font:700 25px Georgia,serif}.diagram-subtitle{fill:#a8bbb3;font:12px Segoe UI,sans-serif}
-.zone rect{fill:#10231e;fill-opacity:.35;stroke:#38544a;stroke-width:1.5}.zone text{fill:#a8bbb3;font:800 10px Segoe UI,sans-serif;letter-spacing:1.2px}
-.zone-mint rect{stroke:#70e6b1}.zone-violet rect{stroke:#c0a6ff}.zone-sky rect{stroke:#7dd8e8}.zone-amber rect{stroke:#ffc76a}
-.node rect{fill:#10231e;stroke:#38544a;stroke-width:2}.node-mint rect{stroke:#70e6b1}.node-amber rect{stroke:#ffc76a}.node-coral rect{stroke:#ff8a72}.node-violet rect{stroke:#c0a6ff}.node-sky rect{stroke:#7dd8e8}
-.node-title{fill:#f4f8f2;font:700 13px Segoe UI,sans-serif;text-anchor:middle}.node-subtitle{fill:#a8bbb3;font:9px Segoe UI,sans-serif;text-anchor:middle}
-.edge{opacity:.32}.edge path{fill:none;stroke:#7dd8e8;stroke-width:2}.edge text{fill:#a8bbb3;font:8px Segoe UI,sans-serif;text-anchor:middle;paint-order:stroke;stroke:#07110f;stroke-width:4}
-.edge-governance path{stroke:#c0a6ff;stroke-dasharray:8 6}.edge-success path{stroke:#70e6b1}.edge-evidence path{stroke:#ffc76a;stroke-dasharray:5 5}.edge-waiting path{stroke:#ffc76a;stroke-dasharray:10 7}
-.trust-label{fill:#ffc76a;font:700 10px Segoe UI,sans-serif}
+.diagram-title{fill:#f4f8f2;font:700 25px Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}.diagram-subtitle{fill:#a8bbb3;font:12px Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+.zone rect{fill:#10231e;fill-opacity:.35;stroke:#38544a;stroke-width:1.5}.zone text{fill:#a8bbb3;font:800 10px Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;letter-spacing:1.2px}
+.zone-mint rect{stroke:#70e6b1}.zone-violet rect{stroke:#9bcf9f}.zone-sky rect{stroke:#52b788}.zone-amber rect{stroke:#ffc76a}
+.node rect{fill:#10231e;stroke:#38544a;stroke-width:2}.node-mint rect{stroke:#70e6b1}.node-amber rect{stroke:#ffc76a}.node-coral rect{stroke:#7fb98d}.node-violet rect{stroke:#9bcf9f}.node-sky rect{stroke:#52b788}
+.node-title{fill:#f4f8f2;font:700 13px Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;text-anchor:middle}.node-subtitle{fill:#a8bbb3;font:9px Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;text-anchor:middle}
+.edge{opacity:.32}.edge path{fill:none;stroke:#52b788;stroke-width:2}.edge text{fill:#a8bbb3;font:8px Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;text-anchor:middle;paint-order:stroke;stroke:#07110f;stroke-width:4}
+.edge-governance path{stroke:#9bcf9f;stroke-dasharray:8 6}.edge-success path{stroke:#70e6b1}.edge-evidence path{stroke:#ffc76a;stroke-dasharray:5 5}.edge-waiting path{stroke:#ffc76a;stroke-dasharray:10 7}
+.trust-label{fill:#ffc76a;font:700 10px Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
 </style>"""
     standalone = svg.replace("<defs>", f"<defs>{css}", 1)
     (OUT / "contextweaver-nextgen-architecture.svg").write_text(standalone, encoding="utf-8")
@@ -322,24 +322,24 @@ def write_html() -> None:
 <script>if(window.self!==window.top||new URLSearchParams(location.search).has("embed"))document.documentElement.classList.add("embedded");</script>
 <style>
 :root{{--bg:{COLORS['bg']};--panel:{COLORS['panel']};--panel2:{COLORS['panel2']};--text:{COLORS['text']};--muted:{COLORS['muted']};--line:{COLORS['line']};--mint:{COLORS['mint']};--amber:{COLORS['amber']};--coral:{COLORS['coral']};--violet:{COLORS['violet']};--sky:{COLORS['sky']}}}
-*{{box-sizing:border-box}}body{{margin:0;color:var(--text);background:var(--bg);font:14px/1.5 Inter,Segoe UI,sans-serif}}
+*{{box-sizing:border-box}}body{{margin:0;color:var(--text);background:var(--bg);font:14px/1.5 Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}}
 .shell{{display:grid;grid-template-columns:minmax(0,1fr) 340px;min-height:100dvh}}.canvas{{position:relative;overflow:auto;border-right:1px solid var(--line)}}.architecture{{display:block;min-width:1120px;width:100%;height:auto}}
-.diagram-title{{fill:#f4f8f2;font:700 25px Georgia,serif}}.diagram-subtitle{{fill:#a8bbb3;font:12px Segoe UI,sans-serif}}
-.zone rect{{fill:#10231e;fill-opacity:.35;stroke:#38544a;stroke-width:1.5}}.zone text{{fill:#a8bbb3;font:800 10px Segoe UI,sans-serif;letter-spacing:1.2px}}
-.zone-mint rect{{stroke:#70e6b1}}.zone-violet rect{{stroke:#c0a6ff}}.zone-sky rect{{stroke:#7dd8e8}}.zone-amber rect{{stroke:#ffc76a}}
-.node{{cursor:pointer}}.node rect{{fill:#10231e;stroke:#38544a;stroke-width:2;transition:.25s}}.node-mint rect{{stroke:#70e6b1}}.node-amber rect{{stroke:#ffc76a}}.node-coral rect{{stroke:#ff8a72}}.node-violet rect{{stroke:#c0a6ff}}.node-sky rect{{stroke:#7dd8e8}}
-.node-title{{fill:#f4f8f2;font:700 13px Segoe UI,sans-serif;text-anchor:middle}}.node-subtitle{{fill:#a8bbb3;font:9px Segoe UI,sans-serif;text-anchor:middle}}
+.diagram-title{{fill:#f4f8f2;font:700 25px Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}}.diagram-subtitle{{fill:#a8bbb3;font:12px Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}}
+.zone rect{{fill:#10231e;fill-opacity:.35;stroke:#38544a;stroke-width:1.5}}.zone text{{fill:#a8bbb3;font:800 10px Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;letter-spacing:1.2px}}
+.zone-mint rect{{stroke:#70e6b1}}.zone-violet rect{{stroke:#9bcf9f}}.zone-sky rect{{stroke:#52b788}}.zone-amber rect{{stroke:#ffc76a}}
+.node{{cursor:pointer}}.node rect{{fill:#10231e;stroke:#38544a;stroke-width:2;transition:.25s}}.node-mint rect{{stroke:#70e6b1}}.node-amber rect{{stroke:#ffc76a}}.node-coral rect{{stroke:#7fb98d}}.node-violet rect{{stroke:#9bcf9f}}.node-sky rect{{stroke:#52b788}}
+.node-title{{fill:#f4f8f2;font:700 13px Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;text-anchor:middle}}.node-subtitle{{fill:#a8bbb3;font:9px Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;text-anchor:middle}}
 .node:hover rect,.node.selected rect{{stroke-width:4}}.node.active rect{{stroke-width:5;filter:url(#glow)}}.node.complete{{opacity:.58}}
-.edge{{opacity:.18}}.edge path{{fill:none;stroke:#7dd8e8;stroke-width:2}}.edge text{{fill:#a8bbb3;font:8px Segoe UI,sans-serif;text-anchor:middle;paint-order:stroke;stroke:#07110f;stroke-width:4}}
-.edge-governance path{{stroke:#c0a6ff;stroke-dasharray:8 6}}.edge-success path{{stroke:#70e6b1}}.edge-evidence path{{stroke:#ffc76a;stroke-dasharray:5 5}}.edge-waiting path{{stroke:#ffc76a;stroke-dasharray:10 7}}
+.edge{{opacity:.18}}.edge path{{fill:none;stroke:#52b788;stroke-width:2}}.edge text{{fill:#a8bbb3;font:8px Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;text-anchor:middle;paint-order:stroke;stroke:#07110f;stroke-width:4}}
+.edge-governance path{{stroke:#9bcf9f;stroke-dasharray:8 6}}.edge-success path{{stroke:#70e6b1}}.edge-evidence path{{stroke:#ffc76a;stroke-dasharray:5 5}}.edge-waiting path{{stroke:#ffc76a;stroke-dasharray:10 7}}
 .edge.active{{opacity:1}}.edge.active path{{stroke-width:5;stroke-dasharray:14 9;animation:flow .8s linear infinite;filter:url(#glow)}}@keyframes flow{{to{{stroke-dashoffset:-23}}}}
-.trust-label{{fill:#ffc76a;font:700 10px Segoe UI,sans-serif}}
+.trust-label{{fill:#ffc76a;font:700 10px Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}}
 .panel{{display:flex;flex-direction:column;min-width:0;background:linear-gradient(180deg,var(--panel2),var(--bg));position:sticky;top:0;height:100dvh}}
-.panel-head{{padding:22px;border-bottom:1px solid var(--line)}}.eyebrow{{margin:0 0 7px;color:var(--mint);font-size:9px;font-weight:900;letter-spacing:.15em;text-transform:uppercase}}h1{{margin:0;font:700 26px/1.08 Georgia,serif}}.panel-head p{{margin:9px 0 0;color:var(--muted);font-size:11px}}
+.panel-head{{padding:22px;border-bottom:1px solid var(--line)}}.eyebrow{{margin:0 0 7px;color:var(--mint);font-size:9px;font-weight:900;letter-spacing:.15em;text-transform:uppercase}}h1{{margin:0;font:700 26px/1.08 Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}}.panel-head p{{margin:9px 0 0;color:var(--muted);font-size:11px}}
 .legend{{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-top:15px;color:var(--muted);font-size:9px}}.legend span::before{{content:"";display:inline-block;width:10px;height:3px;margin-right:6px;vertical-align:middle;background:var(--sky)}}.legend .gov::before{{background:var(--violet)}}.legend .success::before{{background:var(--mint)}}.legend .evidence::before{{background:var(--amber)}}
-.detail{{min-height:225px;padding:22px;border-bottom:1px solid var(--line)}}.detail b{{display:block;font:700 20px/1.2 Georgia,serif}}.detail em{{display:block;margin:7px 0 12px;color:var(--amber);font-size:10px;font-style:normal;font-weight:800}}.detail p{{margin:0;color:#c8d6d0;font-size:12px}}
-.stage{{flex:1;padding:22px;overflow:auto}}.stage-count{{color:var(--mint);font-size:10px;font-weight:900;letter-spacing:.12em;text-transform:uppercase}}.stage h2{{margin:8px 0;font:700 22px/1.18 Georgia,serif}}.stage p{{margin:0;color:var(--muted);font-size:12px}}
-.controls{{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;padding:12px;border-top:1px solid var(--line)}}button{{min-height:40px;border:1px solid var(--line);border-radius:9px;color:var(--text);background:var(--panel);cursor:pointer;font:800 11px Segoe UI,sans-serif}}button:hover{{border-color:var(--mint)}}button.primary{{color:#07110f;background:var(--mint)}}
+.detail{{min-height:225px;padding:22px;border-bottom:1px solid var(--line)}}.detail b{{display:block;font:700 20px/1.2 Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}}.detail em{{display:block;margin:7px 0 12px;color:var(--amber);font-size:10px;font-style:normal;font-weight:800}}.detail p{{margin:0;color:#c8d6d0;font-size:12px}}
+.stage{{flex:1;padding:22px;overflow:auto}}.stage-count{{color:var(--mint);font-size:10px;font-weight:900;letter-spacing:.12em;text-transform:uppercase}}.stage h2{{margin:8px 0;font:700 22px/1.18 Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}}.stage p{{margin:0;color:var(--muted);font-size:12px}}
+.controls{{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;padding:12px;border-top:1px solid var(--line)}}button{{min-height:40px;border:1px solid var(--line);border-radius:9px;color:var(--text);background:var(--panel);cursor:pointer;font:800 11px Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}}button:hover{{border-color:var(--mint)}}button.primary{{color:#07110f;background:var(--mint)}}
 .dots{{display:flex;flex-wrap:wrap;gap:7px;padding:0 18px 17px}}.dot{{width:11px;height:11px;min-height:0;padding:0;border:0;border-radius:50%;background:var(--line)}}.dot.active{{background:var(--mint);box-shadow:0 0 10px var(--mint)}}
 html.embedded .shell{{grid-template-columns:1fr;min-height:0}}
 html.embedded .canvas{{overflow:hidden;border-right:0;border-bottom:1px solid var(--line)}}
@@ -376,6 +376,7 @@ render();restart();
 
 def font(size: int, bold: bool = False):
     candidates = [
+        Path("C:/Windows/Fonts/Inter-Bold.ttf" if bold else "C:/Windows/Fonts/Inter-Regular.ttf"),
         Path("C:/Windows/Fonts/segoeuib.ttf" if bold else "C:/Windows/Fonts/segoeui.ttf"),
         Path("C:/Windows/Fonts/arialbd.ttf" if bold else "C:/Windows/Fonts/arial.ttf"),
     ]
@@ -544,7 +545,7 @@ PAGES = [
 
 
 def write_drawio() -> None:
-    modified = datetime.now(timezone.utc).isoformat()
+    modified = "2026-11-01T00:00:00Z"
     diagrams = []
     palette = {key: (COLORS[key], COLORS[key]) for key in ["mint", "amber", "coral", "violet", "sky"]}
     for page_index, (name, nodes, edges) in enumerate(PAGES, start=1):
@@ -609,10 +610,22 @@ No files in the public website repository were changed by this prototype.
     (OUT / "README.md").write_text(content, encoding="utf-8")
 
 
-if __name__ == "__main__":
+def main(*, skip_raster: bool = False) -> None:
     OUT.mkdir(parents=True, exist_ok=True)
     write_svg()
     write_html()
-    write_images()
+    if not skip_raster:
+        write_images()
     write_drawio()
-    print(f"Generated architecture atlas in {OUT}")
+    raster_status = "using committed PNG/GIF assets" if skip_raster else "with regenerated PNG/GIF assets"
+    print(f"Generated architecture atlas in {OUT} {raster_status}")
+
+
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser()
+    parser.add_argument(
+        "--skip-raster",
+        action="store_true",
+        help="Keep committed PNG/GIF assets while regenerating deterministic text and vector outputs.",
+    )
+    main(skip_raster=parser.parse_args().skip_raster)
