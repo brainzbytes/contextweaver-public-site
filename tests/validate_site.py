@@ -161,6 +161,47 @@ def validate_source_truth() -> None:
         )
 
 
+def validate_product_semantics() -> None:
+    overview = (ROOT / "overview.html").read_text(encoding="utf-8")
+    studio = (ROOT / "studio.html").read_text(encoding="utf-8")
+    runtime = (ROOT / "runtime.html").read_text(encoding="utf-8")
+    solutions = (ROOT / "solutions.html").read_text(encoding="utf-8")
+    architecture = (ROOT / "architecture.html").read_text(encoding="utf-8")
+    atlas = (ROOT / "diagrams" / f"{ATLAS}.html").read_text(encoding="utf-8")
+    story = (ROOT / "experiences" / "contextweaver-ai-factory-3d.html").read_text(encoding="utf-8")
+
+    assert_true("working Solution" in overview, "Overview must promise a working Solution")
+    for concept in (
+        "MCP capability",
+        "bounded reasoning specialist",
+        "durable coordination graph",
+        "reusable executable contract",
+        "final user-facing composition",
+    ):
+        assert_true(concept in studio, f"Studio must define {concept}")
+    for term in ("Service Experience Contract", "Service Run"):
+        assert_true(term in runtime and term in solutions, f"Runtime and Solutions must preserve {term}")
+    assert_true("/my-solutions" in solutions, "Solutions must document the consumer landing route")
+    assert_true("delegated" in solutions.lower(), "Solutions must document delegated external access")
+    assert_true(
+        "Service is the reusable executable contract. Solution is the complete user experience." in solutions,
+        "Solutions must keep Service and Solution responsibilities distinct",
+    )
+    assert_true("five Studio contexts" in architecture, "Architecture must include all five Studio contexts")
+    assert_true("Solutions" in atlas and "Reusable executable contracts" in atlas, "Atlas must model Solutions and Services")
+    assert_true("Published user-facing Solution" in story, "3D story must end in a published Solution")
+
+    combined = "\n".join((ROOT / page).read_text(encoding="utf-8") for page in PAGES) + atlas + story
+    for stale in (
+        "working Service",
+        "Four creation Studios",
+        "User-facing governed outcomes",
+        "one useful Service",
+        "Generated production service",
+    ):
+        assert_true(stale not in combined, f"Stale product meaning remains: {stale}")
+
+
 def main() -> None:
     for page in PAGES:
         validate_page(ROOT / page)
@@ -169,6 +210,7 @@ def main() -> None:
     validate_drawio()
     validate_atlas()
     validate_source_truth()
+    validate_product_semantics()
     print(
         f"Validated {len(PAGES)} pages, {len(DIAGRAMS)} complete diagram deliverables, "
         "and the public source-truth ledger."

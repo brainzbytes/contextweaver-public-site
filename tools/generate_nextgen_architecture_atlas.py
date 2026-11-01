@@ -53,14 +53,14 @@ class Edge:
 
 
 NODES = [
-    Node("people", "People + channels", "Business users | builders | operators | APIs | events",
-         "People use guided product surfaces, developer workspaces, APIs, events, and approved channels. They never need direct infrastructure credentials.",
+    Node("people", "Users + channels", "Consumers | builders | operators | delegated clients | events",
+         "One authenticated entry point presents My Solutions, Studio, operations, APIs, events, and delegated assistant channels according to current entitlement. Users never need direct infrastructure credentials.",
          45, 95, 235, 82, "sky", "access"),
     Node("workspace", "Collaborative Workspaces", "Plain language | code | notebooks | documents | data",
          "A shared place to explore intent, specifications, code, documents, data, and AI assistance before anything is promoted.",
          325, 95, 260, 82, "mint", "experience"),
-    Node("studios", "Four creation Studios", "Agent | MCP | Service | Workflow",
-         "Purpose-built Studios create distinct typed assets rather than hiding every behavior inside one unrestricted prompt.",
+    Node("studios", "Five Studio contexts", "MCP | Agent | Workflow | Service | Solution",
+         "Purpose-built contexts create distinct typed assets and complete Solution compositions rather than hiding every behavior inside one unrestricted prompt.",
          625, 95, 260, 82, "mint", "experience"),
     Node("operations", "Operations + approvals", "Run history | topology | evidence | human decisions",
          "Operators, risk owners, and approvers inspect health, evidence, pending decisions, failures, retries, and release status.",
@@ -69,7 +69,7 @@ NODES = [
          "ContextWeaver can start from a described outcome or approved enterprise material, including specifications, APIs, MCP servers, code, knowledge, and data products.",
          45, 235, 235, 105, "sky", "access"),
     Node("intent", "Intent + contract compiler", "Normalize requirements into typed assets and graphs",
-         "Cerebro converts desired outcomes into explicit Service, Workflow, Agent, MCP, data, model, policy, and evidence contracts.",
+         "Cerebro converts desired outcomes into explicit Solution, Service, Workflow, Agent, MCP, data, model, policy, experience, and evidence contracts.",
          325, 235, 260, 105, "mint", "cerebro"),
     Node("identity", "Identity + entitlements", "Tenant | user | role | groups | purpose | delegation",
          "Every protected action carries verified identity, tenant, purpose, delegated authority, and entitlement context.",
@@ -80,24 +80,27 @@ NODES = [
     Node("registry", "Registry + lifecycle", "Schemas | versions | compatibility | trust | promotion",
          "Only immutable, compatible, healthy, entitled, region-appropriate, and lifecycle-eligible releases can be discovered.",
          1225, 235, 230, 105, "coral", "cerebro"),
-    Node("services", "Services", "User-facing governed outcomes",
-         "Services are stable product contracts assembled from approved Workflows, Agents, MCP tools, data, models, and policies.",
-         325, 405, 170, 92, "mint", "weave"),
-    Node("workflows", "Workflows", "Durable graphs | waits | retries | compensation",
+    Node("solutions", "Solutions", "User-facing compositions | experience lifecycle",
+         "Solutions are the final consumer-facing experiences and complete dependency graphs assembled from reusable Services and lower-level governed capabilities.",
+         325, 405, 145, 92, "mint", "weave"),
+    Node("services", "Services", "Reusable executable contracts",
+         "Services expose stable intent-to-outcome contracts pinned to approved Workflows, with typed inputs, outputs, policy, ownership, SLOs, and lifecycle.",
+         485, 405, 145, 92, "mint", "weave"),
+    Node("workflows", "Workflows", "Durable graphs | waits | retries",
          "Workflows are typed state machines with checkpoints, approvals, callbacks, idempotency, retries, and compensation.",
-         520, 405, 170, 92, "mint", "weave"),
+         645, 405, 145, 92, "mint", "weave"),
     Node("agents", "Agents", "Bounded reasoning | goals | evaluations",
          "Agents reason within a constrained plan, model envelope, data scope, tool allow-list, budget, and evaluation policy.",
-         715, 405, 170, 92, "coral", "weave"),
+         805, 405, 145, 92, "coral", "weave"),
     Node("mcp", "MCP capabilities", "Tools | resources | prompts | adapters",
          "MCP servers broker tool access with validated schemas, delegated identity, rate limits, audit, receipts, and compensation metadata.",
-         910, 405, 180, 92, "sky", "weave"),
+         965, 405, 160, 92, "sky", "weave"),
     Node("knowledge", "RAG + data products", "Authorized retrieval | citations | lineage",
          "Retrieval respects source authority, ACLs, purpose, classification, residency, freshness, retention, and immutable generation pins.",
-         1115, 405, 180, 92, "sky", "weave"),
+         1140, 405, 160, 92, "sky", "weave"),
     Node("models", "Models + memory", "Provider aliases | routing | bounded continuity",
          "Model providers are replaceable behind governed aliases, while memory is scoped, retained, and authorized independently.",
-         1320, 405, 135, 92, "violet", "weave"),
+         1315, 405, 140, 92, "violet", "weave"),
     Node("dryrun", "Safe Dry Run Lab", "No real side effects | mocks | faults | comparison",
          "Designs are rehearsed with mocked side effects, deterministic fixtures, fault injection, evaluation, and evidence before promotion.",
          325, 555, 260, 100, "amber", "runtime"),
@@ -139,8 +142,9 @@ EDGES = [
     Edge("e5", "intent", "identity", "authorize", "governance"),
     Edge("e6", "identity", "policy", "eligible actions", "governance"),
     Edge("e7", "policy", "registry", "admit and promote", "governance"),
-    Edge("e8", "registry", "services", "approved releases", "success"),
-    Edge("e9", "services", "workflows", "compose"),
+    Edge("e8", "registry", "solutions", "published Solutions", "success"),
+    Edge("e9", "solutions", "services", "experience actions"),
+    Edge("e9b", "services", "workflows", "execute"),
     Edge("e10", "workflows", "agents", "delegate"),
     Edge("e11", "agents", "mcp", "tool boundary"),
     Edge("e12", "agents", "knowledge", "authorized context"),
@@ -149,7 +153,7 @@ EDGES = [
     Edge("e15", "studios", "dryrun", "rehearse", "waiting"),
     Edge("e16", "dryrun", "policy", "evidence for approval", "evidence"),
     Edge("e17", "registry", "operator", "approved desired state", "success"),
-    Edge("e18", "people", "plan", "request or event"),
+    Edge("e18", "solutions", "plan", "launch Service Run"),
     Edge("e19", "plan", "orchestrator", "commit plan", "governance"),
     Edge("e20", "orchestrator", "workflows", "typed work"),
     Edge("e21", "orchestrator", "evidence", "traces and outcomes", "evidence"),
@@ -158,6 +162,7 @@ EDGES = [
     Edge("e24", "kubernetes", "data", "state and events"),
     Edge("e25", "data", "observe", "telemetry and recovery", "evidence"),
     Edge("e26", "clouds", "kubernetes", "deployment profile"),
+    Edge("e27", "people", "solutions", "discover and use"),
 ]
 
 
@@ -170,7 +175,7 @@ STAGES = [
     },
     {
         "title": "Create distinct assets in purpose-built Studios",
-        "caption": "Agent, MCP, Service, and Workflow Studios produce inspectable typed contracts, implementation assets, tests, and configuration references.",
+        "caption": "MCP, Agent, Workflow, Service, and Solution contexts produce inspectable typed contracts, complete dependency graphs, implementation assets, tests, and configuration references.",
         "nodes": ["workspace", "studios", "intent"],
         "edges": ["e2", "e4"],
     },
@@ -187,15 +192,15 @@ STAGES = [
         "edges": ["e5", "e6", "e7"],
     },
     {
-        "title": "Package reusable capabilities through Weave",
-        "caption": "Services compose Workflows, Agents, MCP capabilities, governed knowledge, models, memory, adapters, and solution packs.",
-        "nodes": ["services", "workflows", "agents", "mcp", "knowledge", "models"],
-        "edges": ["e8", "e9", "e10", "e11", "e12", "e13"],
+        "title": "Compose user-facing Solutions from reusable capabilities",
+        "caption": "Solutions define the experience and complete graph; reusable Services execute approved Workflows over Agents, MCP capabilities, governed knowledge, models, and memory.",
+        "nodes": ["people", "solutions", "services", "workflows", "agents", "mcp", "knowledge", "models"],
+        "edges": ["e8", "e9", "e9b", "e10", "e11", "e12", "e13", "e27"],
     },
     {
         "title": "Compile and execute a durable authorized plan",
         "caption": "Each request resolves exact compatible versions, freezes policy and budget, persists execution state, coordinates parallel work, and handles waits or compensation.",
-        "nodes": ["plan", "orchestrator", "workflows", "agents"],
+        "nodes": ["solutions", "services", "plan", "orchestrator", "workflows", "agents"],
         "edges": ["e18", "e19", "e20"],
     },
     {
@@ -483,9 +488,9 @@ PAGES = [
         "Platform Atlas",
         [
             ("Access", "People, APIs, events", 70, 110, 210, 80, "sky"),
-            ("Workspaces + Studios", "Agent, MCP, Service, Workflow", 330, 110, 250, 80, "mint"),
+            ("Entry + Workspaces + Studios", "My Solutions | MCP, Agent, Workflow, Service, Solution", 330, 110, 300, 80, "mint"),
             ("Cerebro", "Intent, identity, policy, registry, orchestration, evidence", 630, 110, 360, 80, "violet"),
-            ("Weave", "Services, Workflows, Agents, MCPs, RAG, models, packs", 330, 270, 300, 90, "sky"),
+            ("Weave", "Solutions, Services, Workflows, Agents, MCPs, RAG, models, packs", 330, 270, 320, 90, "sky"),
             ("Durable Runtime", "Immutable plans, queues, approvals, retry, compensation", 680, 270, 310, 90, "amber"),
             ("Loom", "Capability Operator, Kubernetes, data, secrets, telemetry, recovery", 330, 450, 660, 100, "violet"),
             ("External systems", "SaaS, APIs, databases, human authorities", 1040, 270, 240, 90, "coral"),
@@ -498,14 +503,14 @@ PAGES = [
         [
             ("Approved inputs", "Intent, specs, APIs, MCP, code, data", 70, 160, 190, 85, "sky"),
             ("Workspace", "Explore and collaborate", 300, 160, 180, 85, "mint"),
-            ("Four Studios", "Create typed assets", 520, 160, 180, 85, "mint"),
+            ("Five contexts", "Create assets + Solutions", 520, 160, 180, 85, "mint"),
             ("Safe Dry Run", "Mocks, faults, evaluation, no side effects", 740, 160, 210, 85, "amber"),
             ("Evidence review", "Quality, cost, policy, security, receipts", 990, 160, 210, 85, "amber"),
             ("Independent approval", "Separation of duties", 990, 330, 210, 85, "violet"),
             ("Immutable Registry", "Version, digest, schemas, compatibility", 740, 330, 210, 85, "coral"),
             ("Capability Operator", "Reconcile approved desired state", 490, 330, 210, 85, "mint"),
             ("Attest + qualify", "Runtime descriptor, synthetic and canary", 260, 330, 190, 85, "sky"),
-            ("Active capability", "Discoverable by authorized Services", 70, 330, 150, 85, "mint"),
+            ("Active capability", "Discoverable by authorized Services and Solutions", 70, 330, 150, 85, "mint"),
         ],
         [(0, 1, ""), (1, 2, ""), (2, 3, ""), (3, 4, ""), (4, 5, ""), (5, 6, ""), (6, 7, ""), (7, 8, ""), (8, 9, "")],
     ),
@@ -597,10 +602,11 @@ Standalone offline prototype inspired by the legacy Cerebro, Weave, and Loom dia
 
 ## Current NextGen concepts shown
 
-- Collaborative Workspaces and Agent, MCP, Service, and Workflow Studios
+- One authenticated entry point with Consumer My Solutions, Builder/Admin Studio, and delegated headless access
+- Collaborative Workspaces and MCP, Agent, Workflow, Service, and Solution Studio contexts
 - Safe Dry Run Lab and evidence review before side effects
 - Cerebro intent compilation, identity, entitlements, policy, approvals, Registry, orchestration, and evidence
-- Weave Services, Workflows, Agents, MCP capabilities, RAG/data products, models, memory, adapters, and solution packs
+- Weave Solutions, Services, Workflows, Agents, MCP capabilities, RAG/data products, models, memory, adapters, and solution packs
 - Immutable execution plans, durable queues, checkpoints, retries, human approvals, and compensation
 - Capability Operator, MCPEngine CRDs, Helm, GitOps, Kubernetes, state, search, events, secrets, telemetry, backup, and recovery
 - Azure, AWS, Google Cloud, private, sovereign, and edge deployment profiles

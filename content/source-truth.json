@@ -82,6 +82,20 @@
       "evidence": ["cw-user-web/README.md", "cw-registry-service/README.md"]
     },
     {
+      "id": "solution-service-model",
+      "title": "Solutions compose reusable Services",
+      "status": "Active realization",
+      "summary": "A Service is a reusable executable intent-to-outcome contract pinned to approved Workflows; a Solution is the final user-facing composition, complete dependency graph, experience contract, and lifecycle built from Services and lower-level capabilities.",
+      "evidence": ["cw-user-web/README.md", "cw-solution-composer/README.md", "contextweaver-nextgen-docs/content/studio-operating-model.md"]
+    },
+    {
+      "id": "single-entry-experiences",
+      "title": "One entry point, entitlement-shaped experiences",
+      "status": "Active realization",
+      "summary": "One authenticated entry point presents Builder/Admin Studio, Consumer My Solutions, or delegated headless access by entitlement; consumer-only users land on /my-solutions and launch Solutions through published Service Experience Contracts.",
+      "evidence": ["cw-user-web/README.md", "contextweaver-nextgen-docs/content/studio-operating-model.md"]
+    },
+    {
       "id": "policy-entitlements",
       "title": "Resource-bound policy and entitlements",
       "status": "Active realization",

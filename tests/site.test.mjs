@@ -65,3 +65,41 @@ test("repository publishing metadata is explicit", async () => {
   const readme = await readFile(join(root, "README.md"), "utf8");
   assert.match(readme, /brainzbytes\/contextweaver-public-site/);
 });
+
+test("product hierarchy and consumer journey remain explicit", async () => {
+  const overview = await readFile(join(root, "overview.html"), "utf8");
+  const studio = await readFile(join(root, "studio.html"), "utf8");
+  const runtime = await readFile(join(root, "runtime.html"), "utf8");
+  const solutions = await readFile(join(root, "solutions.html"), "utf8");
+  const architecture = await readFile(join(root, "architecture.html"), "utf8");
+  const story = await readFile(join(root, "experiences", "contextweaver-ai-factory-3d.html"), "utf8");
+
+  assert.match(overview, /working Solution/);
+  for (const concept of [
+    "MCP capability",
+    "bounded reasoning specialist",
+    "durable coordination graph",
+    "reusable executable contract",
+    "final user-facing composition",
+  ]) {
+    assert.match(studio, new RegExp(concept));
+  }
+  assert.match(runtime, /Service Experience Contract/);
+  assert.match(runtime, /Service Run/);
+  assert.match(solutions, /Service is the reusable executable contract\. Solution is the complete user experience\./);
+  assert.match(solutions, /\/my-solutions/);
+  assert.match(solutions, /delegated/i);
+  assert.match(architecture, /five Studio contexts/);
+  assert.match(story, /Published user-facing Solution/);
+
+  const combined = [overview, studio, runtime, solutions, architecture, story].join("\n");
+  for (const stale of [
+    "working Service",
+    "Four creation Studios",
+    "User-facing governed outcomes",
+    "one useful Service",
+    "Generated production service",
+  ]) {
+    assert.doesNotMatch(combined, new RegExp(stale), `stale product meaning remains: ${stale}`);
+  }
+});

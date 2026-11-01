@@ -55,8 +55,8 @@ def footer() -> str:
     <footer class="site-footer">
       <div class="container footer-grid">
         <div>
-          <a class="brand" href="index.html"><span class="brand-mark" aria-hidden="true"></span><span class="brand-copy"><strong>ContextWeaver</strong><span>Governed capability platform</span></span></a>
-          <p style="margin-top:16px">Turn specifications, enterprise information, Agents, MCPs, Workflows, models, policy, and infrastructure into governed, deployable Services with evidence attached.</p>
+          <a class="brand" href="index.html"><span class="brand-mark" aria-hidden="true"></span><span class="brand-copy"><strong>ContextWeaver</strong><span>Governed solution operating platform</span></span></a>
+          <p style="margin-top:16px">Turn approved intent into user-facing Solutions assembled from governed Services, Workflows, Agents, MCP capabilities, knowledge, models, policy, and portable infrastructure—with evidence attached.</p>
         </div>
         <div><h3>Explore</h3><div class="footer-links"><a href="platform.html">Platform model</a><a href="studio.html">Agent/MCP Studio</a><a href="runtime.html">Dynamic runtime</a></div></div>
         <div><h3>Trust</h3><div class="footer-links"><a href="governance.html">Governance</a><a href="architecture.html">Architecture</a><a href="library.html">Technical library</a></div></div>
@@ -159,9 +159,9 @@ LANDING = """
 <section class="container landing-intro">
   <div class="landing-intro-grid">
     <div>
-      <p class="eyebrow">The governed AI capability platform</p>
-      <h1>From business intent to an <em>approved production capability.</em></h1>
-      <p class="lede">The visual story above shows the complete lifecycle—from collaborative Workspaces and purpose-built Studios to safe dry runs, exact-version promotion, cloud-neutral deployment, and evidence-driven operations.</p>
+      <p class="eyebrow">The governed AI solution operating platform</p>
+      <h1>From business intent to an <em>approved production Solution.</em></h1>
+      <p class="lede">The visual story above shows the complete lifecycle—from collaborative Workspaces and five Studio contexts to safe dry runs, exact-version promotion, user-facing Solutions, cloud-neutral deployment, and evidence-driven operations.</p>
     </div>
     <div class="landing-actions">
       <a class="button primary" href="overview.html">Start with the Overview <span aria-hidden="true">→</span></a>
@@ -177,7 +177,7 @@ LANDING = """
   </div>
   <div class="grid three">
     <article class="card mint" data-reveal><div class="meta">Start here</div><h3>Overview</h3><p>Understand the complete lifecycle, product promise, supported inputs, evidence, and adoption path.</p><a class="card-link" href="overview.html">Open Overview →</a></article>
-    <article class="card sky" data-reveal><div class="meta">Build</div><h3>Workspaces and Studios</h3><p>See how people create Agents, MCP servers, Services, and Workflows using guided and developer experiences.</p><a class="card-link" href="studio.html">Explore Studio →</a></article>
+    <article class="card sky" data-reveal><div class="meta">Build</div><h3>Workspaces and Studios</h3><p>See how people create MCPs, Agents, Workflows, reusable Services, and complete Solutions using guided and developer experiences.</p><a class="card-link" href="studio.html">Explore Studio →</a></article>
     <article class="card violet" data-reveal><div class="meta">Understand</div><h3>Architecture</h3><p>Inspect the planes, trust boundaries, lifecycle, governed runtime, deployment profiles, and editable diagrams.</p><a class="card-link" href="architecture.html">Explore Architecture →</a></article>
   </div>
 </section>
@@ -187,9 +187,9 @@ LANDING = """
 HOME = """
 <section class="container hero">
   <div>
-    <p class="eyebrow">The governed service factory</p>
-    <h1>Turn any approved idea into a <em>working Service.</em></h1>
-    <p class="lede">ContextWeaver brings specifications, enterprise knowledge, Agents, MCP tools, Workflows, models, policy, and cloud infrastructure into one governed lifecycle—from creation and dry run to deployment, execution, recovery, and evidence.</p>
+    <p class="eyebrow">The governed solution operating platform</p>
+    <h1>Turn any approved idea into a <em>working Solution.</em></h1>
+    <p class="lede">ContextWeaver composes user-facing Solutions from reusable Services, Workflows, Agents, MCP capabilities, enterprise knowledge, models, policy, and portable infrastructure—then governs the lifecycle from creation and dry run to deployment, execution, recovery, and evidence.</p>
     <div class="hero-actions">
       <a class="button primary" href="studio.html">Explore Agent/MCP Studio <span aria-hidden="true">→</span></a>
       <a class="button" href="architecture.html">Explore the architecture</a>
@@ -200,15 +200,15 @@ HOME = """
   </div>
   <div class="hero-visual" aria-label="ContextWeaver product model">
     <div class="orbit-ring" aria-hidden="true"></div>
-    <div class="orbit"><div><strong>Service</strong><span>Governed outcome</span></div></div>
+    <div class="orbit"><div><strong>Solution</strong><span>User-facing outcome</span></div></div>
     <div class="orbit-node n1"><b>Create</b><small>Studio + code</small></div>
     <div class="orbit-node n2"><b>Govern</b><small>Policy + approval</small></div>
     <div class="orbit-node n3"><b>Operate</b><small>Evidence + SLO</small></div>
-    <div class="orbit-node n4"><b>Compose</b><small>Agents + MCPs</small></div>
+    <div class="orbit-node n4"><b>Compose</b><small>Services + capabilities</small></div>
   </div>
 </section>
 <div class="container trust-strip" aria-label="Supported creation inputs">
-  <span>Specifications & RFCs</span><span>OpenAPI & AsyncAPI</span><span>Wikis & enterprise data</span><span>Agents & MCP servers</span><span>Models & solution packs</span>
+  <span>Specifications & RFCs</span><span>OpenAPI & AsyncAPI</span><span>Wikis & enterprise data</span><span>MCPs, Agents & Workflows</span><span>Services & solution packs</span>
 </div>
 
 <section class="container section current-realization">
@@ -229,8 +229,9 @@ HOME = """
     <a class="reader-step" href="studio.html?from=journey"><span>02</span><b>Create</b><small>How is it built?</small></a>
     <a class="reader-step" href="runtime.html?from=journey#scenarios"><span>03</span><b>Experience</b><small>What happens in a run?</small></a>
     <a class="reader-step" href="governance.html?from=journey"><span>04</span><b>Trust</b><small>Who has authority?</small></a>
-    <a class="reader-step" href="architecture.html?from=journey"><span>05</span><b>Inspect</b><small>How does it fit together?</small></a>
-    <a class="reader-step" href="library.html?from=journey"><span>06</span><b>Evaluate</b><small>Where is the depth?</small></a>
+    <a class="reader-step" href="solutions.html?from=journey#consumer"><span>05</span><b>Use</b><small>How do people enter?</small></a>
+    <a class="reader-step" href="architecture.html?from=journey"><span>06</span><b>Inspect</b><small>How does it fit together?</small></a>
+    <a class="reader-step" href="library.html?from=journey"><span>07</span><b>Evaluate</b><small>Where is the depth?</small></a>
   </nav>
 </section>
 
@@ -249,7 +250,7 @@ HOME = """
 
 <section class="container section compact">
   <div class="section-head">
-    <div><p class="section-kicker">Interactive product map</p><h2>From raw material to trusted Service.</h2></div>
+    <div><p class="section-kicker">Interactive product map</p><h2>From raw material to a trusted Solution.</h2></div>
     <p>Use the controls, click any component, or open the full-screen version. The animation follows creation, admission, deployment, discovery, execution, and evidence.</p>
   </div>
   {service_factory}
@@ -258,11 +259,11 @@ HOME = """
 <section class="container section">
   <div class="section-head">
     <div><p class="section-kicker">A platform for every scale</p><h2>Start with one useful tool. Grow without rebuilding the foundation.</h2></div>
-    <p>The same contracts support a personal assistant, a small-business process, a multi-team enterprise platform, or an isolated sovereign deployment.</p>
+    <p>The same hierarchy supports a personal Solution, a small-business experience, a multi-team enterprise platform, or an isolated sovereign deployment without turning every outcome into a one-off application.</p>
   </div>
   <div class="grid three">
-    <article class="card mint" data-reveal><div class="meta">Individual</div><h3>Build personal leverage</h3><p>Create a private research, planning, coding, or administration Service from your own approved sources and tools.</p><ul><li>Guided Studio experience</li><li>Personal workspaces and memory</li><li>Clear approvals before side effects</li></ul><a class="card-link" href="solutions.html#individual">See the individual path →</a></article>
-    <article class="card amber" data-reveal><div class="meta">Small business</div><h3>Package repeatable operations</h3><p>Turn informal know-how into shared workflows for sales, support, finance, delivery, and back-office work.</p><ul><li>Reusable Service templates</li><li>Shared connectors and policies</li><li>Traceable outcomes without a platform team</li></ul><a class="card-link" href="solutions.html#small-business">See the business path →</a></article>
+    <article class="card mint" data-reveal><div class="meta">Individual</div><h3>Build personal leverage</h3><p>Use a private research, planning, coding, or administration Solution assembled from approved sources, capabilities, and reusable Services.</p><ul><li>My Solutions consumer entry</li><li>Personal workspaces and memory</li><li>Clear approvals before side effects</li></ul><a class="card-link" href="solutions.html#individual">See the individual path →</a></article>
+    <article class="card amber" data-reveal><div class="meta">Small business</div><h3>Package repeatable operations</h3><p>Turn informal know-how into shared Solutions for sales, support, finance, delivery, and back-office work.</p><ul><li>Reusable Service contracts</li><li>Shared connectors and policies</li><li>Traceable outcomes without a platform team</li></ul><a class="card-link" href="solutions.html#small-business">See the business path →</a></article>
     <article class="card violet" data-reveal><div class="meta">Enterprise</div><h3>Govern an ecosystem</h3><p>Operate many tenants, capability publishers, model providers, data products, risk tiers, regions, and deployment profiles.</p><ul><li>Separation of duties</li><li>Immutable supply chain and evidence</li><li>Dedicated, sovereign, or disconnected profiles</li></ul><a class="card-link" href="solutions.html#enterprise">See the enterprise path →</a></article>
   </div>
 </section>
@@ -281,11 +282,11 @@ PLATFORM = """
   <div>
     <p class="eyebrow">Product architecture</p>
     <h1>Three systems. One <em>governed fabric.</em></h1>
-    <p class="lede"><strong>Cerebro</strong> understands and governs. <strong>Weave</strong> packages reusable Services, Workflows, Agents, MCPs, RAG profiles, models, and policies. <strong>Loom</strong> provides the portable Kubernetes, GitOps, data, messaging, identity, secrets, and observability foundation.</p>
+    <p class="lede"><strong>Cerebro</strong> understands and governs. <strong>Weave</strong> composes user-facing Solutions from reusable Services, Workflows, Agents, MCPs, RAG profiles, models, and policies. <strong>Loom</strong> provides the portable Kubernetes, GitOps, data, messaging, identity, secrets, and observability foundation.</p>
   </div>
   <div class="grid" style="align-self:center">
     <article class="card mint"><div class="meta">Cerebro</div><h3>Think, govern, compile, orchestrate, prove.</h3><p>The experience and control plane that turns an authenticated intent into an authorized immutable execution plan and durable outcome.</p></article>
-    <article class="card amber"><div class="meta">Weave</div><h3>Compose reusable capability building blocks.</h3><p>The governed catalog of Service definitions, Workflow graphs, Agents, MCP tools, data products, models, policies, and solution packs.</p></article>
+    <article class="card amber"><div class="meta">Weave</div><h3>Compose reusable capabilities into Solutions.</h3><p>The governed fabric of Solution definitions, Service contracts, Workflow graphs, Agents, MCP tools, data products, models, policies, and industry packs.</p></article>
     <article class="card violet"><div class="meta">Loom</div><h3>Run on a portable operational substrate.</h3><p>Kubernetes, Helm, OCI, GitOps, databases, queues, object stores, search, identity, secrets, telemetry, and provider adapters.</p></article>
   </div>
 </section>
@@ -298,7 +299,7 @@ PLATFORM = """
 <section class="container section">
   <div class="section-head"><div><p class="section-kicker">The planes</p><h2>Each layer has a precise responsibility and boundary.</h2></div><p>Separation makes the system easier to operate, replace, scale, audit, and reason about than a single unrestricted “AI application.”</p></div>
   <div class="grid four">
-    <article class="card violet" data-reveal><div class="meta">01</div><h3>Experience</h3><p>Portal, admin, Studio, workspaces, research, run history, approvals, topology, and operations.</p></article>
+    <article class="card violet" data-reveal><div class="meta">01</div><h3>Experience</h3><p>One authenticated entry point presents Builder/Admin Studio, Consumer My Solutions, or delegated headless access according to entitlement.</p></article>
     <article class="card amber" data-reveal><div class="meta">02</div><h3>Governance</h3><p>Identity context, entitlements, policy, admission, trust, approvals, audit, and separation of duties.</p></article>
     <article class="card sky" data-reveal><div class="meta">03</div><h3>Registry & composition</h3><p>Catalogs, schemas, alias resolution, compatibility, lifecycle, and immutable Workflow compilation.</p></article>
     <article class="card coral" data-reveal><div class="meta">04</div><h3>Agents & MCP</h3><p>Constrained reasoning, tool brokering, sandboxing, capability evaluation, and human authority.</p></article>
@@ -360,12 +361,13 @@ STUDIO = """
 </section>
 
 <section class="container section">
-  <div class="section-head"><div><p class="section-kicker">What can be created</p><h2>Four asset types, designed to work together.</h2></div><p>The Studio makes the distinction clear so a tool is not confused with an Agent, and a Workflow is not mistaken for an unrestricted chat chain.</p></div>
+  <div class="section-head"><div><p class="section-kicker">What can be created</p><h2>Four reusable runtime artifact types—and the Solution that composes them.</h2></div><p>The Studio makes each responsibility explicit: an MCP is not an Agent, a Workflow is not a Service, and a reusable Service is not the complete user-facing Solution.</p></div>
   <div class="grid four">
-    <article class="card sky" data-reveal><div class="meta">Specification</div><h3>The contract</h3><p>Identity, owner, inputs, outputs, errors, side effects, data classes, dependencies, SLOs, tests, support, and lifecycle.</p></article>
-    <article class="card violet" data-reveal><div class="meta">Agent</div><h3>The reasoning capability</h3><p>A bounded task specialist with typed inputs and outputs, approved model envelopes, skills, evaluations, and resource limits.</p></article>
-    <article class="card mint" data-reveal><div class="meta">MCP</div><h3>The tool capability</h3><p>A governed integration exposing tools, resources, and prompts with schemas, delegated identity, side-effect classes, receipts, and compensation.</p></article>
-    <article class="card amber" data-reveal><div class="meta">Service + Workflow</div><h3>The customer outcome</h3><p>An executable product that composes typed steps, parallel work, decisions, waits, approvals, callbacks, retries, and finalization.</p></article>
+    <article class="card sky" data-reveal><div class="meta">MCP capability</div><h3>The governed tool boundary</h3><p>Exposes tools, resources, and prompts with typed schemas, delegated identity, side-effect classes, receipts, idempotency, and compensation metadata.</p></article>
+    <article class="card violet" data-reveal><div class="meta">Agent</div><h3>The bounded reasoning specialist</h3><p>Uses an approved model, knowledge, instructions, budgets, and MCP allow-list to produce a typed result for one defined responsibility.</p></article>
+    <article class="card amber" data-reveal><div class="meta">Workflow</div><h3>The durable coordination graph</h3><p>Orders Agent and capability work through typed steps, branches, parallel joins, waits, approvals, callbacks, retries, checkpoints, and compensation.</p></article>
+    <article class="card mint" data-reveal><div class="meta">Service</div><h3>The reusable executable contract</h3><p>Publishes a stable intent-to-outcome contract pinned to one or more approved Workflows, with inputs, outputs, policies, SLOs, and lifecycle.</p></article>
+    <article class="card coral" data-reveal><div class="meta">Solution</div><h3>The final user-facing composition</h3><p>Packages the complete dependency graph, experience contract, presentation, lifecycle, and one or more Services into what a consumer actually discovers and uses.</p></article>
   </div>
 </section>
 
@@ -377,10 +379,11 @@ STUDIO = """
 </section>
 
 <section class="container section">
-  <div class="section-head"><div><p class="section-kicker">Studio workspace</p><h2>Designed for hundreds of capabilities, not a handful of cards.</h2></div><p>Separate Agent and MCP catalogs support search, ownership, lifecycle, risk, health, version, environment, dependency, and entitlement filters.</p></div>
-  <div class="grid two">
+  <div class="section-head"><div><p class="section-kicker">Studio workspace</p><h2>Designed for hundreds of capabilities and complete Solutions.</h2></div><p>Catalogs make reusable components discoverable; the Solution context assembles their complete dependency graph and consumer experience without copying those components.</p></div>
+  <div class="grid three">
     <article class="card mint"><div class="meta">Agent catalog</div><h3>Find the right specialist</h3><ul><li>Search by capability, owner, domain, trust, region, model envelope, and evaluation</li><li>Compare exact versions, schemas, SLOs, support, and consumers</li><li>Inspect Agent Cards, dependencies, dashboards, and recent runs</li><li>Create, clone, modify, deprecate, drain, or retire through governed actions</li></ul></article>
     <article class="card violet"><div class="meta">MCP catalog</div><h3>Find the right tool boundary</h3><ul><li>Search by tool, provider, side-effect class, data scope, credential profile, and region</li><li>Inspect schemas, transports, rate limits, idempotency, receipts, and compensation</li><li>See every Service, Workflow, and Agent consumer before an update or removal</li><li>Test through a safe sandbox without exposing provider credentials to the Agent</li></ul></article>
+    <article class="card amber"><div class="meta">Solution context</div><h3>Assemble the complete experience</h3><ul><li>Select immutable MCP, Agent, Workflow, and Service versions instead of cloning them</li><li>Inspect the complete dependency graph, experience contract, entry actions, policies, and lifecycle</li><li>Qualify and publish a consumer-ready Solution without executing it during authoring</li><li>Expose the published experience through My Solutions and delegated channels</li></ul></article>
   </div>
 </section>
 
@@ -394,7 +397,7 @@ STUDIO = """
 
 <section class="container section compact">
   <div class="chapter-next">
-    <div><p class="section-kicker">Next chapter</p><h2>Follow three concrete Services through a governed run.</h2><p>See how intent becomes admitted capabilities, a safe rehearsal, approvals, durable execution, and evidence.</p></div>
+    <div><p class="section-kicker">Next chapter</p><h2>Follow three Solution outcomes through a governed Service Run.</h2><p>See how a user action resolves an approved Service, admitted capabilities, approvals, durable execution, and evidence.</p></div>
     <a class="button primary" href="runtime.html#scenarios">See it run →</a>
   </div>
 </section>
@@ -405,10 +408,20 @@ RUNTIME = """
   <div>
     <p class="eyebrow">Governed dynamic execution</p>
     <h1>Dynamic enough to adapt. <em>Bounded enough to trust.</em></h1>
-    <p class="lede">ContextWeaver can select an approved Service or compose a constrained plan from admitted capabilities. The model may help propose the graph; identity, schemas, policy, compatibility, approvals, and the compiler determine whether it can run.</p>
+    <p class="lede">A user launches a Solution action defined by its Service Experience Contract. ContextWeaver resolves the approved Service and Workflow, or constrained-composes a plan from admitted capabilities; identity, schemas, policy, compatibility, approvals, and the compiler determine whether it can run.</p>
     <div class="hero-actions"><a class="button primary" href="#flow">Walk through a run</a><a class="button" href="governance.html">Review the safeguards</a></div>
   </div>
   <div class="quote">Dependencies control when work may run. Schemas, explicit bindings, and field policy control what data each step receives.</div>
+</section>
+
+<section class="container section compact">
+  <div class="section-head"><div><p class="section-kicker">Solution to runtime</p><h2>The user sees a Solution. The platform executes a governed Service Run.</h2></div><p>This separation lets product teams evolve presentation and lifecycle independently while the runtime reuses stable, typed, observable execution contracts.</p></div>
+  <div class="steps">
+    <article class="step"><div><h3>Discover the Solution</h3><p>The consumer portal or delegated client returns only Solutions permitted for the authenticated user, tenant, purpose, and current entitlement state.</p></div></article>
+    <article class="step"><div><h3>Choose an experience action</h3><p>The published Service Experience Contract defines the title, description, fields, actions, progress, approvals, result views, and evidence links presented to the user.</p></div></article>
+    <article class="step"><div><h3>Resolve the reusable Service</h3><p>The selected action maps to a stable Service contract pinned to an approved Workflow and exact reusable capability versions.</p></div></article>
+    <article class="step"><div><h3>Execute and return evidence</h3><p>The existing Service Run API performs durable governed execution; the Solution experience presents status, approvals, results, history, citations, receipts, and trace links.</p></div></article>
+  </div>
 </section>
 
 <section id="flow" class="container section compact">
@@ -484,7 +497,7 @@ RUNTIME = """
   <div class="section-head"><div><p class="section-kicker">Run lifecycle</p><h2>The simple view of a rigorous execution model.</h2></div><p>The full design contains more granular authorization, retrieval, binding, checkpoint, disclosure, and audit states; users see a comprehensible progression.</p></div>
   <div class="steps">
     <article class="step"><div><h3>Receive and scrutinize intent</h3><p>Resolve identity, tenant, roles, relationships, device, purpose, risk, classification, entities, ambiguity, and candidate outcomes.</p></div></article>
-    <article class="step"><div><h3>Select or constrained-compose</h3><p>Choose an approved Service, ask a clarifying question, or propose a graph from only admitted capabilities and control nodes.</p></div></article>
+    <article class="step"><div><h3>Resolve the Solution action</h3><p>Map the selected experience action to an approved Service, ask a clarifying question, or propose a graph from only admitted capabilities and control nodes.</p></div></article>
     <article class="step"><div><h3>Compile and authorize the complete graph</h3><p>Validate schemas, field bindings, dependencies, fallback sets, budgets, RAG scopes, model envelopes, tool risk, and approvals.</p></div></article>
     <article class="step"><div><h3>Freeze the immutable plan</h3><p>Pin exact Service, Workflow, Agent, MCP, model, policy, schema, source, index, and configuration versions.</p></div></article>
     <article class="step"><div><h3>Commit the durable run</h3><p>Persist state, the plan, first tasks or approval request, and transactional outbox before returning acceptance.</p></div></article>
@@ -592,12 +605,66 @@ GOVERNANCE = """
 SOLUTIONS = """
 <section class="container hero" style="min-height:660px">
   <div>
-    <p class="eyebrow">One platform, many outcomes</p>
-    <h1>Personal productivity to <em>enterprise operating model.</em></h1>
-    <p class="lede">ContextWeaver scales the control plane around the customer. It does not force an individual to operate an enterprise stack, or force an enterprise to replace governance with a consumer chatbot.</p>
-    <div class="hero-actions"><a class="button primary" href="#individual">Choose your starting point</a><a class="button" href="studio.html">See what you can build</a></div>
+    <p class="eyebrow">The user-facing product layer</p>
+    <h1>Solutions are what people <em>discover, launch, and trust.</em></h1>
+    <p class="lede">A ContextWeaver Solution is the final user-facing composition: a complete experience, dependency graph, lifecycle, and set of reusable Services assembled from governed Workflows, Agents, MCP capabilities, knowledge, models, and policy.</p>
+    <div class="hero-actions"><a class="button primary" href="#concepts">Understand the hierarchy</a><a class="button" href="#consumer">Follow the user journey</a></div>
   </div>
-  <div class="card mint"><div class="meta">A reusable pattern</div><h3>Core + profile + pack + tenant controls</h3><p>Platform core, deployment profile, jurisdiction and regulatory profile, industry ontology and policy pack, data/connectivity pack, solution templates, and tenant-specific configuration.</p><div class="pills" style="margin-top:18px"><span class="pill">Same contracts</span><span class="pill">Different assurance</span><span class="pill">Progressive isolation</span></div></div>
+  <div class="card mint"><div class="meta">The critical distinction</div><h3>Service is the reusable executable contract. Solution is the complete user experience.</h3><p>A Service can support many Solutions. A Solution can compose multiple Services. Solutions reuse the existing Service Run API; they do not create a separate runtime primitive.</p><div class="pills" style="margin-top:18px"><span class="pill">Reusable Services</span><span class="pill">Complete dependency graph</span><span class="pill">Consumer experience</span></div></div>
+</section>
+
+<section class="container section compact">
+  <div class="section-head"><div><p class="section-kicker">Current realization</p><h2>The product now has an explicit Solution layer and consumer entry point.</h2></div><p>These reviewed facts distinguish implemented foundations from target architecture and connect the authoring model to how a regular user or external assistant actually uses the platform.</p></div>
+  <div class="grid three">{solution_facts}</div>
+</section>
+
+<section id="concepts" class="container section">
+  <div class="section-head"><div><p class="section-kicker">Conceptual model</p><h2>Five concepts. Five different responsibilities.</h2></div><p>Each layer adds meaning without erasing the layer beneath it. The distinction keeps reasoning, tool access, orchestration, executable contracts, and user experience independently governed and reusable.</p></div>
+  <div class="grid four">
+    <article class="card sky"><div class="meta">01 · MCP capability</div><h3>A governed way to reach a tool or source</h3><p>Defines tools, resources, prompts, schemas, delegated identity, side-effect risk, receipts, rate limits, idempotency, and compensation. It does not decide the business goal.</p></article>
+    <article class="card violet"><div class="meta">02 · Agent</div><h3>A bounded reasoning specialist</h3><p>Uses an approved model, instructions, knowledge, skills, and MCP allow-list to perform one typed responsibility. It does not own end-to-end durable coordination.</p></article>
+    <article class="card amber"><div class="meta">03 · Workflow</div><h3>A durable coordination graph</h3><p>Sequences and joins typed work across Agents, MCPs, waits, approvals, events, retries, checkpoints, and compensation. It defines how work progresses and recovers.</p></article>
+    <article class="card mint"><div class="meta">04 · Service</div><h3>A reusable executable intent-to-outcome contract</h3><p>Publishes stable inputs, outputs, policies, SLOs, ownership, lifecycle, and one or more approved Workflows. It is the unit launched through the Service Run API.</p></article>
+    <article class="card coral"><div class="meta">05 · Solution</div><h3>The final user-facing composition</h3><p>Combines one or more Services with the complete dependency graph, presentation, entry actions, lifecycle, entitlement, and Service Experience Contract that a consumer sees.</p></article>
+  </div>
+</section>
+
+<section class="container section compact">
+  <div class="plain-language" data-reveal>
+    <div><p class="section-kicker">Plain-language model</p><h2>A restaurant, not a pile of kitchen equipment.</h2></div>
+    <p>MCP capabilities are the appliances and supplier interfaces. Agents are skilled specialists. Workflows are the coordinated kitchen process. Services are reusable menu-item contracts the kitchen can reliably produce. The Solution is the complete restaurant experience the customer discovers, orders from, follows, and evaluates.</p>
+  </div>
+</section>
+
+<section id="consumer" class="container section">
+  <div class="section-head"><div><p class="section-kicker">One authentication entry point</p><h2>The same platform presents the right experience for each user.</h2></div><p>Entitlements determine presentation after sign-in. Consumer users do not need to navigate internal MCPs, Agents, Workflows, or cluster resources, while builders and operators retain the detailed controls they need.</p></div>
+  <div class="grid three">
+    <article class="card mint"><div class="meta">Consumer</div><h3>My Solutions</h3><p>Consumer-only users land on <strong>/my-solutions</strong>, discover permitted Solutions, launch experience actions, provide inputs, approve when required, and inspect status, results, history, citations, and receipts.</p></article>
+    <article class="card amber"><div class="meta">Builder / Admin</div><h3>Studios and operations</h3><p>Authorized builders create and qualify MCPs, Agents, Workflows, Services, and Solutions. Operators manage identity, policy, publication, runtime health, evidence, and lifecycle.</p></article>
+    <article class="card violet"><div class="meta">Headless / delegated</div><h3>Copilot, Claude, API, or event</h3><p>External assistants discover and invoke only the Solutions and actions allowed for the represented user. Delegated identity is preserved end to end; provider credentials remain platform-owned.</p></article>
+  </div>
+</section>
+
+<section class="container section compact">
+  <div class="section-head"><div><p class="section-kicker">Consumer journey</p><h2>From sign-in to evidence-backed result.</h2></div><p>The user journey stays simple because the platform preserves the complexity and proof beneath it.</p></div>
+  <div class="steps">
+    <article class="step"><div><h3>Sign in once</h3><p>ContextWeaver resolves tenant, user, role, groups, relationships, purpose, session, device, and current entitlement state.</p></div></article>
+    <article class="step"><div><h3>Open My Solutions</h3><p>The portal returns only published Solutions currently permitted for this user and context.</p></div></article>
+    <article class="step"><div><h3>Choose an experience action</h3><p>The Service Experience Contract renders approved fields, guidance, progress, approval points, result views, and evidence links.</p></div></article>
+    <article class="step"><div><h3>Launch the Service Run</h3><p>The action maps to a reusable Service and approved Workflow. The runtime freezes exact capability, policy, source, model, and configuration versions.</p></div></article>
+    <article class="step"><div><h3>Follow progress and approve</h3><p>Durable state survives waits and failures. Human authority is requested explicitly when policy requires it.</p></div></article>
+    <article class="step"><div><h3>Receive the result and proof</h3><p>The Solution presents the outcome with appropriate citations, receipts, approvals, lineage, run history, and trace links.</p></div></article>
+  </div>
+</section>
+
+<section id="external-assistants" class="container section">
+  <div class="section-head"><div><p class="section-kicker">External assistants on behalf of a user</p><h2>Delegation changes the channel—not the authority model.</h2></div><p>A Copilot, Claude client, IDE extension, or another approved assistant does not receive a master key or bypass the consumer model.</p></div>
+  <div class="grid four">
+    <article class="card sky"><div class="meta">Discover</div><h3>Identity-filtered catalog</h3><p>The capability gateway returns only Solutions, Services, and actions allowed for the represented user, tenant, purpose, and channel.</p></article>
+    <article class="card violet"><div class="meta">Delegate</div><h3>Bound user context</h3><p>Short-lived delegated context carries the user, client, scope, purpose, correlation, and revocation state into each protected request.</p></article>
+    <article class="card amber"><div class="meta">Invoke</div><h3>Same policy and runtime</h3><p>The gateway reauthorizes the exact action and arguments, then launches the same governed Service Run used by the portal.</p></article>
+    <article class="card mint"><div class="meta">Return</div><h3>Minimized result and evidence</h3><p>The assistant receives only the permitted result and references. Connector, cloud, model-provider, and database credentials never enter its context.</p></article>
+  </div>
 </section>
 
 <section class="container section compact">
@@ -606,7 +673,7 @@ SOLUTIONS = """
 </section>
 
 <section id="individual" class="container section">
-  <div class="section-head"><div><p class="section-kicker">Individual</p><h2>Turn your own information and tools into reliable personal Services.</h2></div><p>Begin with guided templates and human confirmation. Keep sources, memory, credentials, and outcomes bounded to the person and purpose.</p></div>
+  <div class="section-head"><div><p class="section-kicker">Individual</p><h2>Use reliable personal Solutions without operating the platform.</h2></div><p>Begin with guided Solution experiences and human confirmation. Keep sources, memory, credentials, Services, and outcomes bounded to the person and purpose.</p></div>
   <div class="grid three">
     <article class="card mint"><h3>Research companion</h3><p>Register approved personal sources, retrieve with citations, compare evidence, and produce a traceable report.</p></article>
     <article class="card sky"><h3>Personal operations</h3><p>Plan travel, track commitments, prepare documents, summarize projects, or coordinate tasks with explicit approval before side effects.</p></article>
@@ -615,7 +682,7 @@ SOLUTIONS = """
 </section>
 
 <section id="small-business" class="container section">
-  <div class="section-head"><div><p class="section-kicker">Small business</p><h2>Package how the business works, not just how one person prompts.</h2></div><p>Shared Services convert repeatable know-how into accountable workflows with ownership, permissions, quality checks, and operational visibility.</p></div>
+  <div class="section-head"><div><p class="section-kicker">Small business</p><h2>Package how the business works, not just how one person prompts.</h2></div><p>Shared Solutions present complete operating experiences while reusable Services convert repeatable know-how into accountable execution with ownership, permissions, quality checks, and visibility.</p></div>
   <div class="grid three">
     <article class="card amber"><h3>Customer operations</h3><p>Intake, classify, draft, approve, communicate, schedule, and preserve customer and service evidence.</p></article>
     <article class="card mint"><h3>Sales and finance</h3><p>Research, quote, invoice, reconcile, collect approvals, and invoke payment or accounting tools through bounded authority.</p></article>
@@ -660,7 +727,7 @@ ARCHITECTURE = """
   <div class="architecture-atlas-intro">
     <p class="eyebrow">Master architecture</p>
     <h1>See the whole ContextWeaver platform. <em>Then inspect every layer.</em></h1>
-    <p class="lede">This is the top-level architecture for Workspaces, Agent, MCP, Service and Workflow Studios, safe dry runs, Cerebro governance, the Weave capability fabric, durable execution, evidence, the Capability Operator, and portable Loom infrastructure.</p>
+    <p class="lede">This is the top-level architecture for one authenticated entry point, Builder and Consumer experiences, five Studio contexts, Solution composition, Service Runs, Cerebro governance, the Weave capability fabric, durable execution, evidence, the Capability Operator, and portable Loom infrastructure.</p>
     <div class="hero-actions">
       <a class="button primary" href="#explore">Explore deeper diagrams</a>
       <a class="button" href="diagrams/contextweaver-nextgen-architecture.drawio">Download master Draw.io</a>
@@ -777,7 +844,7 @@ LIBRARY = """
     <div class="library-grid">
       <details class="brief" open>
         <summary><span>Conceptual design</span><small>Reusable Enterprise Agentic AI Platform</small></summary>
-        <div><p><strong>Decision:</strong> Treat Agents, MCPs, Workflows, Services, policy, data, and evidence as governed platform assets rather than application-local code.</p><ul><li>Separates experience, governance, composition, runtime, data, evidence, and infrastructure planes.</li><li>Uses typed contracts and immutable plans to prevent runtime authority expansion.</li><li>Lets individual and enterprise experiences share the same core semantics.</li></ul></div>
+        <div><p><strong>Decision:</strong> Treat MCPs, Agents, Workflows, Services, Solutions, policy, data, and evidence as governed platform assets rather than application-local code.</p><ul><li>Separates user-facing Solution experience from reusable Service execution and lower-level capabilities.</li><li>Uses typed contracts and immutable plans to prevent runtime authority expansion.</li><li>Lets individual and enterprise experiences share the same core semantics.</li></ul></div>
       </details>
       <details class="brief">
         <summary><span>Spec-driven AI platform</span><small>Governance and operations whitepaper</small></summary>
@@ -820,7 +887,7 @@ LIBRARY = """
         <div><p><strong>Decision:</strong> Workflow progress belongs in durable state, not in the memory of a particular pod.</p><ul><li>Use commands, events, leases, checkpoints, inbox/outbox, and accepted artifact hashes.</li><li>Make retries safe with idempotency keys and provider receipts.</li><li>Represent compensation and non-compensable escalation explicitly.</li></ul></div>
       </details>
       <details class="brief">
-        <summary><span>Observability standard</span><small>Agents, MCPs, Workflows, and Services</small></summary>
+        <summary><span>Observability standard</span><small>Solutions, Services, Workflows, Agents, and MCPs</small></summary>
         <div><p><strong>Decision:</strong> Observe the business and trust path, not only infrastructure health.</p><ul><li>Correlate intent, plan, node, model, source, policy, approval, tool call, receipt, and result.</li><li>Measure reliability, quality, safety, cost, latency, usage, and business outcome.</li><li>Preserve enough evidence to explain a run without exposing restricted content.</li></ul></div>
       </details>
     </div>
@@ -971,6 +1038,7 @@ LEARNING = """
       <span class="learning-orbit-node node-agent">Agent</span>
       <span class="learning-orbit-node node-mcp">MCP</span>
       <span class="learning-orbit-node node-service">Service</span>
+      <span class="learning-orbit-node node-solution">Solution</span>
       <span class="learning-orbit-node node-trust">Trust</span>
       <svg viewBox="0 0 560 470" aria-hidden="true">
         <path d="M70 236 C150 45 410 45 490 236 C410 425 150 425 70 236Z"></path>
@@ -1008,7 +1076,7 @@ LEARNING = """
       <p class="section-kicker">Recommended for you</p>
       <h2 id="learning-route-title" data-learning-route-title>From AI basics to one governed result</h2>
       <p data-learning-route-copy>Learn why language models need enterprise knowledge, bounded Agents, approved capabilities, durable Workflows, policy, and evidence before they can produce trusted business outcomes.</p>
-      <div class="learning-route-meta"><span data-learning-route-time>15 minutes</span><span>8 stops</span><span>No prerequisites</span></div>
+      <div class="learning-route-meta"><span data-learning-route-time>15 minutes</span><span>9 stops</span><span>No prerequisites</span></div>
     </div>
     <ol class="learning-timeline">
       <li class="active"><span>01</span><div><b>AI and LLMs</b><small>What models can and cannot do</small></div></li>
@@ -1017,8 +1085,9 @@ LEARNING = """
       <li><span>04</span><div><b>MCP</b><small>Governed access to external capabilities</small></div></li>
       <li><span>05</span><div><b>Workflows</b><small>Durable coordination, retries, and approval</small></div></li>
       <li><span>06</span><div><b>Services</b><small>Stable reusable business contracts</small></div></li>
-      <li><span>07</span><div><b>ContextWeaver</b><small>Cerebro, Weave, and Loom</small></div></li>
-      <li><span>08</span><div><b>Verified result</b><small>Evidence, receipts, citations, and history</small></div></li>
+      <li><span>07</span><div><b>Solutions</b><small>Complete user-facing compositions</small></div></li>
+      <li><span>08</span><div><b>ContextWeaver</b><small>Cerebro, Weave, and Loom</small></div></li>
+      <li><span>09</span><div><b>Verified result</b><small>Evidence, receipts, citations, and history</small></div></li>
     </ol>
   </section>
 
@@ -1121,8 +1190,8 @@ def main() -> None:
     diagrams = {
         "service_factory": diagram(
             "service-factory",
-            "Universal Service Factory",
-            "The same path supports an imported API, manually authored Agent, generated MCP server, or complete cross-industry solution pack.",
+            "Universal Solution and Capability Factory",
+            "The same path creates reusable MCPs, Agents, Workflows, and Services, then composes them into complete governed Solutions.",
         ),
         "platform_planes": diagram(
             "platform-planes",
@@ -1136,8 +1205,8 @@ def main() -> None:
         ),
         "governed_run": diagram(
             "governed-run",
-            "Governed Dynamic Service Run",
-            "The player shows identity and policy paths, parallel Agent work, MCP side effects, human approval, durable state, and final evidence.",
+            "Solution Action to Governed Service Run",
+            "The player shows how a user-facing Solution action resolves a reusable Service, identity and policy paths, parallel Agent work, MCP side effects, human approval, durable state, and final evidence.",
         ),
         "generic_agent_runtime": diagram(
             "generic-agent-runtime",
@@ -1152,6 +1221,7 @@ def main() -> None:
         "current_facts": fact_cards(*FACTS),
         "studio_facts": fact_cards(
             "unified-studios",
+            "solution-service-model",
             "connector-control-plane",
             "hello-world-qualification",
         ),
@@ -1165,8 +1235,15 @@ def main() -> None:
         ),
         "governance_facts": fact_cards(
             "policy-entitlements",
+            "single-entry-experiences",
             "external-delegated-clients",
             "agent-tool-delegation",
+        ),
+        "solution_facts": fact_cards(
+            "solution-service-model",
+            "single-entry-experiences",
+            "external-delegated-clients",
+            "durable-service-runs",
         ),
         "architecture_facts": fact_cards(
             "reusable-cicd",
@@ -1178,14 +1255,14 @@ def main() -> None:
     pages = {
         "index.html": page(
             "landing",
-            "ContextWeaver — The universal governed AI capability factory",
-            "Explore how ContextWeaver combines Workspaces, Agent, MCP, Service, and Workflow Studios, safe dry runs, governance, approved promotion, deployment, and evidence.",
+            "ContextWeaver — The governed AI solution operating platform",
+            "Explore how ContextWeaver composes user-facing Solutions from reusable Services, Workflows, Agents, MCP capabilities, knowledge, policy, portable infrastructure, and evidence.",
             LANDING,
         ),
         "overview.html": page(
             "overview",
-            "ContextWeaver — Turn any approved idea into a governed Service",
-            "ContextWeaver creates governed Services from specifications, knowledge, Agents, MCP tools, Workflows, models, policy, and portable infrastructure.",
+            "ContextWeaver — Turn any approved idea into a governed Solution",
+            "ContextWeaver creates user-facing Solutions from reusable Services, Workflows, Agents, MCP capabilities, knowledge, models, policy, and portable infrastructure.",
             HOME.format(**diagrams),
         ),
         "platform.html": page(
@@ -1196,14 +1273,14 @@ def main() -> None:
         ),
         "studio.html": page(
             "studio",
-            "ContextWeaver Agent and MCP Studio",
-            "Create, validate, simulate, publish, deploy, modify, and govern Agents, MCP servers, Services, and Workflows from a GUI, VS Code, CLI, or Jupyter.",
+            "ContextWeaver Studio — MCPs, Agents, Workflows, Services, and Solutions",
+            "Create, validate, simulate, publish, deploy, modify, and govern MCPs, Agents, Workflows, reusable Services, and complete Solutions from a GUI, VS Code, CLI, or Jupyter.",
             STUDIO.format(**diagrams),
         ),
         "runtime.html": page(
             "runtime",
-            "ContextWeaver Runtime — Governed dynamic Service execution",
-            "See how ContextWeaver turns intent into an authorized immutable plan, durable Agent and MCP execution, and an evidence-backed result.",
+            "ContextWeaver Runtime — Solution actions and governed Service Runs",
+            "See how a user-facing Solution action resolves a reusable Service, authorized immutable plan, durable Agent and MCP execution, and evidence-backed result.",
             RUNTIME.format(**diagrams),
         ),
         "governance.html": page(
@@ -1214,8 +1291,8 @@ def main() -> None:
         ),
         "solutions.html": page(
             "solutions",
-            "ContextWeaver Solutions — Individual, Small Business, and Enterprise",
-            "See how ContextWeaver scales from personal Services to small-business operations, enterprise platforms, and sovereign deployments.",
+            "ContextWeaver Solutions — Consumer experiences built from governed Services",
+            "Understand Solutions, Services, Workflows, Agents, and MCPs; follow the My Solutions consumer journey and delegated external-assistant access.",
             SOLUTIONS.format(**diagrams),
         ),
         "architecture.html": page(
@@ -1227,7 +1304,7 @@ def main() -> None:
         "learning.html": page(
             "learning",
             "ContextWeaver Learning Atlas — From AI basics to platform architecture",
-            "Choose a role and depth to learn ContextWeaver from AI fundamentals through Agents, MCP, Workflows, Services, identity, data, Kubernetes, governance, operations, and every platform component.",
+            "Choose a role and depth to learn ContextWeaver from AI fundamentals through MCPs, Agents, Workflows, Services, Solutions, identity, data, Kubernetes, governance, operations, and every platform component.",
             LEARNING,
         ),
         "library.html": page(
