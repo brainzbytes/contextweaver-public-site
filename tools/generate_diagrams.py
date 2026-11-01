@@ -615,7 +615,7 @@ def svg_node(node: Node, interactive: bool = False, substantial: bool = False) -
     return f"""
     <g id="node-{node.id}" class="node node-{node.color}{node_class}"{attrs}>
       {echo_markup}
-      <path class="node-depth" d="M {node.x + 10} {node.y + node.h} L {node.x + node.w} {node.y + node.h} L {node.x + node.w - 11} {node.y + node.h + depth} L {node.x + 21} {node.y + node.h + depth} Z"/>
+      <rect class="node-depth" x="{node.x}" y="{node.y + node.h - 2}" width="{node.w}" height="{depth + 2}" rx="4"/>
       <rect class="node-face" x="{node.x}" y="{node.y}" width="{node.w}" height="{node.h}" rx="{radius}"/>
       <path class="node-shine" d="M {node.x + 16} {node.y + 7} H {node.x + node.w - 16}"/>
       <g transform="translate(0 {icon_y - (node.y + 25)})">{svg_icon(node)}</g>
@@ -663,9 +663,9 @@ def svg_governed_node(node: Node, interactive: bool = False) -> str:
     <g id="node-{node.id}" class="node node-{node.color} governed-node governed-cuboid"{attrs}>
       <rect class="cuboid-echo cuboid-echo-back" x="{x - 16}" y="{y + 16}" width="{w}" height="{h}" rx="17"/>
       <rect class="cuboid-echo" x="{x - 8}" y="{y + 8}" width="{w}" height="{h}" rx="17"/>
-      <path class="node-plinth" d="M {x - 13} {y + h - 7} L {x + w + 9} {y + h - 7} L {x + w + 22} {y + h + 14} L {x - 2} {y + h + 14} Z"/>
-      <path class="node-top" d="M {x + 8} {y + 5} L {x + 23} {y - 13} L {x + w - 9} {y - 13} L {x + w + 8} {y + 5} Z"/>
-      <path class="node-side" d="M {x + w - 1} {y + 10} L {x + w + 10} {y + 1} L {x + w + 10} {y + h - 13} L {x + w - 1} {y + h} Z"/>
+      <rect class="node-plinth" x="{x - 7}" y="{y + h - 5}" width="{w + 14}" height="20" rx="4"/>
+      <rect class="node-top" x="{x + 5}" y="{y - 11}" width="{w - 10}" height="16" rx="4"/>
+      <rect class="node-side" x="{x + w - 2}" y="{y + 6}" width="12" height="{h - 8}" rx="4"/>
       <rect class="node-face" x="{x}" y="{y}" width="{w}" height="{h}" rx="18"/>
       <path class="node-shine" d="M {x + 15} {y + 7} H {x + w - 15}"/>
       <g transform="translate(0 17)">{svg_icon(node)}</g>
@@ -1610,9 +1610,9 @@ def write_gif(diagram: Diagram) -> None:
                     cube_stroke = "#ffc76a" if node.color == "amber" else "#9dff71"
                 draw.rounded_rectangle((x - 16, y + 16, x + w - 16, y + h + 16), radius=17, fill="#0a2418", outline="#315f47", width=1)
                 draw.rounded_rectangle((x - 8, y + 8, x + w - 8, y + h + 8), radius=17, fill="#0c2f20", outline=cube_stroke, width=1)
-                draw.polygon([(x - 13, y + h - 7), (x + w + 9, y + h - 7), (x + w + 22, y + h + 14), (x - 2, y + h + 14)], fill="#0b2519", outline=cube_stroke)
-                draw.polygon([(x + 8, y + 5), (x + 23, y - 13), (x + w - 9, y - 13), (x + w + 8, y + 5)], fill="#173b29", outline=cube_stroke)
-                draw.polygon([(x + w - 1, y + 10), (x + w + 10, y + 1), (x + w + 10, y + h - 13), (x + w - 1, y + h)], fill="#07160f", outline=cube_stroke)
+                draw.rounded_rectangle((x - 7, y + h - 5, x + w + 7, y + h + 15), radius=4, fill="#0b2519", outline=cube_stroke)
+                draw.rounded_rectangle((x + 5, y - 11, x + w - 5, y + 5), radius=4, fill="#173b29", outline=cube_stroke)
+                draw.rounded_rectangle((x + w - 2, y + 6, x + w + 10, y + h - 2), radius=4, fill="#07160f", outline=cube_stroke)
                 face_fill = "#3a2408" if node.color == "amber" else fill
                 draw.rounded_rectangle(box, radius=18, fill=face_fill, outline=cube_stroke, width=5 if active else 3)
                 draw.line((x + 15, y + 7, x + w - 15, y + 7), fill="#b4ffda", width=2)
@@ -1634,13 +1634,9 @@ def write_gif(diagram: Diagram) -> None:
                     width=1,
                 )
                 depth = 10
-                draw.polygon(
-                    [
-                        (node.x + 10, node.y + node.h),
-                        (node.x + node.w, node.y + node.h),
-                        (node.x + node.w - 11, node.y + node.h + depth),
-                        (node.x + 21, node.y + node.h + depth),
-                    ],
+                draw.rounded_rectangle(
+                    (node.x, node.y + node.h - 2, node.x + node.w, node.y + node.h + depth),
+                    radius=4,
                     fill="#030806",
                     outline=stroke,
                 )

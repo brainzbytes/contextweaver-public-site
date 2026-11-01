@@ -283,7 +283,7 @@ def write_svg() -> None:
 <rect width="1400" height="840" fill="{COLORS["bg"]}"/><rect width="1400" height="840" fill="url(#grid)"/>
 <text x="46" y="48" fill="{COLORS["text"]}" font-family="Inter,Segoe UI,sans-serif" font-size="27" font-weight="700">ContextWeaver Spatial Architecture</text>
 <text x="46" y="73" fill="{COLORS["muted"]}" font-family="Inter,Segoe UI,sans-serif" font-size="12">Cerebro governs · Weave composes · Loom runs anywhere · Evidence follows every action</text>
-<g opacity=".9"><path d="M280 120 L1130 120 L1260 245 L410 245 Z" fill="#10261d" stroke="#315446"/><path d="M205 325 L1175 325 L1300 470 L330 470 Z" fill="#173429" stroke="#70e6b1"/><path d="M145 555 L1210 555 L1340 720 L275 720 Z" fill="#0a1812" stroke="#315446"/></g>
+<g opacity=".9"><rect x="280" y="120" width="980" height="125" rx="8" fill="#10261d" stroke="#315446"/><rect x="205" y="325" width="1095" height="145" rx="8" fill="#173429" stroke="#70e6b1"/><rect x="145" y="555" width="1195" height="165" rx="8" fill="#0a1812" stroke="#315446"/></g>
 <g class="edges" fill="none" stroke="{COLORS["line"]}" stroke-width="2" opacity=".55">{"".join(edges)}</g>
 <g class="nodes">{"".join(svg_node(node_id, node) for node_id, node in NODES.items())}</g>
 <style>.node rect{{fill:#0a1812;stroke:#315446;stroke-width:1.5}}.title{{fill:#f4f8f2;font:700 12px Inter,Segoe UI,sans-serif}}.sub{{fill:#9db2a8;font:8px Inter,Segoe UI,sans-serif}}</style></svg>"""
@@ -291,7 +291,7 @@ def write_svg() -> None:
 
 
 def polygon_for_deck(y: int, left: int, right: int, depth: int) -> list[tuple[int, int]]:
-    return [(left + 80, y), (right - 80, y), (right, y + depth), (left, y + depth)]
+    return [(left, y), (right, y), (right, y + depth), (left, y + depth)]
 
 
 def node_box(node: dict[str, object], size: tuple[int, int]) -> tuple[int, int, int, int]:

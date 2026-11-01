@@ -106,7 +106,7 @@ test("architecture players preserve approved static masters with semantic overla
   }
 });
 
-test("nextgen atlas uses rounded 3d trays and a grouped Studio module", async () => {
+test("nextgen atlas uses square-edged 3d trays and a grouped Studio module", async () => {
   const html = await readFile(join(root, "diagrams", "contextweaver-nextgen-architecture.html"), "utf8");
   const svg = await readFile(join(root, "diagrams", "contextweaver-nextgen-architecture.svg"), "utf8");
 
@@ -117,6 +117,8 @@ test("nextgen atlas uses rounded 3d trays and a grouped Studio module", async ()
     assert.match(output, /class="studio-backplate"/);
     assert.match(output, /class="studio-tray-depth"/);
     assert.match(output, />STUDIO<\/text>/);
+    assert.match(output, /<rect class="studio-tray-depth"/);
+    assert.doesNotMatch(output, /<path class="studio-tray-depth"/);
     for (const context of ["MCP", "AGENT", "FLOW", "SERVICE", "SOLUTION"]) {
       assert.match(output, new RegExp(`>${context}<\\/text>`));
     }
@@ -213,6 +215,7 @@ test("product hierarchy and consumer journey remain explicit", async () => {
   assert.doesNotMatch(architecture, /architecture-block-view/);
   assert.match(story, /user-facing Solution/);
   assert.match(landing, /data-site-intro/);
+  assert.match(landing, /assets\/js\/site\.js\?v=20261101-19/);
   assert.match(landing, /data-src="assets\/brand\/brainzbytes-contextweaver-overview\.html\?embedded=1&amp;intro=1&amp;v=20261101-24"/);
   assert.match(landing, /data-intro-skip/);
   assert.match(landing, /data-intro-enter/);
@@ -221,7 +224,7 @@ test("product hierarchy and consumer journey remain explicit", async () => {
   assert.match(landing, /assets\/brand\/contextweaver-c1\.svg/);
   assert.match(landing, /sandbox="allow-scripts allow-same-origin"/);
   assert.match(landing, /assets\/css\/site\.css\?v=20261101-21/);
-  assert.match(landing, /assets\/js\/site\.js\?v=20261101-18/);
+  assert.doesNotMatch(landing, /assets\/js\/site\.js\?v=20261101-18/);
   assert.match(siteJs, /contextweaver-company-intro-seen/);
   assert.match(siteJs, /brainzbytes-intro-complete/);
   assert.match(siteJs, /event\.key === "Escape"/);
@@ -247,10 +250,14 @@ test("product hierarchy and consumer journey remain explicit", async () => {
   assert.match(companyIntro, /showOpening\(\);\s*tryIntroMusic\(\)/);
   assert.doesNotMatch(companyIntro, /showOpening\(\);\s*beginAudio\(\)/);
   assert.match(siteJs, /frameWindow\?\.unlockIntroAudio/);
+  assert.match(siteJs, /page === "architecture" && !location\.hash/);
+  assert.match(siteJs, /history\.scrollRestoration = "manual"/);
   assert.doesNotMatch(companyIntro, /contextweaver-spatial-architecture\.html/);
   assert.match(architecture, /id="interactive-factory-architecture"/);
   assert.match(architecture, /service-factory-static-master\.png/);
   assert.match(architecture, /diagrams\/service-factory\.html\?v=20261101-2/);
+  assert.doesNotMatch(architecture, /ContextWeaver NextGen Architecture Atlas/);
+  assert.doesNotMatch(architecture, /contextweaver-nextgen-architecture\.html/);
   assert.doesNotMatch(architecture, /experiences\/contextweaver-spatial-r3f/);
   assert.doesNotMatch(architecture, /id="high-level-views"/);
   const factory = await readFile(join(root, "diagrams", "service-factory.html"), "utf8");

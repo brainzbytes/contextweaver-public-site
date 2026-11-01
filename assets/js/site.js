@@ -62,6 +62,13 @@
   document.querySelectorAll("[data-nav-page]").forEach((link) => {
     if (link.dataset.navPage === page) link.setAttribute("aria-current", "page");
   });
+  if (page === "architecture" && !location.hash) {
+    history.scrollRestoration = "manual";
+    const showFactoryFirst = () => window.scrollTo(0, 0);
+    showFactoryFirst();
+    requestAnimationFrame(showFactoryFirst);
+    window.addEventListener("pageshow", showFactoryFirst, { once: true });
+  }
 
   const intro = document.querySelector("[data-site-intro]");
   const introFrame = intro?.querySelector("[data-intro-frame]");

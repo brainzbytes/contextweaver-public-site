@@ -271,25 +271,9 @@ def svg_icon(node: Node) -> str:
 
 def rounded_zone_markup(label: str, x: int, y: int, w: int, h: int, color: str) -> str:
     label_width = min(w - 52, max(220, int(len(label) * 6.3 + 34)))
-    face = (
-        f"M {x + 30} {y} H {x + w - 26} "
-        f"Q {x + w - 8} {y} {x + w - 4} {y + 16} "
-        f"L {x + w - 17} {y + h - 17} "
-        f"Q {x + w - 20} {y + h} {x + w - 38} {y + h} "
-        f"H {x + 24} Q {x + 5} {y + h} {x + 2} {y + h - 17} "
-        f"L {x + 14} {y + 17} Q {x + 16} {y} {x + 30} {y} Z"
-    )
-    depth = (
-        f"M {x + 2} {y + h - 17} Q {x + 5} {y + h} {x + 24} {y + h} "
-        f"H {x + w - 38} Q {x + w - 20} {y + h} {x + w - 17} {y + h - 17} "
-        f"L {x + w - 20} {y + h + 16} Q {x + w - 24} {y + h + 30} {x + w - 42} {y + h + 31} "
-        f"L {x + 22} {y + h + 31} Q {x + 4} {y + h + 29} {x} {y + h + 15} Z"
-    )
-    shadow = (
-        f"M {x + 22} {y + h + 18} H {x + w - 30} "
-        f"Q {x + w - 12} {y + h + 18} {x + w - 18} {y + h + 36} "
-        f"H {x + 18} Q {x} {y + h + 34} {x + 6} {y + h + 20} Z"
-    )
+    face = f"M {x} {y} H {x + w} V {y + h} H {x} Z"
+    depth = f"M {x} {y + h - 2} H {x + w} V {y + h + 28} H {x} Z"
+    shadow = f"M {x + 8} {y + h + 18} H {x + w + 8} V {y + h + 36} H {x + 8} Z"
     return (
         f'<g class="zone zone-{color}">'
         f'<path class="zone-shadow" d="{shadow}"/>'
@@ -315,8 +299,7 @@ def studio_module_markup(node: Node) -> str:
         tx = start_x + index * (tile_width + gap)
         tiles.append(
             f'<g class="studio-tile">'
-            f'<path class="studio-tile-side" d="M {tx + tile_width - 5} {y + 43} L {tx + tile_width + 2} {y + 48} '
-            f'V {y + 75} L {tx + tile_width - 5} {y + 79} Z"/>'
+            f'<rect class="studio-tile-side" x="{tx + tile_width - 4}" y="{y + 43}" width="6" height="34" rx="2"/>'
             f'<rect x="{tx}" y="{y + 39}" width="{tile_width}" height="36" rx="8"/>'
             f'<text x="{tx + tile_width / 2:.1f}" y="{y + 61}">{label}</text>'
             f'</g>'
@@ -325,7 +308,7 @@ def studio_module_markup(node: Node) -> str:
         f'<g id="node-{node.id}" class="node node-{node.color} studio-module" data-node-id="{node.id}" '
         f'role="button" tabindex="0" aria-label="{xml_escape(node.title)}">'
         f'<rect class="studio-shadow" x="{x - 4}" y="{y + 16}" width="{w + 8}" height="{h - 4}" rx="18"/>'
-        f'<path class="studio-tray-depth" d="M {x + 18} {y + h - 8} H {x + w - 10} L {x + w - 20} {y + h + 7} H {x + 28} Z"/>'
+        f'<rect class="studio-tray-depth" x="{x}" y="{y + h - 9}" width="{w}" height="16" rx="4"/>'
         f'<rect class="studio-tray" x="{x}" y="{y + 8}" width="{w}" height="{h - 12}" rx="18"/>'
         f'<rect class="studio-backplate" x="{x + 35}" y="{y}" width="{w - 70}" height="48" rx="12"/>'
         f'<text class="studio-heading" x="{x + w / 2:.1f}" y="{y + 25}">STUDIO</text>'
@@ -627,14 +610,15 @@ def render_image(active_nodes: set[str] | None = None, active_edges: set[str] | 
             radius=max(10, int(17 * sy)),
             fill="#010503",
         )
-        draw.polygon(
-            [(front[2] - 2, front[1] + depth), (box[2], front[1] + depth * 2),
-             (box[2], box[3] - depth), (front[2] - 2, box[3])],
+        draw.rounded_rectangle(
+            (front[2] - 2, front[1] + 8, box[2], front[3]),
+            radius=4,
             fill="#06130d",
             outline=COLORS[node.color] if active else COLORS["line"],
         )
-        draw.polygon(
-            [(front[0] + depth, front[3]), (front[2], front[3]), (box[2] - depth, box[3]), (box[0] + depth * 2, box[3])],
+        draw.rounded_rectangle(
+            (front[0], front[3] - 2, front[2], box[3]),
+            radius=4,
             fill="#030806",
             outline=COLORS[node.color] if active else COLORS["line"],
         )

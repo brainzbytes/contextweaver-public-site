@@ -152,7 +152,7 @@ def page(name: str, title: str, description: str, content: str) -> str:
       </main>
       {spatial_dialog}
       {footer()}
-      <script src="assets/js/site.js?v=20261101-18"></script>
+      <script src="assets/js/site.js?v=20261101-19"></script>
     </body>
     </html>
     """).lstrip()
@@ -904,7 +904,7 @@ SOLUTIONS = """
 """
 
 ARCHITECTURE = """
-<section id="nextgen-atlas" class="container architecture-atlas-hero">
+<section id="solution-capability-factory" class="container architecture-atlas-hero">
   <div class="architecture-spatial-hero">
     <div class="architecture-atlas-intro">
       <p class="eyebrow">Master architecture</p>
@@ -945,19 +945,9 @@ ARCHITECTURE = """
   <noscript><p class="diagram-note">JavaScript is required for the interactive player. <a href="diagrams/service-factory.svg">Open the static factory architecture.</a></p></noscript>
 </section>
 
-<section class="container section compact">
-  <div class="diagram-shell architecture-atlas-shell" data-reveal>
-    <div class="diagram-toolbar">
-      <strong>ContextWeaver NextGen Architecture Atlas</strong>
-    </div>
-    <iframe class="diagram-frame architecture-atlas-frame" data-auto-height="contextweaver-atlas-height" src="diagrams/contextweaver-nextgen-architecture.html?embed=1&amp;v=20261025-10" title="ContextWeaver NextGen Architecture Atlas" loading="eager"></iframe>
-  </div>
-  <p class="diagram-note">Click any component to inspect its responsibility, or use Play, Pause, Previous, Next, Reset, and the stage indicators to walk through the complete governed lifecycle.</p>
-</section>
-
 <section class="container section compact architecture-explorer-intro">
   <div class="section-head">
-    <div><p class="section-kicker">Detailed architecture explorers</p><h2>Zoom from the master atlas into one concern at a time.</h2></div>
+    <div><p class="section-kicker">Detailed architecture explorers</p><h2>Zoom from the master factory into one concern at a time.</h2></div>
     <p>The diagrams below share the same semantic model and focus separately on platform planes, capability creation, lifecycle promotion, governed runtime, and scale.</p>
   </div>
   <div class="card amber"><div class="meta">Diagram semantics</div><h3>Motion communicates meaning.</h3><ul><li>Solid pulse: active request or data</li><li>Dashed pulse: identity, policy, or authorization</li><li>Green: validated output or success</li><li>Amber: approval, waiting, retry, or compensation</li><li>Red: denial or failed validation</li><li>Parallel pulses: concurrent Agent work</li></ul></div>
