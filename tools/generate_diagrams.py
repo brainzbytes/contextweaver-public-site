@@ -1136,6 +1136,7 @@ def write_static_svg(diagram: Diagram) -> None:
 
 def write_interactive_html(diagram: Diagram) -> None:
     image_first = image_config(diagram) is not None
+    factory_portal = diagram.slug == "service-factory"
     nodes_json = {
         node.id: {"title": node.title, "subtitle": node.subtitle, "detail": node.detail}
         for node in diagram.nodes
@@ -1144,6 +1145,22 @@ def write_interactive_html(diagram: Diagram) -> None:
         {"title": step.title, "caption": step.caption, "nodes": step.nodes, "edges": step.edges}
         for step in diagram.steps
     ]
+    portal_css = """body.portal .experience{display:block;width:100%;height:100vh;min-height:0;border:0;background:var(--bg);box-shadow:none}
+body.portal .storybar,body.portal .detailbar{display:none}
+body.portal .canvas{width:100%;height:100vh;background:radial-gradient(circle at 50% 44%,#173f2e77 0,transparent 48%),#020705}
+body.portal .architecture{min-width:0;width:100%;height:100%;transform:scale(1.08)}
+""" if factory_portal else ""
+    portal_setup = """const params=new URLSearchParams(location.search),isPopout=params.has("popout"),portal=params.get("portal")==="1";
+document.body.classList.toggle("portal",portal);
+const nodeEls=[...document.querySelectorAll(".node")],edgeEls=[...document.querySelectorAll(".edge")];
+const portalNodes=["inputs","studio","contracts","admission","registry","operator","discovery","compose","execute","outcome"];
+const portalEdges=[[],["f1"],["f2"],["f3"],["f4"],["f5"],["f6"],["f8"],["f9"],["f10","f11"]];""" if factory_portal else """const params=new URLSearchParams(location.search),isPopout=params.has("popout");
+const nodeEls=[...document.querySelectorAll(".node")],edgeEls=[...document.querySelectorAll(".edge")];"""
+    portal_render = """function renderPortalStage(stage){const activeNode=portalNodes[stage],completeNodes=new Set(portalNodes.slice(0,stage)),activeEdges=new Set(portalEdges[stage]||[]),completeEdges=new Set(portalEdges.slice(0,stage).flat());nodeEls.forEach(el=>{const id=el.dataset.nodeId,active=id===activeNode,complete=completeNodes.has(id);el.classList.toggle("active",active);el.classList.toggle("complete",complete);el.classList.toggle("dim",!active&&!complete);el.classList.remove("selected")});edgeEls.forEach(el=>{const id=el.dataset.edgeId,active=activeEdges.has(id),complete=completeEdges.has(id)&&!active;el.classList.toggle("active",active);el.classList.toggle("complete",complete);el.classList.toggle("dim",!active&&!complete)});if(activeNode)inspect(activeNode);}
+""" if factory_portal else ""
+    portal_handler = """addEventListener("message",event=>{if(event.origin!==location.origin||event.data?.type!=="contextweaver-factory-stage")return;const requested=Number(event.data.stage);if(!Number.isInteger(requested)||requested<0||requested>=portalNodes.length)return;playing=false;stop();renderPortalStage(requested)});
+""" if factory_portal else ""
+    initial_render = '$("play").textContent=playing?"Pause":"Play";if(portal){playing=false;renderPortalStage(0)}else{render();restart()}' if factory_portal else '$("play").textContent=playing?"Pause":"Play";render();restart();'
     html = f"""<!doctype html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="description" content="{escape(diagram.subtitle)}">
@@ -1169,11 +1186,7 @@ def write_interactive_html(diagram: Diagram) -> None:
 .player-image-first .stage-count{{font-size:9px}}.player-image-first .stage-title{{font-size:20px}}
 .player-image-first .controls button{{min-height:38px;padding-inline:12px}}
 .player-image-first .detailbar{{grid-template-columns:minmax(0,1fr) auto}}
-body.portal .experience{{display:block;width:100%;height:100vh;min-height:0;border:0;background:var(--bg);box-shadow:none}}
-body.portal .storybar,body.portal .detailbar{{display:none}}
-body.portal .canvas{{width:100%;height:100vh;background:radial-gradient(circle at 50% 44%,#173f2e77 0,transparent 48%),#020705}}
-body.portal .architecture{{min-width:0;width:100%;height:100%;transform:scale(1.08)}}
-@media(max-width:900px){{.storybar{{grid-template-columns:1fr}}.controls{{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));width:100%}}.controls button{{min-width:0;padding-inline:8px}}.detailbar{{grid-template-columns:1fr}}.dots{{justify-content:flex-start}}.canvas{{min-height:0;overflow:hidden}}.architecture{{min-width:0;width:100%}}}}
+{portal_css}@media(max-width:900px){{.storybar{{grid-template-columns:1fr}}.controls{{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));width:100%}}.controls button{{min-width:0;padding-inline:8px}}.detailbar{{grid-template-columns:1fr}}.dots{{justify-content:flex-start}}.canvas{{min-height:0;overflow:hidden}}.architecture{{min-width:0;width:100%}}}}
 @media(max-width:900px){{.player-image-first .experience{{grid-template-rows:auto auto auto;height:auto;min-height:0}}.player-image-first .canvas{{height:auto;aspect-ratio:{IMAGE_MASTER_WIDTH}/{IMAGE_MASTER_HEIGHT}}}.player-image-first .storybar{{grid-template-columns:1fr}}.player-image-first .detailbar{{grid-template-columns:1fr}}}}
 @media(max-width:620px){{.experience{{min-height:0;border-width:0}}.storybar,.detailbar{{padding:14px}}.controls{{grid-template-columns:repeat(2,minmax(0,1fr))}}.stage-title{{font-size:18px}}.stage-caption{{font-size:10px}}.architecture{{min-width:0}}}}
 @media(prefers-reduced-motion:reduce){{*{{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}}}
@@ -1189,18 +1202,13 @@ const nodes={json.dumps(nodes_json, ensure_ascii=False)};
 const steps={json.dumps(steps_json, ensure_ascii=False)};
 let current=0,playing=!matchMedia("(prefers-reduced-motion: reduce)").matches,narration=false,timer;
 const $=id=>document.getElementById(id);
-const params=new URLSearchParams(location.search),isPopout=params.has("popout"),portal=params.get("portal")==="1";
-document.body.classList.toggle("portal",portal);
-const nodeEls=[...document.querySelectorAll(".node")],edgeEls=[...document.querySelectorAll(".edge")];
-const portalNodes=["inputs","studio","contracts","admission","registry","operator","discovery","compose","execute","outcome"];
-const portalEdges=[[],["f1"],["f2"],["f3"],["f4"],["f5"],["f6"],["f8"],["f9"],["f10","f11"]];
+{portal_setup}
 function inspect(id){{const d=nodes[id];if(!d)return;nodeEls.forEach(el=>el.classList.toggle("selected",el.dataset.nodeId===id));$("detail-title").textContent=d.title;$("detail-subtitle").textContent=d.subtitle;$("detail-copy").textContent=d.detail;}}
 nodeEls.forEach(el=>{{el.addEventListener("click",()=>{{playing=false;$("play").textContent="Play";stop();inspect(el.dataset.nodeId)}});el.addEventListener("keydown",ev=>{{if(ev.key==="Enter"||ev.key===" "){{ev.preventDefault();el.click()}}}})}});
 steps.forEach((_,i)=>{{const b=document.createElement("button");b.className="dot";b.type="button";b.setAttribute("aria-label",`Show stage ${{i+1}}`);b.onclick=()=>{{current=i;render(true);restart()}};$("dots").appendChild(b)}});
 function narrateStep(){{if(!narration||!("speechSynthesis" in window))return;window.speechSynthesis.cancel();const s=steps[current],utterance=new SpeechSynthesisUtterance(`${{s.title}}. ${{s.caption}}`);utterance.lang="en-US";utterance.rate=.95;window.speechSynthesis.speak(utterance);}}
 function render(withNarration=false){{const s=steps[current],done=steps.slice(0,current),doneNodes=new Set(done.flatMap(step=>step.nodes)),doneEdges=new Set(done.flatMap(step=>step.edges));nodeEls.forEach(el=>{{const id=el.dataset.nodeId,active=s.nodes.includes(id),complete=doneNodes.has(id)&&!active;el.classList.toggle("active",active);el.classList.toggle("complete",complete);el.classList.toggle("dim",!active&&!complete);el.classList.remove("selected");const number=el.querySelector(".node-step-number");if(number)number.textContent=active?String(s.nodes.indexOf(id)+1):"";}});edgeEls.forEach(el=>{{const id=el.dataset.edgeId,active=s.edges.includes(id),complete=doneEdges.has(id)&&!active;el.classList.toggle("active",active);el.classList.toggle("complete",complete);el.classList.toggle("dim",!active&&!complete)}});$("stage-count").textContent=`Current flow · stage ${{current+1}} of ${{steps.length}}`;$("stage-title").textContent=s.title;$("stage-caption").textContent=s.caption;[...$("dots").children].forEach((d,i)=>{{d.classList.toggle("active",i===current);d.classList.toggle("complete",i<current)}});if(s.nodes.length)inspect(s.nodes[s.nodes.length-1]);if(withNarration)narrateStep();}}
-function renderPortalStage(stage){{const activeNode=portalNodes[stage],completeNodes=new Set(portalNodes.slice(0,stage)),activeEdges=new Set(portalEdges[stage]||[]),completeEdges=new Set(portalEdges.slice(0,stage).flat());nodeEls.forEach(el=>{{const id=el.dataset.nodeId,active=id===activeNode,complete=completeNodes.has(id);el.classList.toggle("active",active);el.classList.toggle("complete",complete);el.classList.toggle("dim",!active&&!complete);el.classList.remove("selected")}});edgeEls.forEach(el=>{{const id=el.dataset.edgeId,active=activeEdges.has(id),complete=completeEdges.has(id)&&!active;el.classList.toggle("active",active);el.classList.toggle("complete",complete);el.classList.toggle("dim",!active&&!complete)}});if(activeNode)inspect(activeNode);}}
-function advance(delta=1){{current=(current+delta+steps.length)%steps.length;render(true)}}function stop(){{clearInterval(timer)}}function restart(){{stop();if(playing)timer=setInterval(()=>advance(),6000)}}
+{portal_render}function advance(delta=1){{current=(current+delta+steps.length)%steps.length;render(true)}}function stop(){{clearInterval(timer)}}function restart(){{stop();if(playing)timer=setInterval(()=>advance(),6000)}}
 $("prev").onclick=()=>{{advance(-1);restart()}};$("next").onclick=()=>{{advance();restart()}};$("reset").onclick=()=>{{current=0;render(true);restart()}};$("play").onclick=()=>{{playing=!playing;$("play").textContent=playing?"Pause":"Play";if(!playing&&"speechSynthesis" in window)window.speechSynthesis.cancel();restart()}};
 $("audio").onclick=()=>{{narration=!narration;$("audio").textContent=narration?"Audio on":"Audio off";$("audio").setAttribute("aria-pressed",String(narration));if(narration)narrateStep();else if("speechSynthesis" in window)window.speechSynthesis.cancel();}};if(!("speechSynthesis" in window)){{$("audio").disabled=true;$("audio").textContent="Audio unavailable";}}
 function leavePopout(){{window.close();setTimeout(()=>{{if(history.length>1)history.back();else location.href="../architecture.html"}},80)}}
@@ -1208,8 +1216,7 @@ $("popout").textContent=isPopout?"Back · Esc":"Pop out ↗";
 $("popout").setAttribute("aria-label",isPopout?"Close the dedicated animation view":"Open animation in a dedicated window");
 $("popout").onclick=()=>{{if(isPopout){{leavePopout();return}}const url=new URL(location.href);url.searchParams.delete("embed");url.searchParams.delete("embedded");url.searchParams.set("popout","1");window.open(url.href,"_blank","noopener,noreferrer")}};
 document.addEventListener("keydown",e=>{{if(e.key==="Escape"&&isPopout){{e.preventDefault();leavePopout();return}}if(e.target.closest(".node"))return;if(e.key==="ArrowRight")$("next").click();if(e.key==="ArrowLeft")$("prev").click();if(e.key===" "){{e.preventDefault();$("play").click()}}}});
-addEventListener("message",event=>{{if(event.origin!==location.origin||event.data?.type!=="contextweaver-factory-stage")return;const requested=Number(event.data.stage);if(!Number.isInteger(requested)||requested<0||requested>=portalNodes.length)return;playing=false;stop();renderPortalStage(requested)}});
-$("play").textContent=playing?"Pause":"Play";if(portal){{playing=false;renderPortalStage(0)}}else{{render();restart()}}
+{portal_handler}{initial_render}
 </script></body></html>"""
     (OUT / f"{diagram.slug}.html").write_text(clean_generated_text(html), encoding="utf-8", newline="\n")
 
