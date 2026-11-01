@@ -158,6 +158,7 @@ test("product hierarchy and consumer journey remain explicit", async () => {
   const solutions = await readFile(join(root, "solutions.html"), "utf8");
   const architecture = await readFile(join(root, "architecture.html"), "utf8");
   const story = await readFile(join(root, "diagrams", "intent-to-evidence.html"), "utf8");
+  const companyIntro = await readFile(join(root, "assets", "brand", "brainzbytes-contextweaver-overview.html"), "utf8");
 
   assert.match(overview, /working Solution/);
   for (const concept of [
@@ -216,13 +217,22 @@ test("product hierarchy and consumer journey remain explicit", async () => {
   }
   assert.doesNotMatch(architecture, /architecture-block-view/);
   assert.match(story, /user-facing Solution/);
-  assert.match(landing, /data-story-src="diagrams\/intent-to-evidence\.html\?embedded=1"/);
-  assert.match(landing, /src="assets\/media\/spatial\/intent-to-evidence\.png"/);
-  assert.match(landing, /Play the governed flow/);
-  assert.doesNotMatch(landing, /<iframe class="landing-cinematic-frame"/);
-  assert.match(landing, /assets\/js\/site\.js\?v=20261101-17/);
-  assert.match(siteJs, /storyLaunch\.replaceWith\(frame\)/);
-  assert.match(siteJs, /allow-scripts allow-same-origin allow-popups/);
+  assert.match(landing, /data-site-intro/);
+  assert.match(landing, /data-src="assets\/brand\/brainzbytes-contextweaver-overview\.html\?embedded=1&amp;intro=1"/);
+  assert.match(landing, /data-intro-skip/);
+  assert.match(landing, /data-intro-enter/);
+  assert.match(landing, /data-intro-replay/);
+  assert.match(landing, /assets\/brand\/brainzbytes-b4\.svg/);
+  assert.match(landing, /assets\/brand\/contextweaver-c1\.svg/);
+  assert.match(landing, /sandbox="allow-scripts allow-same-origin"/);
+  assert.match(landing, /assets\/js\/site\.js\?v=20261101-18/);
+  assert.match(siteJs, /contextweaver-company-intro-seen/);
+  assert.match(siteJs, /brainzbytes-intro-complete/);
+  assert.match(siteJs, /event\.key === "Escape"/);
+  assert.match(siteJs, /prefers-reduced-motion: reduce/);
+  assert.match(companyIntro, /Enable jazz \+ narration/);
+  assert.match(companyIntro, /const introMode=params\.get\('intro'\)==='1'/);
+  assert.match(companyIntro, /brainzbytes-intro-complete/);
   assert.doesNotMatch(landing, /contextweaver-ai-factory\.(?:gif|png)/);
 
   const combined = [overview, studio, runtime, solutions, architecture, story].join("\n");

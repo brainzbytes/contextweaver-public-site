@@ -63,6 +63,89 @@
     if (link.dataset.navPage === page) link.setAttribute("aria-current", "page");
   });
 
+  const intro = document.querySelector("[data-site-intro]");
+  const introFrame = intro?.querySelector("[data-intro-frame]");
+  const introSkip = intro?.querySelector("[data-intro-skip]");
+  const introEnter = intro?.querySelector("[data-intro-enter]");
+  const introReplayButtons = [...document.querySelectorAll("[data-intro-replay]")];
+  const introStorageKey = "contextweaver-company-intro-seen";
+  let introReturnFocus = null;
+
+  const readIntroSeen = () => {
+    try {
+      return sessionStorage.getItem(introStorageKey) === "1";
+    } catch {
+      return false;
+    }
+  };
+
+  const rememberIntro = () => {
+    try {
+      sessionStorage.setItem(introStorageKey, "1");
+    } catch {
+      // The intro remains usable when browser storage is unavailable.
+    }
+  };
+
+  const removeForcedIntroQuery = () => {
+    const url = new URL(location.href);
+    if (!url.searchParams.has("intro")) return;
+    url.searchParams.delete("intro");
+    history.replaceState(history.state, "", `${url.pathname}${url.search}${url.hash}`);
+  };
+
+  const closeIntro = () => {
+    if (!intro || intro.hidden) return;
+    rememberIntro();
+    removeForcedIntroQuery();
+    intro.classList.add("is-leaving");
+    intro.classList.remove("is-active");
+    document.body.classList.remove("site-intro-open");
+    window.setTimeout(() => {
+      intro.hidden = true;
+      intro.classList.remove("is-leaving");
+      if (introFrame) introFrame.removeAttribute("src");
+      introReturnFocus?.focus();
+    }, 460);
+  };
+
+  const openIntro = (trigger = null) => {
+    if (!intro || !introFrame) return;
+    introReturnFocus = trigger;
+    intro.hidden = false;
+    introFrame.src = introFrame.dataset.src || "";
+    document.body.classList.add("site-intro-open");
+    requestAnimationFrame(() => {
+      intro.classList.add("is-active");
+      introSkip?.focus({ preventScroll: true });
+    });
+  };
+
+  introSkip?.addEventListener("click", closeIntro);
+  introEnter?.addEventListener("click", closeIntro);
+  introReplayButtons.forEach((button) => button.addEventListener("click", () => openIntro(button)));
+  window.addEventListener("message", (event) => {
+    if (
+      event.origin === location.origin
+      && event.source === introFrame?.contentWindow
+      && event.data?.type === "brainzbytes-intro-complete"
+    ) {
+      closeIntro();
+    }
+  });
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape" && intro && !intro.hidden) {
+      event.preventDefault();
+      closeIntro();
+    }
+  });
+
+  const forceIntro = new URLSearchParams(location.search).get("intro") === "1";
+  const reduceMotion = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  if (intro && (forceIntro || (!readIntroSeen() && !reduceMotion))) {
+    window.setTimeout(() => openIntro(), 0);
+  }
+
   if (new URLSearchParams(location.search).get("from") === "journey") {
     const returnLink = document.createElement("a");
     returnLink.className = "journey-return";
