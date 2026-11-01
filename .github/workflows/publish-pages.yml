@@ -1,4 +1,4 @@
-name: Validate and publish standalone site
+name: Validate and publish official public site
 
 on:
   pull_request:
@@ -46,7 +46,7 @@ jobs:
         if: github.event_name != 'pull_request'
         run: |
           mkdir _site
-          cp ./*.html sitemap.xml robots.txt _site/
+          cp ./*.html sitemap.xml robots.txt CNAME _site/
           cp -R assets diagrams experiences _site/
           touch _site/.nojekyll
 
