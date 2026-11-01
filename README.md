@@ -31,6 +31,11 @@ python .\tools\audit_source_truth.py
    `ajaypunreddy/brainzbytes`, the GitHub Pages publish target for
    `brainzbytes.com`.
 
+CI regenerates deterministic HTML, SVG, Draw.io, sitemap, and robots outputs.
+Committed PNG/GIF assets are validated but not regenerated in Linux CI because
+Pillow raster encoding is platform-dependent; this preserves byte-for-byte
+identity with the reviewed artifact.
+
 The default generated sitemap targets `https://brainzbytes.com`.
 `brainzbytes/contextweaver-public-site` is the only editable source for the
 public site. The `ajaypunreddy/brainzbytes` repository is a generated publish

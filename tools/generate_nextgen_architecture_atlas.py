@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import argparse
 from dataclasses import dataclass
 from html import escape as html_escape
 from pathlib import Path
@@ -609,10 +610,22 @@ No files in the public website repository were changed by this prototype.
     (OUT / "README.md").write_text(content, encoding="utf-8")
 
 
-if __name__ == "__main__":
+def main(*, skip_raster: bool = False) -> None:
     OUT.mkdir(parents=True, exist_ok=True)
     write_svg()
     write_html()
-    write_images()
+    if not skip_raster:
+        write_images()
     write_drawio()
-    print(f"Generated architecture atlas in {OUT}")
+    raster_status = "using committed PNG/GIF assets" if skip_raster else "with regenerated PNG/GIF assets"
+    print(f"Generated architecture atlas in {OUT} {raster_status}")
+
+
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser()
+    parser.add_argument(
+        "--skip-raster",
+        action="store_true",
+        help="Keep committed PNG/GIF assets while regenerating deterministic text and vector outputs.",
+    )
+    main(skip_raster=parser.parse_args().skip_raster)

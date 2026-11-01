@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import argparse
 import json
 import textwrap
 import xml.etree.ElementTree as ET
@@ -651,14 +652,22 @@ def write_drawio(diagrams: tuple[Diagram, ...]) -> None:
     tree.write(OUT / "contextweaver-public-architecture.drawio", encoding="utf-8", xml_declaration=True)
 
 
-def main() -> None:
+def main(*, skip_raster: bool = False) -> None:
     for diagram in DIAGRAMS:
         write_static_svg(diagram)
         write_interactive_html(diagram)
-        write_gif(diagram)
+        if not skip_raster:
+            write_gif(diagram)
     write_drawio(DIAGRAMS)
-    print(f"Generated {len(DIAGRAMS)} interactive diagrams with SVG, GIF, and Draw.io outputs.")
+    raster_status = "using committed GIF assets" if skip_raster else "with regenerated GIF assets"
+    print(f"Generated {len(DIAGRAMS)} interactive diagrams {raster_status}.")
 
 
 if __name__ == "__main__":
-    main()
+    parser = argparse.ArgumentParser()
+    parser.add_argument(
+        "--skip-raster",
+        action="store_true",
+        help="Keep committed GIF assets while regenerating deterministic text and vector outputs.",
+    )
+    main(skip_raster=parser.parse_args().skip_raster)
