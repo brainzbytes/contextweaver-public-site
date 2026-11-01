@@ -105,12 +105,9 @@ def page(name: str, title: str, description: str, content: str) -> str:
       <section class="site-intro" data-site-intro hidden aria-label="BrainzBytes and ContextWeaver overview">
         <div class="site-intro__backdrop"></div>
         <div class="site-intro__shell">
-          <div class="site-intro__header">
-            <a class="site-intro__brand" href="index.html" aria-label="ContextWeaver, a BrainzBytes product">{brand_lockup()}</a>
-            <div class="site-intro__actions">
-              <span class="site-intro__status"><i></i> Visual story playing</span>
-              <button class="button compact" type="button" data-intro-skip>Skip intro</button>
-            </div>
+          <div class="site-intro__utility">
+            <span class="site-intro__status"><i></i> Narrated story</span>
+            <button class="button compact" type="button" data-intro-skip>Skip intro</button>
           </div>
           <div class="site-intro__stage">
             <iframe
@@ -123,7 +120,7 @@ def page(name: str, title: str, description: str, content: str) -> str:
             ></iframe>
           </div>
           <div class="site-intro__footer">
-            <p>The visual story and sound start automatically when your browser permits it. If sound is blocked, select <strong>Enable jazz + narration</strong> inside the experience.</p>
+            <p>A warm female narration advances only after each sentence finishes. If browser sound is blocked, select <strong>Enable jazz + female narration</strong> inside the logo portal.</p>
             <button class="button primary" type="button" data-intro-enter>Enter ContextWeaver</button>
           </div>
         </div>
@@ -145,7 +142,7 @@ def page(name: str, title: str, description: str, content: str) -> str:
       <meta name="theme-color" content="#07110f">
       <title>{title}</title>
       <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
-      <link rel="stylesheet" href="assets/css/site.css?v=20261101-20">
+      <link rel="stylesheet" href="assets/css/site.css?v=20261101-21">
     </head>
     <body data-page="{name}">
       {intro}

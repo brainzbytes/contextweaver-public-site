@@ -175,6 +175,29 @@ def validate_spatial_architecture() -> None:
         assert_true(image_path.exists() and image_path.stat().st_size > 10_000, f"Missing spatial image {image_name}")
 
 
+def validate_brand_overview() -> None:
+    brand = ROOT / "assets" / "brand"
+    html_path = brand / "brainzbytes-contextweaver-overview.html"
+    svg_path = brand / "brainzbytes-contextweaver-overview.svg"
+    png_path = brand / "brainzbytes-contextweaver-overview.png"
+    gif_path = brand / "brainzbytes-contextweaver-overview.gif"
+    drawio_path = brand / "brainzbytes-contextweaver-overview.drawio"
+    for path in (html_path, svg_path, png_path, gif_path, drawio_path):
+        assert_true(path.exists() and path.stat().st_size > 500, f"Brand overview missing or empty: {path.name}")
+    validate_page(html_path)
+    ET.parse(svg_path)
+    drawio_pages = ET.parse(drawio_path).getroot().findall("diagram")
+    assert_true(len(drawio_pages) == 1, "Brand overview Draw.io must contain one editable page")
+    with Image.open(png_path) as image:
+        assert_true(image.size == (1200, 675), "Brand overview PNG must be 1200x675")
+    with Image.open(gif_path) as image:
+        assert_true(image.size == (960, 540), "Brand overview GIF must be 960x540")
+        assert_true(image.n_frames == 10, "Brand overview GIF must contain ten semantic stages")
+        for frame in range(image.n_frames):
+            image.seek(frame)
+            assert_true(image.info.get("duration") == 1000, f"Brand overview frame {frame} is not 1,000 ms")
+
+
 def validate_source_truth() -> None:
     ledger = json.loads(SOURCE_TRUTH.read_text(encoding="utf-8"))
     assert_true(ledger.get("schemaVersion") == 1, "Source-truth schema version must be 1")
@@ -293,6 +316,7 @@ def main() -> None:
     validate_drawio()
     validate_atlas()
     validate_spatial_architecture()
+    validate_brand_overview()
     validate_source_truth()
     validate_product_semantics()
     print(

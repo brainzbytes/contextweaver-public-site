@@ -4,8 +4,8 @@
   "private": true,
   "description": "Standalone public product site for the ContextWeaver governed AI platform.",
   "scripts": {
-    "build": "python tools/generate_spatial_architecture.py && python tools/generate_site.py && python tools/generate_diagrams.py && python tools/generate_nextgen_architecture_atlas.py",
-    "build:ci": "python tools/generate_spatial_architecture.py --skip-raster && python tools/generate_site.py && python tools/generate_diagrams.py --skip-raster && python tools/generate_nextgen_architecture_atlas.py --skip-raster",
+    "build": "python tools/generate_brand_overview.py && python tools/generate_spatial_architecture.py && python tools/generate_site.py && python tools/generate_diagrams.py && python tools/generate_nextgen_architecture_atlas.py",
+    "build:ci": "python tools/generate_brand_overview.py --skip-raster && python tools/generate_spatial_architecture.py --skip-raster && python tools/generate_site.py && python tools/generate_diagrams.py --skip-raster && python tools/generate_nextgen_architecture_atlas.py --skip-raster",
     "test": "node --test tests/site.test.mjs",
     "serve": "python -m http.server 4173"
   },
