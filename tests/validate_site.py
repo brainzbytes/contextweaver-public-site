@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import json
 import re
 import xml.etree.ElementTree as ET
 from html.parser import HTMLParser
@@ -18,17 +19,20 @@ PAGES = (
     "governance.html",
     "solutions.html",
     "architecture.html",
+    "learning.html",
     "library.html",
     "company.html",
 )
 DIAGRAMS = (
     "service-factory",
+    "generic-agent-runtime",
     "platform-planes",
     "capability-lifecycle",
     "governed-run",
     "scale-path",
 )
 ATLAS = "contextweaver-nextgen-architecture"
+SOURCE_TRUTH = ROOT / "content" / "source-truth.json"
 
 
 class PageParser(HTMLParser):
@@ -134,6 +138,29 @@ def validate_atlas() -> None:
             assert_true(image.info.get("duration") == 1000, f"NextGen atlas frame {frame} is not 1,000 ms")
 
 
+def validate_source_truth() -> None:
+    ledger = json.loads(SOURCE_TRUTH.read_text(encoding="utf-8"))
+    assert_true(ledger.get("schemaVersion") == 1, "Source-truth schema version must be 1")
+    assert_true(
+        re.fullmatch(r"\d{4}-\d{2}-\d{2}", ledger.get("auditedAt", "")) is not None,
+        "Source-truth audit date must use YYYY-MM-DD",
+    )
+    facts = ledger.get("facts", [])
+    fact_ids = [fact.get("id", "") for fact in facts]
+    assert_true(facts and len(fact_ids) == len(set(fact_ids)), "Source-truth fact IDs must be unique")
+    for repository, revision in ledger.get("sources", {}).items():
+        assert_true(repository and re.fullmatch(r"[0-9a-f]{40}", revision) is not None, f"Invalid revision for {repository}")
+    rendered = "\n".join((ROOT / page).read_text(encoding="utf-8") for page in PAGES)
+    for fact in facts:
+        fact_id = fact["id"]
+        assert_true(fact.get("title") and fact.get("summary"), f"{fact_id}: missing public claim")
+        assert_true(fact.get("evidence"), f"{fact_id}: missing evidence reference")
+        assert_true(
+            f'data-fact-id="{fact_id}"' in rendered,
+            f"{fact_id}: source-truth fact is not rendered on any public page",
+        )
+
+
 def main() -> None:
     for page in PAGES:
         validate_page(ROOT / page)
@@ -141,7 +168,11 @@ def main() -> None:
         validate_diagram(slug)
     validate_drawio()
     validate_atlas()
-    print(f"Validated {len(PAGES)} pages and {len(DIAGRAMS)} complete diagram deliverables.")
+    validate_source_truth()
+    print(
+        f"Validated {len(PAGES)} pages, {len(DIAGRAMS)} complete diagram deliverables, "
+        "and the public source-truth ledger."
+    )
 
 
 if __name__ == "__main__":

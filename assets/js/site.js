@@ -1,18 +1,17 @@
 (() => {
   const root = document.documentElement;
   const storedTheme = localStorage.getItem("cw-theme");
-  const preferred = matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark";
-  root.dataset.theme = storedTheme || preferred;
+  root.dataset.theme = storedTheme === "deep" ? "deep" : "dark";
 
   const themeButton = document.querySelector("[data-theme-toggle]");
   const updateThemeButton = () => {
     if (!themeButton) return;
-    const isLight = root.dataset.theme === "light";
-    themeButton.textContent = isLight ? "☾" : "☀";
-    themeButton.setAttribute("aria-label", isLight ? "Use dark theme" : "Use light theme");
+    const isDeep = root.dataset.theme === "deep";
+    themeButton.textContent = isDeep ? "◐" : "◑";
+    themeButton.setAttribute("aria-label", isDeep ? "Use standard dark theme" : "Use high-contrast dark theme");
   };
   themeButton?.addEventListener("click", () => {
-    root.dataset.theme = root.dataset.theme === "light" ? "dark" : "light";
+    root.dataset.theme = root.dataset.theme === "deep" ? "dark" : "deep";
     localStorage.setItem("cw-theme", root.dataset.theme);
     updateThemeButton();
   });
@@ -153,4 +152,187 @@
       if (event.key === "Escape") closeExperience();
     });
   });
+
+  const learningAtlas = document.querySelector("[data-learning-atlas]");
+  if (learningAtlas) {
+    const goals = {
+      understand: {
+        label: "Understand",
+        title: "From AI basics to one governed result",
+        copy: "Learn why language models need enterprise knowledge, bounded Agents, approved capabilities, durable Workflows, policy, and evidence before they can produce trusted business outcomes.",
+        guide: "ContextWeaver essentials for a new learner",
+        items: ["AI, LLM, and RAG in plain language", "Agent, MCP, Workflow, Service, and Solution", "One governed journey with evidence"],
+      },
+      explain: {
+        label: "Explain",
+        title: "Tell the ContextWeaver product story clearly",
+        copy: "Move from the customer problem to the product model, differentiators, proof points, trust story, public architecture, and claims that must not be made.",
+        guide: "ContextWeaver product narrative for marketing",
+        items: ["Category, audience, and core customer problem", "Cerebro, Weave, Loom, and the reuse model", "Approved proof points and claim boundaries"],
+      },
+      sell: {
+        label: "Sell",
+        title: "Connect customer pain to governed outcomes",
+        copy: "Use discovery questions, qualification signals, use-case patterns, business value, deployment choices, demo flows, objections, and clear non-fit guidance.",
+        guide: "ContextWeaver discovery and solution guide",
+        items: ["Customer pains and qualification questions", "Outcome-led use cases and demo paths", "Objections, deployment choices, and non-fit signals"],
+      },
+      build: {
+        label: "Build",
+        title: "Create, test, publish, and operate a capability",
+        copy: "Follow the governed builder lifecycle across Studios, source control, typed contracts, evaluation, immutable publication, deployment, runtime evidence, and safe retirement.",
+        guide: "ContextWeaver builder handbook",
+        items: ["Agent, MCP, Workflow, Service, and Solution contracts", "Tests, evaluation, policy, and publication", "Deployment, observability, and lifecycle"],
+      },
+      architect: {
+        label: "Architect",
+        title: "Traverse every boundary, dependency, and tradeoff",
+        copy: "Inspect product planes, identity, authorization, data ownership, synchronous and asynchronous traffic, Kubernetes trust boundaries, portability, scaling, HA, and disaster recovery.",
+        guide: "ContextWeaver architecture deep dive",
+        items: ["Planes, contracts, trust boundaries, and identity", "Data, queues, storage, gateways, and runtime flow", "Portability, scale, resilience, and target architecture"],
+      },
+      operate: {
+        label: "Operate",
+        title: "Run, diagnose, recover, and improve the platform",
+        copy: "Learn the cluster, service startup order, dependencies, health signals, dashboards, alerts, failure modes, incident flows, backup, restore, and disaster-recovery sequence.",
+        guide: "ContextWeaver operator and SRE runbook",
+        items: ["Cluster, namespaces, services, and dependencies", "Logs, metrics, traces, alerts, and diagnosis", "Shutdown, startup, backup, restore, and recovery"],
+      },
+    };
+    const depthTimes = { essentials: "15 minutes", practitioner: "60 minutes", deep: "Complete deep dive" };
+    const routeTitle = learningAtlas.querySelector("[data-learning-route-title]");
+    const routeCopy = learningAtlas.querySelector("[data-learning-route-copy]");
+    const routeTime = learningAtlas.querySelector("[data-learning-route-time]");
+    const goalLabel = learningAtlas.querySelector("[data-learning-goal-label]");
+    const guideTitle = learningAtlas.querySelector("[data-learning-guide-title]");
+    const guideList = learningAtlas.querySelector("[data-learning-guide-list]");
+    let selectedGoal = "understand";
+    let selectedDepth = "essentials";
+
+    const renderLearningSelection = () => {
+      const goal = goals[selectedGoal];
+      if (!goal) return;
+      if (routeTitle) routeTitle.textContent = goal.title;
+      if (routeCopy) routeCopy.textContent = goal.copy;
+      if (routeTime) routeTime.textContent = depthTimes[selectedDepth] || depthTimes.essentials;
+      if (goalLabel) goalLabel.textContent = goal.label;
+      if (guideTitle) guideTitle.textContent = goal.guide;
+      if (guideList) guideList.innerHTML = goal.items.map((item) => `<li>${item}</li>`).join("");
+      const url = new URL(location.href);
+      url.searchParams.set("goal", selectedGoal);
+      url.searchParams.set("depth", selectedDepth);
+      history.replaceState({}, "", url);
+    };
+
+    const requestedGoal = new URLSearchParams(location.search).get("goal");
+    const requestedDepth = new URLSearchParams(location.search).get("depth");
+    if (requestedGoal && goals[requestedGoal]) selectedGoal = requestedGoal;
+    if (requestedDepth && depthTimes[requestedDepth]) selectedDepth = requestedDepth;
+
+    const goalButtons = [...learningAtlas.querySelectorAll("[data-learning-goal]")];
+    goalButtons.forEach((button) => {
+      const selected = button.dataset.learningGoal === selectedGoal;
+      button.classList.toggle("active", selected);
+      button.setAttribute("aria-pressed", String(selected));
+      button.addEventListener("click", () => {
+        selectedGoal = button.dataset.learningGoal;
+        goalButtons.forEach((item) => {
+          const active = item === button;
+          item.classList.toggle("active", active);
+          item.setAttribute("aria-pressed", String(active));
+        });
+        renderLearningSelection();
+      });
+    });
+
+    const depthButtons = [...learningAtlas.querySelectorAll("[data-learning-depth]")];
+    depthButtons.forEach((button) => {
+      const selected = button.dataset.learningDepth === selectedDepth;
+      button.classList.toggle("active", selected);
+      button.setAttribute("aria-pressed", String(selected));
+      button.addEventListener("click", () => {
+        selectedDepth = button.dataset.learningDepth;
+        depthButtons.forEach((item) => {
+          const active = item === button;
+          item.classList.toggle("active", active);
+          item.setAttribute("aria-pressed", String(active));
+        });
+        renderLearningSelection();
+      });
+    });
+
+    const jargonButton = learningAtlas.querySelector("[data-learning-jargon]");
+    jargonButton?.addEventListener("click", () => {
+      const active = !document.body.classList.contains("learning-jargon-on");
+      document.body.classList.toggle("learning-jargon-on", active);
+      jargonButton.setAttribute("aria-pressed", String(active));
+      jargonButton.textContent = active ? "Jargon explanations on" : "Explain jargon inline";
+    });
+    learningAtlas.querySelectorAll("[data-learning-jargon-term]").forEach((button) => {
+      button.addEventListener("click", () => {
+        const expanded = button.dataset.expanded === "true";
+        button.dataset.expanded = String(!expanded);
+        button.textContent = expanded
+          ? "What is a typed contract?"
+          : "Typed contract: a validated input/output schema that makes expectations explicit.";
+      });
+    });
+
+    const filters = [...learningAtlas.querySelectorAll("[data-component-filter]")];
+    const componentCards = [...learningAtlas.querySelectorAll("[data-component-domain]")];
+    filters.forEach((button) => button.addEventListener("click", () => {
+      const filter = button.dataset.componentFilter;
+      filters.forEach((item) => {
+        const active = item === button;
+        item.classList.toggle("active", active);
+        item.setAttribute("aria-pressed", String(active));
+      });
+      componentCards.forEach((card) => {
+        const domains = (card.dataset.componentDomain || "").split(" ");
+        card.hidden = filter !== "all" && !domains.includes(filter);
+      });
+    }));
+
+    const lensContent = {
+      business: ["Why it matters", "Turn repeatable expertise into a governed capability.", "An Agent can apply a specialist role consistently while the platform preserves ownership, limits, approvals, and evidence. It augments a process; it does not become an unaccountable digital employee.", ["Good fit", "Research, classify, compare, recommend, draft"], ["Needs control", "Side effects, sensitive data, high-risk decisions"], ["ContextWeaver adds", "Identity, policy, MCP boundaries, approval, evidence"]],
+      sales: ["Customer conversation", "Lead with the process problem, not autonomous AI.", "Qualify where expertise is repetitive, information is fragmented, tools are disconnected, and accountability matters. Show one bounded journey and its evidence rather than promising a general digital employee.", ["Ask", "Where does work stall or require manual coordination?"], ["Demonstrate", "A governed result with citations, approval, and receipts"], ["Avoid", "Claims of unlimited autonomy or automatic compliance"]],
+      engineering: ["Implementation model", "A typed runtime profile around a model and approved dependencies.", "The Agent receives validated state, a profile, model alias, budgets, and allowlisted MCP references. It emits typed output and evidence. It does not own credentials, deployment authority, or unrestricted network access.", ["Inputs", "Schema, identity context, task state, context pack"], ["Runtime", "Bounded loop, timeout, retries, token and cost budgets"], ["Outputs", "Typed result, citations, receipts, diagnostics"]],
+      architecture: ["Boundary and tradeoff", "Separate probabilistic reasoning from deterministic authority.", "Agents optimize reasoning flexibility. Workflows own order and durable control; MCP servers own capability interfaces; gateways and policy services own authorization and credentials; the Registry owns immutable identity.", ["Boundary", "Agent is not Workflow, MCP, or policy engine"], ["Scale", "Profile-bound generic runtimes and isolated queues"], ["Tradeoff", "More contracts, but safer reuse and independent evolution"]],
+      operations: ["Runtime operations", "Operate the profile, queue, and evidence—not hidden reasoning.", "Monitor queue depth, execution latency, model errors, retries, budget exhaustion, output validation, and dependency health. Roll back an immutable profile or model alias without rewriting the Workflow.", ["Health", "Readiness, queue lag, model and MCP dependencies"], ["Failure", "Timeout, invalid output, unavailable provider, budget breach"], ["Recovery", "Retry safely, requeue, pause, quarantine, or roll back"]],
+    };
+    const lensTabs = [...learningAtlas.querySelectorAll("[data-learning-lens]")];
+    const lensPanel = learningAtlas.querySelector("[data-learning-lens-panel]");
+    const renderLens = (name) => {
+      const content = lensContent[name];
+      if (!content || !lensPanel) return;
+      lensPanel.innerHTML = `<div><span class="learning-panel-kicker">${content[0]}</span><h3>${content[1]}</h3><p>${content[2]}</p></div><div class="learning-agent-loop" aria-label="Bounded Agent loop"><span>Observe</span><i>→</i><span>Plan</span><i>→</i><span>Act</span><i>→</i><span>Inspect</span><i>→</i><b>Stop</b></div><div class="learning-panel-grid"><article><span>${content[3][0]}</span><b>${content[3][1]}</b></article><article><span>${content[4][0]}</span><b>${content[4][1]}</b></article><article><span>${content[5][0]}</span><b>${content[5][1]}</b></article></div>`;
+    };
+    lensTabs.forEach((tab, index) => {
+      tab.addEventListener("click", () => {
+        lensTabs.forEach((item) => {
+          const active = item === tab;
+          item.classList.toggle("active", active);
+          item.setAttribute("aria-selected", String(active));
+          item.tabIndex = active ? 0 : -1;
+        });
+        renderLens(tab.dataset.learningLens);
+      });
+      tab.addEventListener("keydown", (event) => {
+        if (!["ArrowLeft", "ArrowRight"].includes(event.key)) return;
+        event.preventDefault();
+        const direction = event.key === "ArrowRight" ? 1 : -1;
+        const next = lensTabs[(index + direction + lensTabs.length) % lensTabs.length];
+        next.click();
+        next.focus();
+      });
+    });
+
+    const generateButton = learningAtlas.querySelector("[data-learning-generate]");
+    generateButton?.addEventListener("click", () => {
+      generateButton.textContent = "Guide assembled from canonical modules";
+      generateButton.classList.remove("primary");
+      generateButton.setAttribute("aria-live", "polite");
+    });
+    renderLearningSelection();
+  }
 })();

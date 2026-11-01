@@ -26,11 +26,13 @@ COLORS = {
     "line": "#38544a",
     "mint": "#70e6b1",
     "amber": "#ffc76a",
-    "coral": "#ff8a72",
-    "violet": "#c0a6ff",
-    "sky": "#7dd8e8",
+    "coral": "#7fb98d",
+    "violet": "#9bcf9f",
+    "sky": "#52b788",
     "danger": "#ff7188",
 }
+
+FONT_STACK = 'Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif'
 
 
 @dataclass(frozen=True)
@@ -421,16 +423,16 @@ def svg_content(diagram: Diagram, interactive: bool = False) -> str:
 
 SVG_STYLE = f"""
   .grid-lines path {{ stroke:{COLORS['line']}; stroke-width:1; }}
-  .diagram-title {{ fill:{COLORS['text']}; font:700 24px Georgia,serif; }}
-  .diagram-subtitle {{ fill:{COLORS['muted']}; font:12px Segoe UI,sans-serif; }}
+  .diagram-title {{ fill:{COLORS['text']}; font:700 24px {FONT_STACK}; }}
+  .diagram-subtitle {{ fill:{COLORS['muted']}; font:12px {FONT_STACK}; }}
   .node rect {{ fill:{COLORS['panel']}; stroke:{COLORS['line']}; stroke-width:2; }}
   .node-mint rect {{ stroke:{COLORS['mint']}; }} .node-sky rect {{ stroke:{COLORS['sky']}; }}
   .node-amber rect {{ stroke:{COLORS['amber']}; }} .node-violet rect {{ stroke:{COLORS['violet']}; }}
   .node-coral rect {{ stroke:{COLORS['coral']}; }}
-  .node-title {{ fill:{COLORS['text']}; font:700 14px Segoe UI,sans-serif; text-anchor:middle; }}
-  .node-subtitle {{ fill:{COLORS['muted']}; font:10px Segoe UI,sans-serif; text-anchor:middle; }}
+  .node-title {{ fill:{COLORS['text']}; font:700 14px {FONT_STACK}; text-anchor:middle; }}
+  .node-subtitle {{ fill:{COLORS['muted']}; font:10px {FONT_STACK}; text-anchor:middle; }}
   .edge path {{ fill:none; stroke:{COLORS['line']}; stroke-width:2.5; }}
-  .edge text {{ fill:{COLORS['muted']}; font:9px Segoe UI,sans-serif; text-anchor:middle; paint-order:stroke; stroke:{COLORS['bg']}; stroke-width:4; }}
+  .edge text {{ fill:{COLORS['muted']}; font:9px {FONT_STACK}; text-anchor:middle; paint-order:stroke; stroke:{COLORS['bg']}; stroke-width:4; }}
   .edge-governance path {{ stroke:{COLORS['violet']}; stroke-dasharray:8 6; }}
   .edge-success path {{ stroke:{COLORS['mint']}; }} .edge-evidence path {{ stroke:{COLORS['amber']}; stroke-dasharray:5 5; }}
   .edge-waiting path {{ stroke:{COLORS['amber']}; stroke-dasharray:10 7; }}
@@ -468,15 +470,15 @@ def write_interactive_html(diagram: Diagram) -> None:
 <title>{escape(diagram.title)} — ContextWeaver</title>
 <style>
 :root{{--bg:{COLORS['bg']};--panel:{COLORS['panel']};--panel2:{COLORS['panel2']};--text:{COLORS['text']};--muted:{COLORS['muted']};--line:{COLORS['line']};--mint:{COLORS['mint']};--amber:{COLORS['amber']};--coral:{COLORS['coral']};--violet:{COLORS['violet']};--sky:{COLORS['sky']}}}
-*{{box-sizing:border-box}}body{{margin:0;color:var(--text);background:var(--bg);font:14px/1.5 Inter,Segoe UI,sans-serif}}button{{font:inherit}}
+*{{box-sizing:border-box}}body{{margin:0;color:var(--text);background:var(--bg);font:14px/1.5 {FONT_STACK}}}button{{font:inherit}}
 .shell{{display:grid;grid-template-columns:minmax(0,1fr) 300px;min-height:720px}}.canvas{{position:relative;overflow:auto;border-right:1px solid var(--line)}}.architecture{{display:block;min-width:840px;width:100%;height:auto}}
 {SVG_STYLE}
 .node{{cursor:pointer}}.node rect,.edge path{{transition:.3s}}.node:hover rect,.node.selected rect{{stroke-width:4}}.node.active rect{{stroke-width:5;filter:url(#glow)}}.node.complete{{opacity:.66}}
 .edge{{opacity:.24}}.edge.active{{opacity:1}}.edge.active path{{stroke-width:5;stroke-dasharray:14 9;animation:flow .75s linear infinite;filter:url(#glow)}}.edge-governance.active path{{stroke:var(--violet)}}.edge-success.active path{{stroke:var(--mint)}}.edge-waiting.active path,.edge-evidence.active path{{stroke:var(--amber)}}
 @keyframes flow{{to{{stroke-dashoffset:-23}}}}
-.panel{{display:flex;flex-direction:column;min-width:0;background:linear-gradient(180deg,var(--panel2),var(--bg))}}.panel-head{{padding:20px;border-bottom:1px solid var(--line)}}.eyebrow{{margin:0 0 7px;color:var(--mint);font-size:9px;font-weight:900;letter-spacing:.15em;text-transform:uppercase}}h1{{margin:0;font:700 25px/1.08 Georgia,serif}}.panel-head p{{margin:8px 0 0;color:var(--muted);font-size:11px}}
-.detail{{min-height:210px;padding:20px;border-bottom:1px solid var(--line)}}.detail b{{display:block;font:700 19px/1.2 Georgia,serif}}.detail em{{display:block;margin:7px 0 12px;color:var(--amber);font-size:10px;font-style:normal;font-weight:800}}.detail p{{margin:0;color:#c8d6d0;font-size:12px}}
-.stage{{flex:1;padding:20px}}.stage-count{{color:var(--mint);font-size:10px;font-weight:900;letter-spacing:.12em;text-transform:uppercase}}.stage h2{{margin:8px 0;font:700 21px/1.18 Georgia,serif}}.stage p{{margin:0;color:var(--muted);font-size:12px}}
+.panel{{display:flex;flex-direction:column;min-width:0;background:linear-gradient(180deg,var(--panel2),var(--bg))}}.panel-head{{padding:20px;border-bottom:1px solid var(--line)}}.eyebrow{{margin:0 0 7px;color:var(--mint);font-size:9px;font-weight:900;letter-spacing:.15em;text-transform:uppercase}}h1{{margin:0;font:700 25px/1.08 {FONT_STACK}}}.panel-head p{{margin:8px 0 0;color:var(--muted);font-size:11px}}
+.detail{{min-height:210px;padding:20px;border-bottom:1px solid var(--line)}}.detail b{{display:block;font:700 19px/1.2 {FONT_STACK}}}.detail em{{display:block;margin:7px 0 12px;color:var(--amber);font-size:10px;font-style:normal;font-weight:800}}.detail p{{margin:0;color:#c8d6d0;font-size:12px}}
+.stage{{flex:1;padding:20px}}.stage-count{{color:var(--mint);font-size:10px;font-weight:900;letter-spacing:.12em;text-transform:uppercase}}.stage h2{{margin:8px 0;font:700 21px/1.18 {FONT_STACK}}}.stage p{{margin:0;color:var(--muted);font-size:12px}}
 .controls{{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;padding:12px;border-top:1px solid var(--line)}}.controls button{{min-height:39px;border:1px solid var(--line);border-radius:9px;color:var(--text);background:var(--panel);cursor:pointer;font-size:11px;font-weight:800}}.controls button:hover{{border-color:var(--mint)}}.controls .primary{{color:#07110f;background:var(--mint)}}
 .dots{{display:flex;flex-wrap:wrap;gap:6px;padding:0 18px 16px}}.dot{{width:10px;height:10px;padding:0;border:0;border-radius:50%;background:var(--line);cursor:pointer}}.dot.active{{background:var(--mint);box-shadow:0 0 10px var(--mint)}}
 @media(max-width:900px){{.shell{{grid-template-columns:1fr}}.canvas{{border-right:0;border-bottom:1px solid var(--line)}}.panel{{min-height:440px}}.architecture{{min-width:760px}}}}
@@ -510,7 +512,7 @@ $("play").textContent=playing?"Pause":"Play";render();restart();
 
 
 def load_font(size: int, bold: bool = False) -> ImageFont.FreeTypeFont | ImageFont.ImageFont:
-    names = ["seguisb.ttf", "arialbd.ttf"] if bold else ["segoeui.ttf", "arial.ttf"]
+    names = ["Inter-Bold.ttf", "seguisb.ttf", "arialbd.ttf"] if bold else ["Inter-Regular.ttf", "segoeui.ttf", "arial.ttf"]
     for name in names:
         path = Path("C:/Windows/Fonts") / name
         if path.exists():
@@ -607,21 +609,8 @@ def write_gif(diagram: Diagram) -> None:
 
 
 def drawio_style(node: Node) -> str:
-    fill = {
-        "mint": "#e6f8ef",
-        "sky": "#e8f6f9",
-        "amber": "#fff3d8",
-        "violet": "#f0eafd",
-        "coral": "#fde9e5",
-    }[node.color]
-    stroke = {
-        "mint": "#3c9b72",
-        "sky": "#4b98a8",
-        "amber": "#c28a2c",
-        "violet": "#7c60b3",
-        "coral": "#c56452",
-    }[node.color]
-    return f"rounded=1;whiteSpace=wrap;html=1;shadow=1;arcSize=16;fillColor={fill};strokeColor={stroke};strokeWidth=2;fontSize=14;fontColor=#12251f;align=center;verticalAlign=middle;spacing=10;"
+    stroke = COLORS[node.color]
+    return f"rounded=1;whiteSpace=wrap;html=1;shadow=1;arcSize=16;fillColor={COLORS['panel']};strokeColor={stroke};strokeWidth=2;fontSize=14;fontFamily=Inter;fontColor={COLORS['text']};align=center;verticalAlign=middle;spacing=10;"
 
 
 def write_drawio(diagrams: tuple[Diagram, ...]) -> None:
@@ -632,25 +621,25 @@ def write_drawio(diagrams: tuple[Diagram, ...]) -> None:
         root = ET.SubElement(model, "root")
         ET.SubElement(root, "mxCell", id="0")
         ET.SubElement(root, "mxCell", id="1", parent="0")
-        title = ET.SubElement(root, "mxCell", id=f"{diagram.slug}-title", value=f"<b>{escape(diagram.title)}</b><br>{escape(diagram.subtitle)}", style="text;html=1;strokeColor=none;fillColor=none;whiteSpace=wrap;fontSize=18;fontColor=#12251f;align=left;verticalAlign=middle;", vertex="1", parent="1")
+        title = ET.SubElement(root, "mxCell", id=f"{diagram.slug}-title", value=f"<b>{escape(diagram.title)}</b><br>{escape(diagram.subtitle)}", style=f"text;html=1;strokeColor=none;fillColor=none;whiteSpace=wrap;fontSize=18;fontFamily=Inter;fontColor={COLORS['text']};align=left;verticalAlign=middle;", vertex="1", parent="1")
         ET.SubElement(title, "mxGeometry", x="35", y="20", width="1100", height="60", **{"as": "geometry"})
         for node in diagram.nodes:
             cell = ET.SubElement(root, "mxCell", id=f"{diagram.slug}-{node.id}", value=f"<b>{escape(node.title)}</b><br>{escape(node.subtitle)}", style=drawio_style(node), vertex="1", parent="1")
             ET.SubElement(cell, "mxGeometry", x=str(node.x), y=str(node.y), width=str(node.w), height=str(node.h), **{"as": "geometry"})
         for edge in diagram.edges:
             edge_color = {
-                "governance": "#7c60b3",
-                "success": "#3c9b72",
-                "waiting": "#c28a2c",
-                "evidence": "#c28a2c",
-            }.get(edge.kind, "#4b98a8")
+                "governance": COLORS["violet"],
+                "success": COLORS["mint"],
+                "waiting": COLORS["amber"],
+                "evidence": COLORS["amber"],
+            }.get(edge.kind, COLORS["sky"])
             dashed = "1" if edge.kind in {"governance", "waiting", "evidence"} else "0"
             cell = ET.SubElement(
                 root,
                 "mxCell",
                 id=f"{diagram.slug}-{edge.id}",
                 value=escape(edge.label),
-                style=f"edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeWidth=2;strokeColor={edge_color};dashed={dashed};fontSize=10;fontColor=#365047;",
+                style=f"edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeWidth=2;strokeColor={edge_color};dashed={dashed};fontSize=10;fontFamily=Inter;fontColor={COLORS['muted']};",
                 edge="1",
                 parent="1",
                 source=f"{diagram.slug}-{edge.source}",

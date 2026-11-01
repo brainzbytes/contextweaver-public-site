@@ -1,56 +1,51 @@
 # ContextWeaver public site
 
-This is the standalone public website for **BrainzBytes ContextWeaver**. It is
-intentionally separate from the existing `brainzbytes` publishing target and
-is published from the `brainzbytes/contextweaver-public-site` repository.
+Standalone generated product site for ContextWeaver. Human-authored narrative lives in `tools/generate_site.py`; reviewed current-product claims and their implementation evidence live in `content/source-truth.json`. Generated HTML is committed so reviews can inspect the exact artifact that will be published.
 
-## Preview locally
+Repository: `brainzbytes/contextweaver-public-site`.
 
-```powershell
-cd C:\Users\ajaypunreddy\nextgen\contextweaver-public-site
-py -3 -m pip install -r requirements.txt
-.\scripts\build.ps1
-py -3 tests\validate_site.py
-py -3 -m http.server 4173
-```
+## Pages
 
-Open `http://localhost:4173`.
+The site contains 11 pages: Home, Overview, Platform, Studio, Runtime, Governance, Solutions, Architecture, Learning, Library, and Company. Architecture includes six complete diagram packages plus the four-page NextGen architecture atlas.
 
-## Site structure
-
-- `index.html` — visual ContextWeaver product story and universal AI capability factory
-- `overview.html` — product promise and end-to-end service factory
-- `platform.html` — Cerebro, Weave, Loom, and the eight platform planes
-- `studio.html` — no-code and developer Agent/MCP creation
-- `runtime.html` — governed dynamic service execution and concrete scenario journeys
-- `governance.html` — security, policy, approval, evidence, and lifecycle
-- `solutions.html` — individual, small-business, enterprise, and industry paths
-- `architecture.html` — architecture explorer, cloud posture, and downloadable diagrams
-- `library.html` — curated technical briefs
-- `company.html` — BrainzBytes About and founder profile, with room for Careers and company news
-- `diagrams/` — five interactive HTML diagrams, static SVGs, GIFs, and one
-  multi-page editable Draw.io source
-
-## Design principles
-
-- Progressive disclosure instead of dozens of disconnected pages.
-- Clear distinction between current foundations and full target architecture.
-- No claims of automatic regulatory certification.
-- Accessible keyboard navigation, high contrast, reduced-motion support, and
-  readable static fallbacks.
-- No runtime framework, analytics tracker, third-party font, or CDN dependency.
-
-## Rebuild
-
-`tools/generate_site.py` owns the page content and
-`tools/generate_diagrams.py` owns all diagram formats. Regenerate before
-committing:
+## Build and validate
 
 ```powershell
-py -3 -m pip install -r requirements.txt
+python -m pip install -r requirements.txt
 .\scripts\build.ps1
-py -3 tests\validate_site.py
+python .\tests\validate_site.py
+npm test
+python .\tools\audit_source_truth.py
 ```
 
-The `package.json` scripts provide equivalent optional shortcuts in
-environments where Node.js is available.
+`audit_source_truth.py` compares the audited revisions in `content/source-truth.json` with sibling repositories under `nextgen`. A mismatch means implementation advanced and public claims must be reviewed before refreshing the ledger.
+
+## Source-of-truth and publication model
+
+1. Implementation repositories are authoritative for code, contracts, and operational behavior.
+2. `content/source-truth.json` is the reviewed public fact ledger. Every fact names its evidence and audited repository revision.
+3. `tools/generate_site.py` is the canonical public narrative and renders the ledger into the appropriate pages.
+4. `tests/validate_site.py` fails if a ledger fact is missing from the generated site.
+5. `.github/workflows/publish-pages.yml` rebuilds all pages and diagrams, runs Python and JavaScript validation, and fails if generated output differs from the commit.
+6. Only a validated artifact from `main` is mirrored into
+   `ajaypunreddy/brainzbytes`, the GitHub Pages publish target for
+   `brainzbytes.com`.
+
+The default generated sitemap targets `https://brainzbytes.com`.
+`brainzbytes/contextweaver-public-site` is the only editable source for the
+public site. The `ajaypunreddy/brainzbytes` repository is a generated publish
+target and must not be edited manually because each successful publication
+replaces its contents with the validated artifact.
+
+The source repository requires the `BRAINZBYTES_DEPLOY_KEY` Actions secret,
+whose public key is registered as a write-enabled deploy key on the publish
+target. Pushes to `main` validate and publish automatically. Pull requests run
+the complete validation without changing the public site.
+
+## Editing rules
+
+- Edit `tools/generate_site.py`, not generated HTML.
+- Update `content/source-truth.json` only after reviewing implementation evidence.
+- Preserve the distinction between **Implemented foundation**, **Active realization**, and **Target architecture**.
+- Do not imply automatic certification, provider parity, or authority granted by a model.
+- Keep Agents and MCPs as separate boundaries; Agents never possess provider credentials.
