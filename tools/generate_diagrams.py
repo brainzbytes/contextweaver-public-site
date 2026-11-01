@@ -87,19 +87,19 @@ def e(id_: str, source: str, target: str, label: str = "", kind: str = "data") -
 DIAGRAMS = (
     Diagram(
         "service-factory",
-        "Universal Service Factory",
-        "Any approved source can become a governed, deployable, discoverable, evidence-backed Service.",
+        "Universal Solution and Capability Factory",
+        "Approved inputs become reusable capabilities and Services that compose into governed, user-facing Solutions.",
         (
             n("inputs", "Product inputs", "Specs · APIs · wiki · data · code", "Start from a described outcome, RFC, OpenAPI or AsyncAPI document, existing MCP server, repository, enterprise source, data product, or industry pack.", 36, 145, 180, 110, "sky"),
-            n("studio", "Agent + MCP Studio", "GUI · VS Code · CLI · Jupyter", "Guide non-programmers through creation while preserving complete specifications, schemas, code, tests, configuration references, and deployment assets for engineers.", 260, 145, 190, 110, "mint"),
-            n("contracts", "Typed contracts", "Service · Workflow · Agent · MCP", "Normalize identity, ownership, inputs, outputs, errors, side effects, dependencies, policies, data classes, SLOs, evaluations, and support.", 494, 145, 180, 110, "violet"),
+            n("studio", "Unified Studio", "MCP · Agent · Workflow · Service · Solution", "Guide non-programmers through five governed contexts while preserving complete specifications, schemas, dependency graphs, code, tests, configuration references, and deployment assets for engineers.", 260, 145, 190, 110, "mint"),
+            n("contracts", "Typed contracts", "MCP · Agent · Workflow · Service · Solution", "Normalize identity, ownership, inputs, outputs, errors, side effects, dependencies, policies, data classes, SLOs, experience actions, evaluations, and support.", 494, 145, 180, 110, "violet"),
             n("admission", "Admission pipeline", "Test · scan · SBOM · sign · approve", "Validate behavior and compatibility; scan package, code, dependencies, image, secrets, malware, and licenses; bind provenance and independent approval.", 718, 145, 190, 110, "amber"),
             n("registry", "Immutable Registry", "Candidate · canary · active", "Publish exact versioned contracts and release digests. Discovery is filtered by identity, policy, trust, lifecycle, compatibility, health, region, and residency.", 952, 145, 210, 110, "coral"),
             n("operator", "Capability Operator", "Kubernetes · Helm · GitOps", "Reconcile only an approved desired state into isolated runtime identity, network, quota, configuration, probes, queues, observability, and digest-pinned workloads.", 82, 355, 205, 110, "mint"),
             n("discovery", "Runtime discovery", "Attest · inspect · qualify", "Compare the live descriptor to the signed release, discover Agent or MCP operations, evaluate synthetic and canary traffic, and promote the logical alias.", 337, 355, 205, 110, "sky"),
-            n("compose", "Cerebro composition", "Select · compile · authorize", "Select an approved Service or constrained-compose only admitted capabilities. Validate bindings, policy, approval, budgets, fallbacks, and the complete graph.", 592, 355, 205, 110, "violet"),
-            n("execute", "Durable execution", "Agents · MCPs · RAG · humans", "Commit an immutable plan, dispatch typed work, run parallel branches, wait durably, invoke tools through gateways, retry safely, and compensate when required.", 847, 355, 205, 110, "amber"),
-            n("outcome", "Proved outcome", "Result · citations · receipts · evidence", "Return a typed result with lineage, approvals, policy decisions, release identity, tool receipts, artifacts, metrics, logs, traces, evaluations, and audit references.", 486, 548, 228, 112, "mint"),
+            n("compose", "Solution + Service resolution", "Experience action · compile · authorize", "Resolve a published Solution action to an approved reusable Service and Workflow, or constrained-compose only admitted capabilities. Validate bindings, policy, approval, budgets, fallbacks, and the complete graph.", 592, 355, 205, 110, "violet"),
+            n("execute", "Governed Service Run", "Agents · MCPs · RAG · humans", "Commit an immutable plan, dispatch typed work, run parallel branches, wait durably, invoke tools through gateways, retry safely, and compensate when required.", 847, 355, 205, 110, "amber"),
+            n("outcome", "Solution result + proof", "Experience · citations · receipts · evidence", "Present the typed result through the Solution experience with lineage, approvals, policy decisions, release identity, tool receipts, artifacts, metrics, logs, traces, evaluations, and audit references.", 486, 548, 228, 112, "mint"),
         ),
         (
             e("f1", "inputs", "studio", "ingest"),
@@ -120,8 +120,8 @@ DIAGRAMS = (
             Step("Prove the release", "Tests, security scanning, SBOM, provenance, compatibility, policy, and human approval bind one immutable release.", ("contracts", "admission", "registry"), ("f3", "f4")),
             Step("Deploy through governed desired state", "The Capability Operator creates only the identity, network, secrets, resources, and runtime declared by the approved profile.", ("registry", "operator", "discovery"), ("f5", "f6")),
             Step("Attest and publish discovery", "The live runtime must match the signed release and pass qualification before its logical capability alias becomes active.", ("discovery", "registry"), ("f7",)),
-            Step("Compile an authorized Service", "Cerebro resolves exact compatible capabilities, validates the graph, requires approvals, and freezes an immutable execution plan.", ("registry", "compose", "execute"), ("f8", "f9")),
-            Step("Return an evidence-backed outcome", "The durable runtime finalizes a stable result and attaches the proof needed to operate, audit, and improve it.", ("execute", "outcome", "registry"), ("f10", "f11")),
+            Step("Resolve the Solution action", "Cerebro maps the user-facing experience action to an approved Service, resolves exact compatible capabilities, validates the graph, and freezes an immutable execution plan.", ("registry", "compose", "execute"), ("f8", "f9")),
+            Step("Return an evidence-backed Solution result", "The durable Service Run finalizes a stable result and the Solution presents the proof needed to understand, operate, audit, and improve it.", ("execute", "outcome", "registry"), ("f10", "f11")),
         ),
     ),
     Diagram(
@@ -168,7 +168,7 @@ DIAGRAMS = (
         "Eight Platform Planes",
         "Cerebro, Weave, and Loom coordinate stable governance and execution contracts above replaceable infrastructure.",
         (
-            n("experience", "1 · Experience", "Portal · Studio · workspaces · operations", "Unified surfaces for users, developers, operators, risk owners, and administrators. Browser users receive governed application actions, never cluster-admin credentials.", 62, 92, 250, 95, "violet"),
+            n("experience", "1 · Experience", "My Solutions · Studio · delegated clients", "One authenticated entry point presents consumer, builder, operator, or delegated headless experiences according to entitlement. Users receive governed Solution actions, never cluster-admin credentials.", 62, 92, 250, 95, "violet"),
             n("governance", "2 · Governance", "Identity · policy · approval · audit", "Every protected action requires verified identity, tenant, purpose, policy version, bounded authority, and correlation.", 350, 92, 250, 95, "amber"),
             n("registry", "3 · Registry", "Catalog · schemas · compiler · lifecycle", "Resolve exact compatible versions and compile immutable plans. Discovery never bypasses trust, lifecycle, health, region, residency, or entitlement.", 638, 92, 250, 95, "sky"),
             n("capabilities", "4 · Agents + MCP", "Reasoning · tools · sandbox · evaluation", "Agents reason under bounded identity. MCP calls are schema-validated, policy-mediated, rate-limited, audited, and executed without giving credentials to Agents.", 926, 92, 220, 95, "coral"),
@@ -177,7 +177,7 @@ DIAGRAMS = (
             n("evidence", "7 · Evidence", "Metrics · logs · traces · evaluations", "Correlate infrastructure, model, retrieval, policy, Workflow, tool, cost, quality, and business signals without placing secrets or private payloads in telemetry.", 638, 282, 250, 95, "amber"),
             n("infrastructure", "8 · Infrastructure", "Kubernetes · data · event bus · secrets", "Portable provider implementations for compute, persistence, messaging, object storage, search, identity, secrets, networking, telemetry, backup, and recovery.", 926, 282, 220, 95, "violet"),
             n("cerebro", "Cerebro", "Understand · govern · compile · orchestrate · prove", "The product experience and control plane spanning intent, identity, policy, composition, durable execution, evidence, and operations.", 150, 500, 270, 105, "mint"),
-            n("weave", "Weave", "Services · Workflows · Agents · MCPs · packs", "The reusable governed capability and solution fabric: typed contracts, policies, models, retrieval profiles, data products, and industry packs.", 465, 500, 270, 105, "amber"),
+            n("weave", "Weave", "Solutions · Services · Workflows · Agents · MCPs", "The reusable governed solution and capability fabric: experience contracts, typed runtime contracts, policies, models, retrieval profiles, data products, and industry packs.", 465, 500, 270, 105, "amber"),
             n("loom", "Loom", "Portable operational substrate", "The cloud-neutral Kubernetes, OCI, Helm, GitOps, data, messaging, secrets, identity, networking, and observability foundation.", 780, 500, 270, 105, "violet"),
         ),
         (
@@ -198,7 +198,7 @@ DIAGRAMS = (
             e("p15", "loom", "infrastructure", "providers"),
         ),
         (
-            Step("Experience starts with a governed action", "Users work through Studio, Services, approvals, run history, research, workspaces, topology, and operations—not direct infrastructure credentials.", ("experience", "governance"), ("p1",)),
+            Step("Experience starts with a governed Solution action", "Consumers use My Solutions, builders use Studio, and delegated clients use identity-filtered discovery—not direct infrastructure credentials.", ("experience", "governance"), ("p1",)),
             Step("Governance limits the eligible universe", "Identity, tenant, purpose, entitlement, risk, region, lifecycle, and policy filter what can even be discovered or composed.", ("governance", "registry"), ("p2",)),
             Step("Registry and composition pin exact capability identity", "Schemas, versions, compatibility, trust, health, and lifecycle resolve before Agents or tools can be invoked.", ("registry", "capabilities"), ("p3",)),
             Step("The runtime coordinates typed durable work", "Capabilities execute behind constrained identities while Workflows manage dependencies, waits, retries, callbacks, and compensation.", ("capabilities", "workflow", "knowledge"), ("p4", "p5")),
@@ -248,12 +248,12 @@ DIAGRAMS = (
     ),
     Diagram(
         "governed-run",
-        "Governed Dynamic Service Run",
-        "Identity, policy, data, Agents, MCP tools, approvals, durable state, and evidence remain explicit from prompt to outcome.",
+        "Solution Action to Governed Service Run",
+        "A user-facing Solution action resolves a reusable Service while identity, policy, data, Agents, MCP tools, approvals, durable state, and evidence remain explicit.",
         (
-            n("intent", "User intent", "Prompt · upload refs · purpose", "Accept a bounded request and governed handles. Resolve the user, tenant, groups, roles, relationships, device, session, consent, purpose, and current authority.", 40, 100, 175, 105, "sky"),
+            n("intent", "Solution action", "Experience contract · inputs · purpose", "Accept one published experience action and governed handles. Resolve the user, client, tenant, groups, roles, relationships, device, session, delegation, purpose, and current authority.", 40, 100, 175, 105, "sky"),
             n("understand", "Understand", "Intent · risk · entities · needs", "Produce a typed interpretation. Model output is advisory and cannot assign endpoints, credentials, scope, privilege, or policy.", 255, 100, 175, 105, "mint"),
-            n("compile", "Compile", "Service · graph · bindings · budgets", "Select an eligible Service or constrained-compose approved nodes. Validate the DAG, schemas, conditions, barriers, fallbacks, data bindings, and report constructability.", 470, 100, 175, 105, "violet"),
+            n("compile", "Resolve + compile", "Service · Workflow · bindings · budgets", "Map the Solution action to an eligible Service and approved Workflow, or constrained-compose approved nodes. Validate the DAG, schemas, conditions, barriers, fallbacks, data bindings, and report constructability.", 470, 100, 175, 105, "violet"),
             n("authorize", "Authorize", "Whole graph · use-time policy", "Enumerate every reachable capability, source, model, tool class, side effect, approval, disclosure, environment, and region before dispatch.", 685, 100, 175, 105, "amber"),
             n("plan", "Immutable plan", "Pins · hashes · envelopes · expiry", "Freeze exact versions, policy decisions, field projections, fallback sets, RAG scopes, model envelopes, budgets, approvals, expiry, and revocation epoch.", 900, 100, 225, 105, "coral"),
             n("rag", "Authorized context", "Sources · ACL/RLS · citations", "Retrieve only current, purpose-authorized, classification-aware, source-authoritative evidence with in-query access filters and immutable generation pins.", 65, 330, 190, 110, "sky"),
@@ -296,17 +296,17 @@ DIAGRAMS = (
     Diagram(
         "scale-path",
         "Individual to Sovereign Enterprise",
-        "The same Service, Workflow, Agent, and MCP contracts scale through progressively stronger sharing, isolation, governance, operations, and assurance.",
+        "The same Solution, Service, Workflow, Agent, and MCP contracts scale through progressively stronger sharing, isolation, governance, operations, and assurance.",
         (
-            n("individual", "Individual", "Private tools and personal workflows", "Guided creation, personal sources, explicit confirmation before side effects, local or hosted execution, personal workspaces, and understandable run evidence.", 42, 145, 185, 115, "mint"),
+            n("individual", "Individual", "Personal Solutions and private sources", "Guided consumer experiences, personal sources, explicit confirmation before side effects, local or hosted execution, personal workspaces, and understandable run evidence.", 42, 145, 185, 115, "mint"),
             n("team", "Team", "Shared capabilities and knowledge", "Group entitlements, shared catalogs, team-owned sources, reusable Workflows, owner/support metadata, quality thresholds, and role-based approvals.", 274, 145, 185, 115, "sky"),
-            n("business", "Small business", "Repeatable operating Services", "Business-owned templates, common connectors, customer and financial boundaries, operational dashboards, exception handling, and accountable outcomes.", 506, 145, 185, 115, "amber"),
+            n("business", "Small business", "Repeatable operating Solutions", "Business-owned Solution templates, reusable Services, common connectors, customer and financial boundaries, operational dashboards, exception handling, and accountable outcomes.", 506, 145, 185, 115, "amber"),
             n("enterprise", "Enterprise", "Multi-tenant governed ecosystem", "Publisher trust, separation of duties, risk tiers, lifecycle admission, model and data governance, broad observability, cost attribution, and dedicated profiles.", 738, 145, 185, 115, "violet"),
             n("sovereign", "Sovereign / regulated", "Dedicated, restricted, or disconnected", "Dedicated identity realms, keys, namespaces, data planes, queues, search generations, model endpoints, evidence stores, backups, regions, and offline operations.", 970, 145, 185, 115, "coral"),
-            n("contracts", "Stable capability contracts", "Services · Workflows · Agents · MCPs", "The customer-facing asset model remains stable across scale: typed contracts, exact versions, policy context, evidence, ownership, lifecycle, and support.", 126, 388, 300, 108, "mint"),
+            n("contracts", "Stable product contracts", "Solutions · Services · Workflows · Agents · MCPs", "The product model remains stable across scale: experience and runtime contracts, exact versions, policy context, evidence, ownership, lifecycle, and support.", 126, 388, 300, 108, "mint"),
             n("profiles", "Progressive deployment profiles", "Shared · dedicated · sovereign · edge", "Assurance increases by replacing shared resources with dedicated or restricted implementations without forking the platform semantics.", 450, 388, 300, 108, "amber"),
             n("packs", "Solution and control packs", "Industry · jurisdiction · data · policy", "Signed packs contribute vocabulary, schemas, policies, evaluations, solution templates, dashboards, controls, and shared-responsibility guidance.", 774, 388, 300, 108, "violet"),
-            n("outcomes", "Outcome", "One useful Service to a governed ecosystem", "Customers can start small, preserve investment, and add governance and isolation as actual risk and organizational complexity increase.", 360, 570, 480, 90, "mint"),
+            n("outcomes", "Outcome", "One useful Solution to a governed ecosystem", "Customers can start with one consumer-ready Solution, preserve reusable Service and capability investment, and add governance and isolation as risk and organizational complexity increase.", 360, 570, 480, 90, "mint"),
         ),
         (
             e("s1", "individual", "team", "share"),
@@ -323,10 +323,10 @@ DIAGRAMS = (
         (
             Step("Begin with one person and one useful outcome", "Use guided creation, private approved sources, bounded tools, explicit confirmation, and clear run evidence.", ("individual", "contracts"), ("s5",)),
             Step("Share within a team", "Add group ownership, shared catalogs, source scopes, support routes, quality thresholds, and role-based approval.", ("individual", "team", "contracts"), ("s1", "s5")),
-            Step("Turn know-how into small-business operations", "Package repeatable customer, finance, support, sales, delivery, and administration processes as owned Services.", ("team", "business", "profiles"), ("s2", "s6")),
+            Step("Turn know-how into small-business operations", "Package repeatable customer, finance, support, sales, delivery, and administration processes as user-facing Solutions backed by reusable Services.", ("team", "business", "profiles"), ("s2", "s6")),
             Step("Operate an enterprise capability ecosystem", "Add multi-tenant identity, publisher trust, separation of duties, lifecycle admission, cost attribution, broad observability, and dedicated profiles.", ("business", "enterprise", "profiles", "packs"), ("s3", "s6")),
             Step("Meet sovereign and regulated constraints", "Use dedicated or disconnected identity, keys, networks, data, models, evidence, regions, recovery, and operating procedures.", ("enterprise", "sovereign", "packs"), ("s4", "s7")),
-            Step("Preserve the same capability investment", "Services, Workflows, Agents, MCPs, policies, packs, and evidence retain stable contracts while deployment and assurance become stronger.", ("contracts", "profiles", "packs", "outcomes"), ("s8", "s9", "s10")),
+            Step("Preserve the same product investment", "Solutions, Services, Workflows, Agents, MCPs, policies, packs, and evidence retain stable contracts while deployment and assurance become stronger.", ("contracts", "profiles", "packs", "outcomes"), ("s8", "s9", "s10")),
         ),
     ),
 )

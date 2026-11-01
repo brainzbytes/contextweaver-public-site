@@ -8,8 +8,15 @@ ContextWeaver.
 - Preserve the distinction between implemented foundations, active
   realization, and target architecture.
 - Do not imply automatic regulatory certification or guaranteed compliance.
-- Keep the central product narrative consistent: approved inputs become typed,
-  governed capabilities and durable Services with evidence attached.
+- Keep the central product hierarchy consistent: MCPs expose governed
+  capabilities; Agents provide bounded reasoning; Workflows coordinate
+  durable work; Services expose reusable executable intent-to-outcome
+  contracts; Solutions are the final user-facing compositions and lifecycle
+  experiences assembled from those reusable assets.
+- Do not describe Solutions as a separate runtime primitive. Solution actions
+  resolve reusable Services and use the existing governed Service Run API.
+- Preserve one authenticated entry point with entitlement-shaped Builder,
+  Consumer (`/my-solutions`), and delegated headless experiences.
 - Treat Agents and MCP servers as different capability boundaries.
 - Models may propose plans but cannot authorize capabilities, tools, data,
   credentials, endpoints, or policy.
@@ -36,4 +43,3 @@ py -3 -m pip install -r requirements.txt
 .\scripts\build.ps1
 py -3 tests\validate_site.py
 ```
-
