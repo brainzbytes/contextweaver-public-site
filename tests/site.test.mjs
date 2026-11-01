@@ -207,19 +207,13 @@ test("product hierarchy and consumer journey remain explicit", async () => {
   assert.match(solutions, /delegated/i);
   assert.match(solutions, /Open run-history deep dive/);
   assert.match(solutions, /Open creation and dry runs/);
-  assert.match(architecture, /five Studio contexts/);
-  for (const spatialView of [
-    "intent-to-evidence.png",
-    "layered-governed-architecture.png",
-    "governed-platform-city.png",
-    "contextweaver-spatial-architecture.html",
-  ]) {
-    assert.match(architecture, new RegExp(spatialView.replace(/[.]/g, "\\.")));
-  }
+  assert.match(architecture, /Universal Solution and Capability Factory/);
+  assert.match(architecture, /all ten stages/);
+  assert.match(architecture, /diagrams\/service-factory\.svg/);
   assert.doesNotMatch(architecture, /architecture-block-view/);
   assert.match(story, /user-facing Solution/);
   assert.match(landing, /data-site-intro/);
-  assert.match(landing, /data-src="assets\/brand\/brainzbytes-contextweaver-overview\.html\?embedded=1&amp;intro=1&amp;v=20261101-22"/);
+  assert.match(landing, /data-src="assets\/brand\/brainzbytes-contextweaver-overview\.html\?embedded=1&amp;intro=1&amp;v=20261101-23"/);
   assert.match(landing, /data-intro-skip/);
   assert.match(landing, /data-intro-enter/);
   assert.match(landing, /data-intro-replay/);
@@ -239,10 +233,19 @@ test("product hierarchy and consumer journey remain explicit", async () => {
   assert.match(companyIntro, /brainzbytes-intro-complete/);
   assert.match(companyIntro, /class="logo-portal"/);
   assert.match(companyIntro, /class="logo-plate"/);
-  assert.match(companyIntro, /service-factory\.html\?portal=1&amp;v=20261101-1/);
+  assert.match(companyIntro, /service-factory\.html\?portal=1&amp;v=20261101-3/);
   assert.match(companyIntro, /id="factoryPlane"/);
   assert.match(companyIntro, /contextweaver-factory-stage/);
+  assert.match(companyIntro, /function showOpening\(\)[\s\S]*syncFactoryPlane\(0\)/);
+  assert.doesNotMatch(companyIntro, /syncSpatialPlane/);
+  assert.match(companyIntro, /narrationWatchdogDelay/);
+  assert.match(companyIntro, /speechSynthesis\.resume\(\)/);
   assert.doesNotMatch(companyIntro, /contextweaver-spatial-architecture\.html/);
+  assert.match(architecture, /id="interactive-factory-architecture"/);
+  assert.match(architecture, /service-factory-static-master\.png/);
+  assert.match(architecture, /diagrams\/service-factory\.html\?v=20261101-2/);
+  assert.doesNotMatch(architecture, /experiences\/contextweaver-spatial-r3f/);
+  assert.doesNotMatch(architecture, /id="high-level-views"/);
   const factory = await readFile(join(root, "diagrams", "service-factory.html"), "utf8");
   assert.match(factory, /body\.portal \.storybar,body\.portal \.detailbar\{display:none\}/);
   assert.match(factory, /const portalNodes=\["inputs","studio","contracts","admission","registry","operator","discovery","compose","execute","outcome"\]/);

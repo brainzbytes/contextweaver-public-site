@@ -275,14 +275,15 @@ def validate_product_semantics() -> None:
         "One typed Workflow can support multiple Services",
     ):
         assert_true(relationship in solutions, f"Solutions must explain: {relationship}")
-    assert_true("five Studio contexts" in architecture, "Architecture must include all five Studio contexts")
-    for spatial_view in (
-        "intent-to-evidence.png",
-        "layered-governed-architecture.png",
-        "governed-platform-city.png",
-        f"{SPATIAL}.html",
-    ):
-        assert_true(spatial_view in architecture, f"Architecture must include spatial view {spatial_view}")
+    assert_true(
+        "Universal Solution and Capability Factory" in architecture,
+        "Architecture must lead with the approved factory",
+    )
+    assert_true("all ten stages" in architecture, "Architecture must explain the complete ten-stage factory")
+    assert_true(
+        "diagrams/service-factory.svg" in architecture,
+        "Architecture must link to the factory static fallback",
+    )
     assert_true("architecture-block-view" not in architecture, "Retired flat architecture blocks remain")
     rendered = "\n".join((ROOT / page).read_text(encoding="utf-8") for page in PAGES)
     for image_name in SPATIAL_IMAGES:

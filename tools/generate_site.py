@@ -112,7 +112,7 @@ def page(name: str, title: str, description: str, content: str) -> str:
           <div class="site-intro__stage">
             <iframe
               data-intro-frame
-              data-src="assets/brand/brainzbytes-contextweaver-overview.html?embedded=1&amp;intro=1&amp;v=20261101-22"
+              data-src="assets/brand/brainzbytes-contextweaver-overview.html?embedded=1&amp;intro=1&amp;v=20261101-23"
               title="BrainzBytes and ContextWeaver narrated company overview"
               loading="eager"
               allow="autoplay"
@@ -908,43 +908,41 @@ ARCHITECTURE = """
   <div class="architecture-spatial-hero">
     <div class="architecture-atlas-intro">
       <p class="eyebrow">Master architecture</p>
-      <h1>See the whole ContextWeaver platform. <em>Then inspect every layer.</em></h1>
-      <p class="lede">This is the top-level architecture for one authenticated entry point, Builder and Consumer experiences, five Studio contexts, Solution composition, Service Runs, Cerebro governance, the Weave capability fabric, durable execution, evidence, the Capability Operator, and portable Loom infrastructure.</p>
+      <h1>See the Universal Solution and Capability Factory. <em>Then inspect every governed layer.</em></h1>
+      <p class="lede">This is the approved top-level ContextWeaver architecture: enterprise inputs move through Unified Studio, typed contracts, admission, the immutable registry, Loom deployment, runtime discovery, Cerebros and Weave composition, governed execution, and evidence-backed Solutions.</p>
       <div class="hero-actions">
-        <a class="button primary" href="#interactive-spatial-architecture">Open narrated 3D architecture</a>
-        <a class="button" href="diagrams/contextweaver-spatial-architecture.drawio">Download spatial Draw.io</a>
+        <a class="button primary" href="#interactive-factory-architecture">Open interactive factory</a>
+        <a class="button" href="diagrams/service-factory.svg">Download factory SVG</a>
       </div>
     </div>
-    {layered_architecture}
+    <figure class="spatial-visual" data-reveal>
+      <button class="spatial-visual-stage spatial-visual-trigger" type="button" data-spatial-open data-spatial-type="image" data-spatial-src="assets/media/service-factory-static-master.png" data-spatial-title="Universal Solution and Capability Factory" aria-label="Open large view: Universal Solution and Capability Factory">
+        <img src="assets/media/service-factory-static-master.png" alt="Universal Solution and Capability Factory with ten governed stages from enterprise inputs to evidence-backed Solutions." loading="eager">
+        <span class="spatial-visual-expand" aria-hidden="true">Expand ↗</span>
+      </button>
+      <figcaption>
+        <span>Approved master architecture</span>
+        <strong>One governed factory from intent to outcome</strong>
+        <p>The same ten-stage system creates, admits, deploys, composes, executes, and continuously improves reusable AI capabilities and complete Solutions.</p>
+      </figcaption>
+    </figure>
   </div>
 </section>
 
-<section id="high-level-views" class="container section compact">
+<section id="interactive-factory-architecture" class="container section compact">
   <div class="section-head">
-    <div><p class="section-kicker">Platform at a glance</p><h2>Three spatial views before the deep architecture.</h2></div>
-    <p>Use the product journey, ecosystem city, and governed layers to orient different readers. The interactive view then follows the active semantic route.</p>
-  </div>
-  <div class="spatial-gallery">
-    {intent_to_evidence}
-    {platform_city}
-    {layered_architecture}
-  </div>
-</section>
-
-<section id="interactive-spatial-architecture" class="container section compact">
-  <div class="section-head">
-    <div><p class="section-kicker">Interactive WebGL architecture</p><h2>See, hear, and inspect the governed flow.</h2></div>
-    <p>Use the audio guide for a synchronized four-stage walkthrough, focus an individual plane, or select any raised component. Layer color identifies experience, governance, and execution without weakening semantic flow colors.</p>
+    <div><p class="section-kicker">Interactive factory architecture</p><h2>Walk the complete governed flow.</h2></div>
+    <p>Use Play, Pause, Previous, Next, Reset, stage selection, or component inspection to follow all ten stages without changing the approved factory composition.</p>
   </div>
   <div class="diagram-shell architecture-atlas-shell" data-reveal>
     <div class="diagram-toolbar">
-      <strong>ContextWeaver Narrated Spatial Architecture</strong>
-      <button class="diagram-toolbar-action" type="button" data-spatial-open data-spatial-type="iframe" data-spatial-src="experiences/contextweaver-spatial-r3f/index.html?embedded=1" data-spatial-title="ContextWeaver Narrated Spatial Architecture">Expand view ↗</button>
+      <strong>Universal Solution and Capability Factory</strong>
+      <button class="diagram-toolbar-action" type="button" data-spatial-open data-spatial-type="iframe" data-spatial-src="diagrams/service-factory.html?popout=1&amp;v=20261101-2" data-spatial-title="Universal Solution and Capability Factory">Expand view ↗</button>
     </div>
-    <iframe class="diagram-frame architecture-spatial-frame" src="experiences/contextweaver-spatial-r3f/index.html?embedded=1" title="Narrated ContextWeaver WebGL spatial architecture" loading="eager" sandbox="allow-scripts allow-same-origin"></iframe>
+    <iframe class="diagram-frame architecture-spatial-frame" src="diagrams/service-factory.html?v=20261101-2" title="Universal Solution and Capability Factory" loading="eager" sandbox="allow-scripts allow-same-origin"></iframe>
   </div>
-  <p class="diagram-note">Choose <strong>Audio guide</strong> for a captioned walkthrough. Experience uses deep green, Cerebro governance uses approval amber, and Weave + Loom uses a neutral execution surface; moving shape, line style, labels, and arrowheads communicate flow independently of color.</p>
-  <noscript><p class="diagram-note">JavaScript is required for the narrated WebGL view. <a href="diagrams/contextweaver-spatial-architecture.html?embedded=1">Open the accessible spatial architecture fallback.</a></p></noscript>
+  <p class="diagram-note">Motion follows the active route only. Labels, captions, line styles, and stage controls keep the architecture readable when animation is paused or reduced.</p>
+  <noscript><p class="diagram-note">JavaScript is required for the interactive player. <a href="diagrams/service-factory.svg">Open the static factory architecture.</a></p></noscript>
 </section>
 
 <section class="container section compact">
@@ -968,7 +966,6 @@ ARCHITECTURE = """
 <section id="explore" class="container section compact">
   <div class="section-head"><div><p class="section-kicker">Interactive diagrams</p><h2>Clickable, controllable, and readable without animation.</h2></div><p>Every player supports Play, Pause, Next, Previous, Reset, stage selection, component inspection, keyboard focus, reduced motion, and a textual explanation.</p></div>
   <div style="display:grid;gap:50px">
-    <section id="service-factory">{service_factory}</section>
     <section id="platform-planes">{platform_planes}</section>
     <section id="capability-lifecycle">{capability_lifecycle}</section>
     <section id="governed-run">{governed_run}</section>

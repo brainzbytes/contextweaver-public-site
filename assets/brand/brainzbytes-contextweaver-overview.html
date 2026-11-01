@@ -40,7 +40,7 @@ body.embedded{display:block;height:100vh;padding:0;background:var(--bg)}body.emb
       <div class="portal-name"><strong>BrainzBytes</strong><span>AI company</span></div>
     </aside>
     <div class="portal-screen">
-      <iframe id="factoryPlane" src="../../diagrams/service-factory.html?portal=1&amp;v=20261101-1" title="Universal Solution and Capability Factory" sandbox="allow-scripts allow-same-origin" loading="eager"></iframe>
+      <iframe id="factoryPlane" src="../../diagrams/service-factory.html?portal=1&amp;v=20261101-3" title="Universal Solution and Capability Factory" sandbox="allow-scripts allow-same-origin" loading="eager"></iframe>
       <span class="voice-pill"><i></i><span id="voiceName">Female narrator</span></span>
       <span class="stage-count" id="stageCount">Opening</span>
       <div class="cinematic-state" id="openingState">
@@ -101,7 +101,7 @@ document.body.classList.toggle("popout",popout);
 const byId=id=>document.getElementById(id);
 const factoryPlane=byId("factoryPlane"),jazz=byId("jazz");
 const openingState=byId("openingState"),closingState=byId("closingState");
-let index=0,playing=true,musicEnabled=true,narrationEnabled=true,audioStarted=false,timer=0,speechToken=0,storyStarted=false,closing=false,narratorVoice=null,voiceLoadPromise=null;
+let index=0,playing=true,musicEnabled=true,narrationEnabled=true,audioStarted=false,timer=0,speechToken=0,speechKeepAlive=0,storyStarted=false,closing=false,narratorVoice=null,voiceLoadPromise=null;
 jazz.volume=.18;
 const progress=byId("progress");
 stages.forEach((stage,stageIndex)=>{const button=document.createElement("button");button.type="button";button.ariaLabel=`Open stage ${stageIndex+1}: ${stage.label}`;button.addEventListener("click",()=>{storyStarted=true;closing=false;closingState.hidden=true;openingState.hidden=true;index=stageIndex;render(true)});progress.append(button)});
@@ -147,8 +147,9 @@ function waitForNarrator(){
   }
   return voiceLoadPromise;
 }
-function stopSpeech(){speechToken+=1;if("speechSynthesis" in window)speechSynthesis.cancel();jazz.volume=musicEnabled ? .18 : 0}
+function stopSpeech(){speechToken+=1;clearInterval(speechKeepAlive);speechKeepAlive=0;if("speechSynthesis" in window)speechSynthesis.cancel();jazz.volume=musicEnabled ? .18 : 0}
 function fallbackDelay(stage){return Math.max(6500,Math.min(10500,stage.narration.length*52))}
+function narrationWatchdogDelay(stage){return Math.max(18000,Math.min(32000,stage.narration.length*95))}
 function scheduleFallback(stage){clearTimeout(timer);if(playing)timer=setTimeout(advance,fallbackDelay(stage))}
 async function speak(stage){
   clearTimeout(timer);stopSpeech();
@@ -160,8 +161,10 @@ async function speak(stage){
   const utterance=new SpeechSynthesisUtterance(stage.narration);
   utterance.voice=voice;utterance.lang=voice.lang;utterance.rate=.9;utterance.pitch=1.02;utterance.volume=1;
   utterance.onstart=()=>{if(token===speechToken)jazz.volume=musicEnabled ? .055 : 0};
-  utterance.onend=()=>{if(token!==speechToken)return;jazz.volume=musicEnabled ? .18 : 0;timer=setTimeout(advance,900)};
-  utterance.onerror=event=>{if(token!==speechToken||event.error==="canceled"||event.error==="interrupted")return;jazz.volume=musicEnabled ? .18 : 0;scheduleFallback(stage)};
+  utterance.onend=()=>{if(token!==speechToken)return;clearTimeout(timer);clearInterval(speechKeepAlive);speechKeepAlive=0;jazz.volume=musicEnabled ? .18 : 0;timer=setTimeout(advance,900)};
+  utterance.onerror=event=>{if(token!==speechToken||event.error==="canceled"||event.error==="interrupted")return;clearTimeout(timer);clearInterval(speechKeepAlive);speechKeepAlive=0;jazz.volume=musicEnabled ? .18 : 0;scheduleFallback(stage)};
+  timer=setTimeout(()=>{if(token!==speechToken||!playing)return;speechToken+=1;clearInterval(speechKeepAlive);speechKeepAlive=0;speechSynthesis.cancel();jazz.volume=musicEnabled ? .18 : 0;advance()},narrationWatchdogDelay(stage));
+  speechKeepAlive=setInterval(()=>{if(token===speechToken&&speechSynthesis.paused)speechSynthesis.resume()},8000);
   speechSynthesis.speak(utterance);
 }
 function completeIntro(){playing=false;stopSpeech();jazz.pause();if(window.parent!==window)window.parent.postMessage({type:"brainzbytes-intro-complete"},location.origin)}
@@ -178,7 +181,7 @@ function render(announce=false){
   if(!playing)return;if(announce)speak(stage);else scheduleFallback(stage)
 }
 function startStory(){if(storyStarted)return;storyStarted=true;openingState.classList.add("is-leaving");timer=setTimeout(()=>{openingState.hidden=true;openingState.classList.remove("is-leaving");render(true)},820)}
-function showOpening(){clearTimeout(timer);stopSpeech();storyStarted=false;closing=false;openingState.hidden=false;openingState.classList.remove("is-leaving");closingState.hidden=true;syncSpatialPlane(0);byId("stageCount").textContent="Opening";byId("stageLabel").textContent="Opening";byId("stageTitle").textContent="A governed path from intent to outcome.";byId("stageCaption").textContent="The architecture remains inside one connected BrainzBytes and ContextWeaver brand portal.";timer=setTimeout(startStory,2800)}
+function showOpening(){clearTimeout(timer);stopSpeech();storyStarted=false;closing=false;openingState.hidden=false;openingState.classList.remove("is-leaving");closingState.hidden=true;syncFactoryPlane(0);byId("stageCount").textContent="Opening";byId("stageLabel").textContent="Opening";byId("stageTitle").textContent="A governed path from intent to outcome.";byId("stageCaption").textContent="The architecture remains inside one connected BrainzBytes and ContextWeaver brand portal.";timer=setTimeout(startStory,2800)}
 async function beginAudio(){
   audioStarted=true;byId("audioGate").hidden=true;
   if(musicEnabled){try{await jazz.play()}catch{byId("audioGate").hidden=false}}
