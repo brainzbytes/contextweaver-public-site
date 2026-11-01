@@ -123,7 +123,7 @@ def page(name: str, title: str, description: str, content: str) -> str:
             ></iframe>
           </div>
           <div class="site-intro__footer">
-            <p>The visual story starts automatically. Select <strong>Enable jazz + narration</strong> inside the experience for sound.</p>
+            <p>The visual story and sound start automatically when your browser permits it. If sound is blocked, select <strong>Enable jazz + narration</strong> inside the experience.</p>
             <button class="button primary" type="button" data-intro-enter>Enter ContextWeaver</button>
           </div>
         </div>
@@ -145,7 +145,7 @@ def page(name: str, title: str, description: str, content: str) -> str:
       <meta name="theme-color" content="#07110f">
       <title>{title}</title>
       <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
-      <link rel="stylesheet" href="assets/css/site.css?v=20261101-19">
+      <link rel="stylesheet" href="assets/css/site.css?v=20261101-20">
     </head>
     <body data-page="{name}">
       {intro}

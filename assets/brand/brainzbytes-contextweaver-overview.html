@@ -83,9 +83,18 @@ function render(announce=false){
   if(announce)speak(stage);schedule();
 }
 async function beginAudio(){
-  audioStarted=true;byId('audioGate').hidden=true;
-  if(musicEnabled){try{await jazz.play()}catch{musicEnabled=false;byId('music').ariaPressed='false';byId('music').textContent='Music off'}}
+  if(musicEnabled){
+    try{await jazz.play()}
+    catch{
+      audioStarted=false;
+      byId('audioGate').hidden=false;
+      return false;
+    }
+  }
+  audioStarted=true;
+  byId('audioGate').hidden=true;
   speak(stages[index]);
+  return true;
 }
 byId('beginStory').addEventListener('click',beginAudio);
 byId('playPause').addEventListener('click',()=>{playing=!playing;if(!playing)speechSynthesis.cancel();else if(audioStarted)speak(stages[index]);render()});
@@ -99,6 +108,7 @@ byId('popout').addEventListener('click',()=>{if(popout){window.close();setTimeou
 addEventListener('keydown',event=>{if(['INPUT','TEXTAREA','BUTTON'].includes(document.activeElement?.tagName))return;if(event.key===' '){event.preventDefault();byId('playPause').click()}if(event.key==='ArrowLeft')byId('previous').click();if(event.key==='ArrowRight')byId('next').click();if(event.key==='Home')byId('reset').click();if(event.key.toLowerCase()==='m')byId('music').click();if(event.key.toLowerCase()==='n')byId('narration').click();if(event.key==='Escape'&&popout)byId('popout').click()});
 addEventListener('pagehide',()=>{speechSynthesis.cancel();jazz.pause()});
 render();
+beginAudio();
 </script>
 </body>
 </html>

@@ -152,6 +152,7 @@ test("spatial architecture uses compact, stage-specific emphasis", async () => {
 test("product hierarchy and consumer journey remain explicit", async () => {
   const landing = await readFile(join(root, "index.html"), "utf8");
   const siteJs = await readFile(join(root, "assets", "js", "site.js"), "utf8");
+  const siteCss = await readFile(join(root, "assets", "css", "site.css"), "utf8");
   const overview = await readFile(join(root, "overview.html"), "utf8");
   const studio = await readFile(join(root, "studio.html"), "utf8");
   const runtime = await readFile(join(root, "runtime.html"), "utf8");
@@ -225,12 +226,16 @@ test("product hierarchy and consumer journey remain explicit", async () => {
   assert.match(landing, /assets\/brand\/brainzbytes-b4\.svg/);
   assert.match(landing, /assets\/brand\/contextweaver-c1\.svg/);
   assert.match(landing, /sandbox="allow-scripts allow-same-origin"/);
+  assert.match(landing, /assets\/css\/site\.css\?v=20261101-20/);
   assert.match(landing, /assets\/js\/site\.js\?v=20261101-18/);
   assert.match(siteJs, /contextweaver-company-intro-seen/);
   assert.match(siteJs, /brainzbytes-intro-complete/);
   assert.match(siteJs, /event\.key === "Escape"/);
   assert.match(siteJs, /prefers-reduced-motion: reduce/);
+  assert.match(siteCss, /\.site-intro\[hidden\]\s*\{\s*display:\s*none;\s*\}/);
   assert.match(companyIntro, /Enable jazz \+ narration/);
+  assert.match(companyIntro, /beginAudio\(\);\s*<\/script>/);
+  assert.match(companyIntro, /catch\{\s*audioStarted=false;\s*byId\('audioGate'\)\.hidden=false;/);
   assert.match(companyIntro, /const introMode=params\.get\('intro'\)==='1'/);
   assert.match(companyIntro, /brainzbytes-intro-complete/);
   assert.doesNotMatch(landing, /contextweaver-ai-factory\.(?:gif|png)/);

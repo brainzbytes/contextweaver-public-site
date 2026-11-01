@@ -401,6 +401,7 @@ h1 em { color: var(--mint); font-style: normal; }
   opacity: 0;
   transition: opacity .45s ease;
 }
+.site-intro[hidden] { display: none; }
 .site-intro.is-active { opacity: 1; }
 .site-intro.is-leaving { opacity: 0; pointer-events: none; }
 .site-intro__backdrop {
