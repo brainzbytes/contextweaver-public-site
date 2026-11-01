@@ -1,4 +1,4 @@
-name: Validate and publish brainzbytes.com
+name: Validate and publish standalone site
 
 on:
   pull_request:
@@ -8,9 +8,11 @@ on:
 
 permissions:
   contents: read
+  pages: write
+  id-token: write
 
 concurrency:
-  group: publish-brainzbytes-${{ github.ref }}
+  group: pages
   cancel-in-progress: true
 
 jobs:
@@ -44,49 +46,24 @@ jobs:
         if: github.event_name != 'pull_request'
         run: |
           mkdir _site
-          cp ./*.html sitemap.xml robots.txt CNAME _site/
+          cp ./*.html sitemap.xml robots.txt _site/
           cp -R assets diagrams experiences _site/
           touch _site/.nojekyll
 
       - name: Upload validated site artifact
         if: github.event_name != 'pull_request'
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-pages-artifact@v4
         with:
-          name: public-site
           path: _site
-          if-no-files-found: error
 
   publish:
     if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
     needs: validate
     runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
     steps:
-      - name: Download validated site artifact
-        uses: actions/download-artifact@v5
-        with:
-          name: public-site
-          path: _site
-
-      - name: Checkout brainzbytes.com publish target
-        uses: actions/checkout@v5
-        with:
-          repository: ajaypunreddy/brainzbytes
-          ssh-key: ${{ secrets.BRAINZBYTES_DEPLOY_KEY }}
-          path: target
-          fetch-depth: 0
-
-      - name: Mirror validated artifact
-        run: rsync -a --delete --exclude='.git/' ./_site/ ./target/
-
-      - name: Commit and publish if changed
-        working-directory: target
-        run: |
-          git config user.name "contextweaver-public-site-bot"
-          git config user.email "actions@users.noreply.github.com"
-          git add -A
-          if git diff --cached --quiet; then
-            echo "brainzbytes.com already matches the validated artifact."
-          else
-            git commit -m "Publish validated ContextWeaver site from ${GITHUB_REPOSITORY}@${GITHUB_SHA:0:7}"
-            git push origin HEAD:main
-          fi
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
