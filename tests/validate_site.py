@@ -24,6 +24,7 @@ PAGES = (
     "company.html",
 )
 DIAGRAMS = (
+    "intent-to-evidence",
     "service-factory",
     "generic-agent-runtime",
     "platform-planes",
@@ -32,6 +33,15 @@ DIAGRAMS = (
     "scale-path",
 )
 ATLAS = "contextweaver-nextgen-architecture"
+SPATIAL = "contextweaver-spatial-architecture"
+SPATIAL_IMAGES = (
+    "intent-to-evidence.png",
+    "layered-governed-architecture.png",
+    "governed-platform-city.png",
+    "governed-call-flow.png",
+    "governed-sequence-ladder.png",
+    "durable-saga-flow.png",
+)
 SOURCE_TRUTH = ROOT / "content" / "source-truth.json"
 
 
@@ -138,6 +148,33 @@ def validate_atlas() -> None:
             assert_true(image.info.get("duration") == 1000, f"NextGen atlas frame {frame} is not 1,000 ms")
 
 
+def validate_spatial_architecture() -> None:
+    html_path = ROOT / "diagrams" / f"{SPATIAL}.html"
+    svg_path = ROOT / "diagrams" / f"{SPATIAL}.svg"
+    png_path = ROOT / "diagrams" / f"{SPATIAL}.png"
+    gif_path = ROOT / "diagrams" / f"{SPATIAL}.gif"
+    drawio_path = ROOT / "diagrams" / f"{SPATIAL}.drawio"
+    for path in (html_path, svg_path, png_path, gif_path, drawio_path):
+        assert_true(path.exists() and path.stat().st_size > 500, f"{SPATIAL}: missing or empty {path.suffix}")
+    validate_page(html_path)
+    ET.parse(svg_path)
+    drawio_pages = ET.parse(drawio_path).getroot().findall("diagram")
+    assert_true(len(drawio_pages) == 1, "Spatial architecture Draw.io must contain one page")
+    cells = drawio_pages[0].findall("./mxGraphModel/root/mxCell")
+    assert_true({"0", "1"}.issubset({cell.get("id") for cell in cells}), "Spatial Draw.io lacks root cells")
+    with Image.open(png_path) as image:
+        assert_true(image.size == (1400, 840), "Spatial architecture PNG must be 1400x840")
+    with Image.open(gif_path) as image:
+        assert_true(image.size == (1200, 720), "Spatial architecture GIF must be 1200x720")
+        assert_true(image.n_frames == 8, "Spatial architecture GIF must contain eight stages")
+        for frame in range(image.n_frames):
+            image.seek(frame)
+            assert_true(image.info.get("duration") == 1000, f"Spatial architecture frame {frame} is not 1,000 ms")
+    for image_name in SPATIAL_IMAGES:
+        image_path = ROOT / "assets" / "media" / "spatial" / image_name
+        assert_true(image_path.exists() and image_path.stat().st_size > 10_000, f"Missing spatial image {image_name}")
+
+
 def validate_source_truth() -> None:
     ledger = json.loads(SOURCE_TRUTH.read_text(encoding="utf-8"))
     assert_true(ledger.get("schemaVersion") == 1, "Source-truth schema version must be 1")
@@ -168,7 +205,7 @@ def validate_product_semantics() -> None:
     solutions = (ROOT / "solutions.html").read_text(encoding="utf-8")
     architecture = (ROOT / "architecture.html").read_text(encoding="utf-8")
     atlas = (ROOT / "diagrams" / f"{ATLAS}.html").read_text(encoding="utf-8")
-    story = (ROOT / "experiences" / "contextweaver-ai-factory-3d.html").read_text(encoding="utf-8")
+    story = (ROOT / "diagrams" / "intent-to-evidence.html").read_text(encoding="utf-8")
 
     assert_true("working Solution" in overview, "Overview must promise a working Solution")
     for concept in (
@@ -181,20 +218,66 @@ def validate_product_semantics() -> None:
         assert_true(concept in studio, f"Studio must define {concept}")
     for term in ("Service Experience Contract", "Service Run"):
         assert_true(term in runtime and term in solutions, f"Runtime and Solutions must preserve {term}")
+    for run_detail in (
+        "Run history and evidence",
+        "Journey timeline",
+        "Run Explorer",
+        "Investigate regression",
+        "Accepted output",
+        "Dry-run comparison",
+        "tool and policy receipts",
+        "Evidence bundle",
+    ):
+        assert_true(run_detail.lower() in runtime.lower(), f"Runtime must explain {run_detail}")
     assert_true("/my-solutions" in solutions, "Solutions must document the consumer landing route")
     assert_true("delegated" in solutions.lower(), "Solutions must document delegated external access")
+    assert_true("Open run-history deep dive" in solutions, "Solutions must link to the run-history deep dive")
+    assert_true("Open creation and dry runs" in solutions, "Solutions must link to Studio dry runs")
     assert_true(
         "Service is the reusable executable contract. Solution is the complete user experience." in solutions,
         "Solutions must keep Service and Solution responsibilities distinct",
     )
+    for example in (
+        "Business travel Solution",
+        "Employee onboarding Solution",
+        "Customer incident recovery Solution",
+        "Insurance claim Solution",
+        "Software release Solution",
+    ):
+        assert_true(example in solutions, f"Solutions must include the {example} example")
+    for relationship in (
+        "One Solution can compose many Services",
+        "One Service can support many Solutions",
+        "One Service can select one or more approved Workflows",
+        "One typed Workflow can support multiple Services",
+    ):
+        assert_true(relationship in solutions, f"Solutions must explain: {relationship}")
     assert_true("five Studio contexts" in architecture, "Architecture must include all five Studio contexts")
+    for spatial_view in (
+        "intent-to-evidence.png",
+        "layered-governed-architecture.png",
+        "governed-platform-city.png",
+        f"{SPATIAL}.html",
+    ):
+        assert_true(spatial_view in architecture, f"Architecture must include spatial view {spatial_view}")
+    assert_true("architecture-block-view" not in architecture, "Retired flat architecture blocks remain")
+    rendered = "\n".join((ROOT / page).read_text(encoding="utf-8") for page in PAGES)
+    for image_name in SPATIAL_IMAGES:
+        assert_true(image_name in rendered, f"Approved spatial image is not used: {image_name}")
     assert_true("Solutions" in atlas and "Reusable executable contracts" in atlas, "Atlas must model Solutions and Services")
-    assert_true("Published user-facing Solution" in story, "3D story must end in a published Solution")
+    assert_true("user-facing Solution" in story, "Intent-to-evidence story must return through the user-facing Solution")
 
     combined = "\n".join((ROOT / page).read_text(encoding="utf-8") for page in PAGES) + atlas + story
     for stale in (
         "working Service",
         "Four creation Studios",
+        "ContextWeaver Studios",
+        "Agent Studio",
+        "MCP Studio",
+        "Service Studio",
+        "Workflow Studio",
+        "Solution Studio",
+        "Workspaces and Studios",
         "User-facing governed outcomes",
         "one useful Service",
         "Generated production service",
@@ -209,6 +292,7 @@ def main() -> None:
         validate_diagram(slug)
     validate_drawio()
     validate_atlas()
+    validate_spatial_architecture()
     validate_source_truth()
     validate_product_semantics()
     print(

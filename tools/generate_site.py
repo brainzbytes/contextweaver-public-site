@@ -58,7 +58,7 @@ def footer() -> str:
           <a class="brand" href="index.html"><span class="brand-mark" aria-hidden="true"></span><span class="brand-copy"><strong>ContextWeaver</strong><span>Governed solution operating platform</span></span></a>
           <p style="margin-top:16px">Turn approved intent into user-facing Solutions assembled from governed Services, Workflows, Agents, MCP capabilities, knowledge, models, policy, and portable infrastructure—with evidence attached.</p>
         </div>
-        <div><h3>Explore</h3><div class="footer-links"><a href="platform.html">Platform model</a><a href="studio.html">Agent/MCP Studio</a><a href="runtime.html">Dynamic runtime</a></div></div>
+        <div><h3>Explore</h3><div class="footer-links"><a href="platform.html">Platform model</a><a href="studio.html">Studio and creation contexts</a><a href="runtime.html">Dynamic runtime</a></div></div>
         <div><h3>Trust</h3><div class="footer-links"><a href="governance.html">Governance</a><a href="architecture.html">Architecture</a><a href="library.html">Technical library</a></div></div>
         <div><h3>Company</h3><div class="footer-links"><a href="company.html#about">About BrainzBytes</a><a href="company.html#about">Founder</a><a href="company.html#company-paths">Careers · planned</a></div></div>
       </div>
@@ -71,6 +71,20 @@ def footer() -> str:
 
 
 def page(name: str, title: str, description: str, content: str) -> str:
+    spatial_dialog = """
+      <dialog class="spatial-modal" data-spatial-modal aria-label="Expanded spatial view">
+        <div class="spatial-modal-frame">
+          <div class="spatial-modal-bar">
+            <strong data-spatial-modal-title>ContextWeaver spatial view</strong>
+            <button class="spatial-modal-close" type="button" data-spatial-close aria-label="Close expanded spatial view">← Back to page</button>
+          </div>
+          <div class="spatial-modal-content">
+            <img data-spatial-modal-image alt="">
+            <iframe data-spatial-modal-frame title="Expanded ContextWeaver spatial view" sandbox="allow-scripts allow-same-origin"></iframe>
+          </div>
+        </div>
+      </dialog>
+    """ if 'class="spatial-visual' in content or "data-spatial-open" in content else ""
     return dedent(f"""\
     <!doctype html>
     <html lang="en">
@@ -81,15 +95,16 @@ def page(name: str, title: str, description: str, content: str) -> str:
       <meta name="theme-color" content="#07110f">
       <title>{title}</title>
       <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
-      <link rel="stylesheet" href="assets/css/site.css?v=20261101-13">
+      <link rel="stylesheet" href="assets/css/site.css?v=20261101-18">
     </head>
     <body data-page="{name}">
       {header()}
       <main id="main-content">
         {content}
       </main>
+      {spatial_dialog}
       {footer()}
-      <script src="assets/js/site.js?v=20261101-13"></script>
+      <script src="assets/js/site.js?v=20261101-17"></script>
     </body>
     </html>
     """).lstrip()
@@ -100,13 +115,35 @@ def diagram(name: str, title: str, note: str) -> str:
     <div class="diagram-shell" data-reveal>
       <div class="diagram-toolbar">
         <strong>{title}</strong>
-        <a href="diagrams/{name}.html" target="_blank" rel="noopener">Open full screen ↗</a>
-        <a href="diagrams/{name}.svg">Static SVG</a>
-        <a href="diagrams/{name}.gif">Animated GIF</a>
       </div>
       <iframe class="diagram-frame" src="diagrams/{name}.html" title="{title}" loading="lazy"></iframe>
     </div>
     <p class="diagram-note">{note}</p>
+    """
+
+
+def spatial_visual(
+    image: str,
+    eyebrow: str,
+    title: str,
+    description: str,
+    *,
+    alt: str,
+    wide: bool = False,
+) -> str:
+    wide_class = " spatial-visual-wide" if wide else ""
+    return f"""
+    <figure class="spatial-visual{wide_class}" data-reveal>
+      <button class="spatial-visual-stage spatial-visual-trigger" type="button" data-spatial-open data-spatial-type="image" data-spatial-src="assets/media/spatial/{image}" data-spatial-title="{title}" aria-label="Open large view: {title}">
+        <img src="assets/media/spatial/{image}" alt="{alt}" loading="lazy">
+        <span class="spatial-visual-expand" aria-hidden="true">Expand ↗</span>
+      </button>
+      <figcaption>
+        <span>{eyebrow}</span>
+        <strong>{title}</strong>
+        <p>{description}</p>
+      </figcaption>
+    </figure>
     """
 
 
@@ -132,40 +169,31 @@ LANDING = """
     </div>
     <div class="landing-actions">
       <a class="button primary" href="overview.html">Continue to Overview <span aria-hidden="true">→</span></a>
-      <a class="button" href="experiences/contextweaver-ai-factory-3d.html" data-experience-open>Open interactive story</a>
+      <a class="button" href="diagrams/intent-to-evidence.html?popout=1" target="_blank" rel="noopener noreferrer">Pop out story <span aria-hidden="true">↗</span></a>
     </div>
   </div>
-  <div class="landing-experience-shell">
-    <a class="landing-cinematic-link" href="experiences/contextweaver-ai-factory-3d.html" data-experience-open aria-label="Open the interactive ContextWeaver universal AI capability factory">
-      <picture>
-        <source media="(prefers-reduced-motion: reduce)" srcset="assets/media/contextweaver-ai-factory.png">
-        <img class="landing-cinematic-image" src="assets/media/contextweaver-ai-factory.gif" alt="Animated ten-stage ContextWeaver journey through Workspaces, Studios, safe dry runs, approved promotion, deployment, operations, and enterprise scale">
-      </picture>
-      <span class="landing-cinematic-prompt">Open the clickable 3D experience <span aria-hidden="true">↗</span></span>
-    </a>
+  <div class="landing-experience-shell" data-story-shell>
+    <button class="landing-story-launch" type="button" data-story-launch data-story-src="diagrams/intent-to-evidence.html?embedded=1" aria-label="Play the interactive ContextWeaver intent-to-evidence story">
+      <img class="landing-story-static" src="assets/media/spatial/intent-to-evidence.png" alt="ContextWeaver intent-to-evidence architecture showing Product, Execution, Foundation, Proof, Cerebro, governance, identity, approval, evidence, and outcome">
+      <span class="landing-story-prompt">
+        <span class="landing-story-play" aria-hidden="true">▶</span>
+        <span><strong>Play the governed flow</strong><small>Start the 10-stage intent-to-evidence animation</small></span>
+      </span>
+    </button>
+    <noscript><p class="landing-story-noscript"><a href="diagrams/intent-to-evidence.html">Open the interactive intent-to-evidence story</a></p></noscript>
   </div>
 </section>
-
-<dialog class="experience-modal" data-experience-modal aria-label="Interactive ContextWeaver product story">
-  <div class="experience-modal-frame">
-    <div class="experience-modal-bar">
-      <strong>ContextWeaver interactive story</strong>
-      <button class="experience-modal-close" type="button" data-experience-close aria-label="Close interactive story and return to the website">← Back to website</button>
-    </div>
-    <iframe data-experience-frame data-src="experiences/contextweaver-ai-factory-3d.html" title="Interactive ContextWeaver universal AI capability factory"></iframe>
-  </div>
-</dialog>
 
 <section class="container landing-intro">
   <div class="landing-intro-grid">
     <div>
       <p class="eyebrow">The governed AI solution operating platform</p>
       <h1>From business intent to an <em>approved production Solution.</em></h1>
-      <p class="lede">The visual story above shows the complete lifecycle—from collaborative Workspaces and five Studio contexts to safe dry runs, exact-version promotion, user-facing Solutions, cloud-neutral deployment, and evidence-driven operations.</p>
+      <p class="lede">The visual story above follows one governed path from authenticated intent through reusable Solution and Service contracts, Cerebro compilation, durable execution, independent approval, evidence, outcome, and run history.</p>
     </div>
     <div class="landing-actions">
       <a class="button primary" href="overview.html">Start with the Overview <span aria-hidden="true">→</span></a>
-      <a class="button" href="studio.html">Explore the Studios</a>
+      <a class="button" href="studio.html">Explore Studio</a>
     </div>
   </div>
 </section>
@@ -173,11 +201,11 @@ LANDING = """
 <section class="container landing-next">
   <div class="section-head">
     <div><p class="section-kicker">Continue deeper</p><h2>Move from the visual promise into the product details.</h2></div>
-    <p>The Overview is the first detailed chapter. From there, explore the platform model, creation Studios, runtime, governance, solutions, and complete architecture.</p>
+    <p>The Overview is the first detailed chapter. From there, explore the platform model, the unified Studio and its creation contexts, runtime, governance, Solutions, and complete architecture.</p>
   </div>
   <div class="grid three">
     <article class="card mint" data-reveal><div class="meta">Start here</div><h3>Overview</h3><p>Understand the complete lifecycle, product promise, supported inputs, evidence, and adoption path.</p><a class="card-link" href="overview.html">Open Overview →</a></article>
-    <article class="card sky" data-reveal><div class="meta">Build</div><h3>Workspaces and Studios</h3><p>See how people create MCPs, Agents, Workflows, reusable Services, and complete Solutions using guided and developer experiences.</p><a class="card-link" href="studio.html">Explore Studio →</a></article>
+    <article class="card sky" data-reveal><div class="meta">Build</div><h3>Workspace and Studio</h3><p>See how one Studio moves across MCP, Agent, Workflow, Service, and Solution contexts using guided and developer experiences.</p><a class="card-link" href="studio.html">Explore Studio →</a></article>
     <article class="card violet" data-reveal><div class="meta">Understand</div><h3>Architecture</h3><p>Inspect the planes, trust boundaries, lifecycle, governed runtime, deployment profiles, and editable diagrams.</p><a class="card-link" href="architecture.html">Explore Architecture →</a></article>
   </div>
 </section>
@@ -191,21 +219,14 @@ HOME = """
     <h1>Turn any approved idea into a <em>working Solution.</em></h1>
     <p class="lede">ContextWeaver composes user-facing Solutions from reusable Services, Workflows, Agents, MCP capabilities, enterprise knowledge, models, policy, and portable infrastructure—then governs the lifecycle from creation and dry run to deployment, execution, recovery, and evidence.</p>
     <div class="hero-actions">
-      <a class="button primary" href="studio.html">Explore Agent/MCP Studio <span aria-hidden="true">→</span></a>
+      <a class="button primary" href="studio.html">Explore Studio <span aria-hidden="true">→</span></a>
       <a class="button" href="architecture.html">Explore the architecture</a>
     </div>
     <div class="pills" style="margin-top:24px">
       <span class="pill">No-code GUI</span><span class="pill">VS Code + CLI</span><span class="pill">Jupyter</span><span class="pill">OpenAPI + MCP + A2A</span><span class="pill">Kubernetes + GitOps</span>
     </div>
   </div>
-  <div class="hero-visual" aria-label="ContextWeaver product model">
-    <div class="orbit-ring" aria-hidden="true"></div>
-    <div class="orbit"><div><strong>Solution</strong><span>User-facing outcome</span></div></div>
-    <div class="orbit-node n1"><b>Create</b><small>Studio + code</small></div>
-    <div class="orbit-node n2"><b>Govern</b><small>Policy + approval</small></div>
-    <div class="orbit-node n3"><b>Operate</b><small>Evidence + SLO</small></div>
-    <div class="orbit-node n4"><b>Compose</b><small>Services + capabilities</small></div>
-  </div>
+  {intent_to_evidence}
 </section>
 <div class="container trust-strip" aria-label="Supported creation inputs">
   <span>Specifications & RFCs</span><span>OpenAPI & AsyncAPI</span><span>Wikis & enterprise data</span><span>MCPs, Agents & Workflows</span><span>Services & solution packs</span>
@@ -284,11 +305,7 @@ PLATFORM = """
     <h1>Three systems. One <em>governed fabric.</em></h1>
     <p class="lede"><strong>Cerebro</strong> understands and governs. <strong>Weave</strong> composes user-facing Solutions from reusable Services, Workflows, Agents, MCPs, RAG profiles, models, and policies. <strong>Loom</strong> provides the portable Kubernetes, GitOps, data, messaging, identity, secrets, and observability foundation.</p>
   </div>
-  <div class="grid" style="align-self:center">
-    <article class="card mint"><div class="meta">Cerebro</div><h3>Think, govern, compile, orchestrate, prove.</h3><p>The experience and control plane that turns an authenticated intent into an authorized immutable execution plan and durable outcome.</p></article>
-    <article class="card amber"><div class="meta">Weave</div><h3>Compose reusable capabilities into Solutions.</h3><p>The governed fabric of Solution definitions, Service contracts, Workflow graphs, Agents, MCP tools, data products, models, policies, and industry packs.</p></article>
-    <article class="card violet"><div class="meta">Loom</div><h3>Run on a portable operational substrate.</h3><p>Kubernetes, Helm, OCI, GitOps, databases, queues, object stores, search, identity, secrets, telemetry, and provider adapters.</p></article>
-  </div>
+  {platform_city}
 </section>
 
 <section class="container section compact">
@@ -330,7 +347,7 @@ PLATFORM = """
 <section class="container section compact">
   <div class="chapter-next">
     <div><p class="section-kicker">Next chapter</p><h2>See how capabilities are created, inspected, rehearsed, and promoted.</h2><p>Move from the platform model into the guided and developer creation experience.</p></div>
-    <a class="button primary" href="studio.html">Open Agent + MCP Studio →</a>
+    <a class="button primary" href="studio.html">Open Studio →</a>
   </div>
 </section>
 """
@@ -343,11 +360,7 @@ STUDIO = """
     <p class="lede">MCPs, Agents, Workflows, Services, and Solutions now share one tabbed workspace. A guided GUI supports non-programmers while typed drafts, schemas, dependency graphs, code, and review remain available to engineers.</p>
     <div class="hero-actions"><a class="button primary" href="#create">See the creation flow</a><a class="button" href="architecture.html#capability-lifecycle">See lifecycle architecture</a></div>
   </div>
-  <div class="grid" style="align-self:center">
-    <article class="card mint"><div class="meta">GUI</div><h3>Guided creation</h3><p>Describe the outcome, select sources and tools, review generated contracts, simulate, and submit through governance.</p></article>
-    <article class="card sky"><div class="meta">Developer</div><h3>VS Code, CLI, SDK</h3><p>Author portable specs, schemas, tests, tool implementations, deployment overlays, and evaluation fixtures.</p></article>
-    <article class="card violet"><div class="meta">Research</div><h3>Jupyter workspaces</h3><p>Explore approved data and models, validate retrieval, experiment with scoring, and convert work into governed assets.</p></article>
-  </div>
+  {layered_architecture}
 </section>
 
 <section class="container section compact">
@@ -409,9 +422,9 @@ RUNTIME = """
     <p class="eyebrow">Governed dynamic execution</p>
     <h1>Dynamic enough to adapt. <em>Bounded enough to trust.</em></h1>
     <p class="lede">A user launches a Solution action defined by its Service Experience Contract. ContextWeaver resolves the approved Service and Workflow, or constrained-composes a plan from admitted capabilities; identity, schemas, policy, compatibility, approvals, and the compiler determine whether it can run.</p>
-    <div class="hero-actions"><a class="button primary" href="#flow">Walk through a run</a><a class="button" href="governance.html">Review the safeguards</a></div>
+    <div class="hero-actions"><a class="button primary" href="#flow">Walk through a run</a><a class="button" href="#run-history">Inspect run history</a><a class="button" href="governance.html">Review the safeguards</a></div>
   </div>
-  <div class="quote">Dependencies control when work may run. Schemas, explicit bindings, and field policy control what data each step receives.</div>
+  {governed_call_flow}
 </section>
 
 <section class="container section compact">
@@ -429,6 +442,15 @@ RUNTIME = """
   {governed_run}
 </section>
 
+<section class="container section compact">
+  <div class="section-head"><div><p class="section-kicker">Three runtime views</p><h2>Read the same run by route, message order, or durable recovery.</h2></div><p>Each technical view preserves a different invariant: the service path, exact participant timing, or the state and compensation model behind long-running work.</p></div>
+  <div class="spatial-gallery spatial-gallery-three">
+    {governed_call_flow}
+    {governed_sequence_ladder}
+    {durable_saga_flow}
+  </div>
+</section>
+
 <section id="generic-agent-runtime" class="container section compact">
   <div class="section-head"><div><p class="section-kicker">Profile-bound Agents</p><h2>One hardened image. Many isolated logical Agents.</h2></div><p>Role, schemas, executor, MCP access, budgets, queues, and runtime compatibility are injected through immutable profiles. Each logical Agent retains independent identity, networking, scaling, rollout, and rollback.</p></div>
   {generic_agent_runtime}
@@ -437,6 +459,74 @@ RUNTIME = """
 <section class="container section compact">
   <div class="section-head"><div><p class="section-kicker">Current runtime realization</p><h2>Composition, delegation, retrieval, and approval now share one evidence model.</h2></div><p>Plans are exact-version and digest pinned. Agents receive only authorized MCP bindings, retrieval returns citations and receipts, and policy-required dynamic plans cannot execute before approval of the exact immutable plan.</p></div>
   <div class="grid three">{runtime_facts}</div>
+</section>
+
+<section id="run-history" class="container section">
+  <div class="section-head"><div><p class="section-kicker">Run history and evidence</p><h2>Inspect the journey—not just the final answer.</h2></div><p>The consumer sees a clear progression and result. Builders, approvers, and operators can drill into the immutable plan, Workflow nodes, approvals, retries, tool calls, evidence, and recovery decisions behind it.</p></div>
+  <div class="run-explorer" data-reveal aria-label="Illustrative ContextWeaver Run Explorer product view">
+    <div class="run-explorer-bar">
+      <div class="run-explorer-brand"><span class="run-explorer-mark">CW</span><div><small>ContextWeaver</small><strong>Run Explorer</strong></div></div>
+      <div class="run-explorer-path"><span>Production health</span><b>/</b><strong>Run SR-2847</strong></div>
+      <span class="run-status complete"><i></i> Completed with approval</span>
+    </div>
+    <div class="run-explorer-tabs" aria-label="Run Explorer sections">
+      <span>Summary</span><span class="active">Journey</span><span>Evidence</span><span>Artifacts</span>
+    </div>
+    <div class="run-explorer-body">
+      <aside class="run-journey" aria-label="Run journey">
+        <div class="run-id"><small>Service run</small><strong>Investigate production regression</strong><span>8m 42s · 12 steps · Risk: medium</span></div>
+        <ol>
+          <li class="done"><i>✓</i><div><strong>Intent received</strong><span>10:32:08 · User request</span></div></li>
+          <li class="done"><i>✓</i><div><strong>Capabilities admitted</strong><span>10:32:09 · 6 approved</span></div></li>
+          <li class="done"><i>✓</i><div><strong>Dry run evaluated</strong><span>10:32:12 · 4 checks passed</span></div></li>
+          <li class="done"><i>✓</i><div><strong>Plan approved</strong><span>10:34:21 · Independent reviewer</span></div></li>
+          <li class="active"><i>5</i><div><strong>Investigate regression</strong><span>10:34:23 · Agent step</span></div></li>
+          <li class="done"><i>✓</i><div><strong>Result delivered</strong><span>10:40:50 · Evidence attached</span></div></li>
+        </ol>
+      </aside>
+      <div class="run-step-detail" aria-label="Selected workflow step details">
+        <div class="run-step-heading">
+          <div><small>Workflow node 5 of 12</small><h3>Investigate regression</h3><p>Compare release changes with the observed error spike using only admitted telemetry and repository evidence.</p></div>
+          <span class="run-status complete"><i></i> Succeeded</span>
+        </div>
+        <div class="run-detail-grid">
+          <article><span>Bounded specialist</span><strong>Production diagnosis Agent</strong><small>Profile v3.8 · Model envelope approved</small></article>
+          <article><span>Duration</span><strong>2m 18s</strong><small>Within 5-minute budget</small></article>
+          <article><span>Accepted artifact</span><strong>Diagnosis report</strong><small>SHA-256 · immutable version</small></article>
+        </div>
+        <div class="run-result">
+          <div class="run-result-head"><span>Accepted output</span><strong>Confidence 94%</strong></div>
+          <h4>Release 2026.11.01 introduced a retry-path regression.</h4>
+          <p>Error growth begins seven minutes after ring deployment and correlates with a changed timeout branch. No evidence indicates data loss. Rollback remains a separately approved human action.</p>
+          <div class="run-citations"><span>[1] Release diff</span><span>[2] Trace cohort</span><span>[3] Error budget</span><span>[4] Runbook</span></div>
+        </div>
+        <div class="run-receipt-row">
+          <span><i>✓</i> Typed input validated</span>
+          <span><i>✓</i> 3 tool receipts</span>
+          <span><i>✓</i> Policy decision PD-8821</span>
+          <span><i>✓</i> No credentials disclosed</span>
+        </div>
+      </div>
+      <aside class="run-evidence" aria-label="Evidence summary">
+        <div><small>Authority</small><strong>Delegated read-only</strong><span>Production operator</span></div>
+        <div><small>Approval</small><strong>Maya Chen</strong><span>Separation of duty verified</span></div>
+        <div><small>MCP operations</small><strong>3 completed</strong><span>Logs · Traces · Repository</span></div>
+        <div><small>Evidence</small><strong>18 records</strong><span>Citations, receipts, metrics, traces</span></div>
+        <button type="button">Export evidence bundle</button>
+      </aside>
+    </div>
+    <p class="run-explorer-note">Illustrative product view — exact fields and controls vary by Solution, Service, role, and policy profile.</p>
+  </div>
+  <div class="grid four">
+    <article class="card mint"><div class="meta">Run summary</div><h3>Who asked for what—and what happened?</h3><p>Solution, action, Service, initiator, delegated client, purpose, status, risk, start and finish time, current owner, and final outcome.</p></article>
+    <article class="card amber"><div class="meta">Journey timeline</div><h3>Follow every meaningful state transition.</h3><p>Intent received, capabilities admitted, dry run completed, plan approved, work dispatched, waits entered, retries or compensation applied, and result delivered.</p></article>
+    <article class="card coral"><div class="meta">Step evidence</div><h3>Open any Workflow node.</h3><p>Inspect the Agent or control step, typed inputs and outputs, source citations, model and prompt version, MCP operation, latency, retries, and accepted artifact hash.</p></article>
+    <article class="card sky"><div class="meta">Authority and receipts</div><h3>See why each protected action was allowed.</h3><p>Policy decision, approver, separation of duties, delegated identity, credential-broker event, tool and policy receipts, disclosure decision, logs, metrics, and traces.</p></article>
+  </div>
+  <div class="grid two solution-example-grid">
+    <article class="card mint"><div class="meta">Dry-run comparison</div><h3>Compare rehearsal with production.</h3><p>See mocked side effects, sample or protected-data boundaries, estimated cost and latency, expected approvals, quality and safety evaluation, failure injection, retry, rollback, and the exact version promoted after review.</p></article>
+    <article class="card amber"><div class="meta">Evidence bundle</div><h3>Export the proof with the outcome.</h3><p>Preserve the immutable plan digest, component versions, approvals, citations, provider receipts, artifacts, policy decisions, evaluations, run timeline, trace links, and retention classification.</p></article>
+  </div>
 </section>
 
 <section id="scenarios" class="container section scenario-section">
@@ -531,11 +621,7 @@ GOVERNANCE = """
     <h1>Authority is explicit. <em>Evidence is automatic.</em></h1>
     <p class="lede">Every protected human and workload action carries verified identity, tenant, purpose, policy version, correlation, and bounded authority. No prompt, model, Agent, tool, or generated package can expand its own privileges.</p>
   </div>
-  <div class="grid" style="align-self:center">
-    <article class="card violet"><div class="meta">Identity</div><h3>Who is acting?</h3><p>User, workload, tenant, role, group, relationship, device, session, delegation, and current revocation state.</p></article>
-    <article class="card amber"><div class="meta">Policy</div><h3>What is permitted?</h3><p>Purpose, environment, region, data class, model, source, capability, operation, arguments, risk, and disclosure.</p></article>
-    <article class="card mint"><div class="meta">Evidence</div><h3>What actually happened?</h3><p>Decision IDs, plan and artifact hashes, release digests, approvals, citations, receipts, evaluations, metrics, logs, and traces.</p></article>
-  </div>
+  {governed_call_flow}
 </section>
 
 <section class="container section compact">
@@ -608,9 +694,9 @@ SOLUTIONS = """
     <p class="eyebrow">The user-facing product layer</p>
     <h1>Solutions are what people <em>discover, launch, and trust.</em></h1>
     <p class="lede">A ContextWeaver Solution is the final user-facing composition: a complete experience, dependency graph, lifecycle, and set of reusable Services assembled from governed Workflows, Agents, MCP capabilities, knowledge, models, and policy.</p>
-    <div class="hero-actions"><a class="button primary" href="#concepts">Understand the hierarchy</a><a class="button" href="#consumer">Follow the user journey</a></div>
+    <div class="hero-actions"><a class="button primary" href="#examples">See intent-to-outcome examples</a><a class="button" href="#concepts">Understand the hierarchy</a></div>
   </div>
-  <div class="card mint"><div class="meta">The critical distinction</div><h3>Service is the reusable executable contract. Solution is the complete user experience.</h3><p>A Service can support many Solutions. A Solution can compose multiple Services. Solutions reuse the existing Service Run API; they do not create a separate runtime primitive.</p><div class="pills" style="margin-top:18px"><span class="pill">Reusable Services</span><span class="pill">Complete dependency graph</span><span class="pill">Consumer experience</span></div></div>
+  {intent_to_evidence}
 </section>
 
 <section class="container section compact">
@@ -619,7 +705,7 @@ SOLUTIONS = """
 </section>
 
 <section id="concepts" class="container section">
-  <div class="section-head"><div><p class="section-kicker">Conceptual model</p><h2>Five concepts. Five different responsibilities.</h2></div><p>Each layer adds meaning without erasing the layer beneath it. The distinction keeps reasoning, tool access, orchestration, executable contracts, and user experience independently governed and reusable.</p></div>
+  <div class="section-head"><div><p class="section-kicker">Conceptual model</p><h2>Five concepts. Five different responsibilities.</h2></div><p>Service is the reusable executable contract. Solution is the complete user experience. Each layer adds meaning without erasing the layer beneath it.</p></div>
   <div class="grid four">
     <article class="card sky"><div class="meta">01 · MCP capability</div><h3>A governed way to reach a tool or source</h3><p>Defines tools, resources, prompts, schemas, delegated identity, side-effect risk, receipts, rate limits, idempotency, and compensation. It does not decide the business goal.</p></article>
     <article class="card violet"><div class="meta">02 · Agent</div><h3>A bounded reasoning specialist</h3><p>Uses an approved model, instructions, knowledge, skills, and MCP allow-list to perform one typed responsibility. It does not own end-to-end durable coordination.</p></article>
@@ -636,11 +722,56 @@ SOLUTIONS = """
   </div>
 </section>
 
+<section id="examples" class="container section">
+  <div class="section-head"><div><p class="section-kicker">Five illustrative examples</p><h2>A Solution carries a person from intent to outcome.</h2></div><p>The user asks for an outcome, not a Workflow or MCP. The Solution presents the experience, composes reusable Services, and lets each Service select approved Workflows, Agents, and MCP capabilities behind a stable contract.</p></div>
+  <article class="card mint solution-example-feature" data-reveal>
+    <div class="meta">Example 01 · Business travel Solution</div>
+    <h3>“Arrange an approved trip to Seattle and keep me informed.”</h3>
+    <p>The traveler sees one guided experience. ContextWeaver preserves the reusable execution layers beneath it.</p>
+    <div class="intent-chain" aria-label="Business travel intent-to-outcome chain">
+      <div><span>01 · Intent</span><strong>Arrange the trip</strong><small>Dates, purpose, preferences, budget</small></div>
+      <div><span>02 · Solution</span><strong>Business Travel</strong><small>Forms, actions, progress, approvals</small></div>
+      <div><span>03 · Services</span><strong>Plan, approve, pay, notify</strong><small>Four reusable executable contracts</small></div>
+      <div><span>04 · Workflows</span><strong>Search, compare, approve, book</strong><small>Waits, retries, recovery, receipts</small></div>
+      <div><span>05 · Agents + MCPs</span><strong>Reason and act</strong><small>Travel specialist, policy, booking, payment</small></div>
+      <div><span>06 · Outcome</span><strong>Approved booked itinerary</strong><small>Confirmation, receipts, evidence, history</small></div>
+    </div>
+  </article>
+  <div class="grid two solution-example-grid">
+    <article class="card amber" data-reveal><div class="meta">Example 02 · Employee onboarding Solution</div><h3>“Have this employee ready for Monday.”</h3><ul><li><strong>Services:</strong> worker verification, access provisioning, equipment fulfillment, training, notification</li><li><strong>Workflows:</strong> validate identity, obtain manager approval, provision in parallel, escalate blockers</li><li><strong>Outcome:</strong> a ready employee with approvals, exceptions, ownership, and evidence</li></ul></article>
+    <article class="card coral" data-reveal><div class="meta">Example 03 · Customer incident recovery Solution</div><h3>“Restore service and keep the customer informed.”</h3><ul><li><strong>Services:</strong> incident triage, production change, customer communication, post-incident review</li><li><strong>Workflows:</strong> enrich and diagnose, approve a change, canary and rollback, publish updates</li><li><strong>Outcome:</strong> restored service, controlled change, customer timeline, and traceable evidence</li></ul></article>
+    <article class="card mint" data-reveal><div class="meta">Example 04 · Insurance claim Solution</div><h3>“Assess this claim and settle it fairly.”</h3><ul><li><strong>Services:</strong> document intake, coverage decision, fraud review, settlement payment, notification</li><li><strong>Workflows:</strong> extract and validate, collect missing evidence, route adjuster approval, issue payment</li><li><strong>Outcome:</strong> an explained decision, approved settlement, payment receipt, and complete case history</li></ul></article>
+    <article class="card sky" data-reveal><div class="meta">Example 05 · Software release Solution</div><h3>“Release this change safely to production.”</h3><ul><li><strong>Services:</strong> specification review, change validation, release promotion, stakeholder communication</li><li><strong>Workflows:</strong> build and test, risk approval, staged rings, health checks, automatic pause or rollback</li><li><strong>Outcome:</strong> a qualified release with approval, rollout status, rollback posture, and evidence</li></ul></article>
+  </div>
+</section>
+
+<section class="container section compact">
+  <div class="section-head"><div><p class="section-kicker">Reuse without duplication</p><h2>The layers are many-to-many—governed by typed contracts.</h2></div><p>Solutions package context and experience; they do not copy the assets below them. Approved versions are referenced, composed, and independently evolved.</p></div>
+  <div class="grid four">
+    <article class="card mint"><div class="meta">Solution → Service</div><h3>One Solution can compose many Services.</h3><p>Business Travel combines planning, approval, payment, and notification Services into one experience.</p></article>
+    <article class="card amber"><div class="meta">Service → Solution</div><h3>One Service can support many Solutions.</h3><p>The same Notification Service can serve travel, onboarding, incident, claims, and release Solutions.</p></article>
+    <article class="card coral"><div class="meta">Service → Workflow</div><h3>One Service can select one or more approved Workflows.</h3><p>A Payment Service may use standard charge, high-risk approval, refund, and recovery Workflows under one stable contract.</p></article>
+    <article class="card sky"><div class="meta">Workflow → Service</div><h3>One typed Workflow can support multiple Services.</h3><p>A generic human-approval Workflow can coordinate travel approval, access grants, production changes, claim settlement, and release promotion.</p></article>
+  </div>
+  <div class="posture-table-wrap reuse-map" data-reveal>
+    <table class="posture-table">
+      <thead><tr><th>Reusable asset</th><th>Where it appears</th><th>What remains stable</th></tr></thead>
+      <tbody>
+        <tr><th>Notification Service</th><td>All five example Solutions</td><td>Message request, delivery status, channel policy, receipts, and audit evidence</td></tr>
+        <tr><th>Payment Service</th><td>Business Travel and Insurance Claim Solutions</td><td>Authorize, charge, refund, reconcile, and return a financial receipt</td></tr>
+        <tr><th>Human Approval Workflow</th><td>Travel Approval, Access Provisioning, Production Change, Claims Settlement, and Release Promotion Services</td><td>Assignee rules, separation of duties, wait, timeout, escalation, decision, and evidence</td></tr>
+        <tr><th>Evidence Packaging Workflow</th><td>Travel Receipt, Post-Incident Review, Claims Decision, and Release Evidence Services</td><td>Collect lineage, approvals, citations, receipts, summaries, and immutable references</td></tr>
+        <tr><th>Identity and directory MCP capabilities</th><td>Employee Onboarding, Incident Recovery, and Software Release Solutions</td><td>Governed access to users, groups, roles, ownership, and entitlements without owning the business outcome</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
 <section id="consumer" class="container section">
   <div class="section-head"><div><p class="section-kicker">One authentication entry point</p><h2>The same platform presents the right experience for each user.</h2></div><p>Entitlements determine presentation after sign-in. Consumer users do not need to navigate internal MCPs, Agents, Workflows, or cluster resources, while builders and operators retain the detailed controls they need.</p></div>
   <div class="grid three">
     <article class="card mint"><div class="meta">Consumer</div><h3>My Solutions</h3><p>Consumer-only users land on <strong>/my-solutions</strong>, discover permitted Solutions, launch experience actions, provide inputs, approve when required, and inspect status, results, history, citations, and receipts.</p></article>
-    <article class="card amber"><div class="meta">Builder / Admin</div><h3>Studios and operations</h3><p>Authorized builders create and qualify MCPs, Agents, Workflows, Services, and Solutions. Operators manage identity, policy, publication, runtime health, evidence, and lifecycle.</p></article>
+    <article class="card amber"><div class="meta">Builder / Admin</div><h3>Studio and operations</h3><p>Authorized builders move through MCP, Agent, Workflow, Service, and Solution contexts in one Studio. Operators manage identity, policy, publication, runtime health, evidence, and lifecycle.</p></article>
     <article class="card violet"><div class="meta">Headless / delegated</div><h3>Copilot, Claude, API, or event</h3><p>External assistants discover and invoke only the Solutions and actions allowed for the represented user. Delegated identity is preserved end to end; provider credentials remain platform-owned.</p></article>
   </div>
 </section>
@@ -654,6 +785,18 @@ SOLUTIONS = """
     <article class="step"><div><h3>Launch the Service Run</h3><p>The action maps to a reusable Service and approved Workflow. The runtime freezes exact capability, policy, source, model, and configuration versions.</p></div></article>
     <article class="step"><div><h3>Follow progress and approve</h3><p>Durable state survives waits and failures. Human authority is requested explicitly when policy requires it.</p></div></article>
     <article class="step"><div><h3>Receive the result and proof</h3><p>The Solution presents the outcome with appropriate citations, receipts, approvals, lineage, run history, and trace links.</p></div></article>
+  </div>
+</section>
+
+<section id="journey-map" class="container section compact">
+  <div class="section-head"><div><p class="section-kicker">Continue the journey</p><h2>Each page opens a different layer of the actual product experience.</h2></div><p>Start with the user-facing Solution, then move into authoring, rehearsal, execution, run history, evidence, and architecture without losing the same intent-to-outcome thread.</p></div>
+  <div class="grid three">
+    <article class="card mint"><div class="meta">Create and rehearse</div><h3>Studio</h3><p>See how MCPs, Agents, Workflows, Services, and Solutions are authored, inspected, safely simulated, compared, approved, and promoted.</p><a class="card-link" href="studio.html#create">Open creation and dry runs →</a></article>
+    <article class="card amber"><div class="meta">Follow real journeys</div><h3>Runtime scenarios</h3><p>Walk through production incident, customer renewal, and travel examples from intent through admission, dry run, authorization, execution, and proof.</p><a class="card-link" href="runtime.html#scenarios">Open execution scenarios →</a></article>
+    <article class="card coral"><div class="meta">Inspect a run</div><h3>Run history and evidence</h3><p>See the journey timeline, immutable plan, Workflow steps, approvals, retries, tool receipts, citations, traces, and exported evidence bundle.</p><a class="card-link" href="runtime.html#run-history">Open run-history deep dive →</a></article>
+    <article class="card sky"><div class="meta">Understand authority</div><h3>Governance and evidence</h3><p>Inspect identity, delegated authority, policy decisions, credential brokering, human approval, audit records, and lifecycle controls.</p><a class="card-link" href="governance.html">Open the trust model →</a></article>
+    <article class="card mint"><div class="meta">Inspect every boundary</div><h3>Architecture atlas</h3><p>See how the experience, control, capability, runtime, evidence, operations, and infrastructure layers connect.</p><a class="card-link" href="architecture.html#governed-run">Open architecture deep dive →</a></article>
+    <article class="card amber"><div class="meta">Watch end to end</div><h3>Interactive intent-to-evidence story</h3><p>Move through the ten-stage governed path from authenticated intent and reusable contracts to durable execution, evidence, outcome, and operations.</p><a class="card-link" href="diagrams/intent-to-evidence.html?popout=1" target="_blank" rel="noopener noreferrer">Open the visual journey ↗</a></article>
   </div>
 </section>
 
@@ -724,23 +867,52 @@ SOLUTIONS = """
 
 ARCHITECTURE = """
 <section id="nextgen-atlas" class="container architecture-atlas-hero">
-  <div class="architecture-atlas-intro">
-    <p class="eyebrow">Master architecture</p>
-    <h1>See the whole ContextWeaver platform. <em>Then inspect every layer.</em></h1>
-    <p class="lede">This is the top-level architecture for one authenticated entry point, Builder and Consumer experiences, five Studio contexts, Solution composition, Service Runs, Cerebro governance, the Weave capability fabric, durable execution, evidence, the Capability Operator, and portable Loom infrastructure.</p>
-    <div class="hero-actions">
-      <a class="button primary" href="#explore">Explore deeper diagrams</a>
-      <a class="button" href="diagrams/contextweaver-nextgen-architecture.drawio">Download master Draw.io</a>
+  <div class="architecture-spatial-hero">
+    <div class="architecture-atlas-intro">
+      <p class="eyebrow">Master architecture</p>
+      <h1>See the whole ContextWeaver platform. <em>Then inspect every layer.</em></h1>
+      <p class="lede">This is the top-level architecture for one authenticated entry point, Builder and Consumer experiences, five Studio contexts, Solution composition, Service Runs, Cerebro governance, the Weave capability fabric, durable execution, evidence, the Capability Operator, and portable Loom infrastructure.</p>
+      <div class="hero-actions">
+        <a class="button primary" href="#interactive-spatial-architecture">Open narrated 3D architecture</a>
+        <a class="button" href="diagrams/contextweaver-spatial-architecture.drawio">Download spatial Draw.io</a>
+      </div>
     </div>
+    {layered_architecture}
+  </div>
+</section>
+
+<section id="high-level-views" class="container section compact">
+  <div class="section-head">
+    <div><p class="section-kicker">Platform at a glance</p><h2>Three spatial views before the deep architecture.</h2></div>
+    <p>Use the product journey, ecosystem city, and governed layers to orient different readers. The interactive view then follows the active semantic route.</p>
+  </div>
+  <div class="spatial-gallery">
+    {intent_to_evidence}
+    {platform_city}
+    {layered_architecture}
+  </div>
+</section>
+
+<section id="interactive-spatial-architecture" class="container section compact">
+  <div class="section-head">
+    <div><p class="section-kicker">Interactive WebGL architecture</p><h2>See, hear, and inspect the governed flow.</h2></div>
+    <p>Use the audio guide for a synchronized four-stage walkthrough, focus an individual plane, or select any raised component. Layer color identifies experience, governance, and execution without weakening semantic flow colors.</p>
   </div>
   <div class="diagram-shell architecture-atlas-shell" data-reveal>
     <div class="diagram-toolbar">
+      <strong>ContextWeaver Narrated Spatial Architecture</strong>
+      <button class="diagram-toolbar-action" type="button" data-spatial-open data-spatial-type="iframe" data-spatial-src="experiences/contextweaver-spatial-r3f/index.html?embedded=1" data-spatial-title="ContextWeaver Narrated Spatial Architecture">Expand view ↗</button>
+    </div>
+    <iframe class="diagram-frame architecture-spatial-frame" src="experiences/contextweaver-spatial-r3f/index.html?embedded=1" title="Narrated ContextWeaver WebGL spatial architecture" loading="eager" sandbox="allow-scripts allow-same-origin"></iframe>
+  </div>
+  <p class="diagram-note">Choose <strong>Audio guide</strong> for a captioned walkthrough. Experience uses deep green, Cerebro governance uses approval amber, and Weave + Loom uses a neutral execution surface; moving shape, line style, labels, and arrowheads communicate flow independently of color.</p>
+  <noscript><p class="diagram-note">JavaScript is required for the narrated WebGL view. <a href="diagrams/contextweaver-spatial-architecture.html?embedded=1">Open the accessible spatial architecture fallback.</a></p></noscript>
+</section>
+
+<section class="container section compact">
+  <div class="diagram-shell architecture-atlas-shell" data-reveal>
+    <div class="diagram-toolbar">
       <strong>ContextWeaver NextGen Architecture Atlas</strong>
-      <a href="diagrams/contextweaver-nextgen-architecture.html" target="_blank">Open full screen ↗</a>
-      <a href="diagrams/contextweaver-nextgen-architecture.drawio">Editable Draw.io</a>
-      <a href="diagrams/contextweaver-nextgen-architecture.svg">Static SVG</a>
-      <a href="diagrams/contextweaver-nextgen-architecture.png">Static PNG</a>
-      <a href="diagrams/contextweaver-nextgen-architecture.gif">Animated GIF</a>
     </div>
     <iframe class="diagram-frame architecture-atlas-frame" data-auto-height="contextweaver-atlas-height" src="diagrams/contextweaver-nextgen-architecture.html?embed=1&amp;v=20261025-10" title="ContextWeaver NextGen Architecture Atlas" loading="eager"></iframe>
   </div>
@@ -1056,7 +1228,7 @@ LEARNING = """
       <button class="learning-choice active" type="button" data-learning-goal="understand" aria-pressed="true"><span>01</span><b>Understand</b><small>Plain language</small></button>
       <button class="learning-choice" type="button" data-learning-goal="explain" aria-pressed="false"><span>02</span><b>Explain</b><small>Marketing story</small></button>
       <button class="learning-choice" type="button" data-learning-goal="sell" aria-pressed="false"><span>03</span><b>Sell</b><small>Problems and value</small></button>
-      <button class="learning-choice" type="button" data-learning-goal="build" aria-pressed="false"><span>04</span><b>Build</b><small>Studios and code</small></button>
+      <button class="learning-choice" type="button" data-learning-goal="build" aria-pressed="false"><span>04</span><b>Build</b><small>Studio and code</small></button>
       <button class="learning-choice" type="button" data-learning-goal="architect" aria-pressed="false"><span>05</span><b>Architect</b><small>Boundaries and scale</small></button>
       <button class="learning-choice" type="button" data-learning-goal="operate" aria-pressed="false"><span>06</span><b>Operate</b><small>Health and recovery</small></button>
     </div>
@@ -1249,6 +1421,48 @@ def main() -> None:
             "reusable-cicd",
             "identity-and-workspaces",
             "external-delegated-clients",
+        ),
+        "intent_to_evidence": spatial_visual(
+            "intent-to-evidence.png",
+            "Intent → outcome → proof",
+            "The complete governed product journey",
+            "Identity, policy, reusable execution, approval, side effects, and evidence remain visible from the first request to the final outcome.",
+            alt="Isometric ContextWeaver intent-to-evidence architecture showing the governed journey from user intent through Solutions, Services, Workflows, Agents and MCP capabilities to evidence-backed outcome.",
+        ),
+        "platform_city": spatial_visual(
+            "governed-platform-city.png",
+            "Governed platform city",
+            "Cerebro at the center of a reusable capability ecosystem",
+            "Product, runtime, trust, data, operations, and integration districts stay independently governed while working as one platform.",
+            alt="Isometric ContextWeaver platform city with Cerebro at the center and governed districts for Studio, runtime, data, tools, operations, and evidence.",
+        ),
+        "layered_architecture": spatial_visual(
+            "layered-governed-architecture.png",
+            "Layered governed architecture",
+            "Experience, control, runtime, and infrastructure stay distinct",
+            "Requests move down through explicit trust boundaries; evidence and operational proof return through the same governed system.",
+            alt="Layered isometric ContextWeaver architecture separating experience, Cerebro governance, Weave runtime, and Loom infrastructure planes.",
+        ),
+        "governed_call_flow": spatial_visual(
+            "governed-call-flow.png",
+            "Governed call flow",
+            "The request route and evidence route are separate",
+            "Identity and policy constrain the call above the primary execution path while receipts, citations, and outcome proof return below it.",
+            alt="Isometric governed service call flow showing numbered request stages, identity and policy controls, Agent and MCP execution, and a separate evidence-return route.",
+        ),
+        "governed_sequence_ladder": spatial_visual(
+            "governed-sequence-ladder.png",
+            "Governed sequence ladder",
+            "Exact participant timing without losing architectural depth",
+            "Fixed lifelines, activations, approvals, waits, parallel work, and returns make runtime interaction reviewable message by message.",
+            alt="Three-dimensional sequence ladder with fixed ContextWeaver participants, vertical lifelines, activations, message bridges, waits, approvals, parallel work, and returns.",
+        ),
+        "durable_saga_flow": spatial_visual(
+            "durable-saga-flow.png",
+            "Durable Saga flow",
+            "Persistent state makes retry and recovery explicit",
+            "Parallel work, joins, bounded retries, approval waits, compensation, queues, receipts, and run history are visible as one durable system.",
+            alt="Isometric durable Saga workflow showing split and join paths, retry, approval, compensation, persistent state, queues, receipts, and run history.",
         ),
     }
 

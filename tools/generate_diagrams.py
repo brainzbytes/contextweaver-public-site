@@ -1,7 +1,9 @@
 from __future__ import annotations
 
 import argparse
+import base64
 import json
+import math
 import textwrap
 import xml.etree.ElementTree as ET
 from dataclasses import dataclass
@@ -14,9 +16,11 @@ ROOT = Path(__file__).resolve().parents[1]
 OUT = ROOT / "diagrams"
 OUT.mkdir(parents=True, exist_ok=True)
 
-WIDTH = 1200
-HEIGHT = 720
+WIDTH = 1536
+HEIGHT = 1024
 GIF_FRAME_DURATION_MS = 1000
+IMAGE_MASTER_WIDTH = 1536
+IMAGE_MASTER_HEIGHT = 1024
 
 COLORS = {
     "bg": "#07110f",
@@ -34,6 +38,10 @@ COLORS = {
 }
 
 FONT_STACK = 'Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif'
+
+
+def clean_generated_text(value: str) -> str:
+    return "\n".join(line.rstrip() for line in value.splitlines()) + "\n"
 
 
 @dataclass(frozen=True)
@@ -76,6 +84,13 @@ class Diagram:
     steps: tuple[Step, ...]
 
 
+@dataclass(frozen=True)
+class ImageFirstConfig:
+    master: Path
+    hotspots: dict[str, tuple[int, int, int]]
+    route_overrides: dict[str, tuple[tuple[int, int], ...]]
+
+
 def n(id_: str, title: str, subtitle: str, detail: str, x: int, y: int, w: int, h: int, color: str = "mint") -> Node:
     return Node(id_, title, subtitle, detail, x, y, w, h, color)
 
@@ -85,6 +100,51 @@ def e(id_: str, source: str, target: str, label: str = "", kind: str = "data") -
 
 
 DIAGRAMS = (
+    Diagram(
+        "intent-to-evidence",
+        "Intent to Evidence",
+        "One governed path turns an authenticated request into a proven, reusable outcome.",
+        (
+            n("intent", "Intent", "Authenticated request", "A person or delegated client submits a bounded request with current identity, tenant, purpose, and authority.", 40, 400, 120, 90, "mint"),
+            n("solution", "Solution", "User-facing composition", "The requested experience resolves a published Solution action without inventing a separate runtime primitive.", 190, 400, 120, 90, "mint"),
+            n("service", "Service", "Reusable executable contract", "The Solution action resolves an approved reusable Service and its eligible Workflow contracts.", 340, 400, 120, 90, "mint"),
+            n("cerebro", "Cerebro", "Compile · identity · policy", "Cerebro normalizes intent, resolves identity and entitlement, selects exact versions, and authorizes the complete reachable graph.", 625, 360, 190, 140, "mint"),
+            n("workflow", "Workflow", "Durable coordination", "A typed Workflow coordinates state, waits, retries, parallel branches, approvals, and compensation.", 840, 400, 120, 90, "mint"),
+            n("agents", "Agents", "Bounded reasoning", "Specialist Agents perform bounded reasoning over only the context and tools approved for their task.", 975, 345, 120, 90, "mint"),
+            n("mcp", "MCP", "Governed capabilities", "MCP gateways invoke approved capabilities with scoped credentials that are never exposed to Agents.", 975, 490, 120, 90, "mint"),
+            n("systems", "Enterprise systems", "Approved side effects", "Enterprise systems receive schema-valid, policy-authorized operations through governed capability gateways.", 1115, 400, 135, 90, "mint"),
+            n("approval", "Approval gate", "Independent authority", "Consequential actions pause for an independent decision bound to the exact action hash.", 1135, 315, 105, 90, "amber"),
+            n("evidence", "Evidence", "Receipts · lineage · evaluation", "The run binds artifacts, citations, policy decisions, approvals, provider receipts, logs, traces, and evaluations.", 1260, 400, 120, 90, "mint"),
+            n("outcome", "Outcome", "Useful · approved · provable", "The canonical result returns through the Solution experience with the evidence needed to operate, audit, and improve it.", 1400, 400, 110, 90, "mint"),
+            n("history", "Run history", "Operate and learn", "Evidence-backed run history supports investigation, regression analysis, lifecycle decisions, and continuous improvement.", 40, 185, 145, 100, "mint"),
+        ),
+        (
+            e("i1", "intent", "solution", "resolve"),
+            e("i2", "solution", "service", "select"),
+            e("i3", "service", "cerebro", "compile", "governance"),
+            e("i4", "cerebro", "workflow", "immutable plan", "governance"),
+            e("i5", "workflow", "agents", "parallel task"),
+            e("i6", "workflow", "mcp", "capability call"),
+            e("i7", "agents", "systems", "typed artifact"),
+            e("i8", "mcp", "systems", "approved operation"),
+            e("i9", "systems", "approval", "consequential action", "waiting"),
+            e("i10", "systems", "evidence", "receipts", "evidence"),
+            e("i11", "evidence", "outcome", "prove", "success"),
+            e("i12", "outcome", "history", "operate + learn", "evidence"),
+        ),
+        (
+            Step("Start with authenticated intent", "A person or delegated client enters through an approved channel with identity, tenant, purpose, and current authority attached.", ("intent", "solution"), ("i1",)),
+            Step("Resolve the reusable contract", "The Solution action selects an approved Service instead of hiding execution inside a one-off prompt or experience.", ("solution", "service"), ("i2",)),
+            Step("Compile and authorize the graph", "Cerebro validates intent, identity, entitlement, exact versions, data scope, tools, side effects, and policy before dispatch.", ("service", "cerebro"), ("i3",)),
+            Step("Create an immutable execution plan", "The approved Service resolves a durable Workflow with pinned capabilities, budgets, policy decisions, and evidence requirements.", ("cerebro", "workflow"), ("i4",)),
+            Step("Run reasoning and capabilities in parallel", "Bounded Agents and MCP gateways execute their typed branches without giving provider credentials to Agents.", ("workflow", "agents", "mcp"), ("i5", "i6")),
+            Step("Reach enterprise systems safely", "Typed Agent artifacts and authorized MCP operations converge at enterprise systems through governed boundaries.", ("agents", "mcp", "systems"), ("i7", "i8")),
+            Step("Pause for independent approval", "Consequential work waits durably for an approver who is distinct from the requester and sees the exact proposed action.", ("systems", "approval"), ("i9",)),
+            Step("Bind evidence to the result", "Receipts, lineage, citations, policy, approvals, logs, traces, and evaluation become part of the canonical run record.", ("systems", "evidence"), ("i10",)),
+            Step("Return a proven outcome", "The user-facing Solution receives a useful approved outcome with proof attached rather than a bare model response.", ("evidence", "outcome"), ("i11",)),
+            Step("Operate, investigate, and improve", "Run history closes the lifecycle with evidence-driven operations, regression investigation, and governed improvement.", ("outcome", "history"), ("i12",)),
+        ),
+    ),
     Diagram(
         "service-factory",
         "Universal Solution and Capability Factory",
@@ -249,48 +309,44 @@ DIAGRAMS = (
     Diagram(
         "governed-run",
         "Solution Action to Governed Service Run",
-        "A user-facing Solution action resolves a reusable Service while identity, policy, data, Agents, MCP tools, approvals, durable state, and evidence remain explicit.",
+        "Intent becomes an approved, executed, evidence-backed outcome.",
         (
-            n("intent", "Solution action", "Experience contract · inputs · purpose", "Accept one published experience action and governed handles. Resolve the user, client, tenant, groups, roles, relationships, device, session, delegation, purpose, and current authority.", 40, 100, 175, 105, "sky"),
-            n("understand", "Understand", "Intent · risk · entities · needs", "Produce a typed interpretation. Model output is advisory and cannot assign endpoints, credentials, scope, privilege, or policy.", 255, 100, 175, 105, "mint"),
-            n("compile", "Resolve + compile", "Service · Workflow · bindings · budgets", "Map the Solution action to an eligible Service and approved Workflow, or constrained-compose approved nodes. Validate the DAG, schemas, conditions, barriers, fallbacks, data bindings, and report constructability.", 470, 100, 175, 105, "violet"),
-            n("authorize", "Authorize", "Whole graph · use-time policy", "Enumerate every reachable capability, source, model, tool class, side effect, approval, disclosure, environment, and region before dispatch.", 685, 100, 175, 105, "amber"),
-            n("plan", "Immutable plan", "Pins · hashes · envelopes · expiry", "Freeze exact versions, policy decisions, field projections, fallback sets, RAG scopes, model envelopes, budgets, approvals, expiry, and revocation epoch.", 900, 100, 225, 105, "coral"),
-            n("rag", "Authorized context", "Sources · ACL/RLS · citations", "Retrieve only current, purpose-authorized, classification-aware, source-authoritative evidence with in-query access filters and immutable generation pins.", 65, 330, 190, 110, "sky"),
-            n("agents", "Parallel Agents", "Typed tasks · accepted artifacts", "Dispatch ready nodes through durable commands. Each specialist sees only its typed task and authorized context and produces a validated immutable artifact.", 300, 330, 190, 110, "violet"),
-            n("approval", "Human authority", "Review · decision · correction", "Pause durably for the exact action, proposal, evidence, assignment, expiry, and action hash. The requester cannot self-approve restricted actions.", 535, 330, 190, 110, "amber"),
-            n("mcp", "MCP gateway", "Tool · identity · credentials · receipt", "Resolve the approved capability and exact tool, reauthorize arguments and side-effect risk, perform scoped token exchange, keep credentials out of the Agent, and validate the result.", 770, 330, 190, 110, "coral"),
-            n("state", "Durable runtime", "Queue · inbox/outbox · checkpoints", "Persist authoritative run state, commands, events, leases, idempotency, artifacts, waits, callbacks, retries, Saga journal, and compensation evidence.", 1005, 330, 155, 110, "mint"),
-            n("finalize", "Canonical outcome", "Validate · disclose · render", "Bind terminal artifacts and citations deterministically, validate one canonical result, apply disclosure policy, render approved formats, and reauthorize delivery.", 280, 555, 255, 105, "mint"),
-            n("evidence", "Run evidence", "Lineage · receipts · policy · telemetry", "Preserve plan and release identity, artifacts, citations, decisions, approvals, provider receipts, compensation, evaluations, metrics, logs, traces, warnings, and cost.", 665, 555, 255, 105, "amber"),
+            n("enterprise", "Enterprise Input", "Identity · request · purpose", "A bounded enterprise request enters through an approved Solution channel with current user, tenant, purpose, and authority context.", 40, 100, 175, 105, "mint"),
+            n("workspace", "Collaborative Workspace", "People · context · review", "People refine the request together while shared context, ownership, and review remain explicit.", 255, 100, 175, 105, "mint"),
+            n("studio", "Studio", "Design · compose · validate", "Studio converts the agreed intent into a typed, inspectable Service and Workflow design.", 470, 100, 175, 105, "mint"),
+            n("compiler", "Intent Compiler", "Intent · entities · risk", "The compiler produces a typed execution intent and validates constructability without assigning unauthorized privilege.", 685, 100, 175, 105, "mint"),
+            n("identity", "Identity", "User · tenant · delegation", "Identity resolves the current principal, tenant, groups, roles, delegation, session, and effective authority.", 900, 100, 175, 105, "mint"),
+            n("policy", "Policy Approval", "Graph · risk · decision", "Policy evaluates the complete reachable graph and pauses consequential operations for independent approval.", 65, 330, 190, 110, "amber"),
+            n("workflow", "Workflow", "DAG · state · barriers", "A durable Workflow coordinates typed nodes, conditions, waits, retries, and compensation.", 300, 330, 190, 110, "mint"),
+            n("agents", "Agents", "Specialists · artifacts", "Specialist Agents receive bounded tasks and return schema-valid immutable artifacts.", 535, 330, 190, 110, "mint"),
+            n("mcp", "MCP", "Tools · credentials · receipts", "MCP resolves approved tools, performs scoped token exchange, and records provider receipts without exposing credentials to Agents.", 770, 330, 190, 110, "mint"),
+            n("orchestrator", "Durable Orchestrator", "Queue · checkpoints · Saga", "The orchestrator persists commands, events, leases, checkpoints, approvals, retries, and compensation evidence.", 1005, 330, 155, 110, "mint"),
+            n("evidence", "Evidence", "Lineage · policy · telemetry", "Evidence preserves the plan, artifacts, citations, approvals, receipts, metrics, logs, traces, and cost needed to reproduce the outcome.", 665, 555, 255, 105, "mint"),
+            n("outcome", "Outcome", "Approved · useful · provable", "The governed result returns to the user with its evidence, policy decision, state, and reproducible proof intact.", 960, 555, 190, 105, "mint"),
         ),
         (
-            e("r1", "intent", "understand", "classify"),
-            e("r2", "understand", "compile", "select / compose"),
-            e("r3", "compile", "authorize", "manifest", "governance"),
-            e("r4", "authorize", "plan", "freeze", "governance"),
-            e("r5", "plan", "rag", "authorized scopes", "governance"),
-            e("r6", "plan", "state", "commit"),
-            e("r7", "rag", "agents", "context + citations"),
-            e("r8", "agents", "approval", "high-impact action", "waiting"),
-            e("r9", "approval", "mcp", "approved operation", "success"),
-            e("r10", "agents", "mcp", "tool intent"),
-            e("r11", "mcp", "state", "receipt + result", "evidence"),
-            e("r12", "state", "agents", "resume / retry"),
-            e("r13", "agents", "finalize", "accepted artifacts", "success"),
-            e("r14", "state", "finalize", "run state"),
-            e("r15", "finalize", "evidence", "release", "success"),
-            e("r16", "evidence", "state", "observe + improve", "evidence"),
+            e("r1", "enterprise", "workspace", kind="success"),
+            e("r2", "workspace", "studio", kind="success"),
+            e("r3", "studio", "compiler", kind="success"),
+            e("r4", "compiler", "identity", kind="success"),
+            e("r5", "identity", "policy", kind="governance"),
+            e("r6", "workflow", "agents", kind="success"),
+            e("r7", "workflow", "mcp", kind="success"),
+            e("r8", "agents", "orchestrator", kind="success"),
+            e("r9", "mcp", "orchestrator", kind="success"),
+            e("r10", "policy", "workflow", kind="governance"),
+            e("r11", "policy", "orchestrator", kind="governance"),
+            e("r12", "orchestrator", "evidence", kind="success"),
+            e("r13", "evidence", "outcome", kind="success"),
+            e("r14", "outcome", "enterprise", kind="evidence"),
         ),
         (
-            Step("Resolve identity and typed intent", "The platform accepts a bounded request, resolves current authority, and treats model classification as advisory structured data.", ("intent", "understand"), ("r1",)),
-            Step("Build and authorize the complete plan", "The compiler selects or constrained-composes eligible capabilities, validates every contract and binding, evaluates the whole graph, and freezes exact versions.", ("understand", "compile", "authorize", "plan"), ("r2", "r3", "r4")),
-            Step("Commit durable state and authorized context", "The run, plan, first commands or approval, and outbox commit before acceptance; retrieval returns only policy-eligible current evidence.", ("plan", "state", "rag"), ("r5", "r6")),
-            Step("Execute specialists in parallel", "Ready Agents receive typed tasks and bounded context, then return schema-valid immutable artifacts rather than unrestricted conversation history.", ("rag", "agents", "state"), ("r7", "r12")),
-            Step("Hold consequential authority with a human", "A high-impact action waits durably for an independently assigned reviewer to decide the exact proposal and evidence hash.", ("agents", "approval"), ("r8",)),
-            Step("Invoke tools without giving Agents credentials", "The MCP gateway reauthorizes the exact call, performs scoped token exchange, records the provider receipt, minimizes the result, and returns provenance.", ("approval", "mcp", "state"), ("r9", "r11")),
-            Step("Finalize one stable outcome", "The Finalizer binds accepted artifacts and citations, validates the canonical result, applies disclosure policy, and renders only approved channels.", ("agents", "state", "finalize"), ("r13", "r14")),
-            Step("Attach evidence and improve safely", "The result carries reproducible identity and evidence while metrics, traces, evaluations, and lifecycle signals improve future routing without rewriting history.", ("finalize", "evidence", "state"), ("r15", "r16")),
+            Step("Capture enterprise intent", "Enterprise input enters a collaborative workspace where people refine the bounded request and its purpose.", ("enterprise", "workspace"), ("r1",)),
+            Step("Design the governed solution", "Studio turns the agreed request into typed, inspectable Service and Workflow contracts.", ("workspace", "studio"), ("r2",)),
+            Step("Compile intent and resolve identity", "The intent compiler validates the request and resolves the current principal, tenant, delegation, and authority.", ("studio", "compiler", "identity"), ("r3", "r4")),
+            Step("Authorize the complete graph", "Policy evaluates the whole reachable graph and holds consequential operations for independent approval.", ("identity", "policy"), ("r5",)),
+            Step("Execute durably", "Workflow fans out to specialist Agents and MCP tools, then converges through the durable orchestrator with approved policy context.", ("workflow", "agents", "mcp", "policy", "orchestrator"), ("r10", "r6", "r7", "r8", "r9", "r11")),
+            Step("Return evidence with the outcome", "The orchestrator emits evidence, and the evidence-backed canonical outcome returns to the experience layer with logs, state, and proof.", ("orchestrator", "evidence", "outcome", "enterprise"), ("r12", "r13", "r14")),
         ),
     ),
     Diagram(
@@ -362,100 +418,724 @@ def text_lines(text: str, max_chars: int) -> list[str]:
     return textwrap.wrap(text, width=max_chars, break_long_words=False, break_on_hyphens=False) or [""]
 
 
-def svg_node(node: Node, interactive: bool = False) -> str:
-    title_lines = text_lines(node.title, max(16, int(node.w / 10)))
-    subtitle_lines = text_lines(node.subtitle, max(20, int(node.w / 8)))
-    title_y = node.y + 31
-    title_markup = "".join(
-        f'<tspan x="{node.x + node.w / 2}" dy="{0 if i == 0 else 17}">{escape(line)}</tspan>'
-        for i, line in enumerate(title_lines)
+SCENE_LAYERS = (
+    ("EXPERIENCE", "Channels and Solutions", 172, 320),
+    ("CEREBRO", "Intent, Identity, Policy, Registry, Compiler", 430, 575),
+    ("WEAVE + LOOM", "Workflows, Agents, MCP, Evidence, Kubernetes", 680, 830),
+)
+
+GOVERNED_RUN_LAYOUT = {
+    "enterprise": (92, 350, 112, 150),
+    "workspace": (218, 366, 112, 150),
+    "studio": (344, 382, 112, 150),
+    "compiler": (470, 398, 112, 150),
+    "identity": (596, 414, 112, 150),
+    "policy": (722, 430, 112, 150),
+    "workflow": (848, 446, 112, 150),
+    "agents": (974, 374, 112, 132),
+    "mcp": (974, 532, 112, 132),
+    "orchestrator": (1100, 462, 112, 150),
+    "evidence": (1226, 478, 112, 150),
+    "outcome": (1352, 494, 104, 150),
+}
+
+GOVERNED_EDGE_PATHS = {
+    "r1": "M 204 425 L 218 441",
+    "r2": "M 330 441 L 344 457",
+    "r3": "M 456 457 L 470 473",
+    "r4": "M 582 473 L 596 489",
+    "r5": "M 708 489 L 722 505",
+    "r10": "M 834 505 L 848 521",
+    "r6": "M 960 506 C 972 500 968 452 974 440",
+    "r7": "M 960 536 C 972 542 968 584 974 598",
+    "r8": "M 1086 440 C 1094 444 1092 510 1100 522",
+    "r9": "M 1086 598 C 1094 590 1092 544 1100 538",
+    "r11": "M 778 580 C 846 668 1028 690 1156 612",
+    "r12": "M 1212 537 L 1226 553",
+    "r13": "M 1338 553 L 1352 569",
+}
+
+
+def scene_nodes(diagram: Diagram) -> tuple[Node, ...]:
+    if diagram.slug == "governed-run":
+        return tuple(
+            Node(
+                node.id,
+                node.title,
+                node.subtitle,
+                node.detail,
+                *GOVERNED_RUN_LAYOUT[node.id],
+                node.color,
+            )
+            for node in diagram.nodes
+        )
+    bands = (
+        [node for node in diagram.nodes if node.y < 280],
+        [node for node in diagram.nodes if 280 <= node.y < 520],
+        [node for node in diagram.nodes if node.y >= 520],
     )
-    subtitle_y = title_y + len(title_lines) * 17 + 7
+    visual_nodes: list[Node] = []
+    for band_index, band in enumerate(bands):
+        ordered = sorted(band, key=lambda item: (item.x, item.y))
+        if not ordered:
+            continue
+        count = len(ordered)
+        columns = min(4, count)
+        rows = (count + columns - 1) // columns
+        gap_x = 38
+        gap_y = 14
+        available = 970
+        card_width = min(222, int((available - gap_x * (columns - 1)) / columns))
+        card_height = 108 if rows == 1 else 84
+        total_width = columns * card_width + gap_x * (columns - 1)
+        start_x = 330 + (available - total_width) // 2
+        start_y = SCENE_LAYERS[band_index][2] + 48 - ((rows - 1) * (card_height + gap_y)) // 2
+        for index, node in enumerate(ordered):
+            row = index // columns
+            column = index % columns
+            row_count = min(columns, count - row * columns)
+            row_width = row_count * card_width + gap_x * (row_count - 1)
+            row_start_x = 330 + (available - row_width) // 2
+            visual_nodes.append(
+                Node(
+                    node.id,
+                    node.title,
+                    node.subtitle,
+                    node.detail,
+                    row_start_x + column * (card_width + gap_x),
+                    start_y + row * (card_height + gap_y),
+                    card_width,
+                    card_height,
+                    node.color,
+                )
+            )
+    return tuple(visual_nodes)
+
+
+def svg_governed_decks() -> str:
+    face = "M 62 431 L 212 300 L 1482 500 L 1301 714 L 58 508 Z"
+    return (
+        '<g class="glass-deck governed-runway governed-slab deck-1">'
+        f'<path class="deck-shadow" d="{face}" transform="translate(0 45)"/>'
+        f'<path class="deck-depth" d="{face}" transform="translate(0 26)"/>'
+        f'<path class="deck-face" d="{face}"/>'
+        '<path class="deck-grid" d="M 86 414 L 1328 612 M 114 390 L 1360 586 M 143 365 L 1392 560 '
+        'M 173 339 L 1422 534 M 194 317 L 1450 514 M 180 482 L 350 323 M 430 568 L 596 361 '
+        'M 684 610 L 842 400 M 938 651 L 1085 440 M 1190 692 L 1334 478"/>'
+        '<path class="deck-shine" d="M 62 431 L 212 300 L 1482 500"/>'
+        '<path class="runway-rail runway-rail-a" d="M 83 456 L 218 333 L 1451 525"/>'
+        '<path class="runway-rail runway-rail-b" d="M 79 493 L 1294 686 L 1454 510"/>'
+        '<g class="branch-plinth"><path d="M 951 405 L 1014 351 L 1160 374 L 1089 447 Z"/>'
+        '<path d="M 951 563 L 1014 509 L 1160 532 L 1089 605 Z"/></g>'
+        '</g>'
+    )
+
+
+def svg_decks(*, governed: bool = False) -> str:
+    if governed:
+        return svg_governed_decks()
+    decks = []
+    for index, (label, subtitle, top, bottom) in enumerate(SCENE_LAYERS, start=1):
+        decks.append(
+            f'<g class="glass-deck deck-{index}">'
+            f'<path class="deck-shadow" d="M 354 {top + 65} L 1128 {top - 2} L 1368 {top + 108} '
+            f'L 1288 {bottom + 8} L 388 {bottom + 59} L 260 {bottom - 10} Z"/>'
+            f'<path class="deck-depth" d="M 260 {bottom - 10} L 388 {bottom + 59} L 1288 {bottom + 8} '
+            f'L 1368 {top + 108} L 1368 {top + 127} L 1294 {bottom + 30} L 384 {bottom + 82} L 260 {bottom + 8} Z"/>'
+            f'<path class="deck-face" d="M 354 {top + 55} L 1128 {top - 12} L 1368 {top + 98} '
+            f'L 1288 {bottom - 2} L 388 {bottom + 49} L 260 {bottom - 20} Z"/>'
+            f'<path class="deck-grid" d="M 318 {top + 89} L 1328 {top + 71} M 300 {top + 130} L 1336 {top + 117} '
+            f'M 282 {top + 169} L 1312 {top + 161} M 430 {top + 44} L 438 {bottom + 43} '
+            f'M 660 {top + 24} L 672 {bottom + 30} M 890 {top + 4} L 906 {bottom + 17} '
+            f'M 1120 {top - 8} L 1140 {bottom + 4}"/>'
+            f'<path class="deck-shine" d="M 354 {top + 55} L 1128 {top - 12} L 1364 {top + 97}"/>'
+            f'<text class="layer-title" x="70" y="{top + 88}">{label}</text>'
+            f'<text class="layer-subtitle" x="70" y="{top + 115}">{subtitle}</text>'
+            f'<path class="layer-rule" d="M 50 {top + 57} V {top + 119}"/>'
+            f'</g>'
+        )
+    return "".join(decks)
+
+
+def svg_icon(node: Node) -> str:
+    label = f"{node.id} {node.title}".lower()
+    cx = node.x + node.w / 2
+    cy = node.y + 25
+    if "workspace" in label:
+        shape = f'<circle cx="{cx}" cy="{cy - 8}" r="5"/><circle cx="{cx - 13}" cy="{cy - 4}" r="4"/><circle cx="{cx + 13}" cy="{cy - 4}" r="4"/><path d="M {cx - 10} {cy + 13} c 1 -9 6 -13 10 -13 s 9 4 10 13 M {cx - 21} {cy + 11} c 1 -7 5 -10 9 -10 M {cx + 21} {cy + 11} c -1 -7 -5 -10 -9 -10"/>'
+    elif "compiler" in label:
+        shape = f'<path d="M {cx - 10} {cy - 4} c -8 -8 2 -18 9 -11 c 5 -8 16 -2 13 6 c 8 1 9 13 1 16 c 1 8 -10 12 -15 5 c -7 6 -16 -2 -11 -9 c -6 -2 -5 -10 3 -11 z M {cx - 3} {cy - 11} v 22 M {cx + 5} {cy - 10} v 20"/>'
+    elif "workflow" in label:
+        shape = f'<circle cx="{cx}" cy="{cy - 11}" r="4"/><circle cx="{cx - 13}" cy="{cy + 10}" r="4"/><circle cx="{cx + 13}" cy="{cy + 10}" r="4"/><path d="M {cx} {cy - 7} v 7 M {cx} {cy} l -13 6 M {cx} {cy} l 13 6"/>'
+    elif "agents" in label:
+        shape = f'<rect x="{cx - 11}" y="{cy - 9}" width="22" height="17" rx="5"/><path d="M {cx} {cy - 14} v 5 M {cx - 5} {cy - 1} h 1 M {cx + 4} {cy - 1} h 1 M {cx - 16} {cy - 4} h 5 M {cx + 11} {cy - 4} h 5"/>'
+    elif node.id == "mcp":
+        shape = f'<ellipse cx="{cx}" cy="{cy - 9}" rx="10" ry="5"/><path d="M {cx - 10} {cy - 9} v 18 c 0 3 20 3 20 0 v-18 M {cx - 10} {cy} c 0 3 20 3 20 0"/>'
+    elif any(word in label for word in ("policy", "approval", "authorize", "identity", "governance")):
+        shape = f'<path d="M {cx} {cy - 12} l 11 5 v 8 c 0 8 -5 13 -11 16 c -6 -3 -11 -8 -11 -16 v-8 z"/><path d="M {cx - 5} {cy + 1} l 4 4 l 7 -8"/>'
+    elif any(word in label for word in ("evidence", "outcome", "final", "result", "registry", "contract")):
+        shape = f'<rect x="{cx - 10}" y="{cy - 13}" width="20" height="27" rx="2"/><path d="M {cx - 5} {cy - 5} h 10 M {cx - 5} {cy + 1} h 10 M {cx - 5} {cy + 7} h 7"/>'
+    elif any(word in label for word in ("mcp", "tool", "runtime", "operator", "orchestrator", "infrastructure")):
+        shape = f'<circle cx="{cx}" cy="{cy}" r="8"/><circle cx="{cx}" cy="{cy}" r="3"/><path d="M {cx} {cy - 14} v 5 M {cx} {cy + 9} v 5 M {cx - 14} {cy} h 5 M {cx + 9} {cy} h 5 M {cx - 10} {cy - 10} l 4 4 M {cx + 6} {cy + 6} l 4 4 M {cx + 10} {cy - 10} l -4 4 M {cx - 6} {cy + 6} l -4 4"/>'
+    elif any(word in label for word in ("studio", "code", "compile", "developer")):
+        shape = f'<path d="M {cx - 12} {cy - 8} l -7 8 l 7 8 M {cx + 12} {cy - 8} l 7 8 l -7 8 M {cx + 4} {cy - 12} l -8 24"/>'
+    elif any(word in label for word in ("agent", "people", "user", "team", "human", "enterprise")):
+        shape = f'<circle cx="{cx}" cy="{cy - 7}" r="6"/><path d="M {cx - 13} {cy + 13} c 1 -9 7 -13 13 -13 s 12 4 13 13"/>'
+    else:
+        shape = f'<circle cx="{cx}" cy="{cy}" r="12"/><path d="M {cx - 8} {cy} h 16 M {cx} {cy - 8} v 16"/>'
+    return f'<g class="node-icon">{shape}</g>'
+
+
+def svg_node(node: Node, interactive: bool = False, substantial: bool = False) -> str:
+    title_lines = text_lines(node.title, max(14, int(node.w / 10)))
+    subtitle_lines = text_lines(node.subtitle, max(18, int(node.w / 8)))
+    compact = node.h < 100
+    icon_y = node.y + (21 if compact else 27)
+    title_y = node.y + (48 if compact else 61)
+    title_markup = "".join(
+        f'<tspan x="{node.x + node.w / 2}" dy="{0 if i == 0 else 16}">{escape(line)}</tspan>'
+        for i, line in enumerate(title_lines[:2])
+    )
+    subtitle_y = title_y + min(len(title_lines), 2) * 14 + 4
     subtitle_markup = "".join(
         f'<tspan x="{node.x + node.w / 2}" dy="{0 if i == 0 else 14}">{escape(line)}</tspan>'
-        for i, line in enumerate(subtitle_lines[:3])
+        for i, line in enumerate(subtitle_lines[:1 if compact else 2])
     )
     attrs = (
         f' role="button" tabindex="0" aria-label="{escape(node.title)}" data-node-id="{node.id}"'
         if interactive else ""
     )
+    echo_markup = "" if substantial else (
+        f'<rect class="node-echo node-echo-back" x="{node.x - 12}" y="{node.y + 8}" width="{node.w}" height="{node.h}" rx="15"/>'
+        f'<rect class="node-echo" x="{node.x - 6}" y="{node.y + 4}" width="{node.w}" height="{node.h}" rx="15"/>'
+    )
+    depth = 18 if substantial else 12
+    node_class = " governed-node" if substantial else ""
+    radius = 22 if substantial else 15
     return f"""
-    <g id="node-{node.id}" class="node node-{node.color}"{attrs}>
-      <rect x="{node.x}" y="{node.y}" width="{node.w}" height="{node.h}" rx="16"/>
+    <g id="node-{node.id}" class="node node-{node.color}{node_class}"{attrs}>
+      {echo_markup}
+      <path class="node-depth" d="M {node.x + 10} {node.y + node.h} L {node.x + node.w} {node.y + node.h} L {node.x + node.w - 11} {node.y + node.h + depth} L {node.x + 21} {node.y + node.h + depth} Z"/>
+      <rect class="node-face" x="{node.x}" y="{node.y}" width="{node.w}" height="{node.h}" rx="{radius}"/>
+      <path class="node-shine" d="M {node.x + 16} {node.y + 7} H {node.x + node.w - 16}"/>
+      <g transform="translate(0 {icon_y - (node.y + 25)})">{svg_icon(node)}</g>
       <text class="node-title" x="{node.x + node.w / 2}" y="{title_y}">{title_markup}</text>
       <text class="node-subtitle" x="{node.x + node.w / 2}" y="{subtitle_y}">{subtitle_markup}</text>
+      <g class="node-step"><circle cx="{node.x + node.w - 15}" cy="{node.y + 15}" r="13"/><text class="node-step-number" x="{node.x + node.w - 15}" y="{node.y + 19}"></text></g>
     </g>"""
 
 
+GOVERNED_NODE_NUMBERS = {
+    "enterprise": "1",
+    "workspace": "2",
+    "studio": "3",
+    "compiler": "4",
+    "identity": "5",
+    "policy": "6",
+    "workflow": "7",
+    "agents": "8",
+    "mcp": "9",
+    "orchestrator": "10",
+    "evidence": "11",
+    "outcome": "12",
+}
+
+
+def svg_governed_node(node: Node, interactive: bool = False) -> str:
+    title_lines = text_lines(node.title, 13)
+    subtitle_lines = text_lines(node.subtitle, 18)
+    attrs = (
+        f' role="button" tabindex="0" aria-label="{escape(node.title)}" data-node-id="{node.id}"'
+        if interactive else ""
+    )
+    title_y = node.y + 82
+    title_markup = "".join(
+        f'<tspan x="{node.x + node.w / 2}" dy="{0 if index == 0 else 18}">{escape(line)}</tspan>'
+        for index, line in enumerate(title_lines[:2])
+    )
+    subtitle_y = title_y + min(len(title_lines), 2) * 18 + 12
+    subtitle_markup = "".join(
+        f'<tspan x="{node.x + node.w / 2}" dy="{0 if index == 0 else 12}">{escape(line)}</tspan>'
+        for index, line in enumerate(subtitle_lines[:2])
+    )
+    x, y, w, h = node.x, node.y, node.w, node.h
+    return f"""
+    <g id="node-{node.id}" class="node node-{node.color} governed-node governed-cuboid"{attrs}>
+      <rect class="cuboid-echo cuboid-echo-back" x="{x - 16}" y="{y + 16}" width="{w}" height="{h}" rx="17"/>
+      <rect class="cuboid-echo" x="{x - 8}" y="{y + 8}" width="{w}" height="{h}" rx="17"/>
+      <path class="node-plinth" d="M {x - 13} {y + h - 7} L {x + w + 9} {y + h - 7} L {x + w + 22} {y + h + 14} L {x - 2} {y + h + 14} Z"/>
+      <path class="node-top" d="M {x + 8} {y + 5} L {x + 23} {y - 13} L {x + w - 9} {y - 13} L {x + w + 8} {y + 5} Z"/>
+      <path class="node-side" d="M {x + w - 1} {y + 10} L {x + w + 10} {y + 1} L {x + w + 10} {y + h - 13} L {x + w - 1} {y + h} Z"/>
+      <rect class="node-face" x="{x}" y="{y}" width="{w}" height="{h}" rx="18"/>
+      <path class="node-shine" d="M {x + 15} {y + 7} H {x + w - 15}"/>
+      <g transform="translate(0 17)">{svg_icon(node)}</g>
+      <text class="node-title" x="{x + w / 2}" y="{title_y}">{title_markup}</text>
+      <text class="node-subtitle" x="{x + w / 2}" y="{subtitle_y}">{subtitle_markup}</text>
+      <g class="cuboid-number"><circle cx="{x + 8}" cy="{y - 15}" r="16"/><text x="{x + 8}" y="{y - 9}">{GOVERNED_NODE_NUMBERS[node.id]}</text></g>
+      <g class="node-step"><circle cx="{x + w - 15}" cy="{y + 15}" r="13"/><text class="node-step-number" x="{x + w - 15}" y="{y + 19}"></text></g>
+    </g>"""
+
+
+def svg_scene_accents(diagram: Diagram) -> str:
+    if diagram.slug != "governed-run":
+        return """
+          <g class="route-legend" transform="translate(58 914)">
+            <circle cx="0" cy="0" r="6" class="legend-lime"/><text x="15" y="4">Data / Execution</text>
+            <circle cx="180" cy="0" r="6" class="legend-amber"/><text x="195" y="4">Authorization / Approvals</text>
+            <circle cx="430" cy="0" r="6" class="legend-white"/><text x="445" y="4">Evidence / State</text>
+          </g>
+        """
+    return """
+      <g class="control-routes">
+        <path d="M 166 330 V 222 H 604 V 405" class="control-route"/>
+        <circle cx="166" cy="330" r="5"/><circle cx="604" cy="405" r="5"/>
+        <text x="226" y="209">IDENTITY</text><text class="control-copy" x="310" y="209">Access · permissions · roles</text>
+        <path d="M 596 270 V 228 H 778 V 421" class="control-route"/>
+        <circle cx="778" cy="421" r="5"/>
+        <text x="626" y="215">POLICY</text><text class="control-copy" x="696" y="215">Governance · compliance · risk</text>
+        <path d="M 778 228 H 1326 V 469" class="control-route"/>
+        <circle cx="1326" cy="469" r="5"/>
+        <text x="1158" y="215">STATE</text><text class="control-copy" x="1215" y="215">Context · session · memory</text>
+      </g>
+      <g class="payload-card request-card" transform="translate(205 588)">
+        <rect width="190" height="108" rx="12"/><text class="payload-title" x="18" y="27">REQUEST PAYLOAD</text>
+        <text x="22" y="51">• userId</text><text x="22" y="68">• intent</text><text x="22" y="85">• context + metadata</text>
+      </g>
+      <g class="payload-card evidence-card" transform="translate(738 700)">
+        <rect width="205" height="118" rx="12"/><text class="payload-title" x="18" y="28">EVIDENCE PAYLOAD</text>
+        <text x="22" y="53">• execution logs + outputs</text><text x="22" y="72">• attestations + hashes</text>
+        <text x="22" y="91">• approvals + receipts</text>
+      </g>
+      <g class="evidence-return">
+        <path d="M 1404 644 V 748 Q 1404 780 1370 803 L 1230 886 Q 1198 904 1162 898 L 195 744 Q 155 737 155 699 V 514" class="return-glow"/>
+        <path d="M 1404 644 V 748 Q 1404 780 1370 803 L 1230 886 Q 1198 904 1162 898 L 195 744 Q 155 737 155 699 V 514" class="return-route"/>
+        <text x="520" y="818">EVIDENCE RETURN · LOGS · STATE · PROOF</text>
+      </g>
+      <g class="route-legend reference-legend" transform="translate(48 812)">
+        <rect x="0" y="0" width="310" height="152" rx="16"/>
+        <path d="M 24 34 H 104" class="legend-route legend-route-lime"/><text x="126" y="39">Request / response</text>
+        <path d="M 24 72 H 104" class="legend-route legend-route-control"/><text x="126" y="77">Identity / policy route</text>
+        <path d="M 104 110 H 24" class="legend-route legend-route-return"/><text x="126" y="115">Evidence return</text>
+        <path d="M 24 134 H 104" class="legend-route legend-route-amber"/><text x="126" y="139">Human approval</text>
+      </g>
+    """
+
+
+def svg_scene_beams(diagram: Diagram) -> str:
+    return ""
+
+
+GOVERNED_IMAGE_HOTSPOTS = {
+    "enterprise": (159, 421, 58),
+    "workspace": (279, 434, 58),
+    "studio": (406, 444, 58),
+    "compiler": (532, 457, 58),
+    "identity": (661, 468, 58),
+    "policy": (785, 480, 58),
+    "workflow": (883, 496, 46),
+    "agents": (997, 414, 52),
+    "mcp": (999, 541, 52),
+    "orchestrator": (1146, 504, 58),
+    "evidence": (1295, 525, 58),
+    "outcome": (1427, 537, 58),
+}
+
+GOVERNED_IMAGE_ROUTES = {
+    "r1": "M 217 421 L 221 432",
+    "r2": "M 337 434 L 348 444",
+    "r3": "M 464 444 L 474 456",
+    "r4": "M 590 457 L 603 468",
+    "r5": "M 719 468 L 727 480",
+    "r10": "M 843 480 L 849 496",
+    "r6": "M 929 477 C 943 452 950 431 953 420",
+    "r7": "M 929 513 C 941 523 945 533 947 541",
+    "r8": "M 1049 414 C 1081 425 1099 458 1104 489",
+    "r9": "M 1051 541 C 1079 535 1093 520 1105 510",
+    "r11": "M 843 480 C 953 449 1052 458 1105 489",
+    "r12": "M 1204 505 L 1237 521",
+    "r13": "M 1353 526 L 1369 536",
+    "r14": "M 1427 596 V 703 Q 1427 752 1377 781 L 1260 850 Q 1219 875 1170 866 L 208 711 Q 159 703 159 654 V 480",
+}
+
+GOVERNED_IMAGE_GIF_ROUTES = {
+    "r1": [(217, 421), (221, 432)],
+    "r2": [(337, 434), (348, 444)],
+    "r3": [(464, 444), (474, 456)],
+    "r4": [(590, 457), (603, 468)],
+    "r5": [(719, 468), (727, 480)],
+    "r10": [(843, 480), (849, 496)],
+    "r6": [(929, 477), (943, 452), (950, 431), (953, 420)],
+    "r7": [(929, 513), (941, 523), (945, 533), (947, 541)],
+    "r8": [(1049, 414), (1081, 425), (1099, 458), (1104, 489)],
+    "r9": [(1051, 541), (1079, 535), (1093, 520), (1105, 510)],
+    "r11": [(843, 480), (953, 449), (1052, 458), (1105, 489)],
+    "r12": [(1204, 505), (1237, 521)],
+    "r13": [(1353, 526), (1369, 536)],
+    "r14": [(1427, 596), (1427, 703), (1377, 781), (1260, 850), (1170, 866), (208, 711), (159, 654), (159, 480)],
+}
+
+IMAGE_FIRST_CONFIGS = {
+    "intent-to-evidence": ImageFirstConfig(
+        ROOT / "assets" / "media" / "spatial" / "intent-to-evidence.png",
+        {
+            "intent": (83, 503, 34), "solution": (247, 503, 34),
+            "service": (414, 503, 34), "cerebro": (760, 502, 76),
+            "workflow": (920, 550, 38), "agents": (1028, 496, 34),
+            "mcp": (1028, 585, 34), "systems": (1168, 550, 38),
+            "approval": (1238, 462, 36), "evidence": (1312, 550, 34),
+            "outcome": (1455, 550, 34), "history": (868, 807, 48),
+        },
+        {
+            "i7": ((1061, 496), (1103, 510), (1137, 536)),
+            "i8": ((1061, 585), (1104, 572), (1137, 558)),
+            "i9": ((1168, 512), (1178, 488), (1208, 470)),
+            "i10": ((1206, 550), (1278, 550)),
+            "i12": ((1455, 584), (1455, 970), (868, 970), (868, 855)),
+        },
+    ),
+    "service-factory": ImageFirstConfig(
+        ROOT / "assets" / "media" / "service-factory-static-master.png",
+        {
+            "inputs": (218, 309, 68), "studio": (498, 309, 68),
+            "contracts": (766, 309, 68), "admission": (1035, 309, 68),
+            "registry": (1300, 309, 68), "operator": (267, 644, 68),
+            "discovery": (530, 644, 68), "compose": (784, 644, 68),
+            "execute": (1056, 644, 68), "outcome": (1321, 644, 68),
+        },
+        {
+            "f7": ((530, 539), (570, 510), (1300, 510), (1300, 414)),
+            "f11": ((1321, 749), (1321, 839), (238, 839), (238, 764)),
+        },
+    ),
+    "generic-agent-runtime": ImageFirstConfig(
+        ROOT / "assets" / "media" / "generic-agent-runtime-static-master.png",
+        {
+            "registry": (386, 230, 66), "compiler": (707, 230, 66),
+            "coordinator": (1028, 230, 66), "rabbit": (739, 380, 58),
+            "image": (741, 516, 58), "risk": (430, 615, 66),
+            "readiness": (1084, 615, 66), "synthesis": (741, 645, 62),
+            "approval": (739, 802, 62), "publisher": (1081, 807, 66),
+        },
+        {
+            "g11": ((1081, 911), (1081, 935), (1407, 935), (1407, 219), (1133, 219)),
+        },
+    ),
+    "platform-planes": ImageFirstConfig(
+        ROOT / "assets" / "media" / "platform-planes-static-master.png",
+        {
+            "experience": (292, 254, 70), "governance": (605, 254, 70),
+            "registry": (923, 254, 70), "capabilities": (1237, 254, 70),
+            "workflow": (292, 485, 70), "knowledge": (610, 485, 70),
+            "evidence": (925, 485, 70), "infrastructure": (1248, 485, 70),
+            "cerebro": (331, 738, 82), "weave": (773, 738, 82),
+            "loom": (1210, 738, 82),
+        },
+        {},
+    ),
+    "capability-lifecycle": ImageFirstConfig(
+        ROOT / "assets" / "media" / "capability-lifecycle-static-master.png",
+        {
+            "author": (311, 250, 66), "conformance": (558, 250, 66),
+            "supply": (806, 250, 66), "approval": (1054, 250, 66),
+            "registry": (1305, 250, 66), "operator": (1301, 504, 66),
+            "runtime": (1050, 504, 66), "attest": (806, 504, 66),
+            "canary": (558, 504, 66), "active": (312, 504, 66),
+            "operate": (775, 742, 86),
+        },
+        {
+            "c5": ((1410, 250), (1450, 250), (1450, 504), (1406, 504)),
+            "c11": ((925, 742), (1450, 742), (1450, 363), (1405, 250)),
+        },
+    ),
+    "governed-run": ImageFirstConfig(
+        ROOT / "assets" / "media" / "governed-run-static-master.png",
+        GOVERNED_IMAGE_HOTSPOTS,
+        {edge_id: tuple(points) for edge_id, points in GOVERNED_IMAGE_GIF_ROUTES.items()},
+    ),
+    "scale-path": ImageFirstConfig(
+        ROOT / "assets" / "media" / "scale-path-static-master.png",
+        {
+            "individual": (234, 281, 66), "team": (503, 281, 66),
+            "business": (767, 281, 66), "enterprise": (1035, 281, 66),
+            "sovereign": (1315, 281, 66), "contracts": (396, 553, 76),
+            "profiles": (767, 553, 76), "packs": (1142, 553, 76),
+            "outcomes": (768, 837, 90),
+        },
+        {},
+    ),
+}
+
+
+def image_config(diagram: Diagram) -> ImageFirstConfig | None:
+    return IMAGE_FIRST_CONFIGS.get(diagram.slug)
+
+
+def image_master_data_uri(config: ImageFirstConfig) -> str:
+    return "data:image/png;base64," + base64.b64encode(config.master.read_bytes()).decode("ascii")
+
+
+def image_route_points(diagram: Diagram, edge: Edge, config: ImageFirstConfig) -> tuple[tuple[int, int], ...]:
+    override = config.route_overrides.get(edge.id)
+    if override:
+        return override
+    sx, sy, sr = config.hotspots[edge.source]
+    tx, ty, tr = config.hotspots[edge.target]
+    dx, dy = tx - sx, ty - sy
+    distance = max(math.hypot(dx, dy), 1)
+    return (
+        (round(sx + dx * sr / distance), round(sy + dy * sr / distance)),
+        (round(tx - dx * tr / distance), round(ty - dy * tr / distance)),
+    )
+
+
+def image_route_path(points: tuple[tuple[int, int], ...]) -> str:
+    return "M " + " L ".join(f"{x} {y}" for x, y in points)
+
+
+def svg_image_scene(diagram: Diagram, interactive: bool) -> str:
+    config = IMAGE_FIRST_CONFIGS[diagram.slug]
+    edge_markup = []
+    for edge in diagram.edges:
+        route = image_route_path(image_route_points(diagram, edge, config))
+        edge_markup.append(
+            f'<g id="edge-{edge.id}" class="edge image-overlay-edge edge-{edge.kind}" data-edge-id="{edge.id}">'
+            f'<path class="edge-halo" d="{route}"/><path class="edge-route" d="{route}" marker-end="url(#overlay-arrow)"/>'
+            f'<circle class="flow-pulse" r="6"><animateMotion dur="1.5s" repeatCount="indefinite" path="{route}"/></circle></g>'
+        )
+    hotspot_markup = []
+    for node in diagram.nodes:
+        x, y, radius = config.hotspots[node.id]
+        attrs = (
+            f' role="button" tabindex="0" aria-label="{escape(node.title)}" data-node-id="{node.id}"'
+            if interactive else f' data-node-id="{node.id}"'
+        )
+        hotspot_markup.append(
+            f'<g id="node-{node.id}" class="node image-hotspot node-{node.color}"{attrs}>'
+            f'<circle class="hotspot-hit" cx="{x}" cy="{y}" r="{radius}"/>'
+            f'<circle class="hotspot-ring" cx="{x}" cy="{y}" r="{radius + 6}"/>'
+            f'<circle class="hotspot-pulse" cx="{x}" cy="{y}" r="{radius + 14}"/></g>'
+        )
+    return f"""
+    <svg class="architecture diagram-{diagram.slug} image-first-diagram" viewBox="0 0 {IMAGE_MASTER_WIDTH} {IMAGE_MASTER_HEIGHT}" role="img" aria-labelledby="diagram-title diagram-desc">
+      <title id="diagram-title">{escape(diagram.title)}</title>
+      <desc id="diagram-desc">{escape(diagram.subtitle)} The approved static composition remains unchanged while transparent overlays indicate the active semantic route.</desc>
+      <defs>
+        <marker id="overlay-arrow" markerWidth="12" markerHeight="12" refX="10" refY="4" orient="auto">
+          <path d="M0,0 L0,8 L11,4 z" fill="context-stroke"/>
+        </marker>
+        <filter id="glow" x="-80%" y="-80%" width="260%" height="260%"><feGaussianBlur stdDeviation="7" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+      </defs>
+      <image class="static-master" href="{image_master_data_uri(config)}" x="0" y="0" width="{IMAGE_MASTER_WIDTH}" height="{IMAGE_MASTER_HEIGHT}" preserveAspectRatio="xMidYMid meet"/>
+      <g class="image-overlay-edges">{''.join(edge_markup)}</g>
+      <g class="image-overlay-hotspots">{''.join(hotspot_markup)}</g>
+    </svg>"""
+
+
 def svg_content(diagram: Diagram, interactive: bool = False) -> str:
-    nodes = node_map(diagram)
+    if image_config(diagram):
+        return svg_image_scene(diagram, interactive)
+    visual_nodes = scene_nodes(diagram)
+    nodes = {node.id: node for node in visual_nodes}
     edges = []
     for edge in diagram.edges:
+        route = GOVERNED_EDGE_PATHS[edge.id] if diagram.slug == "governed-run" else edge_path(edge, nodes)
         label_x = (center(nodes[edge.source])[0] + center(nodes[edge.target])[0]) / 2
         label_y = (center(nodes[edge.source])[1] + center(nodes[edge.target])[1]) / 2 - 8
         edges.append(
             f'<g id="edge-{edge.id}" class="edge edge-{edge.kind}" data-edge-id="{edge.id}">'
-            f'<path d="{edge_path(edge, nodes)}" marker-end="url(#arrow)"/>'
-            + (f'<text x="{label_x:.1f}" y="{label_y:.1f}">{escape(edge.label)}</text>' if edge.label else "")
+            f'<path class="edge-route" d="{route}" marker-end="url(#arrow)"/>'
+            f'<circle class="flow-pulse" r="4"><animateMotion dur="1.8s" repeatCount="indefinite" path="{route}"/></circle>'
+            + (f'<text x="{label_x:.1f}" y="{label_y:.1f}">{escape(edge.label)}</text>' if edge.label and diagram.slug != "governed-run" else "")
             + "</g>"
         )
-    node_markup = "".join(svg_node(node, interactive) for node in diagram.nodes)
+    governed = diagram.slug == "governed-run"
+    node_markup = "".join(
+        svg_governed_node(node, interactive) if governed else svg_node(node, interactive)
+        for node in visual_nodes
+    )
+    diagram_title_y = 68 if governed else 82
+    diagram_subtitle_y = 110 if governed else 105
+    title_markup = (
+        f'<text class="diagram-title governed-main-title" x="{WIDTH / 2}" y="{diagram_title_y}">CONTEXTWEAVER — GOVERNED CALL FLOW</text>'
+        f'<text class="diagram-subtitle governed-main-subtitle" x="{WIDTH / 2}" y="{diagram_subtitle_y}">Every request carries identity, policy, state, and proof</text>'
+        if governed else
+        f'<text class="brand-title" x="46" y="72"><tspan>CONTEXT</tspan><tspan class="brand-accent">WEAVER</tspan></text>'
+        f'<text class="diagram-title" x="47" y="{diagram_title_y}">{escape(diagram.title.upper())}</text>'
+        f'<text class="diagram-subtitle" x="47" y="{diagram_subtitle_y}">{escape(diagram.subtitle)}</text>'
+    )
     return f"""
-    <svg class="architecture" viewBox="0 0 {WIDTH} {HEIGHT}" role="img" aria-labelledby="diagram-title diagram-desc">
+    <svg class="architecture diagram-{diagram.slug}" viewBox="0 0 {WIDTH} {HEIGHT}" role="img" aria-labelledby="diagram-title diagram-desc">
       <title id="diagram-title">{escape(diagram.title)}</title>
       <desc id="diagram-desc">{escape(diagram.subtitle)}</desc>
       <defs>
         <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto">
           <path d="M0,0 L0,6 L9,3 z" fill="context-stroke"/>
         </marker>
-        <filter id="glow"><feGaussianBlur stdDeviation="5" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+        <filter id="glow"><feGaussianBlur stdDeviation="6" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+        <filter id="deck-glow" x="-20%" y="-30%" width="140%" height="180%"><feDropShadow dx="0" dy="0" stdDeviation="7" flood-color="#70e6b1" flood-opacity=".22"/><feDropShadow dx="0" dy="18" stdDeviation="14" flood-color="#000000" flood-opacity=".75"/></filter>
+        <filter id="card-shadow" x="-30%" y="-30%" width="160%" height="180%"><feDropShadow dx="0" dy="9" stdDeviation="9" flood-color="#000000" flood-opacity=".58"/></filter>
+        <linearGradient id="glass-face" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#173f2e" stop-opacity=".96"/><stop offset=".48" stop-color="#10261d" stop-opacity=".94"/><stop offset="1" stop-color="#07110d" stop-opacity=".98"/></linearGradient>
+        <linearGradient id="deck-face" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#173429" stop-opacity=".48"/><stop offset=".58" stop-color="#0a1812" stop-opacity=".7"/><stop offset="1" stop-color="#07110d" stop-opacity=".9"/></linearGradient>
+        <linearGradient id="deck-experience" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#174735" stop-opacity=".68"/><stop offset=".58" stop-color="#0b281d" stop-opacity=".84"/><stop offset="1" stop-color="#06130e" stop-opacity=".95"/></linearGradient>
+        <linearGradient id="deck-cerebro" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#12382f" stop-opacity=".68"/><stop offset=".58" stop-color="#09231c" stop-opacity=".84"/><stop offset="1" stop-color="#05120e" stop-opacity=".95"/></linearGradient>
+        <linearGradient id="deck-weave" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#283c23" stop-opacity=".66"/><stop offset=".58" stop-color="#172719" stop-opacity=".84"/><stop offset="1" stop-color="#09120b" stop-opacity=".96"/></linearGradient>
+        <pattern id="perspective-grid" width="60" height="60" patternUnits="userSpaceOnUse"><path d="M60 0H0V60" fill="none" stroke="#315446" stroke-width="1" opacity=".22"/></pattern>
       </defs>
       <rect width="{WIDTH}" height="{HEIGHT}" fill="{COLORS['bg']}"/>
-      <g class="grid-lines" opacity=".22">
-        {''.join(f'<path d="M {x} 0 V {HEIGHT}"/>' for x in range(0, WIDTH + 1, 60))}
-        {''.join(f'<path d="M 0 {y} H {WIDTH}"/>' for y in range(0, HEIGHT + 1, 60))}
-      </g>
-      <text class="diagram-title" x="36" y="46">{escape(diagram.title)}</text>
-      <text class="diagram-subtitle" x="36" y="72">{escape(diagram.subtitle)}</text>
+      <rect class="floor-grid" y="78" width="{WIDTH}" height="{HEIGHT - 78}" fill="url(#perspective-grid)"/>
+      {title_markup}
+      {svg_scene_beams(diagram)}
+      <g class="decks">{svg_decks(governed=governed)}</g>
       <g class="edges">{''.join(edges)}</g>
       <g class="nodes">{node_markup}</g>
+      {svg_scene_accents(diagram)}
     </svg>"""
 
 
 SVG_STYLE = f"""
-  .grid-lines path {{ stroke:{COLORS['line']}; stroke-width:1; }}
-  .diagram-title {{ fill:{COLORS['text']}; font:700 24px {FONT_STACK}; }}
-  .diagram-subtitle {{ fill:{COLORS['muted']}; font:12px {FONT_STACK}; }}
-  .node rect {{ fill:{COLORS['panel']}; stroke:{COLORS['line']}; stroke-width:2; }}
-  .node-mint rect {{ stroke:{COLORS['mint']}; }} .node-sky rect {{ stroke:{COLORS['sky']}; }}
-  .node-amber rect {{ stroke:{COLORS['amber']}; }} .node-violet rect {{ stroke:{COLORS['violet']}; }}
-  .node-coral rect {{ stroke:{COLORS['coral']}; }}
-  .node-title {{ fill:{COLORS['text']}; font:700 14px {FONT_STACK}; text-anchor:middle; }}
-  .node-subtitle {{ fill:{COLORS['muted']}; font:10px {FONT_STACK}; text-anchor:middle; }}
-  .edge path {{ fill:none; stroke:{COLORS['line']}; stroke-width:2.5; }}
+  .floor-grid {{ opacity:.58; }}
+  .brand-title {{ fill:{COLORS['text']}; font:900 29px {FONT_STACK}; letter-spacing:2.4px; }}
+  .brand-accent {{ fill:#b8ff6a; }}
+  .diagram-title {{ fill:{COLORS['mint']}; font:800 15px {FONT_STACK}; letter-spacing:1.6px; }}
+  .diagram-subtitle {{ fill:#b9d2c7; font:11px {FONT_STACK}; }}
+  .diagram-governed-run .governed-main-title {{ fill:#f4f1e9; font-size:45px; font-weight:850; letter-spacing:2px; text-anchor:middle; }}
+  .diagram-governed-run .governed-main-subtitle {{ fill:#a9aeb1; font-size:22px; font-weight:650; letter-spacing:1.5px; text-anchor:middle; }}
+  .glass-deck {{ filter:url(#deck-glow); }}
+  .glass-deck .deck-shadow {{ fill:#000; opacity:.62; }}
+  .glass-deck .deck-face {{ fill:url(#deck-face); stroke:{COLORS['mint']}; stroke-width:1.6; opacity:.94; }}
+  .glass-deck .deck-depth {{ fill:#03100b; stroke:{COLORS['mint']}; stroke-width:1.2; opacity:.9; }}
+  .glass-deck .deck-grid {{ fill:none; stroke:#70e6b1; stroke-width:.75; opacity:.12; }}
+  .glass-deck .deck-shine {{ fill:none; stroke:#a8ffd4; stroke-width:1.4; opacity:.66; }}
+  .diagram-governed-run .governed-runway .deck-face {{ fill:url(#deck-experience); stroke:#4bd489; stroke-width:1.6; opacity:.58; }}
+  .diagram-governed-run .governed-runway .deck-depth {{ fill:#06170f; stroke:#5bee92; stroke-width:1.5; opacity:.78; }}
+  .diagram-governed-run .governed-runway .deck-grid {{ stroke:#4ccf88; opacity:.16; }}
+  .runway-rail {{ fill:none; stroke:#7dff58; stroke-width:2.2; opacity:.35; filter:url(#glow); }}
+  .branch-plinth path {{ fill:#0b281b; fill-opacity:.52; stroke:#57df91; stroke-width:1.2; }}
+  .governed-slab .deck-shadow {{ opacity:.72; }}
+  .governed-slab .deck-depth {{ stroke-width:1.8; }}
+  .governed-slab .deck-face {{ stroke-width:2.3; }}
+  .governed-slab .deck-grid {{ opacity:.09; }}
+  .governed-slab .deck-shine {{ stroke-width:2.1; opacity:.78; }}
+  .layer-plaque rect {{ fill:#04130d; fill-opacity:.92; stroke:#315b49; stroke-width:1.2; }}
+  .layer-title {{ fill:{COLORS['text']}; font:800 20px {FONT_STACK}; letter-spacing:.7px; }}
+  .layer-subtitle {{ fill:#a8cbbd; font:11px {FONT_STACK}; }}
+  .layer-rule {{ fill:none; stroke:{COLORS['mint']}; stroke-width:4; filter:url(#glow); }}
+  .node {{ filter:url(#card-shadow); }}
+  .node-face {{ fill:url(#glass-face); stroke:{COLORS['mint']}; stroke-width:2.2; }}
+  .node-echo {{ fill:#0b2a1d; fill-opacity:.58; stroke:#70e6b1; stroke-width:1; opacity:.72; }}
+  .node-echo-back {{ opacity:.34; }}
+  .node-depth {{ fill:#020a07; stroke:{COLORS['mint']}; stroke-width:1.2; }}
+  .node-shine {{ fill:none; stroke:#b4ffda; stroke-width:1.3; opacity:.72; }}
+  .node-mint .node-face {{ stroke:{COLORS['mint']}; }} .node-sky .node-face {{ stroke:{COLORS['sky']}; }}
+  .node-amber .node-face {{ stroke:{COLORS['amber']}; }} .node-violet .node-face {{ stroke:{COLORS['violet']}; }}
+  .node-coral .node-face {{ stroke:{COLORS['coral']}; }}
+  .node-amber .node-depth,.node-amber .node-echo {{ stroke:{COLORS['amber']}; }}
+  .governed-node .node-face {{ fill:url(#glass-face); stroke-width:2.8; }}
+  .governed-node .node-depth {{ stroke-width:1.6; }}
+  .governed-node .node-shine {{ stroke-width:1.6; opacity:.8; }}
+  .governed-cuboid {{ filter:url(#card-shadow); }}
+  .governed-cuboid .node-face {{ fill:url(#glass-face); stroke:#65e99d; stroke-width:2.2; }}
+  .governed-cuboid .node-top {{ fill:#173b29; fill-opacity:.74; stroke:#72f2a7; stroke-width:1.5; }}
+  .governed-cuboid .node-side {{ fill:#07160f; fill-opacity:.9; stroke:#4fcf88; stroke-width:1.2; }}
+  .governed-cuboid .node-plinth {{ fill:#0b2519; fill-opacity:.74; stroke:#65e99d; stroke-width:1.2; }}
+  .governed-cuboid .cuboid-echo {{ fill:#123a28; fill-opacity:.3; stroke:#4ecf87; stroke-width:1; }}
+  .governed-cuboid .cuboid-echo-back {{ opacity:.45; }}
+  .governed-cuboid.node-amber .node-face,.governed-cuboid.node-amber .node-top,.governed-cuboid.node-amber .node-side,.governed-cuboid.node-amber .node-plinth {{ stroke:#ffb938; }}
+  .governed-cuboid.node-amber .node-face {{ fill:#3a2408; fill-opacity:.9; }}
+  .governed-cuboid.node-amber .cuboid-echo {{ stroke:#ffb938; fill:#3b2306; }}
+  .diagram-governed-run .node-title {{ font-size:14px; font-weight:850; }}
+  .diagram-governed-run .node-subtitle {{ font-size:7px; }}
+  .cuboid-number circle {{ fill:#07100b; stroke:#d9ff38; stroke-width:2.5; filter:url(#glow); }}
+  .cuboid-number text {{ fill:#f1ffad; font:850 16px {FONT_STACK}; text-anchor:middle; }}
+  .node-amber .cuboid-number circle {{ stroke:#ffb938; }} .node-amber .cuboid-number text {{ fill:#ffcb68; }}
+  .node-icon {{ fill:none; stroke:#d8fff0; stroke-width:2.2; stroke-linecap:round; stroke-linejoin:round; }}
+  .node-title {{ fill:{COLORS['text']}; font:750 13px {FONT_STACK}; text-anchor:middle; }}
+  .node-subtitle {{ fill:#aed0c2; font:8px {FONT_STACK}; text-anchor:middle; }}
+  .node-step {{ opacity:0; }} .node-step circle {{ fill:{COLORS['bg']}; stroke:{COLORS['mint']}; stroke-width:2; }}
+  .node-step text {{ fill:{COLORS['mint']}; font:800 11px {FONT_STACK}; text-anchor:middle; }}
+  .edge .edge-route {{ fill:none; stroke:{COLORS['mint']}; stroke-width:2.8; }}
+  .flow-pulse {{ fill:{COLORS['mint']}; opacity:0; filter:url(#glow); }}
   .edge text {{ fill:{COLORS['muted']}; font:9px {FONT_STACK}; text-anchor:middle; paint-order:stroke; stroke:{COLORS['bg']}; stroke-width:4; }}
-  .edge-governance path {{ stroke:{COLORS['violet']}; stroke-dasharray:8 6; }}
-  .edge-success path {{ stroke:{COLORS['mint']}; }} .edge-evidence path {{ stroke:{COLORS['amber']}; stroke-dasharray:5 5; }}
-  .edge-waiting path {{ stroke:{COLORS['amber']}; stroke-dasharray:10 7; }}
+  .edge-governance .edge-route {{ stroke:{COLORS['amber']}; stroke-dasharray:8 6; }}
+  .edge-governance .flow-pulse,.edge-waiting .flow-pulse {{ fill:{COLORS['amber']}; }}
+  .edge-success .edge-route {{ stroke:{COLORS['mint']}; }} .edge-evidence .edge-route {{ stroke:#d8fff0; stroke-dasharray:3 7; }}
+  .edge-evidence .flow-pulse {{ fill:#d8fff0; }}
+  .edge-waiting .edge-route {{ stroke:{COLORS['amber']}; stroke-dasharray:10 7; }}
+  .route-legend text {{ fill:#d4e2dc; font:11px {FONT_STACK}; }}
+  .legend-lime {{ fill:{COLORS['mint']}; filter:url(#glow); }} .legend-amber {{ fill:{COLORS['amber']}; filter:url(#glow); }}
+  .legend-white {{ fill:#e8fff5; filter:url(#glow); }}
+  .reference-legend rect {{ fill:#03100c; fill-opacity:.9; stroke:#27c997; stroke-width:1; }}
+  .reference-legend text {{ font-size:12px; }}
+  .legend-route {{ fill:none; stroke-width:4; marker-end:url(#arrow); }}
+  .legend-route-lime {{ stroke:#aaff2e; }} .legend-route-amber {{ stroke:{COLORS['amber']}; stroke-dasharray:8 6; }}
+  .legend-route-control {{ stroke:#79e968; stroke-dasharray:8 7; }}
+  .legend-route-return {{ stroke:#b9ff42; }}
+  .step-markers circle {{ fill:#092116; stroke:#b8ff3d; stroke-width:3; filter:url(#glow); }}
+  .step-markers text {{ fill:#eaffc9; font:800 18px {FONT_STACK}; text-anchor:middle; }}
+  .step-markers .amber-marker circle {{ stroke:{COLORS['amber']}; }} .step-markers .amber-marker text {{ fill:{COLORS['amber']}; }}
+  .step-markers .white-marker circle {{ stroke:#e8fff5; }} .step-markers .white-marker text {{ fill:#e8fff5; }}
+  .outcome-route {{ fill:none; stroke:#e8fff5; stroke-width:3.2; stroke-dasharray:4 10; marker-end:url(#arrow); filter:url(#glow); }}
+  .outcome-ring {{ fill:#092116; stroke:#b8ff3d; stroke-width:4; filter:url(#glow); }}
+  .outcome-check {{ fill:none; stroke:#dfff8e; stroke-width:3; stroke-linecap:round; stroke-linejoin:round; }}
+  .outcome-label {{ fill:{COLORS['text']}; font:800 21px {FONT_STACK}; letter-spacing:1.2px; text-anchor:end; }}
+  .outcome-subtitle {{ fill:#a8cbbd; font:9px {FONT_STACK}; }}
+  .vertical-beams .beam {{ fill:none; stroke-width:4; filter:url(#glow); }}
+  .vertical-beams .beam-lime {{ stroke:#b8ff39; opacity:.72; }} .vertical-beams .beam-soft {{ stroke:#70e6b1; opacity:.28; }}
+  .vertical-beams ellipse {{ fill:#b8ff39; opacity:.36; filter:url(#glow); }}
+  .diagram-governed-run .node-step {{ display:none; }}
+  .control-route {{ fill:none; stroke:#78e867; stroke-width:2.3; stroke-dasharray:8 7; }}
+  .control-routes circle {{ fill:#78e867; filter:url(#glow); }}
+  .control-routes text {{ fill:#8bf06d; font:800 15px {FONT_STACK}; }}
+  .control-routes .control-copy {{ fill:#74c961; font-size:12px; font-weight:600; }}
+  .payload-card rect {{ fill:#07140f; fill-opacity:.95; stroke:#52d890; stroke-width:1.3; }}
+  .payload-card text {{ fill:#c8d8d0; font:10px {FONT_STACK}; }}
+  .payload-card .payload-title {{ fill:#f1f4ef; font-size:14px; font-weight:800; }}
+  .return-glow {{ fill:none; stroke:#b8ff39; stroke-width:13; opacity:.16; filter:url(#glow); }}
+  .return-route {{ fill:none; stroke:#c9ff42; stroke-width:3.5; marker-end:url(#arrow); filter:url(#glow); }}
+  .evidence-return text {{ fill:#a9ff43; font:800 13px {FONT_STACK}; letter-spacing:.8px; }}
+  .image-first-diagram .static-master {{ pointer-events:none; }}
+  .image-first-diagram .image-overlay-edge {{ opacity:0; transition:opacity .35s; }}
+  .image-first-diagram .image-overlay-edge.complete {{ opacity:.16; }}
+  .image-first-diagram .image-overlay-edge.active {{ opacity:1; }}
+  .image-first-diagram .edge-halo {{ fill:none; stroke:#b8ff39; stroke-width:16; opacity:.18; filter:url(#glow); }}
+  .image-first-diagram .edge-route {{ fill:none; stroke:#d4ff3f; stroke-width:5; stroke-linecap:round; stroke-linejoin:round; }}
+  .image-first-diagram .edge-governance .edge-route,.image-first-diagram .edge-waiting .edge-route {{ stroke:#ffc76a; stroke-dasharray:11 8; }}
+  .image-first-diagram .edge-evidence .edge-route {{ stroke:#e8fff5; stroke-dasharray:5 8; }}
+  .image-first-diagram .flow-pulse {{ fill:#f1ff9c; opacity:0; filter:url(#glow); }}
+  .image-first-diagram .active .flow-pulse {{ opacity:1; }}
+  .image-hotspot {{ cursor:pointer; }}
+  .image-hotspot .hotspot-hit {{ fill:#000; fill-opacity:.001; stroke:none; }}
+  .image-hotspot .hotspot-ring,.image-hotspot .hotspot-pulse {{ fill:#b8ff39; fill-opacity:0; stroke:#d4ff3f; stroke-width:0; opacity:0; pointer-events:none; }}
+  .image-hotspot.active .hotspot-ring,.image-hotspot.selected .hotspot-ring {{ fill-opacity:.09; stroke-width:4; opacity:1; filter:url(#glow); }}
+  .image-hotspot.active .hotspot-pulse {{ stroke-width:2; opacity:.72; transform-box:fill-box; transform-origin:center; animation:hotspot-pulse 1.7s ease-out infinite; }}
+  .image-hotspot.node-amber.active .hotspot-ring,.image-hotspot.node-amber.active .hotspot-pulse {{ fill:#ffc76a; stroke:#ffc76a; }}
+  .image-hotspot:focus-visible .hotspot-ring {{ stroke-width:5; opacity:1; }}
+  @keyframes hotspot-pulse {{ 0%{{transform:scale(.82);opacity:.8}} 100%{{transform:scale(1.22);opacity:0}} }}
 """
 
 
 def write_static_svg(diagram: Diagram) -> None:
+    image_first = image_config(diagram) is not None
+    svg_width = IMAGE_MASTER_WIDTH if image_first else WIDTH
+    svg_height = IMAGE_MASTER_HEIGHT if image_first else HEIGHT
     content = (
         '<?xml version="1.0" encoding="UTF-8"?>\n'
-        f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {WIDTH} {HEIGHT}">'
+        f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {svg_width} {svg_height}">'
         f"<style>{SVG_STYLE}</style>"
         + svg_content(diagram).replace(
-            f'<svg class="architecture" viewBox="0 0 {WIDTH} {HEIGHT}" role="img" aria-labelledby="diagram-title diagram-desc">',
+            f'<svg class="architecture diagram-{diagram.slug}'
+            + (' image-first-diagram' if image_first else '')
+            + f'" viewBox="0 0 {svg_width} {svg_height}" role="img" aria-labelledby="diagram-title diagram-desc">',
             '<g role="img" aria-labelledby="diagram-title diagram-desc">',
             1,
         ).rsplit("</svg>", 1)[0]
         + "</g></svg>"
     )
-    (OUT / f"{diagram.slug}.svg").write_text(content, encoding="utf-8", newline="\n")
+    (OUT / f"{diagram.slug}.svg").write_text(clean_generated_text(content), encoding="utf-8", newline="\n")
 
 
 def write_interactive_html(diagram: Diagram) -> None:
+    image_first = image_config(diagram) is not None
     nodes_json = {
         node.id: {"title": node.title, "subtitle": node.subtitle, "detail": node.detail}
         for node in diagram.nodes
@@ -471,45 +1151,58 @@ def write_interactive_html(diagram: Diagram) -> None:
 <title>{escape(diagram.title)} — ContextWeaver</title>
 <style>
 :root{{--bg:{COLORS['bg']};--panel:{COLORS['panel']};--panel2:{COLORS['panel2']};--text:{COLORS['text']};--muted:{COLORS['muted']};--line:{COLORS['line']};--mint:{COLORS['mint']};--amber:{COLORS['amber']};--coral:{COLORS['coral']};--violet:{COLORS['violet']};--sky:{COLORS['sky']}}}
-*{{box-sizing:border-box}}body{{margin:0;color:var(--text);background:var(--bg);font:14px/1.5 {FONT_STACK}}}button{{font:inherit}}
-.shell{{display:grid;grid-template-columns:minmax(0,1fr) 300px;min-height:720px}}.canvas{{position:relative;overflow:auto;border-right:1px solid var(--line)}}.architecture{{display:block;min-width:840px;width:100%;height:auto}}
+*{{box-sizing:border-box}}html{{color-scheme:dark}}body{{min-width:320px;margin:0;overflow-x:hidden;color:var(--text);background:var(--bg);font:14px/1.5 {FONT_STACK}}}button{{font:inherit}}
+.experience{{display:grid;grid-template-rows:auto minmax(0,1fr) auto;width:min(1536px,100%);height:100vh;min-height:720px;margin:auto;border:1px solid var(--line);background:linear-gradient(180deg,#0b1c15,#050b08);box-shadow:0 34px 100px #0009;overflow:hidden}}
+.storybar{{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;gap:22px;min-height:88px;padding:14px 18px;border-bottom:1px solid var(--line);background:#091710eb;backdrop-filter:blur(20px)}}
+.storybar>div,.detailbar>div{{min-width:0}}.stage-count{{color:var(--mint);font-size:9px;font-weight:900;letter-spacing:.15em;text-transform:uppercase}}.stage-title{{display:block;margin-top:4px;font:700 clamp(18px,2vw,28px)/1.08 {FONT_STACK};letter-spacing:-.025em}}.stage-caption{{display:block;max-width:980px;margin-top:6px;overflow-wrap:anywhere;color:var(--muted);font-size:11px}}
+.canvas{{position:relative;min-height:0;overflow:hidden;background:radial-gradient(circle at 52% 42%,#173f2e55 0,transparent 42%),var(--bg)}}.architecture{{display:block;min-width:900px;width:100%;height:100%;object-fit:contain}}
 {SVG_STYLE}
-.node{{cursor:pointer}}.node rect,.edge path{{transition:.3s}}.node:hover rect,.node.selected rect{{stroke-width:4}}.node.active rect{{stroke-width:5;filter:url(#glow)}}.node.complete{{opacity:.66}}
-.edge{{opacity:.24}}.edge.active{{opacity:1}}.edge.active path{{stroke-width:5;stroke-dasharray:14 9;animation:flow .75s linear infinite;filter:url(#glow)}}.edge-governance.active path{{stroke:var(--violet)}}.edge-success.active path{{stroke:var(--mint)}}.edge-waiting.active path,.edge-evidence.active path{{stroke:var(--amber)}}
+.node{{cursor:pointer;transition:opacity .35s}}.node-face,.node-depth,.edge path{{transition:.35s}}.node:hover .node-face,.node.selected .node-face{{stroke-width:4}}.node.active .node-face{{stroke-width:5;filter:url(#glow)}}.node.active .node-depth{{stroke:var(--mint)}}.node.active .node-step{{opacity:1}}.node.complete{{opacity:.94}}.node.dim{{opacity:.82}}
+.edge{{opacity:.42;transition:opacity .35s}}.edge.complete{{opacity:.7}}.edge.dim{{opacity:.32}}.edge.active{{opacity:1}}.edge.active .edge-route{{stroke-width:5;stroke-dasharray:15 9;animation:flow .75s linear infinite;filter:url(#glow)}}.edge.active .flow-pulse{{opacity:1}}.edge-governance.active .edge-route{{stroke:var(--amber)}}.edge-success.active .edge-route{{stroke:var(--mint)}}.edge-waiting.active .edge-route{{stroke:var(--amber)}}.edge-evidence.active .edge-route{{stroke:#d8fff0;stroke-dasharray:3 8}}
 @keyframes flow{{to{{stroke-dashoffset:-23}}}}
-.panel{{display:flex;flex-direction:column;min-width:0;background:linear-gradient(180deg,var(--panel2),var(--bg))}}.panel-head{{padding:20px;border-bottom:1px solid var(--line)}}.eyebrow{{margin:0 0 7px;color:var(--mint);font-size:9px;font-weight:900;letter-spacing:.15em;text-transform:uppercase}}h1{{margin:0;font:700 25px/1.08 {FONT_STACK}}}.panel-head p{{margin:8px 0 0;color:var(--muted);font-size:11px}}
-.detail{{min-height:210px;padding:20px;border-bottom:1px solid var(--line)}}.detail b{{display:block;font:700 19px/1.2 {FONT_STACK}}}.detail em{{display:block;margin:7px 0 12px;color:var(--amber);font-size:10px;font-style:normal;font-weight:800}}.detail p{{margin:0;color:#c8d6d0;font-size:12px}}
-.stage{{flex:1;padding:20px}}.stage-count{{color:var(--mint);font-size:10px;font-weight:900;letter-spacing:.12em;text-transform:uppercase}}.stage h2{{margin:8px 0;font:700 21px/1.18 {FONT_STACK}}}.stage p{{margin:0;color:var(--muted);font-size:12px}}
-.controls{{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;padding:12px;border-top:1px solid var(--line)}}.controls button{{min-height:39px;border:1px solid var(--line);border-radius:9px;color:var(--text);background:var(--panel);cursor:pointer;font-size:11px;font-weight:800}}.controls button:hover{{border-color:var(--mint)}}.controls .primary{{color:#07110f;background:var(--mint)}}
-.dots{{display:flex;flex-wrap:wrap;gap:6px;padding:0 18px 16px}}.dot{{width:10px;height:10px;padding:0;border:0;border-radius:50%;background:var(--line);cursor:pointer}}.dot.active{{background:var(--mint);box-shadow:0 0 10px var(--mint)}}
-@media(max-width:900px){{.shell{{grid-template-columns:1fr}}.canvas{{border-right:0;border-bottom:1px solid var(--line)}}.panel{{min-height:440px}}.architecture{{min-width:760px}}}}
+.controls{{display:flex;gap:7px}}.controls button{{min-height:38px;padding:0 13px;border:1px solid var(--line);border-radius:9px;color:var(--text);background:var(--panel);cursor:pointer;font-size:10px;font-weight:850}}.controls button:hover{{border-color:var(--mint)}}.controls .primary,.controls button[aria-pressed="true"]{{color:#07110f;background:var(--mint)}}
+.detailbar{{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;gap:22px;min-height:82px;padding:13px 18px;border-top:1px solid var(--line);background:#07110d}}.detailbar b{{display:block;font:700 15px/1.2 {FONT_STACK}}}.detailbar em{{display:block;margin:3px 0;color:var(--amber);font-size:9px;font-style:normal;font-weight:800}}.detailbar p{{margin:0;color:#c8d6d0;font-size:10px}}
+.dots{{display:flex;flex-wrap:wrap;justify-content:flex-end;gap:7px}}.dot{{width:10px;height:10px;min-height:0;padding:0;border:0;border-radius:50%;background:var(--line);cursor:pointer}}.dot.complete{{background:#456e5d}}.dot.active{{background:var(--mint);box-shadow:0 0 10px var(--mint)}}
+.player-image-first .experience{{display:grid;grid-template-rows:auto minmax(0,1fr) auto;height:100vh;min-height:720px}}
+.player-image-first .canvas{{width:100%;height:100%}}
+.player-image-first .storybar{{grid-template-columns:minmax(0,1fr) auto}}
+.player-image-first .stage-count{{font-size:9px}}.player-image-first .stage-title{{font-size:20px}}
+.player-image-first .controls button{{min-height:38px;padding-inline:12px}}
+.player-image-first .detailbar{{grid-template-columns:minmax(0,1fr) auto}}
+@media(max-width:900px){{.storybar{{grid-template-columns:1fr}}.controls{{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));width:100%}}.controls button{{min-width:0;padding-inline:8px}}.detailbar{{grid-template-columns:1fr}}.dots{{justify-content:flex-start}}.canvas{{min-height:0;overflow:hidden}}.architecture{{min-width:0;width:100%}}}}
+@media(max-width:900px){{.player-image-first .experience{{grid-template-rows:auto auto auto;height:auto;min-height:0}}.player-image-first .canvas{{height:auto;aspect-ratio:{IMAGE_MASTER_WIDTH}/{IMAGE_MASTER_HEIGHT}}}.player-image-first .storybar{{grid-template-columns:1fr}}.player-image-first .detailbar{{grid-template-columns:1fr}}}}
+@media(max-width:620px){{.experience{{min-height:0;border-width:0}}.storybar,.detailbar{{padding:14px}}.controls{{grid-template-columns:repeat(2,minmax(0,1fr))}}.stage-title{{font-size:18px}}.stage-caption{{font-size:10px}}.architecture{{min-width:0}}}}
 @media(prefers-reduced-motion:reduce){{*{{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}}}
 </style></head>
-<body><main class="shell">
+<body class="player player-{diagram.slug}{' player-image-first' if image_first else ''}"><main class="experience" aria-live="polite">
+<header class="storybar"><div><span class="stage-count" id="stage-count"></span><strong class="stage-title" id="stage-title"></strong><span class="stage-caption" id="stage-caption"></span></div>
+<div class="controls"><button id="prev" type="button" aria-label="Previous stage">Previous</button><button id="play" class="primary" type="button">Pause</button><button id="next" type="button" aria-label="Next stage">Next</button><button id="audio" type="button" aria-pressed="false">Audio off</button><button id="reset" type="button">Reset</button><button id="popout" type="button" aria-label="Open animation in a dedicated window">Pop out ↗</button></div></header>
 <section class="canvas">{svg_content(diagram, interactive=True)}</section>
-<aside class="panel" aria-live="polite">
-  <div class="panel-head"><p class="eyebrow">Interactive architecture</p><h1>{escape(diagram.title)}</h1><p>{escape(diagram.subtitle)}</p></div>
-  <div class="detail"><b id="detail-title">Select a component</b><em id="detail-subtitle">Click or use the keyboard</em><p id="detail-copy">Every component remains readable while the animation is paused. Select a node for its responsibility and trust boundary.</p></div>
-  <div class="stage"><span class="stage-count" id="stage-count"></span><h2 id="stage-title"></h2><p id="stage-caption"></p></div>
-  <div class="controls"><button id="prev" type="button" aria-label="Previous stage">Previous</button><button id="play" class="primary" type="button">Pause</button><button id="next" type="button" aria-label="Next stage">Next</button><button id="reset" type="button">Reset</button></div>
-  <div class="dots" id="dots" aria-label="Diagram stages"></div>
-</aside></main>
+<footer class="detailbar"><div><b id="detail-title">Select a component</b><em id="detail-subtitle">Click or use the keyboard</em><p id="detail-copy">Select any glass component to inspect its responsibility and trust boundary. Only the current semantic route moves.</p></div><div class="dots" id="dots" aria-label="Diagram stages"></div></footer>
+</main>
 <script>
 const nodes={json.dumps(nodes_json, ensure_ascii=False)};
 const steps={json.dumps(steps_json, ensure_ascii=False)};
-let current=0,playing=!matchMedia("(prefers-reduced-motion: reduce)").matches,timer;
+let current=0,playing=!matchMedia("(prefers-reduced-motion: reduce)").matches,narration=false,timer;
 const $=id=>document.getElementById(id);
+const params=new URLSearchParams(location.search),isPopout=params.has("popout");
 const nodeEls=[...document.querySelectorAll(".node")],edgeEls=[...document.querySelectorAll(".edge")];
 function inspect(id){{const d=nodes[id];if(!d)return;nodeEls.forEach(el=>el.classList.toggle("selected",el.dataset.nodeId===id));$("detail-title").textContent=d.title;$("detail-subtitle").textContent=d.subtitle;$("detail-copy").textContent=d.detail;}}
 nodeEls.forEach(el=>{{el.addEventListener("click",()=>{{playing=false;$("play").textContent="Play";stop();inspect(el.dataset.nodeId)}});el.addEventListener("keydown",ev=>{{if(ev.key==="Enter"||ev.key===" "){{ev.preventDefault();el.click()}}}})}});
-steps.forEach((_,i)=>{{const b=document.createElement("button");b.className="dot";b.type="button";b.setAttribute("aria-label",`Show stage ${{i+1}}`);b.onclick=()=>{{current=i;render();restart()}};$("dots").appendChild(b)}});
-function render(){{const s=steps[current];nodeEls.forEach(el=>{{el.classList.toggle("active",s.nodes.includes(el.dataset.nodeId));el.classList.remove("selected");}});edgeEls.forEach(el=>el.classList.toggle("active",s.edges.includes(el.dataset.edgeId)));$("stage-count").textContent=`Stage ${{current+1}} of ${{steps.length}}`;$("stage-title").textContent=s.title;$("stage-caption").textContent=s.caption;[...$("dots").children].forEach((d,i)=>d.classList.toggle("active",i===current));if(s.nodes.length)inspect(s.nodes[s.nodes.length-1]);}}
-function advance(delta=1){{current=(current+delta+steps.length)%steps.length;render()}}function stop(){{clearInterval(timer)}}function restart(){{stop();if(playing)timer=setInterval(()=>advance(),4200)}}
-$("prev").onclick=()=>{{advance(-1);restart()}};$("next").onclick=()=>{{advance();restart()}};$("reset").onclick=()=>{{current=0;render();restart()}};$("play").onclick=()=>{{playing=!playing;$("play").textContent=playing?"Pause":"Play";restart()}};
-document.addEventListener("keydown",e=>{{if(e.target.closest(".node"))return;if(e.key==="ArrowRight")$("next").click();if(e.key==="ArrowLeft")$("prev").click();if(e.key===" "){{e.preventDefault();$("play").click()}}}});
+steps.forEach((_,i)=>{{const b=document.createElement("button");b.className="dot";b.type="button";b.setAttribute("aria-label",`Show stage ${{i+1}}`);b.onclick=()=>{{current=i;render(true);restart()}};$("dots").appendChild(b)}});
+function narrateStep(){{if(!narration||!("speechSynthesis" in window))return;window.speechSynthesis.cancel();const s=steps[current],utterance=new SpeechSynthesisUtterance(`${{s.title}}. ${{s.caption}}`);utterance.lang="en-US";utterance.rate=.95;window.speechSynthesis.speak(utterance);}}
+function render(withNarration=false){{const s=steps[current],done=steps.slice(0,current),doneNodes=new Set(done.flatMap(step=>step.nodes)),doneEdges=new Set(done.flatMap(step=>step.edges));nodeEls.forEach(el=>{{const id=el.dataset.nodeId,active=s.nodes.includes(id),complete=doneNodes.has(id)&&!active;el.classList.toggle("active",active);el.classList.toggle("complete",complete);el.classList.toggle("dim",!active&&!complete);el.classList.remove("selected");const number=el.querySelector(".node-step-number");if(number)number.textContent=active?String(s.nodes.indexOf(id)+1):"";}});edgeEls.forEach(el=>{{const id=el.dataset.edgeId,active=s.edges.includes(id),complete=doneEdges.has(id)&&!active;el.classList.toggle("active",active);el.classList.toggle("complete",complete);el.classList.toggle("dim",!active&&!complete)}});$("stage-count").textContent=`Current flow · stage ${{current+1}} of ${{steps.length}}`;$("stage-title").textContent=s.title;$("stage-caption").textContent=s.caption;[...$("dots").children].forEach((d,i)=>{{d.classList.toggle("active",i===current);d.classList.toggle("complete",i<current)}});if(s.nodes.length)inspect(s.nodes[s.nodes.length-1]);if(withNarration)narrateStep();}}
+function advance(delta=1){{current=(current+delta+steps.length)%steps.length;render(true)}}function stop(){{clearInterval(timer)}}function restart(){{stop();if(playing)timer=setInterval(()=>advance(),6000)}}
+$("prev").onclick=()=>{{advance(-1);restart()}};$("next").onclick=()=>{{advance();restart()}};$("reset").onclick=()=>{{current=0;render(true);restart()}};$("play").onclick=()=>{{playing=!playing;$("play").textContent=playing?"Pause":"Play";if(!playing&&"speechSynthesis" in window)window.speechSynthesis.cancel();restart()}};
+$("audio").onclick=()=>{{narration=!narration;$("audio").textContent=narration?"Audio on":"Audio off";$("audio").setAttribute("aria-pressed",String(narration));if(narration)narrateStep();else if("speechSynthesis" in window)window.speechSynthesis.cancel();}};if(!("speechSynthesis" in window)){{$("audio").disabled=true;$("audio").textContent="Audio unavailable";}}
+function leavePopout(){{window.close();setTimeout(()=>{{if(history.length>1)history.back();else location.href="../architecture.html"}},80)}}
+$("popout").textContent=isPopout?"Back · Esc":"Pop out ↗";
+$("popout").setAttribute("aria-label",isPopout?"Close the dedicated animation view":"Open animation in a dedicated window");
+$("popout").onclick=()=>{{if(isPopout){{leavePopout();return}}const url=new URL(location.href);url.searchParams.delete("embed");url.searchParams.delete("embedded");url.searchParams.set("popout","1");window.open(url.href,"_blank","noopener,noreferrer")}};
+document.addEventListener("keydown",e=>{{if(e.key==="Escape"&&isPopout){{e.preventDefault();leavePopout();return}}if(e.target.closest(".node"))return;if(e.key==="ArrowRight")$("next").click();if(e.key==="ArrowLeft")$("prev").click();if(e.key===" "){{e.preventDefault();$("play").click()}}}});
 $("play").textContent=playing?"Pause":"Play";render();restart();
 </script></body></html>"""
-    (OUT / f"{diagram.slug}.html").write_text(html, encoding="utf-8", newline="\n")
+    (OUT / f"{diagram.slug}.html").write_text(clean_generated_text(html), encoding="utf-8", newline="\n")
 
 
 def load_font(size: int, bold: bool = False) -> ImageFont.FreeTypeFont | ImageFont.ImageFont:
@@ -526,6 +1219,81 @@ def draw_wrapped(draw: ImageDraw.ImageDraw, box: tuple[int, int, int, int], text
     width = max(12, int((x2 - x1) / max(font.size * 0.55, 1))) if hasattr(font, "size") else 22
     lines = textwrap.wrap(text, width=width, break_long_words=False)[:max_lines]
     draw.multiline_text(((x1 + x2) / 2, (y1 + y2) / 2), "\n".join(lines), font=font, fill=fill, anchor=anchor, align="center", spacing=spacing)
+
+
+def draw_glass_decks(draw: ImageDraw.ImageDraw, governed: bool = False) -> None:
+    label_font = load_font(20, True)
+    subtitle_font = load_font(11)
+    if governed:
+        face_points = [(62, 431), (212, 300), (1482, 500), (1301, 714), (58, 508)]
+        depth_points = [(x, y + 26) for x, y in face_points]
+        shadow_points = [(x, y + 45) for x, y in face_points]
+        draw.polygon(shadow_points, fill="#010402")
+        draw.line(shadow_points + [shadow_points[0]], fill="#102118", width=2, joint="curve")
+        draw.polygon(depth_points, fill="#06170f")
+        draw.line(depth_points + [depth_points[0]], fill="#5bee92", width=2, joint="curve")
+        draw.polygon(face_points, fill="#102a1d")
+        draw.line(face_points + [face_points[0]], fill="#4bd489", width=3, joint="curve")
+        for line in (
+            [(86, 414), (1328, 612)], [(114, 390), (1360, 586)], [(143, 365), (1392, 560)],
+            [(173, 339), (1422, 534)], [(194, 317), (1450, 514)], [(180, 482), (350, 323)],
+            [(430, 568), (596, 361)], [(684, 610), (842, 400)], [(938, 651), (1085, 440)],
+            [(1190, 692), (1334, 478)],
+        ):
+            draw.line(line, fill="#204f37", width=1)
+        draw.line([(62, 431), (212, 300), (1482, 500)], fill="#9cffbd", width=2, joint="curve")
+        draw.line([(83, 456), (218, 333), (1451, 525)], fill="#7dff58", width=2, joint="curve")
+        draw.line([(79, 493), (1294, 686), (1454, 510)], fill="#7dff58", width=2, joint="curve")
+        for points in (
+            [(951, 405), (1014, 351), (1160, 374), (1089, 447)],
+            [(951, 563), (1014, 509), (1160, 532), (1089, 605)],
+        ):
+            draw.polygon(points, fill="#0b281b", outline="#57df91")
+        return
+    governed_palette = (
+        ("#06251a", "#123a2a", "#70e6b1"),
+        ("#061d17", "#102f27", "#3fbf8a"),
+        ("#111d11", "#263921", "#88b96a"),
+    )
+    for index, (label, subtitle, top, bottom) in enumerate(SCENE_LAYERS):
+        depth_fill, face_fill, outline = governed_palette[index] if governed else ("#03100b", "#0a2419", COLORS["mint"])
+        if governed:
+            face_points = [
+                (360, top + 44), (336, top + 55), (272, bottom - 29), (279, bottom - 10),
+                (378, bottom + 43), (406, bottom + 48), (1278, bottom - 2),
+                (1307, bottom - 13), (1354, top + 91), (1350, top + 74),
+                (1142, top - 10), (1116, top - 13),
+            ]
+            depth_points = [(x, y + 24) for x, y in face_points]
+            shadow_points = [(x, y + 38) for x, y in face_points]
+            draw.polygon(shadow_points, fill="#020604")
+            draw.line(shadow_points + [shadow_points[0]], fill="#0b1711", width=2, joint="curve")
+            draw.polygon(depth_points, fill=depth_fill)
+            draw.line(depth_points + [depth_points[0]], fill=outline, width=2, joint="curve")
+            draw.polygon(face_points, fill=face_fill)
+            draw.line(face_points + [face_points[0]], fill=outline, width=3, joint="curve")
+            draw.line((360, top + 44, 336, top + 55, 272, bottom - 29), fill="#a8ffd4", width=2, joint="curve")
+            draw.rounded_rectangle((49, top + 47, 287, top + 129), radius=20, fill="#04130d", outline="#315b49", width=1)
+            draw.text((86, top + 62), label, font=label_font, fill=COLORS["text"])
+            draw.text((86, top + 91), subtitle, font=subtitle_font, fill="#a8cbbd")
+            draw.line((66, top + 65, 66, top + 111), fill=outline, width=4)
+        else:
+            draw.polygon(
+                [(260, bottom - 10), (388, bottom + 59), (1288, bottom + 8), (1368, top + 108),
+                 (1368, top + 127), (1294, bottom + 30), (384, bottom + 82), (260, bottom + 8)],
+                fill=depth_fill,
+                outline=outline,
+            )
+            draw.polygon(
+                [(354, top + 55), (1128, top - 12), (1368, top + 98), (1288, bottom - 2),
+                 (388, bottom + 49), (260, bottom - 20)],
+                fill=face_fill,
+                outline=outline,
+            )
+            draw.line((354, top + 55, 1128, top - 12, 1364, top + 97), fill="#a8ffd4", width=2)
+            draw.text((70, top + 67), label, font=label_font, fill=COLORS["text"])
+            draw.text((70, top + 96), subtitle, font=subtitle_font, fill="#a8cbbd")
+            draw.line((50, top + 57, 50, top + 119), fill=outline, width=4)
 
 
 def draw_orthogonal(draw: ImageDraw.ImageDraw, source: Node, target: Node, fill: str, width: int) -> None:
@@ -554,14 +1322,230 @@ def draw_orthogonal(draw: ImageDraw.ImageDraw, source: Node, target: Node, fill:
         draw.polygon(arrow, fill=fill)
 
 
+GOVERNED_GIF_ROUTES = {
+    "r1": [(204, 425), (218, 441)],
+    "r2": [(330, 441), (344, 457)],
+    "r3": [(456, 457), (470, 473)],
+    "r4": [(582, 473), (596, 489)],
+    "r5": [(708, 489), (722, 505)],
+    "r10": [(834, 505), (848, 521)],
+    "r6": [(960, 506), (972, 500), (968, 452), (974, 440)],
+    "r7": [(960, 536), (972, 542), (968, 584), (974, 598)],
+    "r8": [(1086, 440), (1094, 444), (1092, 510), (1100, 522)],
+    "r9": [(1086, 598), (1094, 590), (1092, 544), (1100, 538)],
+    "r11": [(778, 580), (846, 668), (1028, 690), (1156, 612)],
+    "r12": [(1212, 537), (1226, 553)],
+    "r13": [(1338, 553), (1352, 569)],
+}
+
+
+def draw_polyline_arrow(draw: ImageDraw.ImageDraw, points: list[tuple[int, int]], fill: str, width: int) -> None:
+    draw.line(points, fill=fill, width=width, joint="curve")
+    x1, y1 = points[-2]
+    x2, y2 = points[-1]
+    angle = math.atan2(y2 - y1, x2 - x1)
+    size = 13 if width >= 4 else 10
+    wing = 0.55
+    arrow = [
+        (x2, y2),
+        (x2 - size * math.cos(angle - wing), y2 - size * math.sin(angle - wing)),
+        (x2 - size * math.cos(angle + wing), y2 - size * math.sin(angle + wing)),
+    ]
+    draw.polygon(arrow, fill=fill)
+
+
+def draw_governed_gif_accents(draw: ImageDraw.ImageDraw, active_edges: set[str]) -> None:
+    route_color = "#78e867"
+    draw.line([(166, 330), (166, 222), (604, 222), (604, 405)], fill=route_color, width=2, joint="curve")
+    draw.line([(596, 270), (596, 228), (1326, 228), (1326, 469)], fill=route_color, width=2, joint="curve")
+    label_font = load_font(14, True)
+    small_font = load_font(10)
+    draw.text((226, 190), "IDENTITY", font=label_font, fill="#8bf06d")
+    draw.text((310, 194), "Access · permissions · roles", font=small_font, fill="#74c961")
+    draw.text((626, 200), "POLICY", font=label_font, fill="#8bf06d")
+    draw.text((696, 204), "Governance · compliance · risk", font=small_font, fill="#74c961")
+    draw.text((1158, 200), "STATE", font=label_font, fill="#8bf06d")
+    draw.text((1215, 204), "Context · session · memory", font=small_font, fill="#74c961")
+
+    return_points = [(1404, 644), (1404, 748), (1370, 803), (1230, 886), (1162, 898), (195, 744), (155, 699), (155, 514)]
+    draw.line(return_points, fill="#416b21", width=12, joint="curve")
+    draw_polyline_arrow(draw, return_points, "#c9ff42", 4)
+    draw.text((520, 818), "EVIDENCE RETURN · LOGS · STATE · PROOF", font=load_font(13, True), fill="#a9ff43")
+
+    payload_title_font = load_font(14, True)
+    payload_font = load_font(10)
+    for box, title, lines in (
+        ((205, 588, 395, 696), "REQUEST PAYLOAD", ("• userId", "• intent", "• context + metadata")),
+        ((738, 700, 943, 818), "EVIDENCE PAYLOAD", ("• execution logs + outputs", "• attestations + hashes", "• approvals + receipts")),
+    ):
+        left, top, right, bottom = box
+        draw.rounded_rectangle(box, radius=12, fill="#03100c", outline="#27c997", width=2)
+        draw.text((left + 18, top + 15), title, font=payload_title_font, fill="#f4f1e9")
+        for line_index, line in enumerate(lines):
+            draw.text((left + 22, top + 47 + line_index * 18), line, font=payload_font, fill="#d8fff0")
+
+    legend_font = load_font(11)
+    draw.rounded_rectangle((48, 812, 358, 964), radius=16, fill="#03100c", outline="#27c997", width=1)
+    for y, color, text in (
+        (846, "#b8ff39", "Request / response"),
+        (884, "#78e867", "Identity / policy route"),
+        (922, "#c9ff42", "Evidence return"),
+        (946, "#ffc76a", "Human approval"),
+    ):
+        draw.line((72, y, 152, y), fill=color, width=3)
+        draw.text((174, y), text, font=legend_font, fill="#d4e2dc", anchor="lm")
+
+
+def draw_governed_gif_icon(draw: ImageDraw.ImageDraw, node: Node) -> None:
+    label = f"{node.id} {node.title}".lower()
+    cx = int(node.x + node.w / 2)
+    cy = node.y + 42
+    color = "#d8fff0"
+    width = 3
+    if "workspace" in label:
+        draw.ellipse((cx - 5, cy - 13, cx + 5, cy - 3), outline=color, width=width)
+        draw.ellipse((cx - 19, cy - 9, cx - 11, cy - 1), outline=color, width=2)
+        draw.ellipse((cx + 11, cy - 9, cx + 19, cy - 1), outline=color, width=2)
+        draw.arc((cx - 11, cy - 3, cx + 11, cy + 21), 190, 350, fill=color, width=width)
+        draw.arc((cx - 27, cy, cx - 9, cy + 18), 195, 315, fill=color, width=2)
+        draw.arc((cx + 9, cy, cx + 27, cy + 18), 225, 345, fill=color, width=2)
+    elif "compiler" in label:
+        draw.ellipse((cx - 16, cy - 12, cx + 16, cy + 15), outline=color, width=width)
+        draw.line((cx - 5, cy - 11, cx - 5, cy + 14), fill=color, width=2)
+        draw.line((cx + 5, cy - 11, cx + 5, cy + 14), fill=color, width=2)
+    elif "workflow" in label:
+        for dx, dy in ((0, -12), (-15, 10), (15, 10)):
+            draw.ellipse((cx + dx - 4, cy + dy - 4, cx + dx + 4, cy + dy + 4), outline=color, width=2)
+        draw.line((cx, cy - 8, cx, cy), fill=color, width=2)
+        draw.line((cx, cy, cx - 15, cy + 6), fill=color, width=2)
+        draw.line((cx, cy, cx + 15, cy + 6), fill=color, width=2)
+    elif "agents" in label:
+        draw.rounded_rectangle((cx - 13, cy - 10, cx + 13, cy + 9), radius=5, outline=color, width=width)
+        draw.line((cx, cy - 17, cx, cy - 10), fill=color, width=2)
+        draw.ellipse((cx - 2, cy - 19, cx + 2, cy - 15), fill=color)
+        draw.ellipse((cx - 7, cy - 3, cx - 4, cy), fill=color)
+        draw.ellipse((cx + 4, cy - 3, cx + 7, cy), fill=color)
+    elif node.id == "mcp":
+        draw.ellipse((cx - 12, cy - 13, cx + 12, cy - 3), outline=color, width=2)
+        draw.line((cx - 12, cy - 8, cx - 12, cy + 12), fill=color, width=2)
+        draw.line((cx + 12, cy - 8, cx + 12, cy + 12), fill=color, width=2)
+        draw.arc((cx - 12, cy + 4, cx + 12, cy + 15), 0, 180, fill=color, width=2)
+        draw.arc((cx - 12, cy - 2, cx + 12, cy + 9), 0, 180, fill=color, width=2)
+    elif any(word in label for word in ("policy", "approval", "identity")):
+        points = [(cx, cy - 16), (cx + 13, cy - 10), (cx + 12, cy + 2), (cx, cy + 17), (cx - 12, cy + 2), (cx - 13, cy - 10)]
+        draw.line(points + [points[0]], fill=color, width=width, joint="curve")
+        draw.line((cx - 6, cy, cx - 1, cy + 5, cx + 8, cy - 6), fill=color, width=2, joint="curve")
+    elif any(word in label for word in ("evidence", "outcome")):
+        draw.rounded_rectangle((cx - 10, cy - 15, cx + 10, cy + 15), radius=2, outline=color, width=width)
+        for offset, length in ((-7, 12), (0, 12), (7, 8)):
+            draw.line((cx - 5, cy + offset, cx - 5 + length, cy + offset), fill=color, width=2)
+    elif any(word in label for word in ("orchestrator", "runtime")):
+        draw.ellipse((cx - 9, cy - 9, cx + 9, cy + 9), outline=color, width=2)
+        draw.ellipse((cx - 3, cy - 3, cx + 3, cy + 3), outline=color, width=2)
+        for dx, dy in ((0, -16), (0, 16), (-16, 0), (16, 0), (-11, -11), (11, 11), (11, -11), (-11, 11)):
+            draw.line((cx + dx * 0.55, cy + dy * 0.55, cx + dx, cy + dy), fill=color, width=2)
+    elif any(word in label for word in ("studio", "code")):
+        draw.line((cx - 6, cy - 13, cx - 17, cy, cx - 6, cy + 13), fill=color, width=width, joint="curve")
+        draw.line((cx + 6, cy - 13, cx + 17, cy, cx + 6, cy + 13), fill=color, width=width, joint="curve")
+        draw.line((cx + 5, cy - 17, cx - 5, cy + 17), fill=color, width=2)
+    else:
+        draw.ellipse((cx - 7, cy - 15, cx + 7, cy - 1), outline=color, width=width)
+        draw.arc((cx - 16, cy - 2, cx + 16, cy + 24), 185, 355, fill=color, width=width)
+
+
+def write_image_first_gif(diagram: Diagram) -> None:
+    config = IMAGE_FIRST_CONFIGS[diagram.slug]
+    master = Image.open(config.master).convert("RGBA")
+    caption_height = 104
+    frame_size = (IMAGE_MASTER_WIDTH, IMAGE_MASTER_HEIGHT + caption_height)
+    caption_title = load_font(24, True)
+    caption_font = load_font(17)
+    edge_kinds = {edge.id: edge.kind for edge in diagram.edges}
+    frames: list[Image.Image] = []
+
+    for index, step in enumerate(diagram.steps):
+        frame = Image.new("RGBA", frame_size, (3, 11, 8, 255))
+        frame.alpha_composite(master, (0, 0))
+        overlay = Image.new("RGBA", master.size, (0, 0, 0, 0))
+        draw = ImageDraw.Draw(overlay)
+
+        for edge_id in step.edges:
+            edge = next(item for item in diagram.edges if item.id == edge_id)
+            points = image_route_points(diagram, edge, config)
+            color = (255, 199, 106) if edge_kinds.get(edge_id) in {"governance", "waiting"} else (184, 255, 57)
+            draw.line(points, fill=(*color, 42), width=20, joint="curve")
+            draw.line(points, fill=(*color, 105), width=10, joint="curve")
+            draw.line(points, fill=(*color, 245), width=4, joint="curve")
+            x, y = points[-1]
+            draw.polygon([(x, y), (x - 13, y - 8), (x - 13, y + 8)], fill=(*color, 245))
+
+        for node_id in set(step.nodes):
+            hotspot = config.hotspots.get(node_id)
+            if not hotspot:
+                continue
+            x, y, radius = hotspot
+            color = (255, 199, 106) if node_id == "policy" else (184, 255, 57)
+            draw.ellipse(
+                (x - radius - 13, y - radius - 13, x + radius + 13, y + radius + 13),
+                outline=(*color, 46),
+                width=11,
+            )
+            draw.ellipse(
+                (x - radius - 5, y - radius - 5, x + radius + 5, y + radius + 5),
+                outline=(*color, 230),
+                width=4,
+            )
+
+        frame.alpha_composite(overlay, (0, 0))
+        caption = ImageDraw.Draw(frame)
+        caption.rectangle(
+            (0, IMAGE_MASTER_HEIGHT, IMAGE_MASTER_WIDTH, frame_size[1]),
+            fill=(3, 11, 8, 255),
+        )
+        caption.line(
+            (0, IMAGE_MASTER_HEIGHT, IMAGE_MASTER_WIDTH, IMAGE_MASTER_HEIGHT),
+            fill=(34, 80, 59, 255),
+            width=2,
+        )
+        caption.text(
+            (34, IMAGE_MASTER_HEIGHT + 16),
+            f"{index + 1:02d}  {step.title}",
+            font=caption_title,
+            fill=(184, 255, 57, 255),
+        )
+        caption.text(
+            (34, IMAGE_MASTER_HEIGHT + 57),
+            textwrap.fill(step.caption, width=132),
+            font=caption_font,
+            fill=(205, 222, 213, 255),
+        )
+        frames.append(frame.convert("RGB"))
+
+    frames[0].save(
+        OUT / f"{diagram.slug}.gif",
+        save_all=True,
+        append_images=frames[1:],
+        duration=GIF_FRAME_DURATION_MS,
+        loop=0,
+        disposal=2,
+        optimize=True,
+    )
+
+
 def write_gif(diagram: Diagram) -> None:
-    title_font = load_font(22, True)
+    if image_config(diagram):
+        write_image_first_gif(diagram)
+        return
+
+    brand_font = load_font(29, True)
+    title_font = load_font(15, True)
     subtitle_font = load_font(11)
     node_title_font = load_font(13, True)
     node_sub_font = load_font(9)
     caption_title = load_font(18, True)
     caption_font = load_font(11)
-    nodes = node_map(diagram)
+    visual_nodes = scene_nodes(diagram)
+    nodes = {node.id: node for node in visual_nodes}
     frames: list[Image.Image] = []
     for index, step in enumerate(diagram.steps):
         image = Image.new("RGB", (WIDTH, HEIGHT + 90), COLORS["bg"])
@@ -570,8 +1554,15 @@ def write_gif(diagram: Diagram) -> None:
             draw.line((x, 0, x, HEIGHT), fill="#10231e", width=1)
         for y in range(0, HEIGHT + 1, 60):
             draw.line((0, y, WIDTH, y), fill="#10231e", width=1)
-        draw.text((36, 28), diagram.title, font=title_font, fill=COLORS["text"])
-        draw.text((36, 56), diagram.subtitle, font=subtitle_font, fill=COLORS["muted"])
+        if diagram.slug == "governed-run":
+            governed_brand = load_font(43, True)
+            draw.text((WIDTH // 2, 28), "CONTEXTWEAVER — GOVERNED CALL FLOW", font=governed_brand, fill="#f4f1e9", anchor="ma")
+            draw.text((WIDTH // 2, 86), "Every request carries identity, policy, state, and proof", font=load_font(21, True), fill="#a9aeb1", anchor="ma")
+        else:
+            draw.text((48, 24), "CONTEXTWEAVER", font=brand_font, fill=COLORS["text"])
+            draw.text((50, 59), diagram.title.upper(), font=title_font, fill=COLORS["mint"])
+            draw.text((50, 84), diagram.subtitle, font=subtitle_font, fill=COLORS["muted"])
+        draw_glass_decks(draw, governed=diagram.slug == "governed-run")
         active_edges = set(step.edges)
         active_nodes = set(step.nodes)
         for edge in diagram.edges:
@@ -579,21 +1570,84 @@ def write_gif(diagram: Diagram) -> None:
             line_width = 2
             if edge.id in active_edges:
                 color = {
-                    "governance": COLORS["violet"],
+                    "governance": COLORS["amber"],
                     "success": COLORS["mint"],
                     "waiting": COLORS["amber"],
-                    "evidence": COLORS["amber"],
+                    "evidence": "#d8fff0",
                 }.get(edge.kind, COLORS["sky"])
                 line_width = 5
-            draw_orthogonal(draw, nodes[edge.source], nodes[edge.target], color, line_width)
-        for node in diagram.nodes:
+            if diagram.slug == "governed-run":
+                draw_polyline_arrow(draw, GOVERNED_GIF_ROUTES[edge.id], color, line_width)
+            else:
+                draw_orthogonal(draw, nodes[edge.source], nodes[edge.target], color, line_width)
+        if diagram.slug == "governed-run":
+            draw_governed_gif_accents(draw, active_edges)
+        for node in visual_nodes:
             active = node.id in active_nodes
-            stroke = COLORS[node.color] if active else COLORS["line"]
-            fill = COLORS["panel2"] if active else COLORS["panel"]
+            stroke = COLORS[node.color] if active else "#568572"
+            fill = COLORS["panel2"] if active else "#10271e"
             box = (node.x, node.y, node.x + node.w, node.y + node.h)
-            draw.rounded_rectangle(box, radius=16, fill=fill, outline=stroke, width=5 if active else 2)
-            draw_wrapped(draw, (node.x + 8, node.y + 8, node.x + node.w - 8, node.y + 55), node.title, node_title_font, COLORS["text"], max_lines=2)
-            draw_wrapped(draw, (node.x + 8, node.y + 52, node.x + node.w - 8, node.y + node.h - 8), node.subtitle, node_sub_font, COLORS["muted"], max_lines=3)
+            if diagram.slug == "governed-run":
+                x, y, w, h = node.x, node.y, node.w, node.h
+                cube_stroke = "#ffc76a" if node.color == "amber" else "#70e6b1"
+                if active:
+                    cube_stroke = "#ffc76a" if node.color == "amber" else "#9dff71"
+                draw.rounded_rectangle((x - 16, y + 16, x + w - 16, y + h + 16), radius=17, fill="#0a2418", outline="#315f47", width=1)
+                draw.rounded_rectangle((x - 8, y + 8, x + w - 8, y + h + 8), radius=17, fill="#0c2f20", outline=cube_stroke, width=1)
+                draw.polygon([(x - 13, y + h - 7), (x + w + 9, y + h - 7), (x + w + 22, y + h + 14), (x - 2, y + h + 14)], fill="#0b2519", outline=cube_stroke)
+                draw.polygon([(x + 8, y + 5), (x + 23, y - 13), (x + w - 9, y - 13), (x + w + 8, y + 5)], fill="#173b29", outline=cube_stroke)
+                draw.polygon([(x + w - 1, y + 10), (x + w + 10, y + 1), (x + w + 10, y + h - 13), (x + w - 1, y + h)], fill="#07160f", outline=cube_stroke)
+                face_fill = "#3a2408" if node.color == "amber" else fill
+                draw.rounded_rectangle(box, radius=18, fill=face_fill, outline=cube_stroke, width=5 if active else 3)
+                draw.line((x + 15, y + 7, x + w - 15, y + 7), fill="#b4ffda", width=2)
+                draw.ellipse((x - 8, y - 31, x + 24, y + 1), fill="#07100b", outline="#ffc76a" if node.color == "amber" else "#d9ff38", width=3)
+                draw.text((x + 8, y - 15), GOVERNED_NODE_NUMBERS[node.id], font=load_font(15, True), fill="#ffcb68" if node.color == "amber" else "#f1ffad", anchor="mm")
+            else:
+                draw.rounded_rectangle(
+                    (node.x - 10, node.y + 7, node.x + node.w - 10, node.y + node.h + 7),
+                    radius=15,
+                    fill="#082017",
+                    outline=stroke,
+                    width=1,
+                )
+                draw.rounded_rectangle(
+                    (node.x - 5, node.y + 3, node.x + node.w - 5, node.y + node.h + 3),
+                    radius=15,
+                    fill="#0a2a1d",
+                    outline=stroke,
+                    width=1,
+                )
+                depth = 10
+                draw.polygon(
+                    [
+                        (node.x + 10, node.y + node.h),
+                        (node.x + node.w, node.y + node.h),
+                        (node.x + node.w - 11, node.y + node.h + depth),
+                        (node.x + 21, node.y + node.h + depth),
+                    ],
+                    fill="#030806",
+                    outline=stroke,
+                )
+                draw.rounded_rectangle(box, radius=15, fill=fill, outline=stroke, width=5 if active else 2)
+                draw.line((node.x + 16, node.y + 7, node.x + node.w - 16, node.y + 7), fill="#b4ffda", width=1)
+            if diagram.slug == "governed-run":
+                draw_governed_gif_icon(draw, node)
+            else:
+                draw.ellipse((node.x + node.w / 2 - 10, node.y + 11, node.x + node.w / 2 + 10, node.y + 31), outline="#d8fff0", width=2)
+                draw.line((node.x + node.w / 2 - 5, node.y + 21, node.x + node.w / 2 + 5, node.y + 21), fill="#d8fff0", width=2)
+                draw.line((node.x + node.w / 2, node.y + 16, node.x + node.w / 2, node.y + 26), fill="#d8fff0", width=2)
+            compact = node.h < 100
+            title_top = 62 if diagram.slug == "governed-run" else 34 if compact else 42
+            title_bottom = 113 if diagram.slug == "governed-run" else 73
+            subtitle_top = 112 if diagram.slug == "governed-run" else 66 if compact else 75
+            draw_wrapped(draw, (node.x + 8, node.y + title_top, node.x + node.w - 8, node.y + title_bottom), node.title, node_title_font, COLORS["text"], max_lines=2)
+            draw_wrapped(draw, (node.x + 8, node.y + subtitle_top, node.x + node.w - 8, node.y + node.h - 4), node.subtitle, node_sub_font, "#a8cbbd", max_lines=1 if compact else 2)
+        if diagram.slug != "governed-run":
+            legend_font = load_font(11)
+            legend_items = ((58, COLORS["mint"], "Data / Execution"), (238, COLORS["amber"], "Authorization / Approvals"), (488, "#e8fff5", "Evidence / State"))
+            for x, color, text in legend_items:
+                draw.ellipse((x - 6, 908, x + 6, 920), fill=color)
+                draw.text((x + 15, 906), text, font=legend_font, fill="#d4e2dc")
         draw.rectangle((0, HEIGHT, WIDTH, HEIGHT + 90), fill=COLORS["panel2"])
         draw.text((24, HEIGHT + 14), f"{index + 1}/{len(diagram.steps)}  {step.title}", font=caption_title, fill=COLORS["mint"])
         wrapped = textwrap.fill(step.caption, width=145)
@@ -611,28 +1665,86 @@ def write_gif(diagram: Diagram) -> None:
 
 def drawio_style(node: Node) -> str:
     stroke = COLORS[node.color]
-    return f"rounded=1;whiteSpace=wrap;html=1;shadow=1;arcSize=16;fillColor={COLORS['panel']};strokeColor={stroke};strokeWidth=2;fontSize=14;fontFamily=Inter;fontColor={COLORS['text']};align=center;verticalAlign=middle;spacing=10;"
+    return f"rounded=1;whiteSpace=wrap;html=1;shadow=1;glass=1;arcSize=16;fillColor={COLORS['panel']};gradientColor={COLORS['panel2']};gradientDirection=north;strokeColor={stroke};strokeWidth=2;fontSize=14;fontFamily=Inter;fontColor={COLORS['text']};align=center;verticalAlign=middle;spacing=10;"
 
 
 def write_drawio(diagrams: tuple[Diagram, ...]) -> None:
     mxfile = ET.Element("mxfile", host="app.diagrams.net", version="26.0.0")
     for diagram in diagrams:
+        visual_nodes = scene_nodes(diagram)
         page = ET.SubElement(mxfile, "diagram", id=diagram.slug, name=diagram.title)
-        model = ET.SubElement(page, "mxGraphModel", dx="1600", dy="1000", grid="1", gridSize="10", guides="1", tooltips="1", connect="1", arrows="1", fold="1", page="1", pageScale="1", pageWidth=str(WIDTH), pageHeight=str(HEIGHT))
+        config = image_config(diagram)
+        page_width = IMAGE_MASTER_WIDTH if config else WIDTH
+        page_height = IMAGE_MASTER_HEIGHT if config else HEIGHT
+        model = ET.SubElement(page, "mxGraphModel", dx="1600", dy="1000", grid="1", gridSize="10", guides="1", tooltips="1", connect="1", arrows="1", fold="1", page="1", pageScale="1", pageWidth=str(page_width), pageHeight=str(page_height))
         root = ET.SubElement(model, "root")
         ET.SubElement(root, "mxCell", id="0")
         ET.SubElement(root, "mxCell", id="1", parent="0")
+        if config:
+            background = ET.SubElement(
+                root,
+                "mxCell",
+                id=f"{diagram.slug}-approved-master",
+                value="",
+                style=f"shape=image;verticalLabelPosition=bottom;verticalAlign=top;imageAspect=0;aspect=fixed;image={image_master_data_uri(config)};",
+                vertex="1",
+                parent="1",
+                locked="1",
+            )
+            ET.SubElement(
+                background,
+                "mxGeometry",
+                x="0",
+                y="0",
+                width=str(IMAGE_MASTER_WIDTH),
+                height=str(IMAGE_MASTER_HEIGHT),
+                **{"as": "geometry"},
+            )
+            for node_id, (x, y, radius) in config.hotspots.items():
+                hotspot = ET.SubElement(
+                    root,
+                    "mxCell",
+                    id=f"{diagram.slug}-{node_id}",
+                    value=escape(next((node.title for node in diagram.nodes if node.id == node_id), node_id.title())),
+                    style="ellipse;whiteSpace=wrap;html=1;aspect=fixed;fillColor=none;strokeColor=#b8ff39;strokeWidth=2;dashed=1;opacity=28;fontColor=none;",
+                    vertex="1",
+                    parent="1",
+                )
+                ET.SubElement(
+                    hotspot,
+                    "mxGeometry",
+                    x=str(x - radius),
+                    y=str(y - radius),
+                    width=str(radius * 2),
+                    height=str(radius * 2),
+                    **{"as": "geometry"},
+                )
+            for edge in diagram.edges:
+                edge_color = COLORS["amber"] if edge.kind in {"governance", "waiting"} else "#b8ff39"
+                route = ET.SubElement(
+                    root,
+                    "mxCell",
+                    id=f"{diagram.slug}-{edge.id}",
+                    value=escape(edge.label),
+                    style=f"edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeWidth=3;strokeColor={edge_color};dashed=1;opacity=34;fontSize=10;fontFamily=Inter;fontColor=#d4e2dc;",
+                    edge="1",
+                    parent="1",
+                    source=f"{diagram.slug}-{edge.source}",
+                    target=f"{diagram.slug}-{edge.target}",
+                )
+                ET.SubElement(route, "mxGeometry", relative="1", **{"as": "geometry"})
+            continue
         title = ET.SubElement(root, "mxCell", id=f"{diagram.slug}-title", value=f"<b>{escape(diagram.title)}</b><br>{escape(diagram.subtitle)}", style=f"text;html=1;strokeColor=none;fillColor=none;whiteSpace=wrap;fontSize=18;fontFamily=Inter;fontColor={COLORS['text']};align=left;verticalAlign=middle;", vertex="1", parent="1")
         ET.SubElement(title, "mxGeometry", x="35", y="20", width="1100", height="60", **{"as": "geometry"})
-        for node in diagram.nodes:
+        for node in visual_nodes:
             cell = ET.SubElement(root, "mxCell", id=f"{diagram.slug}-{node.id}", value=f"<b>{escape(node.title)}</b><br>{escape(node.subtitle)}", style=drawio_style(node), vertex="1", parent="1")
             ET.SubElement(cell, "mxGeometry", x=str(node.x), y=str(node.y), width=str(node.w), height=str(node.h), **{"as": "geometry"})
         for edge in diagram.edges:
             edge_color = {
-                "governance": COLORS["violet"],
+                "governance": COLORS["amber"],
                 "success": COLORS["mint"],
                 "waiting": COLORS["amber"],
-                "evidence": COLORS["amber"],
+                "evidence": "#d8fff0",
             }.get(edge.kind, COLORS["sky"])
             dashed = "1" if edge.kind in {"governance", "waiting", "evidence"} else "0"
             cell = ET.SubElement(

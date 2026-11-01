@@ -52,13 +52,76 @@ test("local links and embedded assets resolve", async () => {
 });
 
 test("diagram deliverables are complete", async () => {
-  const diagrams = ["service-factory", "platform-planes", "capability-lifecycle", "governed-run", "scale-path"];
+  const diagrams = ["intent-to-evidence", "service-factory", "generic-agent-runtime", "platform-planes", "capability-lifecycle", "governed-run", "scale-path"];
   for (const name of diagrams) {
     for (const extension of ["html", "svg", "gif"]) {
       await access(join(root, "diagrams", `${name}.${extension}`));
     }
   }
   await access(join(root, "diagrams", "contextweaver-public-architecture.drawio"));
+  for (const extension of ["html", "svg", "png", "gif", "drawio"]) {
+    await access(join(root, "diagrams", `contextweaver-spatial-architecture.${extension}`));
+  }
+  for (const image of [
+    "intent-to-evidence.png",
+    "layered-governed-architecture.png",
+    "governed-platform-city.png",
+    "governed-call-flow.png",
+    "governed-sequence-ladder.png",
+    "durable-saga-flow.png",
+  ]) {
+    await access(join(root, "assets", "media", "spatial", image));
+  }
+});
+
+test("architecture players preserve approved static masters with semantic overlays", async () => {
+  const expected = {
+    "intent-to-evidence": ["Authenticated request", "Evidence", "edge-i12"],
+    "service-factory": ["Product inputs", "Solution result + proof", "edge-f11"],
+    "generic-agent-runtime": ["Generic runtime image", "Publisher MCP", "edge-g11"],
+    "platform-planes": ["Eight Platform Planes", "Cerebro", "Loom"],
+    "capability-lifecycle": ["Release Registry", "Operate and improve", "edge-c11"],
+    "governed-run": ["Enterprise Input", "Workflow", "edge-r14"],
+    "scale-path": ["Individual", "Sovereign / regulated", "Outcome"],
+  };
+  for (const [name, markers] of Object.entries(expected)) {
+    const html = await readFile(join(root, "diagrams", `${name}.html`), "utf8");
+    assert.match(html, /id="audio"[^>]*aria-pressed="false"/);
+    assert.match(html, /id="popout"[^>]*>Pop out ↗<\/button>/);
+    assert.match(html, /url\.searchParams\.set\("popout","1"\)/);
+    assert.match(html, /e\.key==="Escape"&&isPopout/);
+    assert.match(html, /Back · Esc/);
+    assert.match(html, /SpeechSynthesisUtterance/);
+    assert.match(html, /viewBox="0 0 1536 1024"/);
+    assert.match(html, new RegExp(`class="architecture diagram-${name} image-first-diagram"`));
+    assert.match(html, /href="data:image\/png;base64,/);
+    assert.match(html, /The approved static composition remains unchanged/);
+    assert.match(html, /class="image-overlay-edges"/);
+    assert.match(html, /class="image-overlay-hotspots"/);
+    assert.match(html, /class="node image-hotspot [^"]+"/);
+    assert.match(html, /class="edge image-overlay-edge [^"]+"/);
+    assert.match(html, /\.image-hotspot\.active \.hotspot-ring/);
+    assert.doesNotMatch(html, /edge-label/);
+    for (const marker of markers) assert.match(html, new RegExp(marker.replace(/[+]/g, "\\+")));
+  }
+});
+
+test("nextgen atlas uses rounded 3d trays and a grouped Studio module", async () => {
+  const html = await readFile(join(root, "diagrams", "contextweaver-nextgen-architecture.html"), "utf8");
+  const svg = await readFile(join(root, "diagrams", "contextweaver-nextgen-architecture.svg"), "utf8");
+
+  for (const output of [html, svg]) {
+    assert.match(output, /class="zone-depth"/);
+    assert.match(output, /class="node-side"/);
+    assert.match(output, /class="[^"]*\bstudio-module\b[^"]*"/);
+    assert.match(output, /class="studio-backplate"/);
+    assert.match(output, /class="studio-tray-depth"/);
+    assert.match(output, />STUDIO<\/text>/);
+    for (const context of ["MCP", "AGENT", "FLOW", "SERVICE", "SOLUTION"]) {
+      assert.match(output, new RegExp(`>${context}<\\/text>`));
+    }
+    assert.doesNotMatch(output, /class="node-echo/);
+  }
 });
 
 test("repository publishing metadata is explicit", async () => {
@@ -66,13 +129,35 @@ test("repository publishing metadata is explicit", async () => {
   assert.match(readme, /brainzbytes\/contextweaver-public-site/);
 });
 
+test("spatial diagrams preserve the complete source image", async () => {
+  const css = await readFile(join(root, "assets", "css", "site.css"), "utf8");
+  assert.match(css, /\.spatial-visual-stage\s*\{[^}]*aspect-ratio:\s*3\s*\/\s*2/s);
+  assert.match(css, /\.spatial-visual img\s*\{[^}]*object-fit:\s*contain/s);
+  assert.doesNotMatch(css, /\.hero\s*>\s*\.spatial-visual\s+\.spatial-visual-stage\s*\{[^}]*aspect-ratio:\s*1\.14\s*\/\s*1/s);
+});
+
+test("spatial architecture uses compact, stage-specific emphasis", async () => {
+  const html = await readFile(join(root, "diagrams", "contextweaver-spatial-architecture.html"), "utf8");
+  const css = await readFile(join(root, "assets", "css", "site.css"), "utf8");
+  assert.match(html, /class="core" id="core"/);
+  assert.match(html, /classList\.toggle\("active",step\.core===true\)/);
+  assert.match(html, /\.core\{[^}]*visibility:hidden[^}]*opacity:0/s);
+  assert.match(html, /\.core\.active\{[^}]*visibility:visible/s);
+  assert.match(html, /"core": true/);
+  assert.match(html, /"core": false/);
+  assert.match(css, /\.architecture-atlas-shell\s*\{[^}]*max-width:\s*1360px/s);
+  assert.match(css, /\.architecture-spatial-frame\s*\{[^}]*min-height:\s*720px/s);
+});
+
 test("product hierarchy and consumer journey remain explicit", async () => {
+  const landing = await readFile(join(root, "index.html"), "utf8");
+  const siteJs = await readFile(join(root, "assets", "js", "site.js"), "utf8");
   const overview = await readFile(join(root, "overview.html"), "utf8");
   const studio = await readFile(join(root, "studio.html"), "utf8");
   const runtime = await readFile(join(root, "runtime.html"), "utf8");
   const solutions = await readFile(join(root, "solutions.html"), "utf8");
   const architecture = await readFile(join(root, "architecture.html"), "utf8");
-  const story = await readFile(join(root, "experiences", "contextweaver-ai-factory-3d.html"), "utf8");
+  const story = await readFile(join(root, "diagrams", "intent-to-evidence.html"), "utf8");
 
   assert.match(overview, /working Solution/);
   for (const concept of [
@@ -86,16 +171,71 @@ test("product hierarchy and consumer journey remain explicit", async () => {
   }
   assert.match(runtime, /Service Experience Contract/);
   assert.match(runtime, /Service Run/);
+  for (const runDetail of [
+    "Run history and evidence",
+    "Journey timeline",
+    "Run Explorer",
+    "Investigate regression",
+    "Accepted output",
+    "Dry-run comparison",
+    "tool and policy receipts",
+    "Evidence bundle",
+  ]) {
+    assert.match(runtime, new RegExp(runDetail, "i"));
+  }
   assert.match(solutions, /Service is the reusable executable contract\. Solution is the complete user experience\./);
+  for (const example of [
+    "Business travel Solution",
+    "Employee onboarding Solution",
+    "Customer incident recovery Solution",
+    "Insurance claim Solution",
+    "Software release Solution",
+  ]) {
+    assert.match(solutions, new RegExp(example));
+  }
+  for (const relationship of [
+    "One Solution can compose many Services",
+    "One Service can support many Solutions",
+    "One Service can select one or more approved Workflows",
+    "One typed Workflow can support multiple Services",
+  ]) {
+    assert.match(solutions, new RegExp(relationship));
+  }
   assert.match(solutions, /\/my-solutions/);
   assert.match(solutions, /delegated/i);
+  assert.match(solutions, /Open run-history deep dive/);
+  assert.match(solutions, /Open creation and dry runs/);
   assert.match(architecture, /five Studio contexts/);
-  assert.match(story, /Published user-facing Solution/);
+  for (const spatialView of [
+    "intent-to-evidence.png",
+    "layered-governed-architecture.png",
+    "governed-platform-city.png",
+    "contextweaver-spatial-architecture.html",
+  ]) {
+    assert.match(architecture, new RegExp(spatialView.replace(/[.]/g, "\\.")));
+  }
+  assert.doesNotMatch(architecture, /architecture-block-view/);
+  assert.match(story, /user-facing Solution/);
+  assert.match(landing, /data-story-src="diagrams\/intent-to-evidence\.html\?embedded=1"/);
+  assert.match(landing, /src="assets\/media\/spatial\/intent-to-evidence\.png"/);
+  assert.match(landing, /Play the governed flow/);
+  assert.doesNotMatch(landing, /<iframe class="landing-cinematic-frame"/);
+  assert.match(landing, /assets\/js\/site\.js\?v=20261101-17/);
+  assert.match(siteJs, /storyLaunch\.replaceWith\(frame\)/);
+  assert.match(siteJs, /allow-scripts allow-same-origin allow-popups/);
+  assert.doesNotMatch(landing, /contextweaver-ai-factory\.(?:gif|png)/);
 
   const combined = [overview, studio, runtime, solutions, architecture, story].join("\n");
   for (const stale of [
     "working Service",
     "Four creation Studios",
+    "ContextWeaver Studios",
+    "Agent Studio",
+    "MCP Studio",
+    "Service Studio",
+    "Workflow Studio",
+    "Solution Studio",
+    "Workspaces and Studios",
     "User-facing governed outcomes",
     "one useful Service",
     "Generated production service",

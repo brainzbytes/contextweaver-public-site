@@ -250,22 +250,109 @@ def edge_path(edge: Edge) -> tuple[str, float, float]:
     return d, (sx + tx) / 2, mid_y - 7
 
 
+def svg_icon(node: Node) -> str:
+    label = f"{node.id} {node.title}".lower()
+    cx = node.x + node.w / 2
+    cy = node.y + 23
+    if any(word in label for word in ("policy", "approval", "identity", "entitlement")):
+        shape = f'<path d="M {cx} {cy - 11} l 10 4 v 8 c 0 7 -4 11 -10 14 c -6 -3 -10 -7 -10 -14 v-8 z"/><path d="M {cx - 4} {cy + 1} l 3 3 l 6 -7"/>'
+    elif any(word in label for word in ("evidence", "registry", "solution", "service")):
+        shape = f'<rect x="{cx - 9}" y="{cy - 12}" width="18" height="24" rx="2"/><path d="M {cx - 4} {cy - 4} h 8 M {cx - 4} {cy + 1} h 8 M {cx - 4} {cy + 6} h 6"/>'
+    elif any(word in label for word in ("mcp", "operator", "orchestrator", "runtime", "operations")):
+        shape = f'<circle cx="{cx}" cy="{cy}" r="7"/><circle cx="{cx}" cy="{cy}" r="2.5"/><path d="M {cx} {cy - 12} v 4 M {cx} {cy + 8} v 4 M {cx - 12} {cy} h 4 M {cx + 8} {cy} h 4"/>'
+    elif any(word in label for word in ("studio", "compiler", "workflow", "plan")):
+        shape = f'<path d="M {cx - 10} {cy - 7} l -6 7 l 6 7 M {cx + 10} {cy - 7} l 6 7 l -6 7 M {cx + 3} {cy - 10} l -6 20"/>'
+    elif any(word in label for word in ("user", "people", "workspace", "agent", "human")):
+        shape = f'<circle cx="{cx}" cy="{cy - 6}" r="5"/><path d="M {cx - 11} {cy + 11} c 1 -8 6 -11 11 -11 s 10 3 11 11"/>'
+    else:
+        shape = f'<circle cx="{cx}" cy="{cy}" r="10"/><path d="M {cx - 6} {cy} h 12 M {cx} {cy - 6} v 12"/>'
+    return f'<g class="node-icon">{shape}</g>'
+
+
+def rounded_zone_markup(label: str, x: int, y: int, w: int, h: int, color: str) -> str:
+    label_width = min(w - 52, max(220, int(len(label) * 6.3 + 34)))
+    face = (
+        f"M {x + 30} {y} H {x + w - 26} "
+        f"Q {x + w - 8} {y} {x + w - 4} {y + 16} "
+        f"L {x + w - 17} {y + h - 17} "
+        f"Q {x + w - 20} {y + h} {x + w - 38} {y + h} "
+        f"H {x + 24} Q {x + 5} {y + h} {x + 2} {y + h - 17} "
+        f"L {x + 14} {y + 17} Q {x + 16} {y} {x + 30} {y} Z"
+    )
+    depth = (
+        f"M {x + 2} {y + h - 17} Q {x + 5} {y + h} {x + 24} {y + h} "
+        f"H {x + w - 38} Q {x + w - 20} {y + h} {x + w - 17} {y + h - 17} "
+        f"L {x + w - 20} {y + h + 16} Q {x + w - 24} {y + h + 30} {x + w - 42} {y + h + 31} "
+        f"L {x + 22} {y + h + 31} Q {x + 4} {y + h + 29} {x} {y + h + 15} Z"
+    )
+    shadow = (
+        f"M {x + 22} {y + h + 18} H {x + w - 30} "
+        f"Q {x + w - 12} {y + h + 18} {x + w - 18} {y + h + 36} "
+        f"H {x + 18} Q {x} {y + h + 34} {x + 6} {y + h + 20} Z"
+    )
+    return (
+        f'<g class="zone zone-{color}">'
+        f'<path class="zone-shadow" d="{shadow}"/>'
+        f'<path class="zone-depth" d="{depth}"/>'
+        f'<path class="zone-face" d="{face}"/>'
+        f'<path class="zone-grid" d="M {x + 45} {y + 17} H {x + w - 38} M {x + 28} {y + h / 2:.1f} H {x + w - 34} '
+        f'M {x + w * .28:.1f} {y + 10} L {x + w * .27:.1f} {y + h - 10} M {x + w * .53:.1f} {y + 7} L {x + w * .52:.1f} {y + h - 8} '
+        f'M {x + w * .78:.1f} {y + 5} L {x + w * .77:.1f} {y + h - 6}"/>'
+        f'<path class="zone-shine" d="M {x + 31} {y + 8} H {x + w - 34}"/>'
+        f'<rect class="zone-label-plate" x="{x + 18}" y="{y + 3}" width="{label_width}" height="18" rx="8"/>'
+        f'<text x="{x + 28}" y="{y + 16}">{xml_escape(label)}</text></g>'
+    )
+
+
+def studio_module_markup(node: Node) -> str:
+    x, y, w, h = node.x, node.y, node.w, node.h
+    tile_labels = ("MCP", "AGENT", "FLOW", "SERVICE", "SOLUTION")
+    tile_width = 42
+    gap = 6
+    start_x = x + 13
+    tiles = []
+    for index, label in enumerate(tile_labels):
+        tx = start_x + index * (tile_width + gap)
+        tiles.append(
+            f'<g class="studio-tile">'
+            f'<path class="studio-tile-side" d="M {tx + tile_width - 5} {y + 43} L {tx + tile_width + 2} {y + 48} '
+            f'V {y + 75} L {tx + tile_width - 5} {y + 79} Z"/>'
+            f'<rect x="{tx}" y="{y + 39}" width="{tile_width}" height="36" rx="8"/>'
+            f'<text x="{tx + tile_width / 2:.1f}" y="{y + 61}">{label}</text>'
+            f'</g>'
+        )
+    return (
+        f'<g id="node-{node.id}" class="node node-{node.color} studio-module" data-node-id="{node.id}" '
+        f'role="button" tabindex="0" aria-label="{xml_escape(node.title)}">'
+        f'<rect class="studio-shadow" x="{x - 4}" y="{y + 16}" width="{w + 8}" height="{h - 4}" rx="18"/>'
+        f'<path class="studio-tray-depth" d="M {x + 18} {y + h - 8} H {x + w - 10} L {x + w - 20} {y + h + 7} H {x + 28} Z"/>'
+        f'<rect class="studio-tray" x="{x}" y="{y + 8}" width="{w}" height="{h - 12}" rx="18"/>'
+        f'<rect class="studio-backplate" x="{x + 35}" y="{y}" width="{w - 70}" height="48" rx="12"/>'
+        f'<text class="studio-heading" x="{x + w / 2:.1f}" y="{y + 25}">STUDIO</text>'
+        f'{"".join(tiles)}'
+        f'<g class="node-step"><circle cx="{x + w - 14}" cy="{y + 14}" r="12"/><text class="node-step-number" x="{x + w - 14}" y="{y + 18}"></text></g>'
+        f'</g>'
+    )
+
+
 def svg_markup() -> str:
     group_parts = []
     for label, x, y, w, h, color in GROUPS:
-        group_parts.append(
-            f'<g class="zone zone-{color}"><rect x="{x}" y="{y}" width="{w}" height="{h}" rx="20"/>'
-            f'<text x="{x + 18}" y="{y + 24}">{xml_escape(label)}</text></g>'
-        )
+        group_parts.append(rounded_zone_markup(label, x, y, w, h, color))
     edge_parts = []
     for edge in EDGES:
         d, lx, ly = edge_path(edge)
         edge_parts.append(
             f'<g id="edge-{edge.id}" class="edge edge-{edge.kind}" data-edge-id="{edge.id}">'
-            f'<path d="{d}" marker-end="url(#arrow)"/><text x="{lx:.1f}" y="{ly:.1f}">{xml_escape(edge.label)}</text></g>'
+            f'<path class="edge-route" d="{d}" marker-end="url(#arrow)"/>'
+            f'<circle class="flow-pulse" r="4"><animateMotion dur="1.8s" repeatCount="indefinite" path="{d}"/></circle>'
+            f'<text x="{lx:.1f}" y="{ly:.1f}">{xml_escape(edge.label)}</text></g>'
         )
     node_parts = []
     for node in NODES:
+        if node.id == "studios":
+            node_parts.append(studio_module_markup(node))
+            continue
         lines = wrap(node.subtitle, width=max(18, node.w // 13))[:2]
         subtitle = "".join(
             f'<tspan x="{node.x + node.w / 2:.1f}" dy="{0 if i == 0 else 14}">{xml_escape(line)}</tspan>'
@@ -274,9 +361,17 @@ def svg_markup() -> str:
         node_parts.append(
             f'<g id="node-{node.id}" class="node node-{node.color}" data-node-id="{node.id}" '
             f'role="button" tabindex="0" aria-label="{xml_escape(node.title)}">'
-            f'<rect x="{node.x}" y="{node.y}" width="{node.w}" height="{node.h}" rx="15"/>'
-            f'<text class="node-title" x="{node.x + node.w / 2:.1f}" y="{node.y + 34}">{xml_escape(node.title)}</text>'
-            f'<text class="node-subtitle" x="{node.x + node.w / 2:.1f}" y="{node.y + 57}">{subtitle}</text>'
+            f'<rect class="node-shadow" x="{node.x - 4}" y="{node.y + 8}" width="{node.w + 8}" height="{node.h}" rx="18"/>'
+            f'<path class="node-side" d="M {node.x + node.w - 10} {node.y + 12} L {node.x + node.w + 2} {node.y + 20} '
+            f'V {node.y + node.h - 10} Q {node.x + node.w + 2} {node.y + node.h} {node.x + node.w - 10} {node.y + node.h + 8} Z"/>'
+            f'<path class="node-depth" d="M {node.x + 18} {node.y + node.h - 8} H {node.x + node.w - 10} '
+            f'L {node.x + node.w - 20} {node.y + node.h + 10} H {node.x + 28} Z"/>'
+            f'<rect class="node-face" x="{node.x}" y="{node.y}" width="{node.w - 10}" height="{node.h - 8}" rx="17"/>'
+            f'<path class="node-shine" d="M {node.x + 16} {node.y + 7} H {node.x + node.w - 16}"/>'
+            f'{svg_icon(node)}'
+            f'<text class="node-title" x="{node.x + (node.w - 10) / 2:.1f}" y="{node.y + 50}">{xml_escape(node.title)}</text>'
+            f'<text class="node-subtitle" x="{node.x + (node.w - 10) / 2:.1f}" y="{node.y + 69}">{subtitle}</text>'
+            f'<g class="node-step"><circle cx="{node.x + node.w - 14}" cy="{node.y + 14}" r="12"/><text class="node-step-number" x="{node.x + node.w - 14}" y="{node.y + 18}"></text></g>'
             f'</g>'
         )
     return f"""<svg class="architecture" viewBox="0 0 1500 880" role="img" aria-labelledby="diagram-title diagram-desc">
@@ -285,9 +380,17 @@ def svg_markup() -> str:
 <defs>
   <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L0,6 L9,3 z" fill="context-stroke"/></marker>
   <filter id="glow"><feGaussianBlur stdDeviation="5" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+  <filter id="zone-glow" x="-20%" y="-30%" width="140%" height="180%"><feDropShadow dx="0" dy="0" stdDeviation="6" flood-color="#70e6b1" flood-opacity=".2"/><feDropShadow dx="0" dy="12" stdDeviation="10" flood-color="#000000" flood-opacity=".65"/></filter>
+  <filter id="card-shadow" x="-30%" y="-30%" width="160%" height="180%"><feDropShadow dx="0" dy="9" stdDeviation="8" flood-color="#000000" flood-opacity=".58"/></filter>
+  <linearGradient id="glass-face" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#173f2e" stop-opacity=".96"/><stop offset=".48" stop-color="#10261d" stop-opacity=".94"/><stop offset="1" stop-color="#07110d" stop-opacity=".98"/></linearGradient>
+  <linearGradient id="zone-face" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#173429" stop-opacity=".5"/><stop offset=".55" stop-color="#0a1812" stop-opacity=".72"/><stop offset="1" stop-color="#07110d" stop-opacity=".9"/></linearGradient>
+  <linearGradient id="zone-mint" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#174936" stop-opacity=".76"/><stop offset=".58" stop-color="#0b251a" stop-opacity=".82"/><stop offset="1" stop-color="#07110d" stop-opacity=".94"/></linearGradient>
+  <linearGradient id="zone-forest" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#123522" stop-opacity=".78"/><stop offset=".58" stop-color="#091c12" stop-opacity=".86"/><stop offset="1" stop-color="#050d08" stop-opacity=".96"/></linearGradient>
+  <linearGradient id="zone-moss" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#263d1c" stop-opacity=".72"/><stop offset=".58" stop-color="#142511" stop-opacity=".84"/><stop offset="1" stop-color="#071008" stop-opacity=".96"/></linearGradient>
+  <linearGradient id="zone-amber" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#3a3015" stop-opacity=".68"/><stop offset=".58" stop-color="#211b0d" stop-opacity=".82"/><stop offset="1" stop-color="#0d0b06" stop-opacity=".96"/></linearGradient>
   <pattern id="grid" width="50" height="50" patternUnits="userSpaceOnUse"><path d="M50 0H0V50" fill="none" stroke="#38544a" stroke-width="1" opacity=".23"/></pattern>
 </defs>
-<rect width="1500" height="880" fill="#07110f"/><rect width="1500" height="880" fill="url(#grid)"/>
+<rect width="1500" height="880" fill="#07110f"/><rect y="70" width="1500" height="810" fill="url(#grid)" opacity=".72"/>
 <text class="diagram-title" x="45" y="42">ContextWeaver NextGen Architecture</text>
 <text class="diagram-subtitle" x="45" y="65">Cerebro governs. Weave composes. Loom runs anywhere. Evidence follows every lifecycle stage.</text>
 {''.join(group_parts)}
@@ -302,12 +405,14 @@ def write_svg() -> None:
     css = """
 <style>
 .diagram-title{fill:#f4f8f2;font:700 25px Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}.diagram-subtitle{fill:#a8bbb3;font:12px Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
-.zone rect{fill:#10231e;fill-opacity:.35;stroke:#38544a;stroke-width:1.5}.zone text{fill:#a8bbb3;font:800 10px Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;letter-spacing:1.2px}
-.zone-mint rect{stroke:#70e6b1}.zone-violet rect{stroke:#9bcf9f}.zone-sky rect{stroke:#52b788}.zone-amber rect{stroke:#ffc76a}
-.node rect{fill:#10231e;stroke:#38544a;stroke-width:2}.node-mint rect{stroke:#70e6b1}.node-amber rect{stroke:#ffc76a}.node-coral rect{stroke:#7fb98d}.node-violet rect{stroke:#9bcf9f}.node-sky rect{stroke:#52b788}
-.node-title{fill:#f4f8f2;font:700 13px Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;text-anchor:middle}.node-subtitle{fill:#a8bbb3;font:9px Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;text-anchor:middle}
-.edge{opacity:.32}.edge path{fill:none;stroke:#52b788;stroke-width:2}.edge text{fill:#a8bbb3;font:8px Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;text-anchor:middle;paint-order:stroke;stroke:#07110f;stroke-width:4}
-.edge-governance path{stroke:#9bcf9f;stroke-dasharray:8 6}.edge-success path{stroke:#70e6b1}.edge-evidence path{stroke:#ffc76a;stroke-dasharray:5 5}.edge-waiting path{stroke:#ffc76a;stroke-dasharray:10 7}
+.zone{filter:url(#zone-glow)}.zone-shadow{fill:#000;opacity:.58}.zone-face{fill:url(#zone-face);stroke:#70e6b1;stroke-width:1.6}.zone-depth{fill:#030d09;stroke:#70e6b1;stroke-width:1.1}.zone-grid{fill:none;stroke:#70e6b1;stroke-width:.65;opacity:.1}.zone-shine{fill:none;stroke:#b4ffda;stroke-width:1.2;opacity:.62}.zone-label-plate{fill:#07110f;fill-opacity:.94;stroke:#70e6b1;stroke-width:.75}.zone text{fill:#d8fff0;font:800 10px Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;letter-spacing:1.2px}
+.zone-mint .zone-face{fill:url(#zone-mint);stroke:#70e6b1}.zone-violet .zone-face{fill:url(#zone-forest);stroke:#9bcf9f}.zone-sky .zone-face{fill:url(#zone-moss);stroke:#52b788}.zone-amber .zone-face{fill:url(#zone-amber);stroke:#ffc76a}
+.node{filter:url(#card-shadow)}.node-shadow{fill:#000;opacity:.54}.node-face{fill:url(#glass-face);stroke:#70e6b1;stroke-width:2}.node-side{fill:#06130d;stroke:#70e6b1;stroke-width:1.1}.node-depth{fill:#030806;stroke:#70e6b1;stroke-width:1.2}.node-shine{fill:none;stroke:#b4ffda;stroke-width:1.1;opacity:.66}.node-mint .node-face{stroke:#70e6b1}.node-amber .node-face{stroke:#ffc76a}.node-coral .node-face{stroke:#7fb98d}.node-violet .node-face{stroke:#9bcf9f}.node-sky .node-face{stroke:#52b788}
+.studio-shadow{fill:#000;opacity:.58}.studio-tray{fill:url(#glass-face);stroke:#70e6b1;stroke-width:2}.studio-tray-depth{fill:#030806;stroke:#70e6b1;stroke-width:1.2}.studio-backplate{fill:#123c2b;fill-opacity:.95;stroke:#8af5bd;stroke-width:1.6}.studio-heading{fill:#e8fff4;font:900 11px Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;letter-spacing:2px;text-anchor:middle}.studio-tile rect{fill:#0b2118;stroke:#70e6b1;stroke-width:1.2}.studio-tile-side{fill:#030806;stroke:#4aa979;stroke-width:.8}.studio-tile text{fill:#d8fff0;font:800 5.5px Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;text-anchor:middle}
+.node-icon{fill:none;stroke:#d8fff0;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}.node-title{fill:#f4f8f2;font:700 12px Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;text-anchor:middle}.node-subtitle{fill:#a8cbbd;font:8px Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;text-anchor:middle}
+.node-step{opacity:0}.node-step circle{fill:#07110f;stroke:#70e6b1;stroke-width:2}.node-step text{fill:#70e6b1;font:800 10px Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;text-anchor:middle}
+.edge{opacity:.32}.edge .edge-route{fill:none;stroke:#52b788;stroke-width:2}.flow-pulse{fill:#70e6b1;opacity:0;filter:url(#glow)}.edge text{fill:#a8bbb3;font:8px Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;text-anchor:middle;paint-order:stroke;stroke:#07110f;stroke-width:4}
+.edge-governance .edge-route{stroke:#ffc76a;stroke-dasharray:8 6}.edge-governance .flow-pulse,.edge-waiting .flow-pulse{fill:#ffc76a}.edge-success .edge-route{stroke:#70e6b1}.edge-evidence .edge-route{stroke:#d8fff0;stroke-dasharray:3 7}.edge-evidence .flow-pulse{fill:#d8fff0}.edge-waiting .edge-route{stroke:#ffc76a;stroke-dasharray:10 7}
 .trust-label{fill:#ffc76a;font:700 10px Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
 </style>"""
     standalone = svg.replace("<defs>", f"<defs>{css}", 1)
@@ -327,40 +432,35 @@ def write_html() -> None:
 <script>if(window.self!==window.top||new URLSearchParams(location.search).has("embed"))document.documentElement.classList.add("embedded");</script>
 <style>
 :root{{--bg:{COLORS['bg']};--panel:{COLORS['panel']};--panel2:{COLORS['panel2']};--text:{COLORS['text']};--muted:{COLORS['muted']};--line:{COLORS['line']};--mint:{COLORS['mint']};--amber:{COLORS['amber']};--coral:{COLORS['coral']};--violet:{COLORS['violet']};--sky:{COLORS['sky']}}}
-*{{box-sizing:border-box}}body{{margin:0;color:var(--text);background:var(--bg);font:14px/1.5 Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}}
-.shell{{display:grid;grid-template-columns:minmax(0,1fr) 340px;min-height:100dvh}}.canvas{{position:relative;overflow:auto;border-right:1px solid var(--line)}}.architecture{{display:block;min-width:1120px;width:100%;height:auto}}
+*{{box-sizing:border-box}}html{{color-scheme:dark}}body{{min-width:320px;margin:0;overflow-x:hidden;color:var(--text);background:var(--bg);font:14px/1.5 Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}}
+.shell{{display:grid;grid-template-rows:auto minmax(0,1fr) auto;width:min(1600px,100%);min-height:100dvh;margin:auto;border:1px solid var(--line);background:linear-gradient(180deg,#0b1c15,#050b08);box-shadow:0 34px 100px #0009;overflow:hidden}}
+.storybar{{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;gap:24px;min-height:92px;padding:14px 20px;border-bottom:1px solid var(--line);background:#091710eb;backdrop-filter:blur(20px)}}
+.storybar>div,.detailbar>div{{min-width:0}}.stage-count{{color:var(--mint);font-size:9px;font-weight:900;letter-spacing:.15em;text-transform:uppercase}}.stage-title{{display:block;margin-top:4px;font:700 clamp(18px,2vw,29px)/1.08 Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;letter-spacing:-.025em}}.stage-caption{{display:block;max-width:1080px;margin-top:6px;overflow-wrap:anywhere;color:var(--muted);font-size:11px}}
+.canvas{{position:relative;min-height:620px;overflow:auto;background:radial-gradient(circle at 55% 42%,#173f2e44 0,transparent 40%),var(--bg)}}.architecture{{display:block;min-width:1120px;width:100%;height:auto}}
 .diagram-title{{fill:#f4f8f2;font:700 25px Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}}.diagram-subtitle{{fill:#a8bbb3;font:12px Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}}
-.zone rect{{fill:#10231e;fill-opacity:.35;stroke:#38544a;stroke-width:1.5}}.zone text{{fill:#a8bbb3;font:800 10px Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;letter-spacing:1.2px}}
-.zone-mint rect{{stroke:#70e6b1}}.zone-violet rect{{stroke:#9bcf9f}}.zone-sky rect{{stroke:#52b788}}.zone-amber rect{{stroke:#ffc76a}}
-.node{{cursor:pointer}}.node rect{{fill:#10231e;stroke:#38544a;stroke-width:2;transition:.25s}}.node-mint rect{{stroke:#70e6b1}}.node-amber rect{{stroke:#ffc76a}}.node-coral rect{{stroke:#7fb98d}}.node-violet rect{{stroke:#9bcf9f}}.node-sky rect{{stroke:#52b788}}
-.node-title{{fill:#f4f8f2;font:700 13px Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;text-anchor:middle}}.node-subtitle{{fill:#a8bbb3;font:9px Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;text-anchor:middle}}
-.node:hover rect,.node.selected rect{{stroke-width:4}}.node.active rect{{stroke-width:5;filter:url(#glow)}}.node.complete{{opacity:.58}}
-.edge{{opacity:.18}}.edge path{{fill:none;stroke:#52b788;stroke-width:2}}.edge text{{fill:#a8bbb3;font:8px Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;text-anchor:middle;paint-order:stroke;stroke:#07110f;stroke-width:4}}
-.edge-governance path{{stroke:#9bcf9f;stroke-dasharray:8 6}}.edge-success path{{stroke:#70e6b1}}.edge-evidence path{{stroke:#ffc76a;stroke-dasharray:5 5}}.edge-waiting path{{stroke:#ffc76a;stroke-dasharray:10 7}}
-.edge.active{{opacity:1}}.edge.active path{{stroke-width:5;stroke-dasharray:14 9;animation:flow .8s linear infinite;filter:url(#glow)}}@keyframes flow{{to{{stroke-dashoffset:-23}}}}
+.zone{{filter:url(#zone-glow)}}.zone-shadow{{fill:#000;opacity:.58}}.zone-face{{fill:url(#zone-face);stroke:#70e6b1;stroke-width:1.6}}.zone-depth{{fill:#030d09;stroke:#70e6b1;stroke-width:1.1}}.zone-grid{{fill:none;stroke:#70e6b1;stroke-width:.65;opacity:.1}}.zone-shine{{fill:none;stroke:#b4ffda;stroke-width:1.2;opacity:.62}}.zone-label-plate{{fill:#07110f;fill-opacity:.94;stroke:#70e6b1;stroke-width:.75}}.zone text{{fill:#d8fff0;font:800 10px Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;letter-spacing:1.2px}}
+.zone-mint .zone-face{{fill:url(#zone-mint);stroke:#70e6b1}}.zone-violet .zone-face{{fill:url(#zone-forest);stroke:#9bcf9f}}.zone-sky .zone-face{{fill:url(#zone-moss);stroke:#52b788}}.zone-amber .zone-face{{fill:url(#zone-amber);stroke:#ffc76a}}
+.node{{cursor:pointer;filter:url(#card-shadow);transition:opacity .35s}}.node-shadow{{fill:#000;opacity:.54}}.node-face{{fill:url(#glass-face);stroke:#70e6b1;stroke-width:2;transition:.3s}}.node-side{{fill:#06130d;stroke:#70e6b1;stroke-width:1.1;transition:.3s}}.node-depth{{fill:#030806;stroke:#70e6b1;stroke-width:1.2;transition:.3s}}.node-shine{{fill:none;stroke:#b4ffda;stroke-width:1.1;opacity:.66}}.node-mint .node-face{{stroke:#70e6b1}}.node-amber .node-face{{stroke:#ffc76a}}.node-coral .node-face{{stroke:#7fb98d}}.node-violet .node-face{{stroke:#9bcf9f}}.node-sky .node-face{{stroke:#52b788}}
+.studio-shadow{{fill:#000;opacity:.58}}.studio-tray{{fill:url(#glass-face);stroke:#70e6b1;stroke-width:2;transition:.3s}}.studio-tray-depth{{fill:#030806;stroke:#70e6b1;stroke-width:1.2;transition:.3s}}.studio-backplate{{fill:#123c2b;fill-opacity:.95;stroke:#8af5bd;stroke-width:1.6;transition:.3s}}.studio-heading{{fill:#e8fff4;font:900 11px Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;letter-spacing:2px;text-anchor:middle}}.studio-tile rect{{fill:#0b2118;stroke:#70e6b1;stroke-width:1.2;transition:.3s}}.studio-tile-side{{fill:#030806;stroke:#4aa979;stroke-width:.8}}.studio-tile text{{fill:#d8fff0;font:800 5.5px Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;text-anchor:middle}}
+.node-icon{{fill:none;stroke:#d8fff0;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}}.node-title{{fill:#f4f8f2;font:700 12px Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;text-anchor:middle}}.node-subtitle{{fill:#a8cbbd;font:8px Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;text-anchor:middle}}
+.node-step{{opacity:0}}.node-step circle{{fill:#07110f;stroke:#70e6b1;stroke-width:2}}.node-step text{{fill:#70e6b1;font:800 10px Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;text-anchor:middle}}
+.node:hover .node-face,.node.selected .node-face,.node:hover .studio-tray,.node.selected .studio-tray{{stroke-width:4}}.node.active .node-face,.node.active .studio-tray{{stroke-width:5;filter:url(#glow)}}.node.active .node-depth,.node.active .node-side,.node.active .studio-tray-depth{{stroke:var(--mint)}}.node.active .studio-backplate,.node.active .studio-tile rect{{stroke:#b4ffda;filter:url(#glow)}}.node.active .node-step{{opacity:1}}.node.complete{{opacity:.72}}.node.dim{{opacity:.42}}
+.edge{{opacity:.24;transition:opacity .35s}}.edge .edge-route{{fill:none;stroke:#52b788;stroke-width:2}}.flow-pulse{{fill:#70e6b1;opacity:0;filter:url(#glow)}}.edge text{{fill:#a8bbb3;font:8px Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;text-anchor:middle;paint-order:stroke;stroke:#07110f;stroke-width:4}}
+.edge-governance .edge-route{{stroke:#ffc76a;stroke-dasharray:8 6}}.edge-governance .flow-pulse,.edge-waiting .flow-pulse{{fill:#ffc76a}}.edge-success .edge-route{{stroke:#70e6b1}}.edge-evidence .edge-route{{stroke:#d8fff0;stroke-dasharray:3 7}}.edge-evidence .flow-pulse{{fill:#d8fff0}}.edge-waiting .edge-route{{stroke:#ffc76a;stroke-dasharray:10 7}}
+.edge.complete{{opacity:.52}}.edge.dim{{opacity:.14}}.edge.active{{opacity:1}}.edge.active .edge-route{{stroke-width:5;stroke-dasharray:14 9;animation:flow .8s linear infinite;filter:url(#glow)}}.edge.active .flow-pulse{{opacity:1}}.edge-governance.active .edge-route{{stroke:var(--amber)}}.edge-evidence.active .edge-route{{stroke:#d8fff0;stroke-dasharray:3 8}}@keyframes flow{{to{{stroke-dashoffset:-23}}}}
 .trust-label{{fill:#ffc76a;font:700 10px Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}}
-.panel{{display:flex;flex-direction:column;min-width:0;background:linear-gradient(180deg,var(--panel2),var(--bg));position:sticky;top:0;height:100dvh}}
-.panel-head{{padding:22px;border-bottom:1px solid var(--line)}}.eyebrow{{margin:0 0 7px;color:var(--mint);font-size:9px;font-weight:900;letter-spacing:.15em;text-transform:uppercase}}h1{{margin:0;font:700 26px/1.08 Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}}.panel-head p{{margin:9px 0 0;color:var(--muted);font-size:11px}}
-.legend{{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-top:15px;color:var(--muted);font-size:9px}}.legend span::before{{content:"";display:inline-block;width:10px;height:3px;margin-right:6px;vertical-align:middle;background:var(--sky)}}.legend .gov::before{{background:var(--violet)}}.legend .success::before{{background:var(--mint)}}.legend .evidence::before{{background:var(--amber)}}
-.detail{{min-height:225px;padding:22px;border-bottom:1px solid var(--line)}}.detail b{{display:block;font:700 20px/1.2 Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}}.detail em{{display:block;margin:7px 0 12px;color:var(--amber);font-size:10px;font-style:normal;font-weight:800}}.detail p{{margin:0;color:#c8d6d0;font-size:12px}}
-.stage{{flex:1;padding:22px;overflow:auto}}.stage-count{{color:var(--mint);font-size:10px;font-weight:900;letter-spacing:.12em;text-transform:uppercase}}.stage h2{{margin:8px 0;font:700 22px/1.18 Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}}.stage p{{margin:0;color:var(--muted);font-size:12px}}
-.controls{{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;padding:12px;border-top:1px solid var(--line)}}button{{min-height:40px;border:1px solid var(--line);border-radius:9px;color:var(--text);background:var(--panel);cursor:pointer;font:800 11px Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}}button:hover{{border-color:var(--mint)}}button.primary{{color:#07110f;background:var(--mint)}}
-.dots{{display:flex;flex-wrap:wrap;gap:7px;padding:0 18px 17px}}.dot{{width:11px;height:11px;min-height:0;padding:0;border:0;border-radius:50%;background:var(--line)}}.dot.active{{background:var(--mint);box-shadow:0 0 10px var(--mint)}}
-html.embedded .shell{{grid-template-columns:1fr;min-height:0}}
-html.embedded .canvas{{overflow:hidden;border-right:0;border-bottom:1px solid var(--line)}}
-html.embedded .architecture{{min-width:0;width:100%}}
-html.embedded .panel{{position:relative;top:auto;height:auto;min-height:0;display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,.95fr);grid-template-areas:"head detail" "stage stage" "controls dots";grid-template-rows:auto auto auto}}
-html.embedded .panel-head{{grid-area:head}}html.embedded .detail{{grid-area:detail;min-height:0}}html.embedded .stage{{grid-area:stage;min-height:0;overflow:visible}}html.embedded .controls{{grid-area:controls}}html.embedded .dots{{grid-area:dots;align-items:center;padding:12px 18px}}
-@media(max-width:980px){{.shell{{grid-template-columns:1fr}}.canvas{{border-right:0;border-bottom:1px solid var(--line)}}.panel{{position:relative;height:auto;min-height:520px}}.architecture{{min-width:0;width:100%}}html.embedded .panel{{grid-template-columns:1fr;grid-template-areas:"head" "detail" "stage" "controls" "dots"}}}}
+.controls{{display:flex;gap:7px}}button{{min-height:39px;padding:0 13px;border:1px solid var(--line);border-radius:9px;color:var(--text);background:var(--panel);cursor:pointer;font:800 10px Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}}button:hover{{border-color:var(--mint)}}button:focus-visible,.node:focus-visible{{outline:3px solid var(--mint);outline-offset:3px}}button.primary{{color:#07110f;background:var(--mint)}}
+.detailbar{{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;gap:24px;min-height:88px;padding:13px 20px;border-top:1px solid var(--line);background:#07110d}}.detailbar b{{display:block;font:700 15px/1.2 Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}}.detailbar em{{display:block;margin:3px 0;color:var(--amber);font-size:9px;font-style:normal;font-weight:800}}.detailbar p{{margin:0;color:#c8d6d0;font-size:10px}}.legend{{display:flex;flex-wrap:wrap;gap:12px;margin-top:7px;color:var(--muted);font-size:8px}}.legend span::before{{content:"";display:inline-block;width:10px;height:3px;margin-right:5px;vertical-align:middle;background:var(--mint)}}.legend .gov::before{{background:var(--amber)}}.legend .success::before{{background:var(--mint)}}.legend .evidence::before{{background:#d8fff0}}
+.dots{{display:flex;flex-wrap:wrap;justify-content:flex-end;gap:7px}}.dot{{width:11px;height:11px;min-height:0;padding:0;border:0;border-radius:50%;background:var(--line)}}.dot.complete{{background:#456e5d}}.dot.active{{background:var(--mint);box-shadow:0 0 10px var(--mint)}}
+html.embedded .shell{{min-height:0;border:0;box-shadow:none}}html.embedded .canvas{{overflow:hidden}}html.embedded .architecture{{min-width:0;width:100%}}
+@media(max-width:980px){{.shell{{min-height:auto}}.storybar{{grid-template-columns:1fr}}.controls{{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));width:100%}}.controls button{{min-width:0;padding-inline:8px}}.detailbar{{grid-template-columns:1fr}}.dots{{justify-content:flex-start}}.canvas{{min-height:0;overflow:hidden}}.architecture{{min-width:0;width:100%}}}}
+@media(max-width:620px){{.shell{{border-width:0}}.storybar,.detailbar{{padding:14px}}.controls{{grid-template-columns:repeat(2,minmax(0,1fr))}}.stage-title{{font-size:18px}}.stage-caption{{font-size:10px}}}}
 @media(prefers-reduced-motion:reduce){{*{{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}}}
-</style></head><body><main class="shell"><section class="canvas">{svg_markup()}</section>
-<aside class="panel" aria-live="polite">
-<div class="panel-head"><p class="eyebrow">Interactive architecture</p><h1>NextGen Architecture Atlas</h1><p>Inspired by the legacy Cerebro, Weave, and Loom diagrams, updated to the current governed capability lifecycle.</p>
-<div class="legend"><span>Data / work</span><span class="gov">Governance</span><span class="success">Promotion / success</span><span class="evidence">Evidence / waiting</span></div></div>
-<div class="detail"><b id="detail-title">Select a component</b><em id="detail-subtitle">Click any architecture block</em><p id="detail-copy">Use the controls to walk through the complete lifecycle or select a component for its current NextGen responsibility.</p></div>
-<div class="stage"><span class="stage-count" id="stage-count"></span><h2 id="stage-title"></h2><p id="stage-caption"></p></div>
-<div class="controls"><button id="prev">Previous</button><button id="play" class="primary">Pause</button><button id="next">Next</button><button id="reset">Reset</button></div><div class="dots" id="dots"></div>
-</aside></main>
+</style></head><body><main class="shell" aria-live="polite">
+<header class="storybar"><div><span class="stage-count" id="stage-count"></span><strong class="stage-title" id="stage-title"></strong><span class="stage-caption" id="stage-caption"></span></div><div class="controls"><button id="prev">Previous</button><button id="play" class="primary">Pause</button><button id="next">Next</button><button id="reset">Reset</button></div></header>
+<section class="canvas">{svg_markup()}</section>
+<footer class="detailbar"><div><b id="detail-title">Select a component</b><em id="detail-subtitle">Click any glass architecture block</em><p id="detail-copy">Walk the lifecycle or inspect a component. Only the current route moves; completed stages remain subtly visible.</p><div class="legend"><span>Intent / execution</span><span class="gov">Governance / approval</span><span class="success">Promotion / success</span><span class="evidence">Evidence return</span></div></div><div class="dots" id="dots"></div></footer>
+</main>
 <script>
 const nodes={json.dumps(node_data)};const steps={json.dumps(STAGES)};
 let current=0,playing=!matchMedia("(prefers-reduced-motion: reduce)").matches,timer;
@@ -368,7 +468,7 @@ const $=id=>document.getElementById(id),nodeEls=[...document.querySelectorAll(".
 function inspect(id){{const d=nodes[id];if(!d)return;nodeEls.forEach(el=>el.classList.toggle("selected",el.dataset.nodeId===id));$("detail-title").textContent=d.title;$("detail-subtitle").textContent=d.subtitle;$("detail-copy").textContent=d.detail;}}
 nodeEls.forEach(el=>{{el.addEventListener("click",()=>{{playing=false;$("play").textContent="Play";stop();inspect(el.dataset.nodeId)}});el.addEventListener("keydown",ev=>{{if(ev.key==="Enter"||ev.key===" "){{ev.preventDefault();el.click()}}}})}});
 steps.forEach((_,i)=>{{const b=document.createElement("button");b.className="dot";b.setAttribute("aria-label",`Show stage ${{i+1}}`);b.onclick=()=>{{current=i;render();restart()}};$("dots").appendChild(b)}});
-function render(){{const s=steps[current];nodeEls.forEach(el=>{{el.classList.toggle("active",s.nodes.includes(el.dataset.nodeId));el.classList.remove("selected")}});edgeEls.forEach(el=>el.classList.toggle("active",s.edges.includes(el.dataset.edgeId)));$("stage-count").textContent=`Stage ${{current+1}} of ${{steps.length}}`;$("stage-title").textContent=s.title;$("stage-caption").textContent=s.caption;[...$("dots").children].forEach((d,i)=>d.classList.toggle("active",i===current));if(s.nodes.length)inspect(s.nodes[s.nodes.length-1]);}}
+function render(){{const s=steps[current],done=steps.slice(0,current),doneNodes=new Set(done.flatMap(step=>step.nodes)),doneEdges=new Set(done.flatMap(step=>step.edges));nodeEls.forEach(el=>{{const id=el.dataset.nodeId,active=s.nodes.includes(id),complete=doneNodes.has(id)&&!active;el.classList.toggle("active",active);el.classList.toggle("complete",complete);el.classList.toggle("dim",!active&&!complete);el.classList.remove("selected");const number=el.querySelector(".node-step-number");if(number)number.textContent=active?String(s.nodes.indexOf(id)+1):""}});edgeEls.forEach(el=>{{const id=el.dataset.edgeId,active=s.edges.includes(id),complete=doneEdges.has(id)&&!active;el.classList.toggle("active",active);el.classList.toggle("complete",complete);el.classList.toggle("dim",!active&&!complete)}});$("stage-count").textContent=`Current flow · stage ${{current+1}} of ${{steps.length}}`;$("stage-title").textContent=s.title;$("stage-caption").textContent=s.caption;[...$("dots").children].forEach((d,i)=>{{d.classList.toggle("active",i===current);d.classList.toggle("complete",i<current)}});if(s.nodes.length)inspect(s.nodes[s.nodes.length-1]);}}
 function advance(delta=1){{current=(current+delta+steps.length)%steps.length;render()}}function stop(){{clearInterval(timer)}}function restart(){{stop();if(playing)timer=setInterval(()=>advance(),5000)}}
 $("prev").onclick=()=>{{advance(-1);restart()}};$("next").onclick=()=>{{advance();restart()}};$("reset").onclick=()=>{{current=0;render();restart()}};$("play").onclick=()=>{{playing=!playing;$("play").textContent=playing?"Pause":"Play";restart()}};
 function reportHeight(){{if(!document.documentElement.classList.contains("embedded"))return;const shell=document.querySelector(".shell");parent.postMessage({{type:"contextweaver-atlas-height",height:Math.ceil(shell.getBoundingClientRect().height)}},"*")}}
@@ -417,16 +517,46 @@ def render_image(active_nodes: set[str] | None = None, active_edges: set[str] | 
     draw.text((30, 18), "ContextWeaver NextGen Architecture", fill=COLORS["text"], font=font(26, True))
     draw.text((30, 50), "Cerebro governs. Weave composes. Loom runs anywhere. Evidence follows every stage.",
               fill=COLORS["muted"], font=font(13))
+    zone_fills = {
+        "mint": "#123b2b",
+        "violet": "#0e291b",
+        "sky": "#1c3018",
+        "amber": "#302711",
+    }
     for label, x, y, w, h, color in GROUPS:
         box = (int(x * sx), int(y * sy), int((x + w) * sx), int((y + h) * sy))
-        draw.rounded_rectangle(box, radius=16, fill="#0b1814", outline=COLORS[color], width=2)
-        draw.text((box[0] + 12, box[1] + 8), label, fill=COLORS["muted"], font=font(9, True))
+        depth = max(10, int(16 * sy))
+        radius = max(12, int(22 * sy))
+        draw.rounded_rectangle(
+            (box[0] + 4, box[1] + depth + 8, box[2] - 4, box[3] + depth + 8),
+            radius=radius,
+            fill="#010503",
+        )
+        draw.rounded_rectangle(
+            (box[0], box[1] + depth, box[2], box[3] + depth),
+            radius=radius,
+            fill="#030806",
+            outline=COLORS["line"],
+            width=2,
+        )
+        draw.rounded_rectangle(
+            box,
+            radius=radius,
+            fill=zone_fills[color],
+            outline=COLORS[color],
+            width=2,
+        )
+        draw.line((box[0] + depth * 2, box[1] + 7, box[2] - depth * 2, box[1] + 7), fill="#315f4c", width=1)
+        label_width = min(box[2] - box[0] - 40, max(180, int(len(label) * 5.5 + 28)))
+        label_plate = (box[0] + 10, box[1] + 2, box[0] + 10 + label_width, box[1] + 20)
+        draw.rounded_rectangle(label_plate, radius=8, fill=COLORS["bg"], outline=COLORS[color], width=1)
+        draw.text((box[0] + 20, box[1] + 6), label, fill=COLORS["text"], font=font(8, True))
     by_id = {n.id: n for n in NODES}
     for edge in EDGES:
         source, target = by_id[edge.source], by_id[edge.target]
         sx0, sy0 = center(source)
         tx0, ty0 = center(target)
-        semantic_color = COLORS["violet"] if edge.kind == "governance" else COLORS["amber"] if edge.kind in {"evidence", "waiting"} else COLORS["mint"] if edge.kind == "success" else COLORS["sky"]
+        semantic_color = COLORS["amber"] if edge.kind in {"governance", "waiting"} else "#d8fff0" if edge.kind == "evidence" else COLORS["mint"]
         edge_active = edge.id in active_edges
         color = semantic_color if edge_active or not active_edges else "#27413a"
         draw.line(
@@ -437,14 +567,86 @@ def render_image(active_nodes: set[str] | None = None, active_edges: set[str] | 
     for node in NODES:
         box = scaled_box(node, sx, sy)
         active = node.id in active_nodes
-        draw.rounded_rectangle(box, radius=13, fill=COLORS["panel2"] if active else COLORS["panel"],
+        depth = max(7, int(9 * sy))
+        if node.id == "studios":
+            radius = max(10, int(16 * sy))
+            draw.rounded_rectangle(
+                (box[0] - 4, box[1] + depth + 5, box[2] + 4, box[3] + depth),
+                radius=radius,
+                fill="#010503",
+            )
+            draw.rounded_rectangle(
+                (box[0], box[1] + depth, box[2], box[3]),
+                radius=radius,
+                fill=COLORS["panel"],
+                outline=COLORS["mint"],
+                width=5 if active else 2,
+            )
+            plate = (
+                box[0] + int(35 * sx),
+                box[1],
+                box[2] - int(35 * sx),
+                box[1] + int(48 * sy),
+            )
+            draw.rounded_rectangle(
+                plate,
+                radius=max(7, int(12 * sy)),
+                fill="#123c2b",
+                outline="#8af5bd",
+                width=3 if active else 2,
+            )
+            studio_label = "STUDIO"
+            studio_font = font(10, True)
+            studio_width = draw.textbbox((0, 0), studio_label, font=studio_font)[2]
+            draw.text(((plate[0] + plate[2] - studio_width) / 2, plate[1] + 7), studio_label,
+                      fill="#e8fff4", font=studio_font)
+            tile_labels = ("MCP", "AGT", "FLOW", "SVC", "SOL")
+            tile_width = int(42 * sx)
+            tile_gap = int(6 * sx)
+            tile_x = box[0] + int(13 * sx)
+            tile_y = box[1] + int(39 * sy)
+            tile_bottom = box[1] + int(75 * sy)
+            for label in tile_labels:
+                tile_box = (tile_x, tile_y, tile_x + tile_width, tile_bottom)
+                draw.rounded_rectangle(
+                    tile_box,
+                    radius=max(5, int(8 * sy)),
+                    fill="#0b2118",
+                    outline="#b4ffda" if active else COLORS["mint"],
+                    width=2,
+                )
+                label_font = font(6, True)
+                label_width = draw.textbbox((0, 0), label, font=label_font)[2]
+                draw.text(((tile_box[0] + tile_box[2] - label_width) / 2, tile_box[1] + 9),
+                          label, fill="#d8fff0", font=label_font)
+                tile_x += tile_width + tile_gap
+            continue
+        front = (box[0], box[1], box[2] - depth, box[3] - depth)
+        draw.rounded_rectangle(
+            (box[0] - 4, box[1] + 7, box[2] + 3, box[3] + depth),
+            radius=max(10, int(17 * sy)),
+            fill="#010503",
+        )
+        draw.polygon(
+            [(front[2] - 2, front[1] + depth), (box[2], front[1] + depth * 2),
+             (box[2], box[3] - depth), (front[2] - 2, box[3])],
+            fill="#06130d",
+            outline=COLORS[node.color] if active else COLORS["line"],
+        )
+        draw.polygon(
+            [(front[0] + depth, front[3]), (front[2], front[3]), (box[2] - depth, box[3]), (box[0] + depth * 2, box[3])],
+            fill="#030806",
+            outline=COLORS[node.color] if active else COLORS["line"],
+        )
+        draw.rounded_rectangle(front, radius=13, fill=COLORS["panel2"] if active else COLORS["panel"],
                                outline=COLORS[node.color], width=5 if active else 2)
+        draw.line((front[0] + 14, front[1] + 7, front[2] - 14, front[1] + 7), fill="#4b8a6e", width=1)
         tw = draw.textbbox((0, 0), node.title, font=font(12, True))[2]
-        draw.text(((box[0] + box[2] - tw) / 2, box[1] + 18), node.title, fill=COLORS["text"], font=font(12, True))
+        draw.text(((front[0] + front[2] - tw) / 2, front[1] + 18), node.title, fill=COLORS["text"], font=font(12, True))
         subtitle_lines = wrap(node.subtitle, width=max(18, node.w // 13))[:2]
         for index, line in enumerate(subtitle_lines):
             lw = draw.textbbox((0, 0), line, font=font(8))[2]
-            draw.text(((box[0] + box[2] - lw) / 2, box[1] + 43 + index * 12), line, fill=COLORS["muted"], font=font(8))
+            draw.text(((front[0] + front[2] - lw) / 2, front[1] + 43 + index * 12), line, fill=COLORS["muted"], font=font(8))
     footer_y = diagram_height + 18
     if title:
         draw.text((30, footer_y), title, fill=COLORS["mint"], font=font(22, True))
@@ -566,7 +768,7 @@ def write_drawio() -> None:
             value_attr = xml_escape(value, {'"': '&quot;'})
             cells.append(
                 f'<mxCell id="n{index}" value="{value_attr}" '
-                f'style="rounded=1;whiteSpace=wrap;html=1;fillColor={COLORS["panel"]};strokeColor={stroke};'
+                f'style="rounded=1;whiteSpace=wrap;html=1;shadow=1;glass=1;fillColor={COLORS["panel"]};gradientColor={COLORS["panel2"]};gradientDirection=north;strokeColor={stroke};'
                 f'fontColor={COLORS["text"]};fontSize=12;strokeWidth=2;" vertex="1" parent="1">'
                 f'<mxGeometry x="{x}" y="{y}" width="{w}" height="{h}" as="geometry"/></mxCell>'
             )
