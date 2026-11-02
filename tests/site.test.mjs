@@ -77,7 +77,6 @@ test("diagram deliverables are complete", async () => {
 test("architecture players preserve approved static masters with semantic overlays", async () => {
   const expected = {
     "intent-to-evidence": ["Authenticated request", "Evidence", "edge-i12"],
-    "service-factory": ["Product inputs", "Solution result + proof", "edge-f11"],
     "generic-agent-runtime": ["Generic runtime image", "Publisher MCP", "edge-g11"],
     "platform-planes": ["Eight Platform Planes", "Cerebro", "Loom"],
     "capability-lifecycle": ["Release Registry", "Operate and improve", "edge-c11"],
@@ -104,6 +103,17 @@ test("architecture players preserve approved static masters with semantic overla
     assert.doesNotMatch(html, /edge-label/);
     for (const marker of markers) assert.match(html, new RegExp(marker.replace(/[+]/g, "\\+")));
   }
+});
+
+test("service factory uses the shared angled rectangular slab renderer", async () => {
+  const html = await readFile(join(root, "diagrams", "service-factory.html"), "utf8");
+  assert.match(html, /<svg class="architecture diagram-service-factory" viewBox="0 0 1536 1024"/);
+  assert.doesNotMatch(html, /class="architecture diagram-service-factory image-first-diagram"/);
+  assert.match(html, /class="glass-deck deck-1"/);
+  assert.match(html, /M 250 227 L 1280 127 L 1400 335 L 370 435 Z/);
+  assert.match(html, /Product inputs/);
+  assert.match(html, /Solution result \+ proof/);
+  assert.match(html, /id="edge-f11"/);
 });
 
 test("nextgen atlas uses square-edged 3d trays and a grouped Studio module", async () => {
@@ -170,7 +180,7 @@ test("product hierarchy and consumer journey remain explicit", async () => {
     assert.match(story, new RegExp(provider));
   }
   assert.match(overview, /intent-to-evidence\.png\?v=20261102-1/);
-  assert.match(architecture, /diagrams\/service-factory\.html\?v=20261102-1/);
+  assert.match(architecture, /diagrams\/service-factory\.html\?v=20261102-2/);
   for (const concept of [
     "MCP capability",
     "bounded reasoning specialist",
@@ -267,18 +277,25 @@ test("product hierarchy and consumer journey remain explicit", async () => {
   assert.match(learning, /data-learning-route-detail/);
   assert.match(learning, /Complete platform curriculum/);
   assert.match(learning, /Platform service atlas/);
+  assert.match(learning, /How governed AI becomes a trusted outcome/);
+  assert.match(learning, /data-learning-poster-gallery/);
+  assert.match(learning, /learning-mini-diagram/);
   assert.match(learning, /RAG Ingestion · RAG Retrieval · Context Memory · Context Citation/);
   assert.match(siteJs, /const lessons = \{/);
+  assert.match(siteJs, /learning-poster-card__concepts/);
+  assert.match(siteJs, /learning-poster-card__flow/);
   assert.match(siteJs, /renderLesson\(\)/);
   assert.match(siteJs, /new Blob\(\[guide\]/);
   assert.match(siteCss, /\.learning-lesson-card\.active/);
   assert.match(siteCss, /\.learning-curriculum-grid/);
+  assert.match(siteCss, /\.learning-poster-gallery/);
+  assert.match(siteCss, /\.learning-overview-infographic/);
   assert.match(siteJs, /page === "architecture" && !location\.hash/);
   assert.match(siteJs, /history\.scrollRestoration = "manual"/);
   assert.doesNotMatch(companyIntro, /contextweaver-spatial-architecture\.html/);
   assert.match(architecture, /id="interactive-factory-architecture"/);
-  assert.match(architecture, /service-factory-static-master\.png\?v=20261102-1/);
-  assert.match(architecture, /diagrams\/service-factory\.html\?v=20261102-1/);
+  assert.match(architecture, /service-factory-static-master\.png\?v=20261102-2/);
+  assert.match(architecture, /diagrams\/service-factory\.html\?v=20261102-2/);
   assert.doesNotMatch(architecture, /ContextWeaver NextGen Architecture Atlas/);
   assert.doesNotMatch(architecture, /contextweaver-nextgen-architecture\.html/);
   assert.doesNotMatch(architecture, /experiences\/contextweaver-spatial-r3f/);

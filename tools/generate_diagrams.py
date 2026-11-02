@@ -496,14 +496,16 @@ def scene_nodes(diagram: Diagram) -> tuple[Node, ...]:
             row_count = min(columns, count - row * columns)
             row_width = row_count * card_width + gap_x * (row_count - 1)
             row_start_x = 330 + (available - row_width) // 2
+            node_x = row_start_x + column * (card_width + gap_x)
+            perspective_offset = round((node_x - 330) * -0.08)
             visual_nodes.append(
                 Node(
                     node.id,
                     node.title,
                     node.subtitle,
                     node.detail,
-                    row_start_x + column * (card_width + gap_x),
-                    start_y + row * (card_height + gap_y),
+                    node_x,
+                    start_y + row * (card_height + gap_y) + perspective_offset,
                     card_width,
                     card_height,
                     node.color,
@@ -535,22 +537,38 @@ def svg_decks(*, governed: bool = False) -> str:
         return svg_governed_decks()
     decks = []
     for index, (label, subtitle, top, bottom) in enumerate(SCENE_LAYERS, start=1):
+        top_left = (250, top + 55)
+        top_right = (1280, top - 45)
+        bottom_right = (1400, bottom + 15)
+        bottom_left = (370, bottom + 115)
+        depth = 22
         face = (
-            f"M 280 {top + 22} L 1260 {top - 28} "
-            f"L 1360 {bottom + 12} L 380 {bottom + 62} Z"
+            f"M {top_left[0]} {top_left[1]} L {top_right[0]} {top_right[1]} "
+            f"L {bottom_right[0]} {bottom_right[1]} L {bottom_left[0]} {bottom_left[1]} Z"
+        )
+        front_fascia = (
+            f"M {bottom_left[0]} {bottom_left[1]} L {bottom_right[0]} {bottom_right[1]} "
+            f"L {bottom_right[0]} {bottom_right[1] + depth} "
+            f"L {bottom_left[0]} {bottom_left[1] + depth} Z"
+        )
+        side_fascia = (
+            f"M {top_right[0]} {top_right[1]} L {bottom_right[0]} {bottom_right[1]} "
+            f"L {bottom_right[0]} {bottom_right[1] + depth} "
+            f"L {top_right[0]} {top_right[1] + depth} Z"
         )
         decks.append(
             f'<g class="glass-deck deck-{index}">'
             f'<path class="deck-shadow" d="{face}" transform="translate(0 38)"/>'
-            f'<path class="deck-depth" d="{face}" transform="translate(0 22)"/>'
+            f'<path class="deck-depth" d="{front_fascia}"/>'
+            f'<path class="deck-depth" d="{side_fascia}"/>'
             f'<path class="deck-face" d="{face}"/>'
-            f'<path class="deck-grid" d="M 310 {top + 52} L 1300 {top + 2} '
-            f'M 335 {top + 96} L 1325 {top + 46} '
-            f'M 360 {top + 140} L 1350 {top + 90} '
-            f'M 520 {top + 10} L 620 {bottom + 50} '
-            f'M 760 {top - 2} L 860 {bottom + 38} '
-            f'M 1000 {top - 14} L 1100 {bottom + 26}"/>'
-            f'<path class="deck-shine" d="M 280 {top + 22} L 1260 {top - 28}"/>'
+            f'<path class="deck-grid" d="M 280 {top + 88} L 1310 {top - 12} '
+            f'M 315 {top + 137} L 1345 {top + 37} '
+            f'M 350 {top + 186} L 1380 {top + 86} '
+            f'M 505 {top + 30} L 625 {bottom + 90} '
+            f'M 750 {top + 6} L 870 {bottom + 66} '
+            f'M 995 {top - 18} L 1115 {bottom + 42}"/>'
+            f'<path class="deck-shine" d="M 250 {top + 55} L 1280 {top - 45}"/>'
             f'<text class="layer-title" x="70" y="{top + 88}">{label}</text>'
             f'<text class="layer-subtitle" x="70" y="{top + 115}">{subtitle}</text>'
             f'<path class="layer-rule" d="M 50 {top + 57} V {top + 119}"/>'
@@ -793,20 +811,6 @@ IMAGE_FIRST_CONFIGS = {
             "i9": ((1168, 512), (1178, 488), (1208, 470)),
             "i10": ((1206, 550), (1278, 550)),
             "i12": ((1455, 584), (1455, 970), (868, 970), (868, 855)),
-        },
-    ),
-    "service-factory": ImageFirstConfig(
-        ROOT / "assets" / "media" / "service-factory-static-master.png",
-        {
-            "inputs": (218, 309, 68), "studio": (498, 309, 68),
-            "contracts": (766, 309, 68), "admission": (1035, 309, 68),
-            "registry": (1300, 309, 68), "operator": (267, 644, 68),
-            "discovery": (530, 644, 68), "compose": (784, 644, 68),
-            "execute": (1056, 644, 68), "outcome": (1321, 644, 68),
-        },
-        {
-            "f7": ((530, 539), (570, 510), (1300, 510), (1300, 414)),
-            "f11": ((1321, 749), (1321, 839), (238, 839), (238, 764)),
         },
     ),
     "generic-agent-runtime": ImageFirstConfig(
@@ -1269,16 +1273,18 @@ def draw_glass_decks(draw: ImageDraw.ImageDraw, governed: bool = False) -> None:
         return
     for index, (label, subtitle, top, bottom) in enumerate(SCENE_LAYERS):
         depth_fill, face_fill, outline = "#03100b", "#0a2419", COLORS["mint"]
-        face_points = [(280, top + 22), (1260, top - 28), (1360, bottom + 12), (380, bottom + 62)]
-        depth_points = [(x, y + 22) for x, y in face_points]
+        face_points = [(250, top + 55), (1280, top - 45), (1400, bottom + 15), (370, bottom + 115)]
         shadow_points = [(x, y + 38) for x, y in face_points]
+        front_fascia = [face_points[3], face_points[2], (face_points[2][0], face_points[2][1] + 22), (face_points[3][0], face_points[3][1] + 22)]
+        side_fascia = [face_points[1], face_points[2], (face_points[2][0], face_points[2][1] + 22), (face_points[1][0], face_points[1][1] + 22)]
         draw.polygon(shadow_points, fill="#020604")
         draw.line(shadow_points + [shadow_points[0]], fill="#0b1711", width=2, joint="curve")
-        draw.polygon(depth_points, fill=depth_fill)
-        draw.line(depth_points + [depth_points[0]], fill=outline, width=2, joint="curve")
+        for fascia in (front_fascia, side_fascia):
+            draw.polygon(fascia, fill=depth_fill)
+            draw.line(fascia + [fascia[0]], fill=outline, width=2, joint="curve")
         draw.polygon(face_points, fill=face_fill)
         draw.line(face_points + [face_points[0]], fill=outline, width=3, joint="curve")
-        draw.line((280, top + 22, 1260, top - 28), fill="#a8ffd4", width=2)
+        draw.line((250, top + 55, 1280, top - 45), fill="#a8ffd4", width=2)
         draw.text((70, top + 67), label, font=label_font, fill=COLORS["text"])
         draw.text((70, top + 96), subtitle, font=subtitle_font, fill="#a8cbbd")
         draw.line((50, top + 57, 50, top + 119), fill=outline, width=4)
@@ -1637,6 +1643,11 @@ def write_gif(diagram: Diagram) -> None:
         wrapped = textwrap.fill(step.caption, width=145)
         draw.text((24, HEIGHT + 43), wrapped, font=caption_font, fill=COLORS["text"])
         frames.append(image)
+    if diagram.slug == "service-factory":
+        frames[0].crop((0, 0, WIDTH, HEIGHT)).save(
+            ROOT / "assets" / "media" / "service-factory-static-master.png",
+            optimize=True,
+        )
     frames[0].save(
         OUT / f"{diagram.slug}.gif",
         save_all=True,

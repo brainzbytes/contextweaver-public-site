@@ -164,7 +164,7 @@ def diagram(name: str, title: str, note: str) -> str:
       <div class="diagram-toolbar">
         <strong>{title}</strong>
       </div>
-      <iframe class="diagram-frame" src="diagrams/{name}.html?v=20261102-1" title="{title}" loading="lazy"></iframe>
+      <iframe class="diagram-frame" src="diagrams/{name}.html?v=20261102-2" title="{title}" loading="lazy"></iframe>
     </div>
     <p class="diagram-note">{note}</p>
     """
@@ -916,8 +916,8 @@ ARCHITECTURE = """
       </div>
     </div>
     <figure class="spatial-visual" data-reveal>
-      <button class="spatial-visual-stage spatial-visual-trigger" type="button" data-spatial-open data-spatial-type="image" data-spatial-src="assets/media/service-factory-static-master.png?v=20261102-1" data-spatial-title="Universal Solution and Capability Factory" aria-label="Open large view: Universal Solution and Capability Factory">
-        <img src="assets/media/service-factory-static-master.png?v=20261102-1" alt="Universal Solution and Capability Factory with ten governed stages from enterprise inputs to evidence-backed Solutions." loading="eager">
+      <button class="spatial-visual-stage spatial-visual-trigger" type="button" data-spatial-open data-spatial-type="image" data-spatial-src="assets/media/service-factory-static-master.png?v=20261102-2" data-spatial-title="Universal Solution and Capability Factory" aria-label="Open large view: Universal Solution and Capability Factory">
+        <img src="assets/media/service-factory-static-master.png?v=20261102-2" alt="Universal Solution and Capability Factory with ten governed stages on consistent angled rectangular slabs, from enterprise inputs to evidence-backed Solutions." loading="eager">
         <span class="spatial-visual-expand" aria-hidden="true">Expand ↗</span>
       </button>
       <figcaption>
@@ -937,9 +937,9 @@ ARCHITECTURE = """
   <div class="diagram-shell architecture-atlas-shell" data-reveal>
     <div class="diagram-toolbar">
       <strong>Universal Solution and Capability Factory</strong>
-      <button class="diagram-toolbar-action" type="button" data-spatial-open data-spatial-type="iframe" data-spatial-src="diagrams/service-factory.html?popout=1&amp;v=20261102-1" data-spatial-title="Universal Solution and Capability Factory">Expand view ↗</button>
+      <button class="diagram-toolbar-action" type="button" data-spatial-open data-spatial-type="iframe" data-spatial-src="diagrams/service-factory.html?popout=1&amp;v=20261102-2" data-spatial-title="Universal Solution and Capability Factory">Expand view ↗</button>
     </div>
-    <iframe class="diagram-frame architecture-spatial-frame" src="diagrams/service-factory.html?v=20261102-1" title="Universal Solution and Capability Factory" loading="eager" sandbox="allow-scripts allow-same-origin"></iframe>
+    <iframe class="diagram-frame architecture-spatial-frame" src="diagrams/service-factory.html?v=20261102-2" title="Universal Solution and Capability Factory" loading="eager" sandbox="allow-scripts allow-same-origin"></iframe>
   </div>
   <p class="diagram-note">Motion follows the active route only. Labels, captions, line styles, and stage controls keep the architecture readable when animation is paused or reduced.</p>
   <noscript><p class="diagram-note">JavaScript is required for the interactive player. <a href="diagrams/service-factory.svg">Open the static factory architecture.</a></p></noscript>
@@ -1228,19 +1228,22 @@ LEARNING = """
         <span><b>1</b> canonical truth</span>
       </div>
     </div>
-    <div class="learning-orbit" aria-label="From AI concepts to governed outcomes">
-      <div class="learning-orbit-core"><span>YOUR GOAL</span><strong data-learning-goal-label>Understand</strong><small>Choose a path. Change depth anytime.</small></div>
-      <span class="learning-orbit-node node-ai">AI</span>
-      <span class="learning-orbit-node node-rag">RAG</span>
-      <span class="learning-orbit-node node-agent">Agent</span>
-      <span class="learning-orbit-node node-mcp">MCP</span>
-      <span class="learning-orbit-node node-service">Service</span>
-      <span class="learning-orbit-node node-solution">Solution</span>
-      <span class="learning-orbit-node node-trust">Trust</span>
-      <svg viewBox="0 0 560 470" aria-hidden="true">
-        <path d="M70 236 C150 45 410 45 490 236 C410 425 150 425 70 236Z"></path>
-        <path d="M116 236 C176 102 384 102 444 236 C384 370 176 370 116 236Z"></path>
-      </svg>
+    <div class="learning-orbit learning-overview-infographic" aria-label="How governed AI becomes a trusted outcome">
+      <header>
+        <span>Learning map</span>
+        <h2>How governed AI becomes a trusted outcome</h2>
+        <p>Each layer adds context, capability, durability, reuse, or proof.</p>
+      </header>
+      <div class="learning-infographic-flow">
+        <article><i>01</i><b>AI</b><small>Generate useful possibilities</small></article>
+        <article><i>02</i><b>RAG</b><small>Ground output in approved knowledge</small></article>
+        <article><i>03</i><b>Agent</b><small>Apply bounded specialist reasoning</small></article>
+        <article><i>04</i><b>MCP</b><small>Reach governed external capabilities</small></article>
+        <article><i>05</i><b>Service</b><small>Publish a reusable outcome contract</small></article>
+        <article><i>06</i><b>Solution</b><small>Deliver the complete user experience</small></article>
+        <article><i>07</i><b>Trust</b><small>Preserve evidence, policy, and history</small></article>
+      </div>
+      <footer class="learning-orbit-core"><span>Your learning goal</span><strong data-learning-goal-label>Understand</strong><small>Choose a path below and change depth at any time.</small></footer>
     </div>
   </div>
 
@@ -1268,7 +1271,7 @@ LEARNING = """
     </div>
   </section>
 
-  <section id="learning-path" class="container learning-route" aria-labelledby="learning-route-title">
+  <section id="visual-learning-cards" class="container learning-route" aria-labelledby="learning-route-title">
     <div class="learning-route-summary">
       <div>
         <p class="section-kicker">Interactive learning path</p>
@@ -1277,18 +1280,19 @@ LEARNING = """
       </div>
       <div class="learning-route-meta"><span data-learning-route-time>15 minutes</span><span>9 visual lessons</span><span>No prerequisites</span></div>
     </div>
-    <div class="learning-lesson-grid" role="group" aria-label="Choose a visual lesson">
-      <button class="learning-lesson-card active" type="button" data-learning-step="ai" aria-pressed="true" aria-controls="learning-lesson-board"><span>01</span><i>AI</i><b>AI and LLMs</b><small>What models can and cannot do</small></button>
-      <button class="learning-lesson-card" type="button" data-learning-step="rag" aria-pressed="false" aria-controls="learning-lesson-board"><span>02</span><i>RAG</i><b>Grounded knowledge</b><small>Retrieve authorized context with citations</small></button>
-      <button class="learning-lesson-card" type="button" data-learning-step="agents" aria-pressed="false" aria-controls="learning-lesson-board"><span>03</span><i>AG</i><b>AI Agents</b><small>Bounded reasoning with typed contracts</small></button>
-      <button class="learning-lesson-card" type="button" data-learning-step="mcp" aria-pressed="false" aria-controls="learning-lesson-board"><span>04</span><i>MCP</i><b>Model Context Protocol</b><small>Governed access to external capabilities</small></button>
-      <button class="learning-lesson-card" type="button" data-learning-step="workflows" aria-pressed="false" aria-controls="learning-lesson-board"><span>05</span><i>WF</i><b>Workflows</b><small>Durable coordination, retries, and approval</small></button>
-      <button class="learning-lesson-card" type="button" data-learning-step="services" aria-pressed="false" aria-controls="learning-lesson-board"><span>06</span><i>SV</i><b>Services</b><small>Stable reusable business contracts</small></button>
-      <button class="learning-lesson-card" type="button" data-learning-step="solutions" aria-pressed="false" aria-controls="learning-lesson-board"><span>07</span><i>SO</i><b>Solutions</b><small>Complete user-facing compositions</small></button>
-      <button class="learning-lesson-card" type="button" data-learning-step="contextweaver" aria-pressed="false" aria-controls="learning-lesson-board"><span>08</span><i>CW</i><b>ContextWeaver</b><small>Cerebro, Weave, and Loom together</small></button>
-      <button class="learning-lesson-card" type="button" data-learning-step="evidence" aria-pressed="false" aria-controls="learning-lesson-board"><span>09</span><i>EV</i><b>Verified result</b><small>Evidence, receipts, citations, and history</small></button>
+    <div class="learning-lesson-grid" role="group" aria-label="Choose a visual concept card">
+      <button class="learning-lesson-card active" type="button" data-learning-step="ai" aria-pressed="true" aria-controls="learning-lesson-board"><span class="learning-card-number">01</span><i>AI</i><b>AI and LLMs</b><small>What models can and cannot do</small><span class="learning-mini-diagram"><em>Prompt</em><u>→</u><em>Model</em><u>→</u><em>Validate</em></span></button>
+      <button class="learning-lesson-card" type="button" data-learning-step="rag" aria-pressed="false" aria-controls="learning-lesson-board"><span class="learning-card-number">02</span><i>RAG</i><b>Grounded knowledge</b><small>Retrieve authorized context with citations</small><span class="learning-mini-diagram"><em>Sources</em><u>→</u><em>Retrieve</em><u>→</u><em>Cite</em></span></button>
+      <button class="learning-lesson-card" type="button" data-learning-step="agents" aria-pressed="false" aria-controls="learning-lesson-board"><span class="learning-card-number">03</span><i>AG</i><b>AI Agents</b><small>Bounded reasoning with typed contracts</small><span class="learning-mini-diagram"><em>Observe</em><u>→</u><em>Act</em><u>→</u><em>Stop</em></span></button>
+      <button class="learning-lesson-card" type="button" data-learning-step="mcp" aria-pressed="false" aria-controls="learning-lesson-board"><span class="learning-card-number">04</span><i>MCP</i><b>Model Context Protocol</b><small>Governed access to external capabilities</small><span class="learning-mini-diagram"><em>Discover</em><u>→</u><em>Allow</em><u>→</u><em>Invoke</em></span></button>
+      <button class="learning-lesson-card" type="button" data-learning-step="workflows" aria-pressed="false" aria-controls="learning-lesson-board"><span class="learning-card-number">05</span><i>WF</i><b>Workflows</b><small>Durable coordination, retries, and approval</small><span class="learning-mini-diagram"><em>Plan</em><u>→</u><em>Save</em><u>→</u><em>Finish</em></span></button>
+      <button class="learning-lesson-card" type="button" data-learning-step="services" aria-pressed="false" aria-controls="learning-lesson-board"><span class="learning-card-number">06</span><i>SV</i><b>Services</b><small>Stable reusable business contracts</small><span class="learning-mini-diagram"><em>Request</em><u>→</u><em>Run</em><u>→</u><em>Return</em></span></button>
+      <button class="learning-lesson-card" type="button" data-learning-step="solutions" aria-pressed="false" aria-controls="learning-lesson-board"><span class="learning-card-number">07</span><i>SO</i><b>Solutions</b><small>Complete user-facing compositions</small><span class="learning-mini-diagram"><em>Intent</em><u>→</u><em>Services</em><u>→</u><em>Outcome</em></span></button>
+      <button class="learning-lesson-card" type="button" data-learning-step="contextweaver" aria-pressed="false" aria-controls="learning-lesson-board"><span class="learning-card-number">08</span><i>CW</i><b>ContextWeaver</b><small>Cerebro, Weave, and Loom together</small><span class="learning-mini-diagram"><em>Cerebro</em><u>→</u><em>Weave</em><u>→</u><em>Loom</em></span></button>
+      <button class="learning-lesson-card" type="button" data-learning-step="evidence" aria-pressed="false" aria-controls="learning-lesson-board"><span class="learning-card-number">09</span><i>EV</i><b>Verified result</b><small>Evidence, receipts, citations, and history</small><span class="learning-mini-diagram"><em>Capture</em><u>→</u><em>Score</em><u>→</u><em>Preserve</em></span></button>
     </div>
     <article id="learning-lesson-board" class="learning-lesson-board" data-learning-route-detail aria-live="polite" aria-atomic="true">
+      <div class="learning-poster-label"><span>Visual concept card</span><b>Select any card above to change this explainer</b></div>
       <header class="learning-board-head">
         <div><span data-learning-step-label>Lesson 01 · Foundation</span><h3 data-learning-step-title>What are AI and large language models?</h3><p data-learning-step-copy>A language model predicts useful language from learned patterns. It can explain, summarize, and draft—but it does not know enterprise truth or hold authority to act.</p></div>
         <div class="learning-board-mark" data-learning-step-mark aria-hidden="true">AI</div>
@@ -1307,6 +1311,11 @@ LEARNING = """
       </section>
       <footer class="learning-board-takeaway"><div><span>Key takeaway</span><strong data-learning-step-takeaway>A model produces possibilities. A governed platform decides what is trusted, permitted, and recorded.</strong></div><a class="button compact" data-learning-step-link href="overview.html">Explore the platform view <span aria-hidden="true">→</span></a></footer>
     </article>
+    <div class="learning-poster-gallery-head">
+      <div><p class="section-kicker">Keep and revisit</p><h2>Every lesson as a complete visual learning card.</h2></div>
+      <p>Scan the cards in order or jump directly to the concept you need. Each card uses the same learning pattern: definition, purpose, concepts, flow, and takeaway.</p>
+    </div>
+    <div class="learning-poster-gallery" data-learning-poster-gallery aria-label="Complete visual learning card collection"></div>
   </section>
 
   <section id="agent-learning" class="container learning-deep-dive" aria-labelledby="agent-deep-dive-title">

@@ -567,6 +567,45 @@
         link: "Explore governance and proof",
       },
     };
+    const posterGallery = learningAtlas.querySelector("[data-learning-poster-gallery]");
+    if (posterGallery) {
+      posterGallery.innerHTML = Object.entries(lessons).map(([slug, lesson], lessonIndex) => `
+        <article class="learning-poster-card" id="learning-card-${slug}">
+          <header class="learning-poster-card__head">
+            <span>Visual lesson ${String(lessonIndex + 1).padStart(2, "0")}</span>
+            <i aria-hidden="true">${lesson.mark}</i>
+            <h3>${lesson.title}</h3>
+            <p>${lesson.copy}</p>
+          </header>
+          <div class="learning-poster-card__intro">
+            <section>
+              <span>What it is</span>
+              <p>${lesson.definition}</p>
+            </section>
+            <section>
+              <span>Why it matters</span>
+              <ul>${lesson.why.map((item) => `<li>${item}</li>`).join("")}</ul>
+            </section>
+          </div>
+          <section class="learning-poster-card__section">
+            <h4>Four core concepts</h4>
+            <div class="learning-poster-card__concepts">
+              ${lesson.concepts.map(([title, copy], conceptIndex) => `<article><span>${String(conceptIndex + 1).padStart(2, "0")}</span><b>${title}</b><p>${copy}</p></article>`).join("")}
+            </div>
+          </section>
+          <section class="learning-poster-card__section">
+            <h4>How it works</h4>
+            <div class="learning-poster-card__flow">
+              ${lesson.flow.map(([number, title, copy], flowIndex) => `<article><span>${number}</span><b>${title}</b><p>${copy}</p></article>${flowIndex < lesson.flow.length - 1 ? '<i aria-hidden="true">→</i>' : ""}`).join("")}
+            </div>
+          </section>
+          <footer class="learning-poster-card__takeaway">
+            <span>Key takeaway</span>
+            <strong>${lesson.takeaway}</strong>
+          </footer>
+        </article>
+      `).join("");
+    }
     const lessonButtons = [...learningAtlas.querySelectorAll("[data-learning-step]")];
     const lessonLabel = learningAtlas.querySelector("[data-learning-step-label]");
     const lessonTitle = learningAtlas.querySelector("[data-learning-step-title]");
