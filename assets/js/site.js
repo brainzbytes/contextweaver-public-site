@@ -392,16 +392,7 @@
       if (goalLabel) goalLabel.textContent = goal.label;
       if (guideTitle) guideTitle.textContent = goal.guide;
       if (guideList) guideList.innerHTML = goal.items.map((item) => `<li>${item}</li>`).join("");
-      const url = new URL(location.href);
-      url.searchParams.set("goal", selectedGoal);
-      url.searchParams.set("depth", selectedDepth);
-      history.replaceState({}, "", url);
     };
-
-    const requestedGoal = new URLSearchParams(location.search).get("goal");
-    const requestedDepth = new URLSearchParams(location.search).get("depth");
-    if (requestedGoal && goals[requestedGoal]) selectedGoal = requestedGoal;
-    if (requestedDepth && depthTimes[requestedDepth]) selectedDepth = requestedDepth;
 
     const lessons = {
       ai: {
@@ -617,9 +608,15 @@
     const lessonFlow = learningAtlas.querySelector("[data-learning-step-flow]");
     const lessonTakeaway = learningAtlas.querySelector("[data-learning-step-takeaway]");
     const lessonLink = learningAtlas.querySelector("[data-learning-step-link]");
+    const lessonBoard = learningAtlas.querySelector("[data-learning-route-detail]");
+    const lessonProgress = learningAtlas.querySelector("[data-learning-progress]");
+    const previousLessonButton = learningAtlas.querySelector("[data-learning-previous]");
+    const nextLessonButton = learningAtlas.querySelector("[data-learning-next]");
+    const lessonOrder = Object.keys(lessons);
     const renderLesson = () => {
       const lesson = lessons[selectedLesson];
       if (!lesson) return;
+      const lessonIndex = lessonOrder.indexOf(selectedLesson);
       if (lessonLabel) lessonLabel.textContent = lesson.label;
       if (lessonTitle) lessonTitle.textContent = lesson.title;
       if (lessonCopy) lessonCopy.textContent = lesson.copy;
@@ -631,6 +628,9 @@
       if (lessonTakeaway) lessonTakeaway.textContent = lesson.takeaway;
       if (lessonLink) lessonLink.href = lesson.href;
       if (lessonLink) lessonLink.firstChild.textContent = `${lesson.link} `;
+      if (lessonProgress) lessonProgress.textContent = `Lesson ${lessonIndex + 1} of ${lessonOrder.length}`;
+      if (previousLessonButton) previousLessonButton.disabled = lessonIndex === 0;
+      if (nextLessonButton) nextLessonButton.disabled = lessonIndex === lessonOrder.length - 1;
       lessonButtons.forEach((button) => {
         const active = button.dataset.learningStep === selectedLesson;
         button.classList.toggle("active", active);
@@ -645,7 +645,20 @@
     lessonButtons.forEach((button) => button.addEventListener("click", () => {
       selectedLesson = button.dataset.learningStep;
       renderLesson();
+      lessonBoard?.scrollIntoView({ behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth", block: "start" });
     }));
+    previousLessonButton?.addEventListener("click", () => {
+      const lessonIndex = lessonOrder.indexOf(selectedLesson);
+      if (lessonIndex <= 0) return;
+      selectedLesson = lessonOrder[lessonIndex - 1];
+      renderLesson();
+    });
+    nextLessonButton?.addEventListener("click", () => {
+      const lessonIndex = lessonOrder.indexOf(selectedLesson);
+      if (lessonIndex < 0 || lessonIndex >= lessonOrder.length - 1) return;
+      selectedLesson = lessonOrder[lessonIndex + 1];
+      renderLesson();
+    });
 
     const goalButtons = [...learningAtlas.querySelectorAll("[data-learning-goal]")];
     goalButtons.forEach((button) => {

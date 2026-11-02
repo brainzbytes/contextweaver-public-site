@@ -142,7 +142,7 @@ def page(name: str, title: str, description: str, content: str) -> str:
       <meta name="theme-color" content="#07110f">
       <title>{title}</title>
       <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
-      <link rel="stylesheet" href="assets/css/site.css?v=20261102-3">
+      <link rel="stylesheet" href="assets/css/site.css?v=20261102-4">
     </head>
     <body data-page="{name}">
       {intro}
@@ -152,7 +152,7 @@ def page(name: str, title: str, description: str, content: str) -> str:
       </main>
       {spatial_dialog}
       {footer()}
-      <script src="assets/js/site.js?v=20261102-3"></script>
+      <script src="assets/js/site.js?v=20261102-4"></script>
     </body>
     </html>
     """).lstrip()
@@ -1214,71 +1214,49 @@ LEARNING = """
 <section class="learning-atlas" data-learning-atlas>
   <div class="container learning-hero">
     <div class="learning-hero-copy">
-      <p class="eyebrow">ContextWeaver Learning Atlas</p>
-      <h1>Understand the whole platform. <em>At your depth.</em></h1>
-      <p class="learning-lede">Start with a 60-second explanation or explore the contracts, trust boundaries, data stores, cluster, identity, failure modes, and recovery paths behind a governed AI outcome.</p>
+      <p class="eyebrow">Visual learning center</p>
+      <h1>Pick a concept. <em>Learn it visually.</em></h1>
+      <p class="learning-lede">Choose any topic to open one complete infographic: what it is, why it matters, the core concepts, the flow, and the key takeaway.</p>
       <div class="learning-actions">
-        <a class="button primary" href="#learning-path">Start my path <span aria-hidden="true">→</span></a>
-        <a class="button" href="#component-atlas">Explore every component</a>
+        <a class="button primary" href="#visual-learning-cards">Choose a concept <span aria-hidden="true">↓</span></a>
+        <a class="button" href="#learning-curriculum-title">Browse the full curriculum</a>
       </div>
       <div class="learning-proof" aria-label="Learning Atlas scope">
-        <span><b>30</b> chapters</span>
-        <span><b>48</b> local services</span>
-        <span><b>10</b> audience lenses</span>
-        <span><b>1</b> canonical truth</span>
+        <span><b>9</b> visual concepts</span>
+        <span><b>8</b> curriculum areas</span>
+        <span><b>48</b> platform services</span>
+        <span><b>0</b> prerequisites</span>
       </div>
     </div>
     <div class="learning-orbit learning-overview-infographic" aria-label="How governed AI becomes a trusted outcome">
       <header>
-        <span>Learning map</span>
-        <h2>How governed AI becomes a trusted outcome</h2>
-        <p>Each layer adds context, capability, durability, reuse, or proof.</p>
+        <span>Start anywhere</span>
+        <h2>Choose what you want to understand.</h2>
+        <p>Every item opens its complete visual lesson below.</p>
       </header>
       <div class="learning-infographic-flow">
-        <article><i>01</i><b>AI</b><small>Generate useful possibilities</small></article>
-        <article><i>02</i><b>RAG</b><small>Ground output in approved knowledge</small></article>
-        <article><i>03</i><b>Agent</b><small>Apply bounded specialist reasoning</small></article>
-        <article><i>04</i><b>MCP</b><small>Reach governed external capabilities</small></article>
-        <article><i>05</i><b>Service</b><small>Publish a reusable outcome contract</small></article>
-        <article><i>06</i><b>Solution</b><small>Deliver the complete user experience</small></article>
-        <article><i>07</i><b>Trust</b><small>Preserve evidence, policy, and history</small></article>
+        <button type="button" data-learning-step="ai" aria-controls="learning-lesson-board"><i>01</i><b>AI</b><small>Models and generation</small></button>
+        <button type="button" data-learning-step="rag" aria-controls="learning-lesson-board"><i>02</i><b>RAG</b><small>Grounded knowledge</small></button>
+        <button type="button" data-learning-step="agents" aria-controls="learning-lesson-board"><i>03</i><b>Agent</b><small>Bounded reasoning</small></button>
+        <button type="button" data-learning-step="mcp" aria-controls="learning-lesson-board"><i>04</i><b>MCP</b><small>Governed capabilities</small></button>
+        <button type="button" data-learning-step="workflows" aria-controls="learning-lesson-board"><i>05</i><b>Workflow</b><small>Durable coordination</small></button>
+        <button type="button" data-learning-step="services" aria-controls="learning-lesson-board"><i>06</i><b>Service</b><small>Reusable contracts</small></button>
+        <button type="button" data-learning-step="solutions" aria-controls="learning-lesson-board"><i>07</i><b>Solution</b><small>User-facing outcomes</small></button>
+        <button type="button" data-learning-step="contextweaver" aria-controls="learning-lesson-board"><i>08</i><b>Platform</b><small>Cerebro, Weave, Loom</small></button>
+        <button type="button" data-learning-step="evidence" aria-controls="learning-lesson-board"><i>09</i><b>Evidence</b><small>Trust and proof</small></button>
       </div>
-      <footer class="learning-orbit-core"><span>Your learning goal</span><strong data-learning-goal-label>Understand</strong><small>Choose a path below and change depth at any time.</small></footer>
+      <footer class="learning-map-instruction"><strong>Select a topic</strong><span>Its visual explanation opens immediately below.</span></footer>
     </div>
   </div>
-
-  <section class="container learning-config" aria-labelledby="learning-config-title">
-    <div class="learning-config-head">
-      <div><p class="section-kicker">Shape the experience</p><h2 id="learning-config-title">What are you here to do?</h2></div>
-      <p>No lock-in. These choices only prioritize the right explanations and examples.</p>
-    </div>
-    <div class="learning-control-group" role="group" aria-label="Select your goal">
-      <button class="learning-choice active" type="button" data-learning-goal="understand" aria-pressed="true"><span>01</span><b>Understand</b><small>Plain language</small></button>
-      <button class="learning-choice" type="button" data-learning-goal="explain" aria-pressed="false"><span>02</span><b>Explain</b><small>Marketing story</small></button>
-      <button class="learning-choice" type="button" data-learning-goal="sell" aria-pressed="false"><span>03</span><b>Sell</b><small>Problems and value</small></button>
-      <button class="learning-choice" type="button" data-learning-goal="build" aria-pressed="false"><span>04</span><b>Build</b><small>Studio and code</small></button>
-      <button class="learning-choice" type="button" data-learning-goal="architect" aria-pressed="false"><span>05</span><b>Architect</b><small>Boundaries and scale</small></button>
-      <button class="learning-choice" type="button" data-learning-goal="operate" aria-pressed="false"><span>06</span><b>Operate</b><small>Health and recovery</small></button>
-    </div>
-    <div class="learning-depth-row">
-      <span>Depth</span>
-      <div role="group" aria-label="Select explanation depth">
-        <button class="learning-depth active" type="button" data-learning-depth="essentials" aria-pressed="true">Essentials · 15 min</button>
-        <button class="learning-depth" type="button" data-learning-depth="practitioner" aria-pressed="false">Practitioner · 60 min</button>
-        <button class="learning-depth" type="button" data-learning-depth="deep" aria-pressed="false">Deep dive · complete</button>
-      </div>
-      <button class="learning-jargon" type="button" data-learning-jargon aria-pressed="false">Explain jargon inline</button>
-    </div>
-  </section>
 
   <section id="visual-learning-cards" class="container learning-route" aria-labelledby="learning-route-title">
     <div class="learning-route-summary">
       <div>
-        <p class="section-kicker">Interactive learning path</p>
-        <h2 id="learning-route-title" data-learning-route-title>From AI basics to one governed result</h2>
-        <p data-learning-route-copy>Learn why language models need enterprise knowledge, bounded Agents, approved capabilities, durable Workflows, policy, and evidence before they can produce trusted business outcomes.</p>
+        <p class="section-kicker">Choose one concept</p>
+        <h2 id="learning-route-title">What do you want to learn?</h2>
+        <p>Select a card. The complete visual explanation appears directly beneath the cards.</p>
       </div>
-      <div class="learning-route-meta"><span data-learning-route-time>15 minutes</span><span>9 visual lessons</span><span>No prerequisites</span></div>
+      <div class="learning-route-meta"><span>Click any card</span><span>9 visual lessons</span><span>Previous / Next included</span></div>
     </div>
     <div class="learning-lesson-grid" role="group" aria-label="Choose a visual concept card">
       <button class="learning-lesson-card active" type="button" data-learning-step="ai" aria-pressed="true" aria-controls="learning-lesson-board"><span class="learning-card-number">01</span><i>AI</i><b>AI and LLMs</b><small>What models can and cannot do</small><span class="learning-mini-diagram"><em>Prompt</em><u>→</u><em>Model</em><u>→</u><em>Validate</em></span></button>
@@ -1292,7 +1270,13 @@ LEARNING = """
       <button class="learning-lesson-card" type="button" data-learning-step="evidence" aria-pressed="false" aria-controls="learning-lesson-board"><span class="learning-card-number">09</span><i>EV</i><b>Verified result</b><small>Evidence, receipts, citations, and history</small><span class="learning-mini-diagram"><em>Capture</em><u>→</u><em>Score</em><u>→</u><em>Preserve</em></span></button>
     </div>
     <article id="learning-lesson-board" class="learning-lesson-board" data-learning-route-detail aria-live="polite" aria-atomic="true">
-      <div class="learning-poster-label"><span>Visual concept card</span><b>Select any card above to change this explainer</b></div>
+      <div class="learning-lesson-toolbar">
+        <span data-learning-progress>Lesson 1 of 9</span>
+        <div>
+          <button type="button" data-learning-previous>← Previous</button>
+          <button type="button" data-learning-next>Next lesson →</button>
+        </div>
+      </div>
       <header class="learning-board-head">
         <div><span data-learning-step-label>Lesson 01 · Foundation</span><h3 data-learning-step-title>What are AI and large language models?</h3><p data-learning-step-copy>A language model predicts useful language from learned patterns. It can explain, summarize, and draft—but it does not know enterprise truth or hold authority to act.</p></div>
         <div class="learning-board-mark" data-learning-step-mark aria-hidden="true">AI</div>
@@ -1311,14 +1295,14 @@ LEARNING = """
       </section>
       <footer class="learning-board-takeaway"><div><span>Key takeaway</span><strong data-learning-step-takeaway>A model produces possibilities. A governed platform decides what is trusted, permitted, and recorded.</strong></div><a class="button compact" data-learning-step-link href="overview.html">Explore the platform view <span aria-hidden="true">→</span></a></footer>
     </article>
-    <div class="learning-poster-gallery-head">
+    <div class="learning-poster-gallery-head" hidden>
       <div><p class="section-kicker">Keep and revisit</p><h2>Every lesson as a complete visual learning card.</h2></div>
       <p>Scan the cards in order or jump directly to the concept you need. Each card uses the same learning pattern: definition, purpose, concepts, flow, and takeaway.</p>
     </div>
-    <div class="learning-poster-gallery" data-learning-poster-gallery aria-label="Complete visual learning card collection"></div>
+    <div class="learning-poster-gallery" data-learning-poster-gallery aria-label="Complete visual learning card collection" hidden></div>
   </section>
 
-  <section id="agent-learning" class="container learning-deep-dive" aria-labelledby="agent-deep-dive-title">
+  <section id="agent-learning" class="container learning-deep-dive" aria-labelledby="agent-deep-dive-title" hidden>
     <div class="learning-deep-head">
       <div><p class="section-kicker">See progressive depth in action</p><h2 id="agent-deep-dive-title">What is an AI Agent?</h2></div>
       <span class="learning-status">Foundation concept</span>
