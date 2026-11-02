@@ -904,51 +904,51 @@ SOLUTIONS = """
 """
 
 ARCHITECTURE = """
-<section id="solution-capability-factory" class="container architecture-atlas-hero">
+<section id="platform-plane-architecture" class="container architecture-atlas-hero">
   <div class="architecture-spatial-hero">
     <div class="architecture-atlas-intro">
       <p class="eyebrow">Master architecture</p>
-      <h1>See the Universal Solution and Capability Factory. <em>Then inspect every governed layer.</em></h1>
-      <p class="lede">This is the approved top-level ContextWeaver architecture: enterprise inputs move through Unified Studio, typed contracts, admission, the immutable registry, Loom deployment, runtime discovery, Cerebros and Weave composition, governed execution, and evidence-backed Solutions.</p>
+      <h1>See the Eight Platform Planes. <em>Then inspect every governed layer.</em></h1>
+      <p class="lede">This is the approved top-level ContextWeaver architecture: Experience, Governance, Registry, Agents + MCP, Workflow runtime, RAG + memory + models, Evidence, and Infrastructure are coordinated by Cerebro, Weave, and Loom.</p>
       <div class="hero-actions">
-        <a class="button primary" href="#interactive-factory-architecture">Open interactive factory</a>
-        <a class="button" href="diagrams/service-factory.svg">Download factory SVG</a>
+        <a class="button primary" href="#interactive-platform-architecture">Open interactive architecture</a>
+        <a class="button" href="diagrams/platform-planes.svg">Download architecture SVG</a>
       </div>
     </div>
     <figure class="spatial-visual" data-reveal>
-      <button class="spatial-visual-stage spatial-visual-trigger" type="button" data-spatial-open data-spatial-type="image" data-spatial-src="assets/media/service-factory-static-master.png?v=20261102-2" data-spatial-title="Universal Solution and Capability Factory" aria-label="Open large view: Universal Solution and Capability Factory">
-        <img src="assets/media/service-factory-static-master.png?v=20261102-2" alt="Universal Solution and Capability Factory with ten governed stages on consistent angled rectangular slabs, from enterprise inputs to evidence-backed Solutions." loading="eager">
+      <button class="spatial-visual-stage spatial-visual-trigger" type="button" data-spatial-open data-spatial-type="image" data-spatial-src="assets/media/platform-planes-static-master.png?v=20261102-3" data-spatial-title="Eight Platform Planes" aria-label="Open large view: Eight Platform Planes">
+        <img src="assets/media/platform-planes-static-master.png?v=20261102-3" alt="Eight Platform Planes with Experience, Governance, Registry, Agents and MCP, Workflow runtime, RAG memory and models, Evidence, Infrastructure, Cerebro, Weave, and Loom on three angled rectangular slabs." loading="eager">
         <span class="spatial-visual-expand" aria-hidden="true">Expand ↗</span>
       </button>
       <figcaption>
         <span>Approved master architecture</span>
-        <strong>One governed factory from intent to outcome</strong>
-        <p>The same ten-stage system creates, admits, deploys, composes, executes, and continuously improves reusable AI capabilities and complete Solutions.</p>
+        <strong>Eight platform planes coordinated by Cerebro, Weave, and Loom</strong>
+        <p>The eleven components preserve the approved platform hierarchy, trust boundaries, and portable infrastructure relationship without changing the architecture model.</p>
       </figcaption>
     </figure>
   </div>
 </section>
 
-<section id="interactive-factory-architecture" class="container section compact">
+<section id="interactive-platform-architecture" class="container section compact">
   <div class="section-head">
-    <div><p class="section-kicker">Interactive factory architecture</p><h2>Walk the complete governed flow.</h2></div>
-    <p>Use Play, Pause, Previous, Next, Reset, stage selection, or component inspection to follow all ten stages without changing the approved factory composition.</p>
+    <div><p class="section-kicker">Interactive platform architecture</p><h2>Inspect every approved plane and platform component.</h2></div>
+    <p>Use Play, Pause, Previous, Next, Reset, stage selection, or component inspection to explore the same eleven-component model shown above.</p>
   </div>
   <div class="diagram-shell architecture-atlas-shell" data-reveal>
     <div class="diagram-toolbar">
-      <strong>Universal Solution and Capability Factory</strong>
-      <button class="diagram-toolbar-action" type="button" data-spatial-open data-spatial-type="iframe" data-spatial-src="diagrams/service-factory.html?popout=1&amp;v=20261102-2" data-spatial-title="Universal Solution and Capability Factory">Expand view ↗</button>
+      <strong>Eight Platform Planes</strong>
+      <button class="diagram-toolbar-action" type="button" data-spatial-open data-spatial-type="iframe" data-spatial-src="diagrams/platform-planes.html?popout=1&amp;v=20261102-3" data-spatial-title="Eight Platform Planes">Expand view ↗</button>
     </div>
-    <iframe class="diagram-frame architecture-spatial-frame" src="diagrams/service-factory.html?v=20261102-2" title="Universal Solution and Capability Factory" loading="eager" sandbox="allow-scripts allow-same-origin"></iframe>
+    <iframe class="diagram-frame architecture-spatial-frame" src="diagrams/platform-planes.html?v=20261102-3" title="Eight Platform Planes" loading="eager" sandbox="allow-scripts allow-same-origin"></iframe>
   </div>
-  <p class="diagram-note">Motion follows the active route only. Labels, captions, line styles, and stage controls keep the architecture readable when animation is paused or reduced.</p>
-  <noscript><p class="diagram-note">JavaScript is required for the interactive player. <a href="diagrams/service-factory.svg">Open the static factory architecture.</a></p></noscript>
+  <p class="diagram-note">Motion follows the active route only. Labels, captions, line styles, and stage controls keep the approved architecture readable when animation is paused or reduced.</p>
+  <noscript><p class="diagram-note">JavaScript is required for the interactive player. <a href="diagrams/platform-planes.svg">Open the static platform architecture.</a></p></noscript>
 </section>
 
 <section class="container section compact architecture-explorer-intro">
   <div class="section-head">
-    <div><p class="section-kicker">Detailed architecture explorers</p><h2>Zoom from the master factory into one concern at a time.</h2></div>
-    <p>The diagrams below share the same semantic model and focus separately on platform planes, capability creation, lifecycle promotion, governed runtime, and scale.</p>
+    <div><p class="section-kicker">Detailed architecture explorers</p><h2>Zoom from the master architecture into one concern at a time.</h2></div>
+    <p>The diagrams below preserve the same product semantics and focus separately on capability lifecycle, governed runtime, and scale.</p>
   </div>
   <div class="card amber"><div class="meta">Diagram semantics</div><h3>Motion communicates meaning.</h3><ul><li>Solid pulse: active request or data</li><li>Dashed pulse: identity, policy, or authorization</li><li>Green: validated output or success</li><li>Amber: approval, waiting, retry, or compensation</li><li>Red: denial or failed validation</li><li>Parallel pulses: concurrent Agent work</li></ul></div>
 </section>
@@ -956,7 +956,6 @@ ARCHITECTURE = """
 <section id="explore" class="container section compact">
   <div class="section-head"><div><p class="section-kicker">Interactive diagrams</p><h2>Clickable, controllable, and readable without animation.</h2></div><p>Every player supports Play, Pause, Next, Previous, Reset, stage selection, component inspection, keyboard focus, reduced motion, and a textual explanation.</p></div>
   <div style="display:grid;gap:50px">
-    <section id="platform-planes">{platform_planes}</section>
     <section id="capability-lifecycle">{capability_lifecycle}</section>
     <section id="governed-run">{governed_run}</section>
     <section id="scale-path">{scale_path}</section>
@@ -994,7 +993,7 @@ ARCHITECTURE = """
   <div class="section-head"><div><p class="section-kicker">Portable assets</p><h2>Use the architecture in reviews, proposals, presentations, and implementation planning.</h2></div><p>The editable source contains one Draw.io page per diagram. Static SVG works for print and documentation; GIF works when an interactive player is unavailable.</p></div>
   <div class="grid four">
     <article class="card mint"><div class="meta">Editable</div><h3>Draw.io source</h3><p>Four pages with semantic colors, orthogonal connectors, grouped boundaries, and stable component names.</p><a class="card-link" href="diagrams/contextweaver-public-architecture.drawio">Download .drawio →</a></article>
-    <article class="card sky"><div class="meta">Interactive</div><h3>HTML + SVG players</h3><p>Deterministic stages, component details, manual controls, accessible captions, and reduced-motion behavior.</p><a class="card-link" href="diagrams/service-factory.html">Open a player →</a></article>
+    <article class="card sky"><div class="meta">Interactive</div><h3>HTML + SVG players</h3><p>Deterministic stages, component details, manual controls, accessible captions, and reduced-motion behavior.</p><a class="card-link" href="diagrams/platform-planes.html">Open a player →</a></article>
     <article class="card violet"><div class="meta">Documentation</div><h3>Static SVG</h3><p>Responsive vector fallback with all components and labels visible when animation or scripting is unavailable.</p><a class="card-link" href="diagrams/governed-run.svg">Open SVG →</a></article>
     <article class="card amber"><div class="meta">Presentation</div><h3>Animated GIF</h3><p>Meaningful stages at one second per frame, optimized for readability rather than decorative speed.</p><a class="card-link" href="diagrams/capability-lifecycle.gif">Open GIF →</a></article>
   </div>

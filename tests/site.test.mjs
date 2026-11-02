@@ -180,7 +180,7 @@ test("product hierarchy and consumer journey remain explicit", async () => {
     assert.match(story, new RegExp(provider));
   }
   assert.match(overview, /intent-to-evidence\.png\?v=20261102-1/);
-  assert.match(architecture, /diagrams\/service-factory\.html\?v=20261102-2/);
+  assert.match(architecture, /diagrams\/platform-planes\.html\?v=20261102-3/);
   for (const concept of [
     "MCP capability",
     "bounded reasoning specialist",
@@ -226,9 +226,26 @@ test("product hierarchy and consumer journey remain explicit", async () => {
   assert.match(solutions, /delegated/i);
   assert.match(solutions, /Open run-history deep dive/);
   assert.match(solutions, /Open creation and dry runs/);
-  assert.match(architecture, /Universal Solution and Capability Factory/);
-  assert.match(architecture, /all ten stages/);
-  assert.match(architecture, /diagrams\/service-factory\.svg/);
+  for (const component of [
+    "Experience",
+    "Governance",
+    "Registry",
+    "Agents + MCP",
+    "Workflow runtime",
+    "RAG + memory + models",
+    "Evidence",
+    "Infrastructure",
+    "Cerebro",
+    "Weave",
+    "Loom",
+  ]) {
+    assert.match(architecture, new RegExp(component.replace(/[+]/g, "\\+")));
+  }
+  assert.match(architecture, /assets\/media\/platform-planes-static-master\.png\?v=20261102-3/);
+  assert.match(architecture, /diagrams\/platform-planes\.svg/);
+  assert.doesNotMatch(architecture, /Universal Solution and Capability Factory/);
+  assert.doesNotMatch(architecture, /assets\/media\/service-factory-static-master\.png/);
+  assert.doesNotMatch(architecture, /diagrams\/service-factory\.html/);
   assert.doesNotMatch(architecture, /architecture-block-view/);
   assert.match(story, /user-facing Solution/);
   assert.match(landing, /data-site-intro/);
@@ -295,9 +312,9 @@ test("product hierarchy and consumer journey remain explicit", async () => {
   assert.match(siteJs, /page === "architecture" && !location\.hash/);
   assert.match(siteJs, /history\.scrollRestoration = "manual"/);
   assert.doesNotMatch(companyIntro, /contextweaver-spatial-architecture\.html/);
-  assert.match(architecture, /id="interactive-factory-architecture"/);
-  assert.match(architecture, /service-factory-static-master\.png\?v=20261102-2/);
-  assert.match(architecture, /diagrams\/service-factory\.html\?v=20261102-2/);
+  assert.match(architecture, /id="interactive-platform-architecture"/);
+  assert.match(architecture, /platform-planes-static-master\.png\?v=20261102-3/);
+  assert.match(architecture, /diagrams\/platform-planes\.html\?v=20261102-3/);
   assert.doesNotMatch(architecture, /ContextWeaver NextGen Architecture Atlas/);
   assert.doesNotMatch(architecture, /contextweaver-nextgen-architecture\.html/);
   assert.doesNotMatch(architecture, /experiences\/contextweaver-spatial-r3f/);

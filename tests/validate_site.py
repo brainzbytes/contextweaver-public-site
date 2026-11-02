@@ -275,14 +275,35 @@ def validate_product_semantics() -> None:
         "One typed Workflow can support multiple Services",
     ):
         assert_true(relationship in solutions, f"Solutions must explain: {relationship}")
+    for component in (
+        "Experience",
+        "Governance",
+        "Registry",
+        "Agents + MCP",
+        "Workflow runtime",
+        "RAG + memory + models",
+        "Evidence",
+        "Infrastructure",
+        "Cerebro",
+        "Weave",
+        "Loom",
+    ):
+        assert_true(component in architecture, f"Architecture must preserve the approved {component} component")
     assert_true(
-        "Universal Solution and Capability Factory" in architecture,
-        "Architecture must lead with the approved factory",
+        "assets/media/platform-planes-static-master.png?v=20261102-3" in architecture,
+        "Architecture must lead with the approved Eight Platform Planes static master",
     )
-    assert_true("all ten stages" in architecture, "Architecture must explain the complete ten-stage factory")
     assert_true(
-        "diagrams/service-factory.svg" in architecture,
-        "Architecture must link to the factory static fallback",
+        "diagrams/platform-planes.html?v=20261102-3" in architecture,
+        "Architecture must embed the interactive Eight Platform Planes model",
+    )
+    assert_true(
+        "diagrams/platform-planes.svg" in architecture,
+        "Architecture must link to the Eight Platform Planes static fallback",
+    )
+    assert_true(
+        "Universal Solution and Capability Factory" not in architecture,
+        "The factory flow must not replace the approved platform-plane architecture",
     )
     assert_true("architecture-block-view" not in architecture, "Retired flat architecture blocks remain")
     rendered = "\n".join((ROOT / page).read_text(encoding="utf-8") for page in PAGES)
