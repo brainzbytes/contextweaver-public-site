@@ -232,7 +232,7 @@ test("product hierarchy and consumer journey remain explicit", async () => {
   assert.doesNotMatch(architecture, /architecture-block-view/);
   assert.match(story, /user-facing Solution/);
   assert.match(landing, /data-site-intro/);
-  assert.match(landing, /assets\/js\/site\.js\?v=20261101-21/);
+  assert.match(landing, /assets\/js\/site\.js\?v=20261102-3/);
   assert.match(landing, /data-src="assets\/brand\/brainzbytes-contextweaver-overview\.html\?embedded=1&amp;intro=1&amp;v=20261101-25"/);
   assert.match(landing, /data-intro-skip/);
   assert.match(landing, /data-intro-enter/);
@@ -240,7 +240,7 @@ test("product hierarchy and consumer journey remain explicit", async () => {
   assert.match(landing, /assets\/brand\/brainzbytes-b4\.svg/);
   assert.match(landing, /assets\/brand\/contextweaver-c1\.svg/);
   assert.match(landing, /sandbox="allow-scripts allow-same-origin"/);
-  assert.match(landing, /assets\/css\/site\.css\?v=20261101-23/);
+  assert.match(landing, /assets\/css\/site\.css\?v=20261102-3/);
   assert.doesNotMatch(landing, /assets\/js\/site\.js\?v=20261101-18/);
   assert.match(siteJs, /contextweaver-company-intro-seen/);
   assert.match(siteJs, /brainzbytes-intro-complete/);
