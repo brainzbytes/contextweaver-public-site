@@ -39,14 +39,14 @@ class Node:
 
 
 NODES = (
-    Node("intent", 38, 176, 154, 130, "01 · INTENT", "Approved request", "A goal enters with identity, context, and constraints."),
-    Node("studio", 222, 176, 178, 130, "02 · STUDIO", "Compose the path", "Choose Services, Workflows, Agents, and capabilities."),
-    Node("weave", 438, 168, 258, 138, "05 · WEAVE", "Coordinate the outcome", "Durable orchestration turns approved intent into accountable execution.", LIME),
-    Node("services", 734, 176, 188, 130, "07 · SERVICES", "Execute capabilities", "Typed contracts connect tools, systems, and people."),
-    Node("solution", 952, 176, 210, 130, "09 · SOLUTION", "Deliver the experience", "A complete user-facing outcome with evidence attached.", LIME),
-    Node("cerebros", 222, 344, 218, 130, "04 · CEREBROS", "Reason within bounds", "Specialists interpret context and propose the next safe action."),
-    Node("loom", 490, 344, 218, 130, "06 · LOOM", "Shape the architecture", "Reusable patterns keep every capability composable and portable."),
-    Node("runtime", 758, 344, 218, 130, "08 · RUNTIME", "Govern every run", "Policy, approvals, retries, and state remain visible."),
+    Node("intent", 38, 176, 154, 150, "01 · INTENT", "Approved request", "A goal enters with identity, context, and constraints."),
+    Node("studio", 222, 176, 178, 150, "02 · STUDIO", "Compose the path", "Choose Services, Workflows, Agents, and capabilities."),
+    Node("weave", 438, 168, 258, 158, "05 · WEAVE", "Coordinate the outcome", "Durable orchestration turns approved intent into accountable execution.", LIME),
+    Node("services", 734, 176, 188, 150, "07 · SERVICES", "Execute capabilities", "Typed contracts connect tools, systems, and people."),
+    Node("solution", 952, 176, 210, 150, "09 · SOLUTION", "Deliver the experience", "A complete user-facing outcome with evidence attached.", LIME),
+    Node("cerebros", 222, 344, 218, 145, "04 · CEREBROS", "Reason within bounds", "Specialists interpret context and propose the next safe action."),
+    Node("loom", 490, 344, 218, 145, "06 · LOOM", "Shape the architecture", "Reusable patterns keep every capability composable and portable."),
+    Node("runtime", 758, 344, 218, 145, "08 · RUNTIME", "Govern every run", "Policy, approvals, retries, and state remain visible."),
     Node("knowledge", 38, 526, 330, 108, "CONTEXT PLANE", "Knowledge + models", "Grounded retrieval, approved models, and reusable memory."),
     Node("policy", 435, 526, 330, 108, "03 · TRUST PLANE", "Identity + policy", "Least privilege, consent, isolation, and human control.", AMBER),
     Node("evidence", 832, 526, 330, 108, "10 · EVIDENCE", "Observe + improve", "Receipts, traces, evaluations, and learning close the loop.", LIME),
@@ -123,8 +123,9 @@ def draw_node(draw: ImageDraw.ImageDraw, node: Node, active: bool = False) -> No
     draw.rounded_rectangle((node.x + 14, node.y + 13, node.x + 27, node.y + 26), radius=4, fill=node.accent)
     draw.text((node.x + 36, node.y + 13), node.eyebrow, fill=node.accent if active else MUTED, font=font(11, True))
     title_lines = wrap(node.title, max(14, int(node.w / 12)))
-    draw.multiline_text((node.x + 14, node.y + 39), "\n".join(title_lines[:2]), fill=TEXT, font=font(18, True), spacing=2)
-    subtitle_y = node.y + 66 + max(0, len(title_lines[:2]) - 1) * 18
+    visible_title_lines = title_lines[:2]
+    draw.multiline_text((node.x + 14, node.y + 41), "\n".join(visible_title_lines), fill=TEXT, font=font(17, True), spacing=3)
+    subtitle_y = node.y + 49 + len(visible_title_lines) * 20
     subtitle_lines = wrap(node.subtitle, max(22, int(node.w / 8.6)))
     draw.multiline_text((node.x + 14, subtitle_y), "\n".join(subtitle_lines[:3]), fill=MUTED, font=font(11), spacing=3)
 
@@ -219,8 +220,16 @@ def write_svg() -> None:
                 f'<rect x="{node.x}" y="{node.y}" width="{node.w}" height="{node.h}" rx="16" fill="{SURFACE}" stroke="{LINE}"/>',
                 f'<rect x="{node.x + 14}" y="{node.y + 13}" width="13" height="13" rx="4" fill="{node.accent}"/>',
                 svg_lines(node.x + 36, node.y + 24, [node.eyebrow], 11, MUTED, 700),
-                svg_lines(node.x + 14, node.y + 56, wrap(node.title, max(14, int(node.w / 12)))[:2], 18, TEXT, 700, 20),
-                svg_lines(node.x + 14, node.y + 82, wrap(node.subtitle, max(22, int(node.w / 8.6)))[:3], 11, MUTED, 400, 14),
+                svg_lines(node.x + 14, node.y + 57, wrap(node.title, max(14, int(node.w / 12)))[:2], 17, TEXT, 700, 20),
+                svg_lines(
+                    node.x + 14,
+                    node.y + 55 + len(wrap(node.title, max(14, int(node.w / 12)))[:2]) * 20,
+                    wrap(node.subtitle, max(22, int(node.w / 8.6)))[:3],
+                    11,
+                    MUTED,
+                    400,
+                    14,
+                ),
                 "</g>",
             ]
         )
@@ -236,6 +245,19 @@ def write_drawio() -> None:
     root = ET.SubElement(model, "root")
     ET.SubElement(root, "mxCell", id="0")
     ET.SubElement(root, "mxCell", id="1", parent="0")
+    title = ET.SubElement(
+        root,
+        "mxCell",
+        id="overview-title",
+        value="BrainzBytes ContextWeaver Overview",
+        style=(
+            f"text;html=1;strokeColor=none;fillColor=none;whiteSpace=wrap;"
+            f"fontSize=18;fontStyle=1;fontFamily=Inter;fontColor={TEXT};align=left;"
+        ),
+        vertex="1",
+        parent="1",
+    )
+    ET.SubElement(title, "mxGeometry", x="35", y="20", width="900", height="40", **{"as": "geometry"})
     for source_key, target_key in EDGES:
         cell = ET.SubElement(
             root,

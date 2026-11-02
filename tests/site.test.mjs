@@ -160,10 +160,17 @@ test("product hierarchy and consumer journey remain explicit", async () => {
   const runtime = await readFile(join(root, "runtime.html"), "utf8");
   const solutions = await readFile(join(root, "solutions.html"), "utf8");
   const architecture = await readFile(join(root, "architecture.html"), "utf8");
+  const learning = await readFile(join(root, "learning.html"), "utf8");
   const story = await readFile(join(root, "diagrams", "intent-to-evidence.html"), "utf8");
   const companyIntro = await readFile(join(root, "assets", "brand", "brainzbytes-contextweaver-overview.html"), "utf8");
 
   assert.match(overview, /working Solution/);
+  for (const provider of ["Azure", "AWS", "Google Cloud"]) {
+    assert.match(overview, new RegExp(provider));
+    assert.match(story, new RegExp(provider));
+  }
+  assert.match(overview, /intent-to-evidence\.png\?v=20261102-1/);
+  assert.match(architecture, /diagrams\/service-factory\.html\?v=20261102-1/);
   for (const concept of [
     "MCP capability",
     "bounded reasoning specialist",
@@ -215,15 +222,15 @@ test("product hierarchy and consumer journey remain explicit", async () => {
   assert.doesNotMatch(architecture, /architecture-block-view/);
   assert.match(story, /user-facing Solution/);
   assert.match(landing, /data-site-intro/);
-  assert.match(landing, /assets\/js\/site\.js\?v=20261101-19/);
-  assert.match(landing, /data-src="assets\/brand\/brainzbytes-contextweaver-overview\.html\?embedded=1&amp;intro=1&amp;v=20261101-24"/);
+  assert.match(landing, /assets\/js\/site\.js\?v=20261101-21/);
+  assert.match(landing, /data-src="assets\/brand\/brainzbytes-contextweaver-overview\.html\?embedded=1&amp;intro=1&amp;v=20261101-25"/);
   assert.match(landing, /data-intro-skip/);
   assert.match(landing, /data-intro-enter/);
   assert.match(landing, /data-intro-replay/);
   assert.match(landing, /assets\/brand\/brainzbytes-b4\.svg/);
   assert.match(landing, /assets\/brand\/contextweaver-c1\.svg/);
   assert.match(landing, /sandbox="allow-scripts allow-same-origin"/);
-  assert.match(landing, /assets\/css\/site\.css\?v=20261101-21/);
+  assert.match(landing, /assets\/css\/site\.css\?v=20261101-23/);
   assert.doesNotMatch(landing, /assets\/js\/site\.js\?v=20261101-18/);
   assert.match(siteJs, /contextweaver-company-intro-seen/);
   assert.match(siteJs, /brainzbytes-intro-complete/);
@@ -243,6 +250,10 @@ test("product hierarchy and consumer journey remain explicit", async () => {
   assert.doesNotMatch(companyIntro, /syncSpatialPlane/);
   assert.match(companyIntro, /narrationWatchdogDelay/);
   assert.match(companyIntro, /speechSynthesis\.resume\(\)/);
+  assert.match(companyIntro, /englishVoices\.find\(voice=>voice\.default\)/);
+  assert.match(companyIntro, /utterance\.lang=voice\?\.lang\|\|"en-US"/);
+  assert.match(companyIntro, /const startGuard=setTimeout\(retry,1800\)/);
+  assert.match(companyIntro, /setTimeout\(\(\)=>startUtterance\(\),120\)/);
   assert.match(companyIntro, /window\.unlockIntroAudio=\(\)=>beginAudio\(\)/);
   assert.match(companyIntro, /window\.isIntroAudioUnlocked=\(\)=>audioStarted/);
   assert.match(companyIntro, /function beginAudio\(\)[\s\S]*storyStarted=true[\s\S]*render\(true\)/);
@@ -250,12 +261,24 @@ test("product hierarchy and consumer journey remain explicit", async () => {
   assert.match(companyIntro, /showOpening\(\);\s*tryIntroMusic\(\)/);
   assert.doesNotMatch(companyIntro, /showOpening\(\);\s*beginAudio\(\)/);
   assert.match(siteJs, /frameWindow\?\.unlockIntroAudio/);
+  assert.match(siteJs, /document\.addEventListener\("pointerdown"[\s\S]*unlockIntroAudio/);
+  assert.match(learning, /data-learning-step="ai"/);
+  assert.match(learning, /data-learning-step="evidence"/);
+  assert.match(learning, /data-learning-route-detail/);
+  assert.match(learning, /Complete platform curriculum/);
+  assert.match(learning, /Platform service atlas/);
+  assert.match(learning, /RAG Ingestion · RAG Retrieval · Context Memory · Context Citation/);
+  assert.match(siteJs, /const lessons = \{/);
+  assert.match(siteJs, /renderLesson\(\)/);
+  assert.match(siteJs, /new Blob\(\[guide\]/);
+  assert.match(siteCss, /\.learning-lesson-card\.active/);
+  assert.match(siteCss, /\.learning-curriculum-grid/);
   assert.match(siteJs, /page === "architecture" && !location\.hash/);
   assert.match(siteJs, /history\.scrollRestoration = "manual"/);
   assert.doesNotMatch(companyIntro, /contextweaver-spatial-architecture\.html/);
   assert.match(architecture, /id="interactive-factory-architecture"/);
-  assert.match(architecture, /service-factory-static-master\.png/);
-  assert.match(architecture, /diagrams\/service-factory\.html\?v=20261101-2/);
+  assert.match(architecture, /service-factory-static-master\.png\?v=20261102-1/);
+  assert.match(architecture, /diagrams\/service-factory\.html\?v=20261102-1/);
   assert.doesNotMatch(architecture, /ContextWeaver NextGen Architecture Atlas/);
   assert.doesNotMatch(architecture, /contextweaver-nextgen-architecture\.html/);
   assert.doesNotMatch(architecture, /experiences\/contextweaver-spatial-r3f/);
@@ -268,7 +291,8 @@ test("product hierarchy and consumer journey remain explicit", async () => {
   assert.match(companyIntro, /Female narrator · \$\{preference\.label\}/);
   assert.match(companyIntro, /Microsoft Jenny[\s\S]*Microsoft Aria[\s\S]*Microsoft Ava/);
   assert.match(companyIntro, /await waitForNarrator\(\)/);
-  assert.match(companyIntro, /Female narrator unavailable/);
+  assert.match(companyIntro, /"English narrator"[\s\S]*"Browser narrator"/);
+  assert.doesNotMatch(companyIntro, /Female narrator unavailable/);
   assert.doesNotMatch(companyIntro, /voices\.find\(voice=>voice\.lang==="en-US"\)/);
   assert.match(companyIntro, /utterance\.onend=.*advance/s);
   assert.doesNotMatch(companyIntro, /setTimeout\([^)]*7600/);

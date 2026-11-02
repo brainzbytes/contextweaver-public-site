@@ -191,7 +191,7 @@ def write_html() -> None:
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="description" content="Interactive spatial view of the ContextWeaver product hierarchy, governed execution, platform planes, and deployment boundaries.">
 <title>ContextWeaver Spatial Architecture</title>
-<script>if(window.self!==window.top||new URLSearchParams(location.search).has("embedded"))document.documentElement.classList.add("embedded");</script>
+<script>const displayParams=new URLSearchParams(location.search);if(window.self!==window.top||displayParams.has("embedded"))document.documentElement.classList.add("embedded");if(displayParams.get("portal")==="1")document.documentElement.classList.add("portal");</script>
 <style>
 :root{--bg:#050b08;--panel:#0a1812;--panel2:#10261d;--panel3:#173429;--text:#f4f8f2;--muted:#9db2a8;--line:#315446;--mint:#70e6b1;--amber:#ffc76a;--red:#ff756d}
 *{box-sizing:border-box}html{color-scheme:dark}body{min-width:320px;margin:0;color:var(--text);background:var(--bg);font:14px/1.5 Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;overflow-x:hidden}
@@ -204,14 +204,15 @@ button{font:inherit}.experience{width:min(1280px,calc(100% - 28px));margin:18px 
 .horizon{position:absolute;inset:0;opacity:.35;background:linear-gradient(#31544655 1px,transparent 1px),linear-gradient(90deg,#31544655 1px,transparent 1px);background-size:44px 44px;transform:perspective(760px) rotateX(65deg) scale(1.55) translateY(28%);transform-origin:center bottom;mask-image:linear-gradient(to bottom,transparent 0,#000 36%,#000)}
 .orb{position:absolute;border-radius:50%;filter:blur(50px);pointer-events:none}.orb.a{width:380px;height:250px;left:34%;top:24%;background:#70e6b125}.orb.b{width:300px;height:220px;right:8%;top:35%;background:#70e6b115}.orb.c{width:240px;height:190px;left:5%;bottom:5%;background:#ffc76a12}
 .world{position:absolute;inset:0;transform-style:preserve-3d;transition:transform 1s cubic-bezier(.2,.8,.2,1)}.world[data-lens="product"]{transform:rotateX(0) rotateY(-1deg) scale(1)}.world[data-lens="execution"]{transform:rotateX(1deg) rotateY(1.5deg) scale(1.02)}.world[data-lens="platform"]{transform:rotateX(2deg) rotateY(-2deg) scale(.98)}.world[data-lens="deployment"]{transform:rotateX(0) rotateY(2deg) scale(.97)}
-.deck{position:absolute;left:50%;width:55%;height:30%;border:1px solid var(--line);border-radius:26px;background:linear-gradient(145deg,#143126cc,#091710d9);box-shadow:0 28px 70px #0008,inset 0 1px #70e6b122;transform-style:preserve-3d}.deck::after{position:absolute;inset:13px;border:1px solid #31544688;border-radius:18px;content:""}.deck span{position:absolute;left:22px;top:18px;color:#9db2a8;font-size:9px;font-weight:900;letter-spacing:.14em;text-transform:uppercase}
+.deck{position:absolute;left:50%;width:55%;height:30%;border:1px solid var(--line);border-radius:5px;background:linear-gradient(145deg,#143126cc,#091710d9);box-shadow:0 14px 0 #03100b,0 34px 70px #0009,inset 0 1px #70e6b122;transform-style:preserve-3d}.deck::after{position:absolute;inset:13px;border:1px solid #31544688;border-radius:3px;content:""}.deck span{position:absolute;left:22px;top:18px;color:#9db2a8;font-size:9px;font-weight:900;letter-spacing:.14em;text-transform:uppercase}
 .deck.experience{top:8%;transform:translateX(-50%) perspective(900px) rotateX(63deg) rotateZ(-5deg) translateZ(15px)}.deck.control{top:35%;width:65%;transform:translateX(-50%) perspective(900px) rotateX(63deg) rotateZ(-5deg);background:linear-gradient(145deg,#173d2eeb,#0a1912e8)}.deck.runtime{top:62%;width:72%;transform:translateX(-50%) perspective(900px) rotateX(63deg) rotateZ(-5deg) translateZ(-18px)}
 .core{position:absolute;left:50%;top:49%;z-index:8;width:112px;height:112px;display:grid;place-items:center;border:1px solid var(--line);border-radius:50%;visibility:hidden;color:var(--muted);background:radial-gradient(circle at 35% 30%,#17342955,#10261d 48%,#050b08 75%);box-shadow:none;opacity:0;filter:saturate(.35);transform:translate(-50%,-50%) translateZ(40px) scale(.7);transition:opacity .4s,filter .4s,transform .4s,box-shadow .4s,border-color .4s}
 .core::before,.core::after{position:absolute;border:1px solid #70e6b166;border-radius:50%;content:"";opacity:0}.core::before{inset:-16px}.core::after{inset:-30px}.core.active{visibility:visible;border-color:#70e6b1aa;color:var(--text);box-shadow:0 0 0 9px #70e6b10a,0 0 48px #70e6b138;opacity:1;filter:none;transform:translate(-50%,-50%) translateZ(100px) scale(1)}.core.active::before,.core.active::after{opacity:1;animation:orbit 8s linear infinite}.core.active::after{animation-direction:reverse;animation-duration:12s}.core div{text-align:center}.core b{display:block;font-size:15px}.core small{color:var(--muted);font-size:7px;font-weight:900;letter-spacing:.12em;text-transform:uppercase}.core.active small{color:var(--mint)}
 @keyframes orbit{to{transform:rotate(360deg)}}.flow-map{position:absolute;inset:0;z-index:5;width:100%;height:100%;overflow:visible;pointer-events:none}.flow-edge{fill:none;stroke:#315446;stroke-width:1.3;color:#315446;opacity:.24;transition:.35s}.flow-edge.active{stroke:var(--mint);stroke-width:3;color:var(--mint);opacity:1;stroke-dasharray:8 5;animation:flow .85s linear infinite;filter:url(#glow)}@keyframes flow{to{stroke-dashoffset:-26}}
-.spatial-node{position:absolute;left:var(--x);top:var(--y);z-index:10;width:clamp(132px,13vw,198px);min-height:74px;display:grid;align-content:center;gap:4px;padding:13px 15px;border:1px solid var(--line);border-radius:14px;color:var(--text);background:linear-gradient(145deg,#10261df2,#07110df2);box-shadow:0 16px 34px #0008;transform:translate(-50%,-50%) translateZ(48px);transition:.45s cubic-bezier(.2,.8,.2,1);cursor:pointer;text-align:left}.spatial-node::before{position:absolute;left:12px;right:12px;bottom:-7px;height:8px;border-radius:0 0 9px 9px;background:#06100c;content:"";opacity:.8}.spatial-node span{font-size:12px;font-weight:850}.spatial-node small{color:var(--muted);font-size:8px;line-height:1.35}.spatial-node.active{z-index:14;border-color:var(--mint);background:linear-gradient(145deg,#173f2e,#0a1b14);box-shadow:0 20px 45px #0009,0 0 0 4px #70e6b118,0 0 32px #70e6b125;transform:translate(-50%,-55%) translateZ(95px) scale(1.05)}.spatial-node.dim{opacity:.25;filter:saturate(.4)}.spatial-node.selected{outline:2px solid var(--amber);outline-offset:3px}
+.spatial-node{position:absolute;left:var(--x);top:var(--y);z-index:10;width:clamp(132px,13vw,198px);min-height:74px;display:grid;align-content:center;gap:4px;padding:13px 15px;border:1px solid var(--line);border-radius:5px;color:var(--text);background:linear-gradient(145deg,#10261df2,#07110df2);box-shadow:0 16px 34px #0008;transform:translate(-50%,-50%) translateZ(48px);transition:.45s cubic-bezier(.2,.8,.2,1);cursor:pointer;text-align:left}.spatial-node::before{position:absolute;left:8px;right:8px;bottom:-7px;height:8px;border-radius:0 0 4px 4px;background:#06100c;content:"";opacity:.8}.spatial-node span{font-size:12px;font-weight:850}.spatial-node small{color:var(--muted);font-size:8px;line-height:1.35}.spatial-node.active{z-index:14;border-color:var(--mint);background:linear-gradient(145deg,#173f2e,#0a1b14);box-shadow:0 20px 45px #0009,0 0 0 4px #70e6b118,0 0 32px #70e6b125;transform:translate(-50%,-55%) translateZ(95px) scale(1.05)}.spatial-node.dim{opacity:.25;filter:saturate(.4)}.spatial-node.selected{outline:2px solid var(--amber);outline-offset:3px}
 .detailbar{display:grid;grid-template-columns:1fr auto;align-items:center;gap:20px;min-height:68px;padding:13px 20px;border-top:1px solid var(--line);background:#07110d}.detailbar p{margin:0;color:var(--muted);font-size:11px}.detailbar strong{color:var(--mint)}.dots{display:flex;gap:7px}.dot{width:10px;height:10px;min-height:0;padding:0;border:0;border-radius:50%;background:var(--line);cursor:pointer}.dot.active{background:var(--mint);box-shadow:0 0 10px var(--mint)}
 html.embedded body{background:transparent}html.embedded .experience{width:min(1280px,100%);margin:0 auto;border:0;border-radius:0;box-shadow:none}
+html.portal,html.portal body{height:100%;overflow:hidden}html.portal .experience{width:100%;height:100%;margin:0}html.portal .storybar,html.portal .lensbar,html.portal .detailbar{display:none}html.portal .viewport{height:100%;min-height:0}
 @media(max-width:980px){.storybar{grid-template-columns:1fr}.controls{flex-wrap:wrap}.lensbar{overflow-x:auto}.lensbar span{display:none}.viewport{height:560px;min-height:560px}.spatial-node{width:150px}.node-agents,.node-mcp,.node-foundation{left:84%}.node-channels,.node-external{left:12%}}
 @media(max-width:620px){.experience{width:100%;margin:0;border-radius:0}.storybar{padding:15px}.controls button{flex:1}.lensbar{padding:10px 15px}.viewport{height:620px;min-height:620px}.deck{width:86%}.deck.control{width:94%}.deck.runtime{width:98%}.core{width:92px;height:92px}.spatial-node{width:128px;min-height:66px;padding:10px}.spatial-node span{font-size:10px}.spatial-node small{font-size:7px}.node-channels{--x:18%!important;--y:13%!important}.node-solutions{--x:52%!important;--y:10%!important}.node-services{--x:83%!important;--y:20%!important}.node-workflows{--x:79%!important;--y:34%!important}.node-agents{--x:81%!important;--y:49%!important}.node-mcp{--x:79%!important;--y:64%!important}.node-foundation{--x:74%!important;--y:82%!important}.node-intent{--x:23%!important;--y:31%!important}.node-policy{--x:45%!important;--y:43%!important}.node-coordinator{--x:47%!important;--y:61%!important}.node-evidence{--x:31%!important;--y:79%!important}.node-external{--x:16%!important;--y:61%!important}.node-loom{--x:48%!important;--y:92%!important}.flow-map{display:none}.detailbar{grid-template-columns:1fr}.dots{justify-content:center}}
 @media(prefers-reduced-motion:reduce){*{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}
@@ -238,13 +239,14 @@ html.embedded body{background:transparent}html.embedded .experience{width:min(12
   <footer class="detailbar"><p><strong id="detail-title">ContextWeaver</strong> <span id="detail-copy">Select any component to hold and inspect it. Motion shows only the currently active semantic route.</span></p><div class="dots" id="dots"></div></footer>
 </main>
 <script>
-const steps=__STEPS__;const nodeData=__NODE_DATA__;let current=0;let playing=!matchMedia("(prefers-reduced-motion: reduce)").matches;let timer;
+const steps=__STEPS__;const nodeData=__NODE_DATA__;const portalMode=new URLSearchParams(location.search).get("portal")==="1";let current=0;let playing=!portalMode&&!matchMedia("(prefers-reduced-motion: reduce)").matches;let timer;
 const $=id=>document.getElementById(id);const nodeEls=[...document.querySelectorAll(".spatial-node")];const edgeEls=[...document.querySelectorAll(".flow-edge")];const lensButtons=[...document.querySelectorAll("[data-lens]")];
 steps.forEach((_,index)=>{const button=document.createElement("button");button.className="dot";button.setAttribute("aria-label",`Show stage ${index+1}`);button.onclick=()=>{current=index;render();restart()};$("dots").appendChild(button)});
 function inspect(id){const node=nodeData[id];if(!node)return;nodeEls.forEach(el=>el.classList.toggle("selected",el.dataset.node===id));$("detail-title").textContent=node.title;$("detail-copy").textContent=node.sub}
 nodeEls.forEach(el=>el.onclick=()=>{playing=false;$("play").textContent="Play";stop();inspect(el.dataset.node)});
 function render(){const step=steps[current];$("world").dataset.lens=step.lens;$("stage-index").textContent=`${step.lens} lens · stage ${current+1} of ${steps.length}`;$("stage-title").textContent=step.title;$("stage-caption").textContent=step.caption;$("core").classList.toggle("active",step.core===true);nodeEls.forEach(el=>{const active=step.nodes.includes(el.dataset.node);el.classList.toggle("active",active);el.classList.toggle("dim",!active);el.classList.remove("selected")});edgeEls.forEach(el=>el.classList.toggle("active",step.edges.includes(el.dataset.edge)));lensButtons.forEach(button=>button.classList.toggle("active",button.dataset.lens===step.lens));[...$("dots").children].forEach((dot,index)=>dot.classList.toggle("active",index===current));inspect(step.nodes[step.nodes.length-1]);reportHeight()}
 function advance(delta=1){current=(current+delta+steps.length)%steps.length;render()}function stop(){clearInterval(timer)}function restart(){stop();if(playing)timer=setInterval(()=>advance(),5200)}
+addEventListener("message",event=>{if(event.origin!==location.origin||event.data?.type!=="contextweaver-spatial-stage")return;const requested=Number(event.data.stage);if(!Number.isInteger(requested)||requested<0||requested>=steps.length)return;playing=false;current=requested;stop();render()});
 lensButtons.forEach(button=>button.onclick=()=>{current=steps.findIndex(step=>step.lens===button.dataset.lens);render();restart()});$("prev").onclick=()=>{advance(-1);restart()};$("next").onclick=()=>{advance();restart()};$("reset").onclick=()=>{current=0;render();restart()};$("play").onclick=()=>{playing=!playing;$("play").textContent=playing?"Pause":"Play";restart()};
 function reportHeight(){if(!document.documentElement.classList.contains("embedded"))return;parent.postMessage({type:"contextweaver-spatial-height",height:Math.ceil(document.querySelector(".experience").getBoundingClientRect().height)},"*")}
 if(document.documentElement.classList.contains("embedded")){new ResizeObserver(reportHeight).observe(document.querySelector(".experience"));addEventListener("load",reportHeight);addEventListener("resize",reportHeight)}
@@ -283,7 +285,14 @@ def write_svg() -> None:
 <rect width="1400" height="840" fill="{COLORS["bg"]}"/><rect width="1400" height="840" fill="url(#grid)"/>
 <text x="46" y="48" fill="{COLORS["text"]}" font-family="Inter,Segoe UI,sans-serif" font-size="27" font-weight="700">ContextWeaver Spatial Architecture</text>
 <text x="46" y="73" fill="{COLORS["muted"]}" font-family="Inter,Segoe UI,sans-serif" font-size="12">Cerebro governs · Weave composes · Loom runs anywhere · Evidence follows every action</text>
-<g opacity=".9"><rect x="280" y="120" width="980" height="125" rx="8" fill="#10261d" stroke="#315446"/><rect x="205" y="325" width="1095" height="145" rx="8" fill="#173429" stroke="#70e6b1"/><rect x="145" y="555" width="1195" height="165" rx="8" fill="#0a1812" stroke="#315446"/></g>
+<g opacity=".9">
+  <path d="M280 120 L1180 82 L1260 207 L360 245 Z" transform="translate(0 16)" fill="#03100b" stroke="#315446"/>
+  <path d="M280 120 L1180 82 L1260 207 L360 245 Z" fill="#10261d" stroke="#315446"/>
+  <path d="M205 325 L1200 282 L1300 427 L305 470 Z" transform="translate(0 16)" fill="#03100b" stroke="#70e6b1"/>
+  <path d="M205 325 L1200 282 L1300 427 L305 470 Z" fill="#173429" stroke="#70e6b1"/>
+  <path d="M145 555 L1235 508 L1340 673 L250 720 Z" transform="translate(0 16)" fill="#03100b" stroke="#315446"/>
+  <path d="M145 555 L1235 508 L1340 673 L250 720 Z" fill="#0a1812" stroke="#315446"/>
+</g>
 <g class="edges" fill="none" stroke="{COLORS["line"]}" stroke-width="2" opacity=".55">{"".join(edges)}</g>
 <g class="nodes">{"".join(svg_node(node_id, node) for node_id, node in NODES.items())}</g>
 <style>.node rect{{fill:#0a1812;stroke:#315446;stroke-width:1.5}}.title{{fill:#f4f8f2;font:700 12px Inter,Segoe UI,sans-serif}}.sub{{fill:#9db2a8;font:8px Inter,Segoe UI,sans-serif}}</style></svg>"""
@@ -291,7 +300,9 @@ def write_svg() -> None:
 
 
 def polygon_for_deck(y: int, left: int, right: int, depth: int) -> list[tuple[int, int]]:
-    return [(left, y), (right, y), (right, y + depth), (left, y + depth)]
+    skew = max(34, int((right - left) * .075))
+    rise = max(16, int(depth * .28))
+    return [(left, y), (right - skew, y - rise), (right, y + depth - rise), (left + skew, y + depth)]
 
 
 def node_box(node: dict[str, object], size: tuple[int, int]) -> tuple[int, int, int, int]:
@@ -320,7 +331,11 @@ def render_frame(step: dict[str, object] | None, size: tuple[int, int]) -> Image
         (int(scene_h * .66), int(width * .08), int(width * .92), int(scene_h * .16), "#0a1812"),
     ]
     for y, left, right, depth, fill in decks:
-        draw.polygon(polygon_for_deck(y, left, right, depth), fill=fill, outline=COLORS["line"])
+        face = polygon_for_deck(y, left, right, depth)
+        slab_depth = 14 if width >= 1000 else 10
+        shadow = [(x, point_y + slab_depth) for x, point_y in face]
+        draw.polygon(shadow, fill="#03100b", outline=COLORS["line"])
+        draw.polygon(face, fill=fill, outline=COLORS["line"])
     active_nodes = set(step["nodes"]) if step else set()
     active_edges = set(step["edges"]) if step else set()
     by_edge = {edge_id: (source, target) for edge_id, source, target in EDGES}
@@ -332,7 +347,7 @@ def render_frame(step: dict[str, object] | None, size: tuple[int, int]) -> Image
     for node_id, node in NODES.items():
         box = node_box(node, size)
         active = node_id in active_nodes
-        draw.rounded_rectangle(box, radius=11, fill=COLORS["panel3"] if active else COLORS["panel"], outline=COLORS["mint"] if active else COLORS["line"], width=4 if active else 2)
+        draw.rounded_rectangle(box, radius=5, fill=COLORS["panel3"] if active else COLORS["panel"], outline=COLORS["mint"] if active else COLORS["line"], width=4 if active else 2)
         draw.text((box[0] + 10, box[1] + 12), str(node["title"]), fill=COLORS["text"], font=font(10 if width < 1000 else 12, True))
         sub = wrap(str(node["sub"]), width=25)[:2]
         for index, line in enumerate(sub):
@@ -383,7 +398,7 @@ def write_drawio() -> None:
     ]
     for zone_id, label, x, y, w, h, fill in zones:
         cells.append(
-            f'<mxCell id="{zone_id}" value="{label}" style="swimlane;startSize=30;rounded=1;html=1;fillColor={fill};strokeColor={COLORS["line"]};fontColor={COLORS["muted"]};fontStyle=1;" vertex="1" parent="1"><mxGeometry x="{x}" y="{y}" width="{w}" height="{h}" as="geometry"/></mxCell>'
+            f'<mxCell id="{zone_id}" value="{label}" style="shape=parallelogram;perimeter=parallelogramPerimeter;fixedSize=1;size=0.08;rounded=0;whiteSpace=wrap;html=1;fillColor={fill};strokeColor={COLORS["line"]};fontColor={COLORS["muted"]};fontStyle=1;verticalAlign=top;spacingTop=10;" vertex="1" parent="1"><mxGeometry x="{x}" y="{y}" width="{w}" height="{h}" as="geometry"/></mxCell>'
         )
     drawio_positions = {
         "channels": (190, 135), "solutions": (400, 125), "services": (610, 125), "workflows": (820, 125),
@@ -394,7 +409,7 @@ def write_drawio() -> None:
         x, y = drawio_positions[node_id]
         value = xml_escape(f'<b>{node["title"]}</b><br><font color="#9db2a8">{node["sub"]}</font>', {'"': '&quot;'})
         cells.append(
-            f'<mxCell id="{node_id}" value="{value}" style="rounded=1;whiteSpace=wrap;html=1;fillColor={COLORS["panel"]};strokeColor={COLORS["mint"]};fontColor={COLORS["text"]};fontSize=11;strokeWidth=2;" vertex="1" parent="1"><mxGeometry x="{x}" y="{y}" width="170" height="68" as="geometry"/></mxCell>'
+            f'<mxCell id="{node_id}" value="{value}" style="rounded=0;arcSize=4;whiteSpace=wrap;html=1;fillColor={COLORS["panel"]};strokeColor={COLORS["mint"]};fontColor={COLORS["text"]};fontSize=11;strokeWidth=2;" vertex="1" parent="1"><mxGeometry x="{x}" y="{y}" width="170" height="68" as="geometry"/></mxCell>'
         )
     for edge_id, source, target in EDGES:
         cells.append(

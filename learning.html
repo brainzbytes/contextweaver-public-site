@@ -7,7 +7,7 @@
       <meta name="theme-color" content="#07110f">
       <title>ContextWeaver Learning Atlas — From AI basics to platform architecture</title>
       <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
-      <link rel="stylesheet" href="assets/css/site.css?v=20261101-21">
+      <link rel="stylesheet" href="assets/css/site.css?v=20261101-23">
     </head>
     <body data-page="learning">
 
@@ -97,25 +97,46 @@
 
   <section id="learning-path" class="container learning-route" aria-labelledby="learning-route-title">
     <div class="learning-route-summary">
-      <p class="section-kicker">Recommended for you</p>
-      <h2 id="learning-route-title" data-learning-route-title>From AI basics to one governed result</h2>
-      <p data-learning-route-copy>Learn why language models need enterprise knowledge, bounded Agents, approved capabilities, durable Workflows, policy, and evidence before they can produce trusted business outcomes.</p>
-      <div class="learning-route-meta"><span data-learning-route-time>15 minutes</span><span>9 stops</span><span>No prerequisites</span></div>
+      <div>
+        <p class="section-kicker">Interactive learning path</p>
+        <h2 id="learning-route-title" data-learning-route-title>From AI basics to one governed result</h2>
+        <p data-learning-route-copy>Learn why language models need enterprise knowledge, bounded Agents, approved capabilities, durable Workflows, policy, and evidence before they can produce trusted business outcomes.</p>
+      </div>
+      <div class="learning-route-meta"><span data-learning-route-time>15 minutes</span><span>9 visual lessons</span><span>No prerequisites</span></div>
     </div>
-    <ol class="learning-timeline">
-      <li class="active"><span>01</span><div><b>AI and LLMs</b><small>What models can and cannot do</small></div></li>
-      <li><span>02</span><div><b>RAG</b><small>Ground answers in authorized knowledge</small></div></li>
-      <li><span>03</span><div><b>Agents</b><small>Bounded reasoning with typed contracts</small></div></li>
-      <li><span>04</span><div><b>MCP</b><small>Governed access to external capabilities</small></div></li>
-      <li><span>05</span><div><b>Workflows</b><small>Durable coordination, retries, and approval</small></div></li>
-      <li><span>06</span><div><b>Services</b><small>Stable reusable business contracts</small></div></li>
-      <li><span>07</span><div><b>Solutions</b><small>Complete user-facing compositions</small></div></li>
-      <li><span>08</span><div><b>ContextWeaver</b><small>Cerebro, Weave, and Loom</small></div></li>
-      <li><span>09</span><div><b>Verified result</b><small>Evidence, receipts, citations, and history</small></div></li>
-    </ol>
+    <div class="learning-lesson-grid" role="group" aria-label="Choose a visual lesson">
+      <button class="learning-lesson-card active" type="button" data-learning-step="ai" aria-pressed="true" aria-controls="learning-lesson-board"><span>01</span><i>AI</i><b>AI and LLMs</b><small>What models can and cannot do</small></button>
+      <button class="learning-lesson-card" type="button" data-learning-step="rag" aria-pressed="false" aria-controls="learning-lesson-board"><span>02</span><i>RAG</i><b>Grounded knowledge</b><small>Retrieve authorized context with citations</small></button>
+      <button class="learning-lesson-card" type="button" data-learning-step="agents" aria-pressed="false" aria-controls="learning-lesson-board"><span>03</span><i>AG</i><b>AI Agents</b><small>Bounded reasoning with typed contracts</small></button>
+      <button class="learning-lesson-card" type="button" data-learning-step="mcp" aria-pressed="false" aria-controls="learning-lesson-board"><span>04</span><i>MCP</i><b>Model Context Protocol</b><small>Governed access to external capabilities</small></button>
+      <button class="learning-lesson-card" type="button" data-learning-step="workflows" aria-pressed="false" aria-controls="learning-lesson-board"><span>05</span><i>WF</i><b>Workflows</b><small>Durable coordination, retries, and approval</small></button>
+      <button class="learning-lesson-card" type="button" data-learning-step="services" aria-pressed="false" aria-controls="learning-lesson-board"><span>06</span><i>SV</i><b>Services</b><small>Stable reusable business contracts</small></button>
+      <button class="learning-lesson-card" type="button" data-learning-step="solutions" aria-pressed="false" aria-controls="learning-lesson-board"><span>07</span><i>SO</i><b>Solutions</b><small>Complete user-facing compositions</small></button>
+      <button class="learning-lesson-card" type="button" data-learning-step="contextweaver" aria-pressed="false" aria-controls="learning-lesson-board"><span>08</span><i>CW</i><b>ContextWeaver</b><small>Cerebro, Weave, and Loom together</small></button>
+      <button class="learning-lesson-card" type="button" data-learning-step="evidence" aria-pressed="false" aria-controls="learning-lesson-board"><span>09</span><i>EV</i><b>Verified result</b><small>Evidence, receipts, citations, and history</small></button>
+    </div>
+    <article id="learning-lesson-board" class="learning-lesson-board" data-learning-route-detail aria-live="polite" aria-atomic="true">
+      <header class="learning-board-head">
+        <div><span data-learning-step-label>Lesson 01 · Foundation</span><h3 data-learning-step-title>What are AI and large language models?</h3><p data-learning-step-copy>A language model predicts useful language from learned patterns. It can explain, summarize, and draft—but it does not know enterprise truth or hold authority to act.</p></div>
+        <div class="learning-board-mark" data-learning-step-mark aria-hidden="true">AI</div>
+      </header>
+      <div class="learning-board-pair">
+        <section><span>What it is</span><p data-learning-step-definition>A probabilistic language engine that turns instructions and context into generated text, code, classifications, or structured output.</p></section>
+        <section><span>Why it matters</span><ul data-learning-step-why><li>Makes complex knowledge easier to use</li><li>Accelerates analysis and drafting</li><li>Still requires grounding, validation, and control</li></ul></section>
+      </div>
+      <section class="learning-board-section">
+        <span>Four core concepts</span>
+        <div class="learning-concept-grid" data-learning-step-concepts></div>
+      </section>
+      <section class="learning-board-section">
+        <span>How it works</span>
+        <div class="learning-flow-cards" data-learning-step-flow></div>
+      </section>
+      <footer class="learning-board-takeaway"><div><span>Key takeaway</span><strong data-learning-step-takeaway>A model produces possibilities. A governed platform decides what is trusted, permitted, and recorded.</strong></div><a class="button compact" data-learning-step-link href="overview.html">Explore the platform view <span aria-hidden="true">→</span></a></footer>
+    </article>
   </section>
 
-  <section class="container learning-deep-dive" aria-labelledby="agent-deep-dive-title">
+  <section id="agent-learning" class="container learning-deep-dive" aria-labelledby="agent-deep-dive-title">
     <div class="learning-deep-head">
       <div><p class="section-kicker">See progressive depth in action</p><h2 id="agent-deep-dive-title">What is an AI Agent?</h2></div>
       <span class="learning-status">Foundation concept</span>
@@ -148,6 +169,38 @@
           <article><span>ContextWeaver adds</span><b>Identity, policy, MCP boundaries, approval, evidence</b></article>
         </div>
       </div>
+    </div>
+  </section>
+
+  <section class="container learning-curriculum" aria-labelledby="learning-curriculum-title">
+    <div class="learning-curriculum-head">
+      <div><p class="section-kicker">Complete platform curriculum</p><h2 id="learning-curriculum-title">Learn every concept the platform uses.</h2></div>
+      <p>The curriculum starts with AI foundations, then follows knowledge, reasoning, orchestration, security, infrastructure, operations, and evidence. Every topic maps to a real ContextWeaver responsibility.</p>
+    </div>
+    <div class="learning-curriculum-grid">
+      <article class="learning-curriculum-card"><span>01 · Intelligence</span><h3>AI and model foundations</h3><p>Understand the probabilistic systems behind generation before adding tools or autonomy.</p><ul><li>AI, machine learning, and deep learning</li><li>Neural networks and transformers</li><li>Tokens, context windows, and attention</li><li>Prompting and system instructions</li><li>Structured output and function calling</li><li>Multimodal models and inference</li><li>Hallucination, safety, and guardrails</li><li>Model evaluation and selection</li></ul></article>
+      <article class="learning-curriculum-card"><span>02 · Knowledge</span><h3>RAG, search, and memory</h3><p>Learn how governed knowledge becomes searchable context without moving authority into the model.</p><ul><li>Source catalogs and ingestion</li><li>Parsing, normalization, and chunking</li><li>Embeddings and vector search</li><li>Keyword, semantic, and hybrid retrieval</li><li>Re-ranking and context packing</li><li>Citations and provenance</li><li>Session, working, and durable memory</li><li>Freshness, access, and deletion</li></ul></article>
+      <article class="learning-curriculum-card"><span>03 · Reasoning</span><h3>Agents, tools, and MCP</h3><p>Move from conversation to bounded specialist reasoning with explicit capability boundaries.</p><ul><li>Agent roles and typed contracts</li><li>Planning, reflection, and stop conditions</li><li>Tools, resources, and prompts</li><li>Model Context Protocol servers</li><li>Plugins and capability packages</li><li>Multi-Agent delegation and routing</li><li>Budgets, timeouts, and approvals</li><li>Human-in-the-loop escalation</li></ul></article>
+      <article class="learning-curriculum-card"><span>04 · Product model</span><h3>Workflows, Services, and Solutions</h3><p>See how reusable assets become reliable, user-facing outcomes.</p><ul><li>Immutable plans and Workflow compilation</li><li>Durable coordination and checkpoints</li><li>Retries, idempotency, and compensation</li><li>Saga and approval patterns</li><li>Service contracts and entitlements</li><li>Solution composition and experience</li><li>Registries, versions, and publication</li><li>Lifecycle, rollout, and retirement</li></ul></article>
+      <article class="learning-curriculum-card"><span>05 · Trust</span><h3>Identity, security, and governance</h3><p>Understand how every request carries identity, authority, policy, and an auditable decision path.</p><ul><li>OIDC, OAuth 2.0, and Keycloak</li><li>Identity context and delegated authority</li><li>Token brokering and credential non-possession</li><li>Authentication and API gateways</li><li>Entitlement and policy decisions</li><li>Secrets and least privilege</li><li>Audit records and signed receipts</li><li>Evaluation, risk, and compliance</li></ul></article>
+      <article class="learning-curriculum-card"><span>06 · Platform</span><h3>Data, messaging, and infrastructure</h3><p>Learn the cloud-neutral foundation that keeps state durable and capabilities portable.</p><ul><li>PostgreSQL and pgvector</li><li>RabbitMQ commands and events</li><li>Object and artifact storage</li><li>Valkey caching and coordination</li><li>Kubernetes namespaces and workloads</li><li>Cilium networking and policy</li><li>Helm, CRDs, and operators</li><li>Ingress, gateways, and service discovery</li></ul></article>
+      <article class="learning-curriculum-card"><span>07 · Operations</span><h3>Observability and reliability</h3><p>Follow health, performance, failures, and recovery from one trace to the whole cluster.</p><ul><li>OpenTelemetry context propagation</li><li>Prometheus metrics and alerts</li><li>Loki logs and Tempo traces</li><li>Grafana dashboards and SLOs</li><li>Health, readiness, and dependency checks</li><li>Backups, restore, and disaster recovery</li><li>Shutdown, startup, and reconciliation</li><li>Capacity, scaling, and resilience</li></ul></article>
+      <article class="learning-curriculum-card"><span>08 · Proof</span><h3>Evaluation, evidence, and improvement</h3><p>Turn each run into a result that can be reviewed, compared, reproduced, and improved.</p><ul><li>Offline and online evaluation</li><li>Golden datasets and scoring rubrics</li><li>Quality, safety, and policy thresholds</li><li>Prompt and model comparison</li><li>Citations, tool receipts, and approvals</li><li>Run history and report stores</li><li>Feedback and regression detection</li><li>Release gates and continuous learning</li></ul></article>
+    </div>
+  </section>
+
+  <section class="container learning-service-catalog" aria-labelledby="learning-services-title">
+    <div class="learning-curriculum-head">
+      <div><p class="section-kicker">Platform service atlas</p><h2 id="learning-services-title">Know what every ContextWeaver service owns.</h2></div>
+      <p>These cards map conceptual learning to the concrete services used by the platform. Names remain visible so architecture, code, operations, and learning use the same language.</p>
+    </div>
+    <div class="learning-service-grid">
+      <article><span>Entry and identity</span><h3>Who is asking, and what may they do?</h3><p>API Gateway · Authentication Gateway · Identity Context · Entitlement Service · Token Broker · Policy Decision Service · Session Service</p></article>
+      <article><span>Knowledge and intelligence</span><h3>Which context and model should be used?</h3><p>Source Catalog · RAG Ingestion · RAG Retrieval · Context Memory · Context Citation · Model Gateway · Intent Router</p></article>
+      <article><span>Design and composition</span><h3>How does intent become an immutable plan?</h3><p>Solution Composer · Workflow Compiler · Registry Service · Configuration Service · Developer Portal · Admin Web</p></article>
+      <article><span>Runtime and coordination</span><h3>How does work continue safely?</h3><p>Run Coordinator · Saga HITL · Finalizer · Notification Service · Audit Service · Report Store</p></article>
+      <article><span>Capabilities and workspaces</span><h3>Where do tools and isolated work execute?</h3><p>Capability Operator · Capability Protocol Gateway · Artifact Gateway · Workspace API · Workspace Controller · Workspace Operations · Workspace Session Gateway</p></article>
+      <article><span>Evidence and operations</span><h3>How is the platform observed and improved?</h3><p>Prometheus · Loki · Tempo · Grafana · Alloy · Kubernetes Events · evaluation cards · policy receipts · run reports</p></article>
     </div>
   </section>
 
@@ -203,7 +256,7 @@
       <span>Guide preview</span>
       <strong data-learning-guide-title>ContextWeaver essentials for a new learner</strong>
       <ul data-learning-guide-list><li>AI, LLM, and RAG in plain language</li><li>Agent, MCP, Workflow, Service, and Solution</li><li>One governed journey with evidence</li></ul>
-      <button class="button primary" type="button" data-learning-generate>Generate guide <span aria-hidden="true">→</span></button>
+      <button class="button primary" type="button" data-learning-generate>Download my guide <span aria-hidden="true">↓</span></button>
     </div>
   </section>
 </section>
@@ -239,6 +292,6 @@
       </div>
     </footer>
 
-      <script src="assets/js/site.js?v=20261101-19"></script>
+      <script src="assets/js/site.js?v=20261101-21"></script>
     </body>
     </html>

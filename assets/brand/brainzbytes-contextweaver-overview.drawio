@@ -5,6 +5,9 @@
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
+        <mxCell id="overview-title" value="BrainzBytes ContextWeaver Overview" style="text;html=1;strokeColor=none;fillColor=none;whiteSpace=wrap;fontSize=18;fontStyle=1;fontFamily=Inter;fontColor=#f4fff5;align=left;" vertex="1" parent="1">
+          <mxGeometry x="35" y="20" width="900" height="40" as="geometry" />
+        </mxCell>
         <mxCell id="edge-intent-studio" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;strokeColor=#376a49;strokeWidth=2;endArrow=block;endFill=1;" edge="1" parent="1" source="intent" target="studio">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
@@ -45,28 +48,28 @@
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
         <mxCell id="intent" value="&lt;b&gt;01 · INTENT&lt;/b&gt;&lt;br&gt;&lt;font style='font-size: 18px'&gt;&lt;b&gt;Approved request&lt;/b&gt;&lt;/font&gt;&lt;br&gt;A goal enters with identity, context, and constraints." style="rounded=1;whiteSpace=wrap;html=1;fillColor=#07140d;strokeColor=#35d06f;fontColor=#f4fff5;fontFamily=Inter;spacing=12;verticalAlign=top;arcSize=14;" vertex="1" parent="1">
-          <mxGeometry x="38" y="176" width="154" height="130" as="geometry" />
+          <mxGeometry x="38" y="176" width="154" height="150" as="geometry" />
         </mxCell>
         <mxCell id="studio" value="&lt;b&gt;02 · STUDIO&lt;/b&gt;&lt;br&gt;&lt;font style='font-size: 18px'&gt;&lt;b&gt;Compose the path&lt;/b&gt;&lt;/font&gt;&lt;br&gt;Choose Services, Workflows, Agents, and capabilities." style="rounded=1;whiteSpace=wrap;html=1;fillColor=#07140d;strokeColor=#35d06f;fontColor=#f4fff5;fontFamily=Inter;spacing=12;verticalAlign=top;arcSize=14;" vertex="1" parent="1">
-          <mxGeometry x="222" y="176" width="178" height="130" as="geometry" />
+          <mxGeometry x="222" y="176" width="178" height="150" as="geometry" />
         </mxCell>
         <mxCell id="weave" value="&lt;b&gt;05 · WEAVE&lt;/b&gt;&lt;br&gt;&lt;font style='font-size: 18px'&gt;&lt;b&gt;Coordinate the outcome&lt;/b&gt;&lt;/font&gt;&lt;br&gt;Durable orchestration turns approved intent into accountable execution." style="rounded=1;whiteSpace=wrap;html=1;fillColor=#07140d;strokeColor=#7cff8f;fontColor=#f4fff5;fontFamily=Inter;spacing=12;verticalAlign=top;arcSize=14;" vertex="1" parent="1">
-          <mxGeometry x="438" y="168" width="258" height="138" as="geometry" />
+          <mxGeometry x="438" y="168" width="258" height="158" as="geometry" />
         </mxCell>
         <mxCell id="services" value="&lt;b&gt;07 · SERVICES&lt;/b&gt;&lt;br&gt;&lt;font style='font-size: 18px'&gt;&lt;b&gt;Execute capabilities&lt;/b&gt;&lt;/font&gt;&lt;br&gt;Typed contracts connect tools, systems, and people." style="rounded=1;whiteSpace=wrap;html=1;fillColor=#07140d;strokeColor=#35d06f;fontColor=#f4fff5;fontFamily=Inter;spacing=12;verticalAlign=top;arcSize=14;" vertex="1" parent="1">
-          <mxGeometry x="734" y="176" width="188" height="130" as="geometry" />
+          <mxGeometry x="734" y="176" width="188" height="150" as="geometry" />
         </mxCell>
         <mxCell id="solution" value="&lt;b&gt;09 · SOLUTION&lt;/b&gt;&lt;br&gt;&lt;font style='font-size: 18px'&gt;&lt;b&gt;Deliver the experience&lt;/b&gt;&lt;/font&gt;&lt;br&gt;A complete user-facing outcome with evidence attached." style="rounded=1;whiteSpace=wrap;html=1;fillColor=#07140d;strokeColor=#7cff8f;fontColor=#f4fff5;fontFamily=Inter;spacing=12;verticalAlign=top;arcSize=14;" vertex="1" parent="1">
-          <mxGeometry x="952" y="176" width="210" height="130" as="geometry" />
+          <mxGeometry x="952" y="176" width="210" height="150" as="geometry" />
         </mxCell>
         <mxCell id="cerebros" value="&lt;b&gt;04 · CEREBROS&lt;/b&gt;&lt;br&gt;&lt;font style='font-size: 18px'&gt;&lt;b&gt;Reason within bounds&lt;/b&gt;&lt;/font&gt;&lt;br&gt;Specialists interpret context and propose the next safe action." style="rounded=1;whiteSpace=wrap;html=1;fillColor=#07140d;strokeColor=#35d06f;fontColor=#f4fff5;fontFamily=Inter;spacing=12;verticalAlign=top;arcSize=14;" vertex="1" parent="1">
-          <mxGeometry x="222" y="344" width="218" height="130" as="geometry" />
+          <mxGeometry x="222" y="344" width="218" height="145" as="geometry" />
         </mxCell>
         <mxCell id="loom" value="&lt;b&gt;06 · LOOM&lt;/b&gt;&lt;br&gt;&lt;font style='font-size: 18px'&gt;&lt;b&gt;Shape the architecture&lt;/b&gt;&lt;/font&gt;&lt;br&gt;Reusable patterns keep every capability composable and portable." style="rounded=1;whiteSpace=wrap;html=1;fillColor=#07140d;strokeColor=#35d06f;fontColor=#f4fff5;fontFamily=Inter;spacing=12;verticalAlign=top;arcSize=14;" vertex="1" parent="1">
-          <mxGeometry x="490" y="344" width="218" height="130" as="geometry" />
+          <mxGeometry x="490" y="344" width="218" height="145" as="geometry" />
         </mxCell>
         <mxCell id="runtime" value="&lt;b&gt;08 · RUNTIME&lt;/b&gt;&lt;br&gt;&lt;font style='font-size: 18px'&gt;&lt;b&gt;Govern every run&lt;/b&gt;&lt;/font&gt;&lt;br&gt;Policy, approvals, retries, and state remain visible." style="rounded=1;whiteSpace=wrap;html=1;fillColor=#07140d;strokeColor=#35d06f;fontColor=#f4fff5;fontFamily=Inter;spacing=12;verticalAlign=top;arcSize=14;" vertex="1" parent="1">
-          <mxGeometry x="758" y="344" width="218" height="130" as="geometry" />
+          <mxGeometry x="758" y="344" width="218" height="145" as="geometry" />
         </mxCell>
         <mxCell id="knowledge" value="&lt;b&gt;CONTEXT PLANE&lt;/b&gt;&lt;br&gt;&lt;font style='font-size: 18px'&gt;&lt;b&gt;Knowledge + models&lt;/b&gt;&lt;/font&gt;&lt;br&gt;Grounded retrieval, approved models, and reusable memory." style="rounded=1;whiteSpace=wrap;html=1;fillColor=#07140d;strokeColor=#35d06f;fontColor=#f4fff5;fontFamily=Inter;spacing=12;verticalAlign=top;arcSize=14;" vertex="1" parent="1">
           <mxGeometry x="38" y="526" width="330" height="108" as="geometry" />

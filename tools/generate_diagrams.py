@@ -103,7 +103,7 @@ DIAGRAMS = (
     Diagram(
         "intent-to-evidence",
         "Intent to Evidence",
-        "One governed path turns an authenticated request into a proven, reusable outcome.",
+        "One governed path turns an authenticated request into a proven, reusable outcome across Azure, AWS, and Google Cloud.",
         (
             n("intent", "Intent", "Authenticated request", "A person or delegated client submits a bounded request with current identity, tenant, purpose, and authority.", 40, 400, 120, 90, "mint"),
             n("solution", "Solution", "User-facing composition", "The requested experience resolves a published Solution action without inventing a separate runtime primitive.", 190, 400, 120, 90, "mint"),
@@ -513,18 +513,17 @@ def scene_nodes(diagram: Diagram) -> tuple[Node, ...]:
 
 
 def svg_governed_decks() -> str:
-    face = "M 62 431 L 212 300 L 1482 500 L 1301 714 L 58 508 Z"
+    face = "M 58 410 L 1436 500 L 1304 718 L 58 528 Z"
     return (
         '<g class="glass-deck governed-runway governed-slab deck-1">'
         f'<path class="deck-shadow" d="{face}" transform="translate(0 45)"/>'
         f'<path class="deck-depth" d="{face}" transform="translate(0 26)"/>'
         f'<path class="deck-face" d="{face}"/>'
-        '<path class="deck-grid" d="M 86 414 L 1328 612 M 114 390 L 1360 586 M 143 365 L 1392 560 '
-        'M 173 339 L 1422 534 M 194 317 L 1450 514 M 180 482 L 350 323 M 430 568 L 596 361 '
-        'M 684 610 L 842 400 M 938 651 L 1085 440 M 1190 692 L 1334 478"/>'
-        '<path class="deck-shine" d="M 62 431 L 212 300 L 1482 500"/>'
-        '<path class="runway-rail runway-rail-a" d="M 83 456 L 218 333 L 1451 525"/>'
-        '<path class="runway-rail runway-rail-b" d="M 79 493 L 1294 686 L 1454 510"/>'
+        '<path class="deck-grid" d="M 88 438 L 1378 522 M 78 474 L 1354 558 M 68 510 L 1330 594 '
+        'M 328 428 L 270 565 M 590 445 L 520 602 M 852 462 L 770 640 M 1114 479 L 1020 678"/>'
+        '<path class="deck-shine" d="M 58 410 L 1436 500"/>'
+        '<path class="runway-rail runway-rail-a" d="M 84 439 L 1392 524"/>'
+        '<path class="runway-rail runway-rail-b" d="M 72 507 L 1284 694"/>'
         '<g class="branch-plinth"><path d="M 951 405 L 1014 351 L 1160 374 L 1089 447 Z"/>'
         '<path d="M 951 563 L 1014 509 L 1160 532 L 1089 605 Z"/></g>'
         '</g>'
@@ -536,19 +535,22 @@ def svg_decks(*, governed: bool = False) -> str:
         return svg_governed_decks()
     decks = []
     for index, (label, subtitle, top, bottom) in enumerate(SCENE_LAYERS, start=1):
+        face = (
+            f"M 280 {top + 22} L 1260 {top - 28} "
+            f"L 1360 {bottom + 12} L 380 {bottom + 62} Z"
+        )
         decks.append(
             f'<g class="glass-deck deck-{index}">'
-            f'<path class="deck-shadow" d="M 354 {top + 65} L 1128 {top - 2} L 1368 {top + 108} '
-            f'L 1288 {bottom + 8} L 388 {bottom + 59} L 260 {bottom - 10} Z"/>'
-            f'<path class="deck-depth" d="M 260 {bottom - 10} L 388 {bottom + 59} L 1288 {bottom + 8} '
-            f'L 1368 {top + 108} L 1368 {top + 127} L 1294 {bottom + 30} L 384 {bottom + 82} L 260 {bottom + 8} Z"/>'
-            f'<path class="deck-face" d="M 354 {top + 55} L 1128 {top - 12} L 1368 {top + 98} '
-            f'L 1288 {bottom - 2} L 388 {bottom + 49} L 260 {bottom - 20} Z"/>'
-            f'<path class="deck-grid" d="M 318 {top + 89} L 1328 {top + 71} M 300 {top + 130} L 1336 {top + 117} '
-            f'M 282 {top + 169} L 1312 {top + 161} M 430 {top + 44} L 438 {bottom + 43} '
-            f'M 660 {top + 24} L 672 {bottom + 30} M 890 {top + 4} L 906 {bottom + 17} '
-            f'M 1120 {top - 8} L 1140 {bottom + 4}"/>'
-            f'<path class="deck-shine" d="M 354 {top + 55} L 1128 {top - 12} L 1364 {top + 97}"/>'
+            f'<path class="deck-shadow" d="{face}" transform="translate(0 38)"/>'
+            f'<path class="deck-depth" d="{face}" transform="translate(0 22)"/>'
+            f'<path class="deck-face" d="{face}"/>'
+            f'<path class="deck-grid" d="M 310 {top + 52} L 1300 {top + 2} '
+            f'M 335 {top + 96} L 1325 {top + 46} '
+            f'M 360 {top + 140} L 1350 {top + 90} '
+            f'M 520 {top + 10} L 620 {bottom + 50} '
+            f'M 760 {top - 2} L 860 {bottom + 38} '
+            f'M 1000 {top - 14} L 1100 {bottom + 26}"/>'
+            f'<path class="deck-shine" d="M 280 {top + 22} L 1260 {top - 28}"/>'
             f'<text class="layer-title" x="70" y="{top + 88}">{label}</text>'
             f'<text class="layer-subtitle" x="70" y="{top + 115}">{subtitle}</text>'
             f'<path class="layer-rule" d="M 50 {top + 57} V {top + 119}"/>'
@@ -606,12 +608,12 @@ def svg_node(node: Node, interactive: bool = False, substantial: bool = False) -
         if interactive else ""
     )
     echo_markup = "" if substantial else (
-        f'<rect class="node-echo node-echo-back" x="{node.x - 12}" y="{node.y + 8}" width="{node.w}" height="{node.h}" rx="15"/>'
-        f'<rect class="node-echo" x="{node.x - 6}" y="{node.y + 4}" width="{node.w}" height="{node.h}" rx="15"/>'
+        f'<rect class="node-echo node-echo-back" x="{node.x - 12}" y="{node.y + 8}" width="{node.w}" height="{node.h}" rx="6"/>'
+        f'<rect class="node-echo" x="{node.x - 6}" y="{node.y + 4}" width="{node.w}" height="{node.h}" rx="6"/>'
     )
     depth = 18 if substantial else 12
     node_class = " governed-node" if substantial else ""
-    radius = 22 if substantial else 15
+    radius = 6
     return f"""
     <g id="node-{node.id}" class="node node-{node.color}{node_class}"{attrs}>
       {echo_markup}
@@ -661,12 +663,12 @@ def svg_governed_node(node: Node, interactive: bool = False) -> str:
     x, y, w, h = node.x, node.y, node.w, node.h
     return f"""
     <g id="node-{node.id}" class="node node-{node.color} governed-node governed-cuboid"{attrs}>
-      <rect class="cuboid-echo cuboid-echo-back" x="{x - 16}" y="{y + 16}" width="{w}" height="{h}" rx="17"/>
-      <rect class="cuboid-echo" x="{x - 8}" y="{y + 8}" width="{w}" height="{h}" rx="17"/>
+      <rect class="cuboid-echo cuboid-echo-back" x="{x - 16}" y="{y + 16}" width="{w}" height="{h}" rx="6"/>
+      <rect class="cuboid-echo" x="{x - 8}" y="{y + 8}" width="{w}" height="{h}" rx="6"/>
       <rect class="node-plinth" x="{x - 7}" y="{y + h - 5}" width="{w + 14}" height="20" rx="4"/>
       <rect class="node-top" x="{x + 5}" y="{y - 11}" width="{w - 10}" height="16" rx="4"/>
       <rect class="node-side" x="{x + w - 2}" y="{y + 6}" width="12" height="{h - 8}" rx="4"/>
-      <rect class="node-face" x="{x}" y="{y}" width="{w}" height="{h}" rx="18"/>
+      <rect class="node-face" x="{x}" y="{y}" width="{w}" height="{h}" rx="6"/>
       <path class="node-shine" d="M {x + 15} {y + 7} H {x + w - 15}"/>
       <g transform="translate(0 17)">{svg_icon(node)}</g>
       <text class="node-title" x="{x + w / 2}" y="{title_y}">{title_markup}</text>
@@ -1241,7 +1243,7 @@ def draw_glass_decks(draw: ImageDraw.ImageDraw, governed: bool = False) -> None:
     label_font = load_font(20, True)
     subtitle_font = load_font(11)
     if governed:
-        face_points = [(62, 431), (212, 300), (1482, 500), (1301, 714), (58, 508)]
+        face_points = [(58, 410), (1436, 500), (1304, 718), (58, 528)]
         depth_points = [(x, y + 26) for x, y in face_points]
         shadow_points = [(x, y + 45) for x, y in face_points]
         draw.polygon(shadow_points, fill="#010402")
@@ -1251,65 +1253,35 @@ def draw_glass_decks(draw: ImageDraw.ImageDraw, governed: bool = False) -> None:
         draw.polygon(face_points, fill="#102a1d")
         draw.line(face_points + [face_points[0]], fill="#4bd489", width=3, joint="curve")
         for line in (
-            [(86, 414), (1328, 612)], [(114, 390), (1360, 586)], [(143, 365), (1392, 560)],
-            [(173, 339), (1422, 534)], [(194, 317), (1450, 514)], [(180, 482), (350, 323)],
-            [(430, 568), (596, 361)], [(684, 610), (842, 400)], [(938, 651), (1085, 440)],
-            [(1190, 692), (1334, 478)],
+            [(88, 438), (1378, 522)], [(78, 474), (1354, 558)], [(68, 510), (1330, 594)],
+            [(328, 428), (270, 565)], [(590, 445), (520, 602)], [(852, 462), (770, 640)],
+            [(1114, 479), (1020, 678)],
         ):
             draw.line(line, fill="#204f37", width=1)
-        draw.line([(62, 431), (212, 300), (1482, 500)], fill="#9cffbd", width=2, joint="curve")
-        draw.line([(83, 456), (218, 333), (1451, 525)], fill="#7dff58", width=2, joint="curve")
-        draw.line([(79, 493), (1294, 686), (1454, 510)], fill="#7dff58", width=2, joint="curve")
+        draw.line([(58, 410), (1436, 500)], fill="#9cffbd", width=2, joint="curve")
+        draw.line([(84, 439), (1392, 524)], fill="#7dff58", width=2, joint="curve")
+        draw.line([(72, 507), (1284, 694)], fill="#7dff58", width=2, joint="curve")
         for points in (
             [(951, 405), (1014, 351), (1160, 374), (1089, 447)],
             [(951, 563), (1014, 509), (1160, 532), (1089, 605)],
         ):
             draw.polygon(points, fill="#0b281b", outline="#57df91")
         return
-    governed_palette = (
-        ("#06251a", "#123a2a", "#70e6b1"),
-        ("#061d17", "#102f27", "#3fbf8a"),
-        ("#111d11", "#263921", "#88b96a"),
-    )
     for index, (label, subtitle, top, bottom) in enumerate(SCENE_LAYERS):
-        depth_fill, face_fill, outline = governed_palette[index] if governed else ("#03100b", "#0a2419", COLORS["mint"])
-        if governed:
-            face_points = [
-                (360, top + 44), (336, top + 55), (272, bottom - 29), (279, bottom - 10),
-                (378, bottom + 43), (406, bottom + 48), (1278, bottom - 2),
-                (1307, bottom - 13), (1354, top + 91), (1350, top + 74),
-                (1142, top - 10), (1116, top - 13),
-            ]
-            depth_points = [(x, y + 24) for x, y in face_points]
-            shadow_points = [(x, y + 38) for x, y in face_points]
-            draw.polygon(shadow_points, fill="#020604")
-            draw.line(shadow_points + [shadow_points[0]], fill="#0b1711", width=2, joint="curve")
-            draw.polygon(depth_points, fill=depth_fill)
-            draw.line(depth_points + [depth_points[0]], fill=outline, width=2, joint="curve")
-            draw.polygon(face_points, fill=face_fill)
-            draw.line(face_points + [face_points[0]], fill=outline, width=3, joint="curve")
-            draw.line((360, top + 44, 336, top + 55, 272, bottom - 29), fill="#a8ffd4", width=2, joint="curve")
-            draw.rounded_rectangle((49, top + 47, 287, top + 129), radius=20, fill="#04130d", outline="#315b49", width=1)
-            draw.text((86, top + 62), label, font=label_font, fill=COLORS["text"])
-            draw.text((86, top + 91), subtitle, font=subtitle_font, fill="#a8cbbd")
-            draw.line((66, top + 65, 66, top + 111), fill=outline, width=4)
-        else:
-            draw.polygon(
-                [(260, bottom - 10), (388, bottom + 59), (1288, bottom + 8), (1368, top + 108),
-                 (1368, top + 127), (1294, bottom + 30), (384, bottom + 82), (260, bottom + 8)],
-                fill=depth_fill,
-                outline=outline,
-            )
-            draw.polygon(
-                [(354, top + 55), (1128, top - 12), (1368, top + 98), (1288, bottom - 2),
-                 (388, bottom + 49), (260, bottom - 20)],
-                fill=face_fill,
-                outline=outline,
-            )
-            draw.line((354, top + 55, 1128, top - 12, 1364, top + 97), fill="#a8ffd4", width=2)
-            draw.text((70, top + 67), label, font=label_font, fill=COLORS["text"])
-            draw.text((70, top + 96), subtitle, font=subtitle_font, fill="#a8cbbd")
-            draw.line((50, top + 57, 50, top + 119), fill=outline, width=4)
+        depth_fill, face_fill, outline = "#03100b", "#0a2419", COLORS["mint"]
+        face_points = [(280, top + 22), (1260, top - 28), (1360, bottom + 12), (380, bottom + 62)]
+        depth_points = [(x, y + 22) for x, y in face_points]
+        shadow_points = [(x, y + 38) for x, y in face_points]
+        draw.polygon(shadow_points, fill="#020604")
+        draw.line(shadow_points + [shadow_points[0]], fill="#0b1711", width=2, joint="curve")
+        draw.polygon(depth_points, fill=depth_fill)
+        draw.line(depth_points + [depth_points[0]], fill=outline, width=2, joint="curve")
+        draw.polygon(face_points, fill=face_fill)
+        draw.line(face_points + [face_points[0]], fill=outline, width=3, joint="curve")
+        draw.line((280, top + 22, 1260, top - 28), fill="#a8ffd4", width=2)
+        draw.text((70, top + 67), label, font=label_font, fill=COLORS["text"])
+        draw.text((70, top + 96), subtitle, font=subtitle_font, fill="#a8cbbd")
+        draw.line((50, top + 57, 50, top + 119), fill=outline, width=4)
 
 
 def draw_orthogonal(draw: ImageDraw.ImageDraw, source: Node, target: Node, fill: str, width: int) -> None:
@@ -1608,27 +1580,27 @@ def write_gif(diagram: Diagram) -> None:
                 cube_stroke = "#ffc76a" if node.color == "amber" else "#70e6b1"
                 if active:
                     cube_stroke = "#ffc76a" if node.color == "amber" else "#9dff71"
-                draw.rounded_rectangle((x - 16, y + 16, x + w - 16, y + h + 16), radius=17, fill="#0a2418", outline="#315f47", width=1)
-                draw.rounded_rectangle((x - 8, y + 8, x + w - 8, y + h + 8), radius=17, fill="#0c2f20", outline=cube_stroke, width=1)
+                draw.rounded_rectangle((x - 16, y + 16, x + w - 16, y + h + 16), radius=6, fill="#0a2418", outline="#315f47", width=1)
+                draw.rounded_rectangle((x - 8, y + 8, x + w - 8, y + h + 8), radius=6, fill="#0c2f20", outline=cube_stroke, width=1)
                 draw.rounded_rectangle((x - 7, y + h - 5, x + w + 7, y + h + 15), radius=4, fill="#0b2519", outline=cube_stroke)
                 draw.rounded_rectangle((x + 5, y - 11, x + w - 5, y + 5), radius=4, fill="#173b29", outline=cube_stroke)
                 draw.rounded_rectangle((x + w - 2, y + 6, x + w + 10, y + h - 2), radius=4, fill="#07160f", outline=cube_stroke)
                 face_fill = "#3a2408" if node.color == "amber" else fill
-                draw.rounded_rectangle(box, radius=18, fill=face_fill, outline=cube_stroke, width=5 if active else 3)
+                draw.rounded_rectangle(box, radius=6, fill=face_fill, outline=cube_stroke, width=5 if active else 3)
                 draw.line((x + 15, y + 7, x + w - 15, y + 7), fill="#b4ffda", width=2)
                 draw.ellipse((x - 8, y - 31, x + 24, y + 1), fill="#07100b", outline="#ffc76a" if node.color == "amber" else "#d9ff38", width=3)
                 draw.text((x + 8, y - 15), GOVERNED_NODE_NUMBERS[node.id], font=load_font(15, True), fill="#ffcb68" if node.color == "amber" else "#f1ffad", anchor="mm")
             else:
                 draw.rounded_rectangle(
                     (node.x - 10, node.y + 7, node.x + node.w - 10, node.y + node.h + 7),
-                    radius=15,
+                    radius=6,
                     fill="#082017",
                     outline=stroke,
                     width=1,
                 )
                 draw.rounded_rectangle(
                     (node.x - 5, node.y + 3, node.x + node.w - 5, node.y + node.h + 3),
-                    radius=15,
+                    radius=6,
                     fill="#0a2a1d",
                     outline=stroke,
                     width=1,
@@ -1640,7 +1612,7 @@ def write_gif(diagram: Diagram) -> None:
                     fill="#030806",
                     outline=stroke,
                 )
-                draw.rounded_rectangle(box, radius=15, fill=fill, outline=stroke, width=5 if active else 2)
+                draw.rounded_rectangle(box, radius=6, fill=fill, outline=stroke, width=5 if active else 2)
                 draw.line((node.x + 16, node.y + 7, node.x + node.w - 16, node.y + 7), fill="#b4ffda", width=1)
             if diagram.slug == "governed-run":
                 draw_governed_gif_icon(draw, node)
@@ -1693,6 +1665,20 @@ def write_drawio(diagrams: tuple[Diagram, ...]) -> None:
         ET.SubElement(root, "mxCell", id="0")
         ET.SubElement(root, "mxCell", id="1", parent="0")
         if config:
+            title = ET.SubElement(
+                root,
+                "mxCell",
+                id=f"{diagram.slug}-title",
+                value=f"<b>{escape(diagram.title)}</b><br>{escape(diagram.subtitle)}",
+                style=(
+                    f"text;html=1;strokeColor=none;fillColor=none;whiteSpace=wrap;"
+                    f"fontSize=18;fontFamily=Inter;fontColor={COLORS['text']};"
+                    "align=left;verticalAlign=middle;opacity=0;"
+                ),
+                vertex="1",
+                parent="1",
+            )
+            ET.SubElement(title, "mxGeometry", x="0", y="0", width="1", height="1", **{"as": "geometry"})
             background = ET.SubElement(
                 root,
                 "mxCell",

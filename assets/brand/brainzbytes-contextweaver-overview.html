@@ -113,17 +113,32 @@ const narratorPreferences=[
   {label:"Ava",pattern:/Microsoft Ava/i},
   {label:"Emma",pattern:/Microsoft Emma/i},
   {label:"Michelle",pattern:/Microsoft Michelle/i},
+  {label:"Sonia",pattern:/Microsoft Sonia/i},
+  {label:"Libby",pattern:/Microsoft Libby/i},
+  {label:"Natasha",pattern:/Microsoft Natasha/i},
   {label:"Samantha",pattern:/Samantha/i},
   {label:"Zira",pattern:/Microsoft Zira/i},
+  {label:"Victoria",pattern:/Victoria/i},
+  {label:"Karen",pattern:/Karen/i},
+  {label:"Moira",pattern:/Moira/i},
+  {label:"Tessa",pattern:/Tessa/i},
+  {label:"Fiona",pattern:/Fiona/i},
   {label:"Google female",pattern:/Google (?:UK|US) English Female/i},
   {label:"Female voice",pattern:/\bfemale\b/i}
 ];
 function chooseNarrator(){
   if(!("speechSynthesis" in window))return null;
   const voices=speechSynthesis.getVoices();
-  const preference=narratorPreferences.find(({pattern})=>voices.some(voice=>pattern.test(voice.name)&&voice.lang.startsWith("en")));
-  narratorVoice=preference?voices.find(voice=>preference.pattern.test(voice.name)&&voice.lang.startsWith("en")):null;
-  byId("voiceName").textContent=narratorVoice?`Female narrator · ${preference.label}`:"Female narrator";
+  const englishVoices=voices.filter(voice=>/^en(?:-|_)/i.test(voice.lang));
+  const preference=narratorPreferences.find(({pattern})=>englishVoices.some(voice=>pattern.test(voice.name)));
+  narratorVoice=preference
+    ? englishVoices.find(voice=>preference.pattern.test(voice.name))
+    : englishVoices.find(voice=>voice.default)||englishVoices.find(voice=>voice.localService)||englishVoices[0]||voices.find(voice=>voice.default)||voices[0]||null;
+  byId("voiceName").textContent=preference
+    ? `Female narrator · ${preference.label}`
+    : narratorVoice
+      ? "English narrator"
+      : "Browser narrator";
   return narratorVoice;
 }
 chooseNarrator();
@@ -139,7 +154,7 @@ function waitForNarrator(){
       const started=performance.now();
       const poll=()=>{
         const voice=chooseNarrator();
-        if(voice||performance.now()-started>=1800){voiceLoadPromise=null;resolve(voice);return}
+        if(voice||performance.now()-started>=5000){voiceLoadPromise=null;resolve(voice);return}
         setTimeout(poll,60);
       };
       setTimeout(poll,60);
@@ -157,15 +172,31 @@ async function speak(stage){
   const token=++speechToken;
   const voice=await waitForNarrator();
   if(token!==speechToken||!playing||!narrationEnabled)return;
-  if(!voice){byId("voiceName").textContent="Female narrator unavailable";scheduleFallback(stage);return}
-  const utterance=new SpeechSynthesisUtterance(stage.narration);
-  utterance.voice=voice;utterance.lang=voice.lang;utterance.rate=.9;utterance.pitch=1.02;utterance.volume=1;
-  utterance.onstart=()=>{if(token===speechToken)jazz.volume=musicEnabled ? .055 : 0};
-  utterance.onend=()=>{if(token!==speechToken)return;clearTimeout(timer);clearInterval(speechKeepAlive);speechKeepAlive=0;jazz.volume=musicEnabled ? .18 : 0;timer=setTimeout(advance,900)};
-  utterance.onerror=event=>{if(token!==speechToken||event.error==="canceled"||event.error==="interrupted")return;clearTimeout(timer);clearInterval(speechKeepAlive);speechKeepAlive=0;jazz.volume=musicEnabled ? .18 : 0;scheduleFallback(stage)};
-  timer=setTimeout(()=>{if(token!==speechToken||!playing)return;speechToken+=1;clearInterval(speechKeepAlive);speechKeepAlive=0;speechSynthesis.cancel();jazz.volume=musicEnabled ? .18 : 0;advance()},narrationWatchdogDelay(stage));
-  speechKeepAlive=setInterval(()=>{if(token===speechToken&&speechSynthesis.paused)speechSynthesis.resume()},8000);
-  speechSynthesis.speak(utterance);
+  const startUtterance=(attempt=0)=>{
+    if(token!==speechToken||!playing||!narrationEnabled)return;
+    const utterance=new SpeechSynthesisUtterance(stage.narration);
+    if(voice)utterance.voice=voice;
+    utterance.lang=voice?.lang||"en-US";utterance.rate=.9;utterance.pitch=1.02;utterance.volume=1;
+    let started=false,retryScheduled=false;
+    const retry=()=>{
+      if(retryScheduled||started||token!==speechToken||!playing||!narrationEnabled)return;
+      retryScheduled=true;clearTimeout(startGuard);speechSynthesis.cancel();
+      if(attempt<2)setTimeout(()=>startUtterance(attempt+1),180);
+      else{byId("voiceName").textContent="Narration unavailable";scheduleFallback(stage)}
+    };
+    const startGuard=setTimeout(retry,1800);
+    utterance.onstart=()=>{
+      if(token!==speechToken)return;
+      started=true;clearTimeout(startGuard);jazz.volume=musicEnabled ? .055 : 0;
+      timer=setTimeout(()=>{if(token!==speechToken||!playing)return;speechToken+=1;clearInterval(speechKeepAlive);speechKeepAlive=0;speechSynthesis.cancel();jazz.volume=musicEnabled ? .18 : 0;advance()},narrationWatchdogDelay(stage));
+      speechKeepAlive=setInterval(()=>{if(token===speechToken&&speechSynthesis.paused)speechSynthesis.resume()},8000);
+    };
+    utterance.onend=()=>{if(token!==speechToken)return;clearTimeout(startGuard);clearTimeout(timer);clearInterval(speechKeepAlive);speechKeepAlive=0;jazz.volume=musicEnabled ? .18 : 0;timer=setTimeout(advance,900)};
+    utterance.onerror=event=>{if(token!==speechToken)return;if(!started&&(event.error==="canceled"||event.error==="interrupted")){retry();return}clearTimeout(startGuard);clearTimeout(timer);clearInterval(speechKeepAlive);speechKeepAlive=0;jazz.volume=musicEnabled ? .18 : 0;scheduleFallback(stage)};
+    speechSynthesis.resume();
+    speechSynthesis.speak(utterance);
+  };
+  setTimeout(()=>startUtterance(),120);
 }
 function completeIntro(){playing=false;stopSpeech();jazz.pause();if(window.parent!==window)window.parent.postMessage({type:"brainzbytes-intro-complete"},location.origin)}
 function showClosing(){

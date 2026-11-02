@@ -271,9 +271,17 @@ def svg_icon(node: Node) -> str:
 
 def rounded_zone_markup(label: str, x: int, y: int, w: int, h: int, color: str) -> str:
     label_width = min(w - 52, max(220, int(len(label) * 6.3 + 34)))
-    face = f"M {x} {y} H {x + w} V {y + h} H {x} Z"
-    depth = f"M {x} {y + h - 2} H {x + w} V {y + h + 28} H {x} Z"
-    shadow = f"M {x + 8} {y + h + 18} H {x + w + 8} V {y + h + 36} H {x + 8} Z"
+    skew = 20
+    slab_depth = 22
+    face = f"M {x + skew} {y} L {x + w + skew} {y} L {x + w} {y + h} L {x} {y + h} Z"
+    depth = (
+        f"M {x} {y + h} L {x + w} {y + h} "
+        f"L {x + w} {y + h + slab_depth} L {x} {y + h + slab_depth} Z"
+    )
+    shadow = (
+        f"M {x + 8} {y + h + slab_depth + 8} L {x + w + 8} {y + h + slab_depth + 8} "
+        f"L {x + w + 8} {y + h + slab_depth + 20} L {x + 8} {y + h + slab_depth + 20} Z"
+    )
     return (
         f'<g class="zone zone-{color}">'
         f'<path class="zone-shadow" d="{shadow}"/>'
@@ -507,33 +515,28 @@ def render_image(active_nodes: set[str] | None = None, active_edges: set[str] | 
         "amber": "#302711",
     }
     for label, x, y, w, h, color in GROUPS:
-        box = (int(x * sx), int(y * sy), int((x + w) * sx), int((y + h) * sy))
+        left = int(x * sx)
+        top = int(y * sy)
+        right = int((x + w) * sx)
+        bottom = int((y + h) * sy)
+        skew = max(10, int(20 * sx))
         depth = max(10, int(16 * sy))
-        radius = max(12, int(22 * sy))
-        draw.rounded_rectangle(
-            (box[0] + 4, box[1] + depth + 8, box[2] - 4, box[3] + depth + 8),
-            radius=radius,
-            fill="#010503",
-        )
-        draw.rounded_rectangle(
-            (box[0], box[1] + depth, box[2], box[3] + depth),
-            radius=radius,
-            fill="#030806",
-            outline=COLORS["line"],
-            width=2,
-        )
-        draw.rounded_rectangle(
-            box,
-            radius=radius,
-            fill=zone_fills[color],
-            outline=COLORS[color],
-            width=2,
-        )
-        draw.line((box[0] + depth * 2, box[1] + 7, box[2] - depth * 2, box[1] + 7), fill="#315f4c", width=1)
-        label_width = min(box[2] - box[0] - 40, max(180, int(len(label) * 5.5 + 28)))
-        label_plate = (box[0] + 10, box[1] + 2, box[0] + 10 + label_width, box[1] + 20)
+        face = [(left + skew, top), (right + skew, top), (right, bottom), (left, bottom)]
+        lower = [(left, bottom), (right, bottom), (right, bottom + depth), (left, bottom + depth)]
+        shadow = [
+            (left + 4, bottom + depth + 8),
+            (right + 4, bottom + depth + 8),
+            (right + 4, bottom + depth + 18),
+            (left + 4, bottom + depth + 18),
+        ]
+        draw.polygon(shadow, fill="#010503")
+        draw.polygon(lower, fill="#030806", outline=COLORS["line"])
+        draw.polygon(face, fill=zone_fills[color], outline=COLORS[color])
+        draw.line((left + skew + depth, top + 7, right + skew - depth, top + 7), fill="#315f4c", width=1)
+        label_width = min(right - left - 40, max(180, int(len(label) * 5.5 + 28)))
+        label_plate = (left + skew + 10, top + 2, left + skew + 10 + label_width, top + 20)
         draw.rounded_rectangle(label_plate, radius=8, fill=COLORS["bg"], outline=COLORS[color], width=1)
-        draw.text((box[0] + 20, box[1] + 6), label, fill=COLORS["text"], font=font(8, True))
+        draw.text((left + skew + 20, top + 6), label, fill=COLORS["text"], font=font(8, True))
     by_id = {n.id: n for n in NODES}
     for edge in EDGES:
         source, target = by_id[edge.source], by_id[edge.target]
