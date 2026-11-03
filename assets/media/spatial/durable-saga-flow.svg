@@ -1,0 +1,343 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1536 1024"><style>
+  .floor-grid { opacity:.58; }
+  .brand-title { fill:#f4f8f2; font:900 29px Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; letter-spacing:2.4px; }
+  .brand-accent { fill:#b8ff6a; }
+  .diagram-title { fill:#70e6b1; font:800 15px Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; letter-spacing:1.6px; }
+  .diagram-subtitle { fill:#b9d2c7; font:11px Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+  .diagram-governed-run .governed-main-title { fill:#f4f1e9; font-size:45px; font-weight:850; letter-spacing:2px; text-anchor:middle; }
+  .diagram-governed-run .governed-main-subtitle { fill:#a9aeb1; font-size:22px; font-weight:650; letter-spacing:1.5px; text-anchor:middle; }
+  .glass-deck { filter:url(#deck-glow); }
+  .glass-deck .deck-shadow { fill:#000; opacity:.62; }
+  .glass-deck .deck-face { fill:url(#deck-face); stroke:#70e6b1; stroke-width:1.6; opacity:.94; }
+  .glass-deck .deck-depth { fill:#03100b; stroke:#70e6b1; stroke-width:1.2; opacity:.9; }
+  .glass-deck .deck-grid { fill:none; stroke:#70e6b1; stroke-width:.75; opacity:.12; }
+  .glass-deck .deck-shine { fill:none; stroke:#a8ffd4; stroke-width:1.4; opacity:.66; }
+  .diagram-governed-run .governed-runway .deck-face { fill:url(#deck-experience); stroke:#4bd489; stroke-width:1.6; opacity:.58; }
+  .diagram-governed-run .governed-runway .deck-depth { fill:#06170f; stroke:#5bee92; stroke-width:1.5; opacity:.78; }
+  .diagram-governed-run .governed-runway .deck-grid { stroke:#4ccf88; opacity:.16; }
+  .runway-rail { fill:none; stroke:#7dff58; stroke-width:2.2; opacity:.35; filter:url(#glow); }
+  .branch-plinth path { fill:#0b281b; fill-opacity:.52; stroke:#57df91; stroke-width:1.2; }
+  .governed-slab .deck-shadow { opacity:.72; }
+  .governed-slab .deck-depth { stroke-width:1.8; }
+  .governed-slab .deck-face { stroke-width:2.3; }
+  .governed-slab .deck-grid { opacity:.09; }
+  .governed-slab .deck-shine { stroke-width:2.1; opacity:.78; }
+  .layer-plaque rect { fill:#04130d; fill-opacity:.92; stroke:#315b49; stroke-width:1.2; }
+  .layer-title { fill:#f4f8f2; font:800 20px Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; letter-spacing:.7px; }
+  .layer-subtitle { fill:#a8cbbd; font:11px Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+  .layer-rule { fill:none; stroke:#70e6b1; stroke-width:4; filter:url(#glow); }
+  .node { filter:url(#card-shadow); }
+  .node-face { fill:url(#glass-face); stroke:#70e6b1; stroke-width:2.2; }
+  .node-echo { fill:#0b2a1d; fill-opacity:.58; stroke:#70e6b1; stroke-width:1; opacity:.72; }
+  .node-echo-back { opacity:.34; }
+  .node-depth { fill:#020a07; stroke:#70e6b1; stroke-width:1.2; }
+  .node-shine { fill:none; stroke:#b4ffda; stroke-width:1.3; opacity:.72; }
+  .node-mint .node-face { stroke:#70e6b1; } .node-sky .node-face { stroke:#52b788; }
+  .node-amber .node-face { stroke:#ffc76a; } .node-violet .node-face { stroke:#9bcf9f; }
+  .node-coral .node-face { stroke:#7fb98d; }
+  .node-amber .node-depth,.node-amber .node-echo { stroke:#ffc76a; }
+  .governed-node .node-face { fill:url(#glass-face); stroke-width:2.8; }
+  .platform-module .module-shadow { fill:#020705; stroke:#173629; stroke-width:1; }
+  .platform-module .module-plinth { fill:#06170f; stroke:#65e99d; stroke-width:1.4; }
+  .platform-module .module-top { fill:#173b29; stroke:#8affbd; stroke-width:1.4; }
+  .platform-module .module-side { fill:#07160f; stroke:#65e99d; stroke-width:1.2; }
+  .platform-module .node-face { fill:url(#glass-face); stroke:#65e99d; stroke-width:2.4; }
+  .platform-module.node-amber .module-plinth,.platform-module.node-amber .module-top,.platform-module.node-amber .module-side,.platform-module.node-amber .node-face { stroke:#ffb938; }
+  .platform-module.node-amber .node-face { fill:#332309; }
+  .governed-node .node-depth { stroke-width:1.6; }
+  .governed-node .node-shine { stroke-width:1.6; opacity:.8; }
+  .governed-cuboid { filter:url(#card-shadow); }
+  .governed-cuboid .node-face { fill:url(#glass-face); stroke:#65e99d; stroke-width:2.2; }
+  .governed-cuboid .node-top { fill:#173b29; fill-opacity:.74; stroke:#72f2a7; stroke-width:1.5; }
+  .governed-cuboid .node-side { fill:#07160f; fill-opacity:.9; stroke:#4fcf88; stroke-width:1.2; }
+  .governed-cuboid .node-plinth { fill:#0b2519; fill-opacity:.74; stroke:#65e99d; stroke-width:1.2; }
+  .governed-cuboid .cuboid-echo { fill:#123a28; fill-opacity:.3; stroke:#4ecf87; stroke-width:1; }
+  .governed-cuboid .cuboid-echo-back { opacity:.45; }
+  .governed-cuboid.node-amber .node-face,.governed-cuboid.node-amber .node-top,.governed-cuboid.node-amber .node-side,.governed-cuboid.node-amber .node-plinth { stroke:#ffb938; }
+  .governed-cuboid.node-amber .node-face { fill:#3a2408; fill-opacity:.9; }
+  .governed-cuboid.node-amber .cuboid-echo { stroke:#ffb938; fill:#3b2306; }
+  .diagram-governed-run .node-title { font-size:14px; font-weight:850; }
+  .diagram-governed-run .node-subtitle { font-size:7px; }
+  .cuboid-number circle { fill:#07100b; stroke:#d9ff38; stroke-width:2.5; filter:url(#glow); }
+  .cuboid-number text { fill:#f1ffad; font:850 16px Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; text-anchor:middle; }
+  .node-amber .cuboid-number circle { stroke:#ffb938; } .node-amber .cuboid-number text { fill:#ffcb68; }
+  .node-icon { fill:none; stroke:#d8fff0; stroke-width:2.2; stroke-linecap:round; stroke-linejoin:round; }
+  .node-title { fill:#f4f8f2; font:750 13px Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; text-anchor:middle; }
+  .node-subtitle { fill:#aed0c2; font:8px Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; text-anchor:middle; }
+  .node-step { opacity:0; } .node-step circle { fill:#07110f; stroke:#70e6b1; stroke-width:2; }
+  .node-step text { fill:#70e6b1; font:800 11px Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; text-anchor:middle; }
+  .edge .edge-route { fill:none; stroke:#70e6b1; stroke-width:2.8; }
+  .edge .edge-halo { fill:none; stroke:#70e6b1; stroke-width:12; stroke-opacity:.12; stroke-linecap:round; stroke-linejoin:round; }
+  .flow-pulse { fill:#70e6b1; opacity:0; filter:url(#glow); }
+  .edge text { fill:#a8bbb3; font:9px Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; text-anchor:middle; paint-order:stroke; stroke:#07110f; stroke-width:4; }
+  .edge-governance .edge-route { stroke:#ffc76a; stroke-dasharray:8 6; }
+  .edge-governance .flow-pulse,.edge-waiting .flow-pulse { fill:#ffc76a; }
+  .edge-success .edge-route { stroke:#70e6b1; } .edge-evidence .edge-route { stroke:#d8fff0; stroke-dasharray:3 7; }
+  .edge-evidence .flow-pulse { fill:#d8fff0; }
+  .edge-waiting .edge-route { stroke:#ffc76a; stroke-dasharray:10 7; }
+  .edge-failure .edge-route { stroke:#ff7188; stroke-dasharray:10 7; }
+  .edge-failure .flow-pulse { fill:#ff7188; }
+  .route-legend text { fill:#d4e2dc; font:11px Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+  .legend-lime { fill:#70e6b1; filter:url(#glow); } .legend-amber { fill:#ffc76a; filter:url(#glow); }
+  .legend-white { fill:#e8fff5; filter:url(#glow); }
+  .reference-legend rect { fill:#03100c; fill-opacity:.9; stroke:#27c997; stroke-width:1; }
+  .reference-legend text { font-size:12px; }
+  .legend-route { fill:none; stroke-width:4; marker-end:url(#arrow); }
+  .legend-route-lime { stroke:#aaff2e; } .legend-route-amber { stroke:#ffc76a; stroke-dasharray:8 6; }
+  .legend-route-control { stroke:#79e968; stroke-dasharray:8 7; }
+  .legend-route-return { stroke:#b9ff42; }
+  .step-markers circle { fill:#092116; stroke:#b8ff3d; stroke-width:3; filter:url(#glow); }
+  .step-markers text { fill:#eaffc9; font:800 18px Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; text-anchor:middle; }
+  .step-markers .amber-marker circle { stroke:#ffc76a; } .step-markers .amber-marker text { fill:#ffc76a; }
+  .step-markers .white-marker circle { stroke:#e8fff5; } .step-markers .white-marker text { fill:#e8fff5; }
+  .outcome-route { fill:none; stroke:#e8fff5; stroke-width:3.2; stroke-dasharray:4 10; marker-end:url(#arrow); filter:url(#glow); }
+  .outcome-ring { fill:#092116; stroke:#b8ff3d; stroke-width:4; filter:url(#glow); }
+  .outcome-check { fill:none; stroke:#dfff8e; stroke-width:3; stroke-linecap:round; stroke-linejoin:round; }
+  .outcome-label { fill:#f4f8f2; font:800 21px Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; letter-spacing:1.2px; text-anchor:end; }
+  .outcome-subtitle { fill:#a8cbbd; font:9px Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+  .vertical-beams .beam { fill:none; stroke-width:4; filter:url(#glow); }
+  .vertical-beams .beam-lime { stroke:#b8ff39; opacity:.72; } .vertical-beams .beam-soft { stroke:#70e6b1; opacity:.28; }
+  .vertical-beams ellipse { fill:#b8ff39; opacity:.36; filter:url(#glow); }
+  .diagram-governed-run .node-step { display:none; }
+  .control-route { fill:none; stroke:#78e867; stroke-width:2.3; stroke-dasharray:8 7; }
+  .control-routes circle { fill:#78e867; filter:url(#glow); }
+  .control-routes text { fill:#8bf06d; font:800 15px Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+  .control-routes .control-copy { fill:#74c961; font-size:12px; font-weight:600; }
+  .payload-card rect { fill:#07140f; fill-opacity:.95; stroke:#52d890; stroke-width:1.3; }
+  .payload-card text { fill:#c8d8d0; font:10px Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+  .payload-card .payload-title { fill:#f1f4ef; font-size:14px; font-weight:800; }
+  .return-glow { fill:none; stroke:#b8ff39; stroke-width:13; opacity:.16; filter:url(#glow); }
+  .return-route { fill:none; stroke:#c9ff42; stroke-width:3.5; marker-end:url(#arrow); filter:url(#glow); }
+  .evidence-return text { fill:#a9ff43; font:800 13px Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; letter-spacing:.8px; }
+  .image-hotspot { cursor:pointer; }
+  .image-hotspot .hotspot-hit { fill:#000; fill-opacity:.001; stroke:none; }
+  .image-hotspot .hotspot-ring,.image-hotspot .hotspot-pulse { fill:#b8ff39; fill-opacity:0; stroke:#d4ff3f; stroke-width:0; opacity:0; pointer-events:none; }
+  .image-hotspot.active .hotspot-ring,.image-hotspot.selected .hotspot-ring { fill-opacity:.04; stroke-width:2.5; opacity:.88; filter:url(#glow); }
+  .image-hotspot.active .hotspot-pulse { stroke-width:1.5; opacity:.48; transform-box:fill-box; transform-origin:center; animation:hotspot-pulse 1.7s ease-out infinite; }
+  .image-hotspot.node-amber.active .hotspot-ring,.image-hotspot.node-amber.active .hotspot-pulse { fill:#ffc76a; stroke:#ffc76a; }
+  .image-hotspot:focus-visible .hotspot-ring { stroke-width:5; opacity:1; }
+  @keyframes hotspot-pulse { 0%{transform:scale(.82);opacity:.8} 100%{transform:scale(1.22);opacity:0} }
+</style>
+    <g role="img" aria-labelledby="diagram-title diagram-desc">
+      <title id="diagram-title">Durable Saga Flow</title>
+      <desc id="diagram-desc">Parallel work, governed waits, safe recovery, and complete evidence.</desc>
+      <defs>
+        <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto">
+          <path d="M0,0 L0,6 L9,3 z" fill="context-stroke"/>
+        </marker>
+        <filter id="glow"><feGaussianBlur stdDeviation="6" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+        <filter id="deck-glow" x="-20%" y="-30%" width="140%" height="180%"><feDropShadow dx="0" dy="0" stdDeviation="7" flood-color="#70e6b1" flood-opacity=".22"/><feDropShadow dx="0" dy="18" stdDeviation="14" flood-color="#000000" flood-opacity=".75"/></filter>
+        <filter id="card-shadow" x="-30%" y="-30%" width="160%" height="180%"><feDropShadow dx="0" dy="9" stdDeviation="9" flood-color="#000000" flood-opacity=".58"/></filter>
+        <linearGradient id="glass-face" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#173f2e" stop-opacity=".96"/><stop offset=".48" stop-color="#10261d" stop-opacity=".94"/><stop offset="1" stop-color="#07110d" stop-opacity=".98"/></linearGradient>
+        <linearGradient id="deck-face" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#173429" stop-opacity=".48"/><stop offset=".58" stop-color="#0a1812" stop-opacity=".7"/><stop offset="1" stop-color="#07110d" stop-opacity=".9"/></linearGradient>
+        <linearGradient id="deck-experience" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#174735" stop-opacity=".68"/><stop offset=".58" stop-color="#0b281d" stop-opacity=".84"/><stop offset="1" stop-color="#06130e" stop-opacity=".95"/></linearGradient>
+        <linearGradient id="deck-cerebro" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#12382f" stop-opacity=".68"/><stop offset=".58" stop-color="#09231c" stop-opacity=".84"/><stop offset="1" stop-color="#05120e" stop-opacity=".95"/></linearGradient>
+        <linearGradient id="deck-weave" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#283c23" stop-opacity=".66"/><stop offset=".58" stop-color="#172719" stop-opacity=".84"/><stop offset="1" stop-color="#09120b" stop-opacity=".96"/></linearGradient>
+        <pattern id="perspective-grid" width="60" height="60" patternUnits="userSpaceOnUse"><path d="M60 0H0V60" fill="none" stroke="#315446" stroke-width="1" opacity=".22"/></pattern>
+      </defs>
+      <rect width="1536" height="1024" fill="#07110f"/>
+      <rect class="floor-grid" y="78" width="1536" height="946" fill="url(#perspective-grid)"/>
+
+      <g class="decks"><g class="glass-deck deck-1"><path class="deck-shadow" d="M 250 227 L 1280 127 L 1400 335 L 370 435 Z" transform="translate(0 38)"/><path class="deck-depth" d="M 370 435 L 1400 335 L 1400 357 L 370 457 Z"/><path class="deck-depth" d="M 1280 127 L 1400 335 L 1400 357 L 1280 149 Z"/><path class="deck-face" d="M 250 227 L 1280 127 L 1400 335 L 370 435 Z"/><path class="deck-grid" d="M 280 260 L 1310 160 M 315 309 L 1345 209 M 350 358 L 1380 258 M 505 202 L 625 410 M 750 178 L 870 386 M 995 154 L 1115 362"/><path class="deck-shine" d="M 250 227 L 1280 127"/><text class="layer-title" x="70" y="260">EXPERIENCE</text><text class="layer-subtitle" x="70" y="287">Channels and Solutions</text><path class="layer-rule" d="M 50 229 V 291"/></g><g class="glass-deck deck-2"><path class="deck-shadow" d="M 250 485 L 1280 385 L 1400 590 L 370 690 Z" transform="translate(0 38)"/><path class="deck-depth" d="M 370 690 L 1400 590 L 1400 612 L 370 712 Z"/><path class="deck-depth" d="M 1280 385 L 1400 590 L 1400 612 L 1280 407 Z"/><path class="deck-face" d="M 250 485 L 1280 385 L 1400 590 L 370 690 Z"/><path class="deck-grid" d="M 280 518 L 1310 418 M 315 567 L 1345 467 M 350 616 L 1380 516 M 505 460 L 625 665 M 750 436 L 870 641 M 995 412 L 1115 617"/><path class="deck-shine" d="M 250 485 L 1280 385"/><text class="layer-title" x="70" y="518">CEREBRO</text><text class="layer-subtitle" x="70" y="545">Intent, Identity, Policy, Registry, Compiler</text><path class="layer-rule" d="M 50 487 V 549"/></g><g class="glass-deck deck-3"><path class="deck-shadow" d="M 250 735 L 1280 635 L 1400 845 L 370 945 Z" transform="translate(0 38)"/><path class="deck-depth" d="M 370 945 L 1400 845 L 1400 867 L 370 967 Z"/><path class="deck-depth" d="M 1280 635 L 1400 845 L 1400 867 L 1280 657 Z"/><path class="deck-face" d="M 250 735 L 1280 635 L 1400 845 L 370 945 Z"/><path class="deck-grid" d="M 280 768 L 1310 668 M 315 817 L 1345 717 M 350 866 L 1380 766 M 505 710 L 625 920 M 750 686 L 870 896 M 995 662 L 1115 872"/><path class="deck-shine" d="M 250 735 L 1280 635"/><text class="layer-title" x="70" y="768">WEAVE + LOOM</text><text class="layer-subtitle" x="70" y="795">Workflows, Agents, MCP, Evidence, Kubernetes</text><path class="layer-rule" d="M 50 737 V 799"/></g></g>
+      <g class="edges"><g id="edge-d1" class="edge edge-governance" data-edge-id="d1"><path class="edge-route" d="M 666.0 265.0 L 685.0 265.0 L 685.0 244.0 L 704.0 244.0" marker-end="url(#arrow)"/><circle class="flow-pulse" r="4"><animateMotion dur="1.8s" repeatCount="indefinite" path="M 666.0 265.0 L 685.0 265.0 L 685.0 244.0 L 704.0 244.0"/></circle></g><g id="edge-d2" class="edge edge-governance" data-edge-id="d2"><path class="edge-route" d="M 926.0 244.0 L 945.0 244.0 L 945.0 223.0 L 964.0 223.0" marker-end="url(#arrow)"/><circle class="flow-pulse" r="4"><animateMotion dur="1.8s" repeatCount="indefinite" path="M 926.0 244.0 L 945.0 244.0 L 945.0 223.0 L 964.0 223.0"/></circle></g><g id="edge-d3" class="edge edge-data" data-edge-id="d3"><path class="edge-route" d="M 544.0 422.0 L 563.0 422.0 L 563.0 402.0 L 582.0 402.0" marker-end="url(#arrow)"/><circle class="flow-pulse" r="4"><animateMotion dur="1.8s" repeatCount="indefinite" path="M 544.0 422.0 L 563.0 422.0 L 563.0 402.0 L 582.0 402.0"/></circle></g><g id="edge-d4" class="edge edge-data" data-edge-id="d4"><path class="edge-route" d="M 796.0 402.0 L 815.0 402.0 L 815.0 382.0 L 834.0 382.0" marker-end="url(#arrow)"/><circle class="flow-pulse" r="4"><animateMotion dur="1.8s" repeatCount="indefinite" path="M 796.0 402.0 L 815.0 402.0 L 815.0 382.0 L 834.0 382.0"/></circle></g><g id="edge-d5" class="edge edge-data" data-edge-id="d5"><path class="edge-route" d="M 1048.0 382.0 L 1067.0 382.0 L 1067.0 362.0 L 1086.0 362.0" marker-end="url(#arrow)"/><circle class="flow-pulse" r="4"><animateMotion dur="1.8s" repeatCount="indefinite" path="M 1048.0 382.0 L 1067.0 382.0 L 1067.0 362.0 L 1086.0 362.0"/></circle></g><g id="edge-d6" class="edge edge-data" data-edge-id="d6"><path class="edge-route" d="M 834.0 382.0 L 689.0 382.0 L 689.0 520.0 L 544.0 520.0" marker-end="url(#arrow)"/><circle class="flow-pulse" r="4"><animateMotion dur="1.8s" repeatCount="indefinite" path="M 834.0 382.0 L 689.0 382.0 L 689.0 520.0 L 544.0 520.0"/></circle></g><g id="edge-d7" class="edge edge-data" data-edge-id="d7"><path class="edge-route" d="M 834.0 382.0 L 815.0 382.0 L 815.0 500.0 L 796.0 500.0" marker-end="url(#arrow)"/><circle class="flow-pulse" r="4"><animateMotion dur="1.8s" repeatCount="indefinite" path="M 834.0 382.0 L 815.0 382.0 L 815.0 500.0 L 796.0 500.0"/></circle></g><g id="edge-d8" class="edge edge-data" data-edge-id="d8"><path class="edge-route" d="M 1086.0 362.0 L 1067.0 362.0 L 1067.0 480.0 L 1048.0 480.0" marker-end="url(#arrow)"/><circle class="flow-pulse" r="4"><animateMotion dur="1.8s" repeatCount="indefinite" path="M 1086.0 362.0 L 1067.0 362.0 L 1067.0 480.0 L 1048.0 480.0"/></circle></g><g id="edge-d9" class="edge edge-data" data-edge-id="d9"><path class="edge-route" d="M 544.0 520.0 L 689.0 520.0 L 689.0 480.0 L 834.0 480.0" marker-end="url(#arrow)"/><circle class="flow-pulse" r="4"><animateMotion dur="1.8s" repeatCount="indefinite" path="M 544.0 520.0 L 689.0 520.0 L 689.0 480.0 L 834.0 480.0"/></circle></g><g id="edge-d10" class="edge edge-data" data-edge-id="d10"><path class="edge-route" d="M 796.0 500.0 L 815.0 500.0 L 815.0 480.0 L 834.0 480.0" marker-end="url(#arrow)"/><circle class="flow-pulse" r="4"><animateMotion dur="1.8s" repeatCount="indefinite" path="M 796.0 500.0 L 815.0 500.0 L 815.0 480.0 L 834.0 480.0"/></circle></g><g id="edge-d11" class="edge edge-approval" data-edge-id="d11"><path class="edge-route" d="M 1048.0 480.0 L 1067.0 480.0 L 1067.0 460.0 L 1086.0 460.0" marker-end="url(#arrow)"/><circle class="flow-pulse" r="4"><animateMotion dur="1.8s" repeatCount="indefinite" path="M 1048.0 480.0 L 1067.0 480.0 L 1067.0 460.0 L 1086.0 460.0"/></circle></g><g id="edge-d12" class="edge edge-approval" data-edge-id="d12"><path class="edge-route" d="M 1086.0 460.0 L 941.0 460.0 L 941.0 598.0 L 796.0 598.0" marker-end="url(#arrow)"/><circle class="flow-pulse" r="4"><animateMotion dur="1.8s" repeatCount="indefinite" path="M 1086.0 460.0 L 941.0 460.0 L 941.0 598.0 L 796.0 598.0"/></circle></g><g id="edge-d13" class="edge edge-success" data-edge-id="d13"><path class="edge-route" d="M 796.0 598.0 L 815.0 598.0 L 815.0 578.0 L 834.0 578.0" marker-end="url(#arrow)"/><circle class="flow-pulse" r="4"><animateMotion dur="1.8s" repeatCount="indefinite" path="M 796.0 598.0 L 815.0 598.0 L 815.0 578.0 L 834.0 578.0"/></circle></g><g id="edge-d14" class="edge edge-approval" data-edge-id="d14"><path class="edge-route" d="M 689.0 542.0 L 689.0 649.5 L 689.0 649.5 L 689.0 757.0" marker-end="url(#arrow)"/><circle class="flow-pulse" r="4"><animateMotion dur="1.8s" repeatCount="indefinite" path="M 689.0 542.0 L 689.0 649.5 L 689.0 649.5 L 689.0 757.0"/></circle></g><g id="edge-d15" class="edge edge-failure" data-edge-id="d15"><path class="edge-route" d="M 689.0 542.0 L 689.0 639.5 L 941.0 639.5 L 941.0 737.0" marker-end="url(#arrow)"/><circle class="flow-pulse" r="4"><animateMotion dur="1.8s" repeatCount="indefinite" path="M 689.0 542.0 L 689.0 639.5 L 941.0 639.5 L 941.0 737.0"/></circle></g><g id="edge-d16" class="edge edge-evidence" data-edge-id="d16"><path class="edge-route" d="M 941.0 737.0 L 941.0 629.5 L 941.0 629.5 L 941.0 522.0" marker-end="url(#arrow)"/><circle class="flow-pulse" r="4"><animateMotion dur="1.8s" repeatCount="indefinite" path="M 941.0 737.0 L 941.0 629.5 L 941.0 629.5 L 941.0 522.0"/></circle><text x="941.0" y="621.5">rejoin</text></g><g id="edge-d17" class="edge edge-evidence" data-edge-id="d17"><path class="edge-route" d="M 834.0 382.0 L 689.0 382.0 L 689.0 721.0 L 544.0 721.0" marker-end="url(#arrow)"/><circle class="flow-pulse" r="4"><animateMotion dur="1.8s" repeatCount="indefinite" path="M 834.0 382.0 L 689.0 382.0 L 689.0 721.0 L 544.0 721.0"/></circle></g><g id="edge-d18" class="edge edge-evidence" data-edge-id="d18"><path class="edge-route" d="M 544.0 721.0 L 563.0 721.0 L 563.0 701.0 L 582.0 701.0" marker-end="url(#arrow)"/><circle class="flow-pulse" r="4"><animateMotion dur="1.8s" repeatCount="indefinite" path="M 544.0 721.0 L 563.0 721.0 L 563.0 701.0 L 582.0 701.0"/></circle></g><g id="edge-d19" class="edge edge-evidence" data-edge-id="d19"><path class="edge-route" d="M 796.0 701.0 L 815.0 701.0 L 815.0 681.0 L 834.0 681.0" marker-end="url(#arrow)"/><circle class="flow-pulse" r="4"><animateMotion dur="1.8s" repeatCount="indefinite" path="M 796.0 701.0 L 815.0 701.0 L 815.0 681.0 L 834.0 681.0"/></circle></g><g id="edge-d20" class="edge edge-evidence" data-edge-id="d20"><path class="edge-route" d="M 1048.0 681.0 L 1067.0 681.0 L 1067.0 661.0 L 1086.0 661.0" marker-end="url(#arrow)"/><circle class="flow-pulse" r="4"><animateMotion dur="1.8s" repeatCount="indefinite" path="M 1048.0 681.0 L 1067.0 681.0 L 1067.0 661.0 L 1086.0 661.0"/></circle></g></g>
+      <g class="nodes">
+    <g id="node-identity" class="node node-mint">
+      <rect class="node-echo node-echo-back" x="432" y="219" width="222" height="108" rx="6"/><rect class="node-echo" x="438" y="215" width="222" height="108" rx="6"/>
+      <rect class="node-depth" x="444" y="317" width="222" height="14" rx="4"/>
+      <rect class="node-face" x="444" y="211" width="222" height="108" rx="6"/>
+      <path class="node-shine" d="M 460 218 H 650"/>
+      <g transform="translate(0 2)"><g class="node-icon"><path d="M 555.0 224 l 11 5 v 8 c 0 8 -5 13 -11 16 c -6 -3 -11 -8 -11 -16 v-8 z"/><path d="M 550.0 237 l 4 4 l 7 -8"/></g></g>
+      <text class="node-title" x="555.0" y="272"><tspan x="555.0" dy="0">Identity</tspan></text>
+      <text class="node-subtitle" x="555.0" y="290"><tspan x="555.0" dy="0">Who can do what</tspan></text>
+      <g class="node-step"><circle cx="651" cy="226" r="13"/><text class="node-step-number" x="651" y="230"></text></g>
+    </g>
+    <g id="node-policy" class="node node-mint">
+      <rect class="node-echo node-echo-back" x="692" y="198" width="222" height="108" rx="6"/><rect class="node-echo" x="698" y="194" width="222" height="108" rx="6"/>
+      <rect class="node-depth" x="704" y="296" width="222" height="14" rx="4"/>
+      <rect class="node-face" x="704" y="190" width="222" height="108" rx="6"/>
+      <path class="node-shine" d="M 720 197 H 910"/>
+      <g transform="translate(0 2)"><g class="node-icon"><path d="M 815.0 203 l 11 5 v 8 c 0 8 -5 13 -11 16 c -6 -3 -11 -8 -11 -16 v-8 z"/><path d="M 810.0 216 l 4 4 l 7 -8"/></g></g>
+      <text class="node-title" x="815.0" y="251"><tspan x="815.0" dy="0">Policy</tspan></text>
+      <text class="node-subtitle" x="815.0" y="269"><tspan x="815.0" dy="0">Rules and guardrails</tspan></text>
+      <g class="node-step"><circle cx="911" cy="205" r="13"/><text class="node-step-number" x="911" y="209"></text></g>
+    </g>
+    <g id="node-governance" class="node node-mint">
+      <rect class="node-echo node-echo-back" x="952" y="177" width="222" height="108" rx="6"/><rect class="node-echo" x="958" y="173" width="222" height="108" rx="6"/>
+      <rect class="node-depth" x="964" y="275" width="222" height="14" rx="4"/>
+      <rect class="node-face" x="964" y="169" width="222" height="108" rx="6"/>
+      <path class="node-shine" d="M 980 176 H 1170"/>
+      <g transform="translate(0 2)"><g class="node-icon"><path d="M 1075.0 182 l 11 5 v 8 c 0 8 -5 13 -11 16 c -6 -3 -11 -8 -11 -16 v-8 z"/><path d="M 1070.0 195 l 4 4 l 7 -8"/></g></g>
+      <text class="node-title" x="1075.0" y="230"><tspan x="1075.0" dy="0">Governance</tspan></text>
+      <text class="node-subtitle" x="1075.0" y="248"><tspan x="1075.0" dy="0">Compliance · audit ·</tspan><tspan x="1075.0" dy="14">controls</tspan></text>
+      <g class="node-step"><circle cx="1171" cy="184" r="13"/><text class="node-step-number" x="1171" y="188"></text></g>
+    </g>
+    <g id="node-intent" class="node node-mint">
+      <rect class="node-echo node-echo-back" x="318" y="388" width="214" height="84" rx="6"/><rect class="node-echo" x="324" y="384" width="214" height="84" rx="6"/>
+      <rect class="node-depth" x="330" y="462" width="214" height="14" rx="4"/>
+      <rect class="node-face" x="330" y="380" width="214" height="84" rx="6"/>
+      <path class="node-shine" d="M 346 387 H 528"/>
+      <g transform="translate(0 -4)"><g class="node-icon"><circle cx="437.0" cy="405" r="12"/><path d="M 429.0 405 h 16 M 437.0 397 v 16"/></g></g>
+      <text class="node-title" x="437.0" y="428"><tspan x="437.0" dy="0">1 · Intent</tspan></text>
+      <text class="node-subtitle" x="437.0" y="446"><tspan x="437.0" dy="0">User request</tspan></text>
+      <g class="node-step"><circle cx="529" cy="395" r="13"/><text class="node-step-number" x="529" y="399"></text></g>
+    </g>
+    <g id="node-compile" class="node node-mint">
+      <rect class="node-echo node-echo-back" x="570" y="368" width="214" height="84" rx="6"/><rect class="node-echo" x="576" y="364" width="214" height="84" rx="6"/>
+      <rect class="node-depth" x="582" y="442" width="214" height="14" rx="4"/>
+      <rect class="node-face" x="582" y="360" width="214" height="84" rx="6"/>
+      <path class="node-shine" d="M 598 367 H 780"/>
+      <g transform="translate(0 -4)"><g class="node-icon"><path d="M 677.0 377 l -7 8 l 7 8 M 701.0 377 l 7 8 l -7 8 M 693.0 373 l -8 24"/></g></g>
+      <text class="node-title" x="689.0" y="408"><tspan x="689.0" dy="0">2 · Compile Plan</tspan></text>
+      <text class="node-subtitle" x="689.0" y="426"><tspan x="689.0" dy="0">Tasks and dependencies</tspan></text>
+      <g class="node-step"><circle cx="781" cy="375" r="13"/><text class="node-step-number" x="781" y="379"></text></g>
+    </g>
+    <g id="node-start" class="node node-mint">
+      <rect class="node-echo node-echo-back" x="822" y="348" width="214" height="84" rx="6"/><rect class="node-echo" x="828" y="344" width="214" height="84" rx="6"/>
+      <rect class="node-depth" x="834" y="422" width="214" height="14" rx="4"/>
+      <rect class="node-face" x="834" y="340" width="214" height="84" rx="6"/>
+      <path class="node-shine" d="M 850 347 H 1032"/>
+      <g transform="translate(0 -4)"><g class="node-icon"><circle cx="941.0" cy="365" r="12"/><path d="M 933.0 365 h 16 M 941.0 357 v 16"/></g></g>
+      <text class="node-title" x="941.0" y="388"><tspan x="941.0" dy="0">3 · Start Run</tspan></text>
+      <text class="node-subtitle" x="941.0" y="406"><tspan x="941.0" dy="0">Initialize Saga</tspan></text>
+      <g class="node-step"><circle cx="1033" cy="355" r="13"/><text class="node-step-number" x="1033" y="359"></text></g>
+    </g>
+    <g id="node-readiness" class="node node-mint">
+      <rect class="node-echo node-echo-back" x="1074" y="328" width="214" height="84" rx="6"/><rect class="node-echo" x="1080" y="324" width="214" height="84" rx="6"/>
+      <rect class="node-depth" x="1086" y="402" width="214" height="14" rx="4"/>
+      <rect class="node-face" x="1086" y="320" width="214" height="84" rx="6"/>
+      <path class="node-shine" d="M 1102 327 H 1284"/>
+      <g transform="translate(0 -4)"><g class="node-icon"><circle cx="1193.0" cy="338" r="6"/><path d="M 1180.0 358 c 1 -9 7 -13 13 -13 s 12 4 13 13"/></g></g>
+      <text class="node-title" x="1193.0" y="368"><tspan x="1193.0" dy="0">4A · Readiness Agent</tspan></text>
+      <text class="node-subtitle" x="1193.0" y="386"><tspan x="1193.0" dy="0">Validate · prepare · check</tspan></text>
+      <g class="node-step"><circle cx="1285" cy="335" r="13"/><text class="node-step-number" x="1285" y="339"></text></g>
+    </g>
+    <g id="node-risk" class="node node-mint">
+      <rect class="node-echo node-echo-back" x="318" y="486" width="214" height="84" rx="6"/><rect class="node-echo" x="324" y="482" width="214" height="84" rx="6"/>
+      <rect class="node-depth" x="330" y="560" width="214" height="14" rx="4"/>
+      <rect class="node-face" x="330" y="478" width="214" height="84" rx="6"/>
+      <path class="node-shine" d="M 346 485 H 528"/>
+      <g transform="translate(0 -4)"><g class="node-icon"><circle cx="437.0" cy="496" r="6"/><path d="M 424.0 516 c 1 -9 7 -13 13 -13 s 12 4 13 13"/></g></g>
+      <text class="node-title" x="437.0" y="526"><tspan x="437.0" dy="0">4B · Risk Agent</tspan></text>
+      <text class="node-subtitle" x="437.0" y="544"><tspan x="437.0" dy="0">Analyze · mitigate · guard</tspan></text>
+      <g class="node-step"><circle cx="529" cy="493" r="13"/><text class="node-step-number" x="529" y="497"></text></g>
+    </g>
+    <g id="node-fetch" class="node node-mint">
+      <rect class="node-echo node-echo-back" x="570" y="466" width="214" height="84" rx="6"/><rect class="node-echo" x="576" y="462" width="214" height="84" rx="6"/>
+      <rect class="node-depth" x="582" y="540" width="214" height="14" rx="4"/>
+      <rect class="node-face" x="582" y="458" width="214" height="84" rx="6"/>
+      <path class="node-shine" d="M 598 465 H 780"/>
+      <g transform="translate(0 -4)"><g class="node-icon"><circle cx="689.0" cy="483" r="8"/><circle cx="689.0" cy="483" r="3"/><path d="M 689.0 469 v 5 M 689.0 492 v 5 M 675.0 483 h 5 M 698.0 483 h 5 M 679.0 473 l 4 4 M 695.0 489 l 4 4 M 699.0 473 l -4 4 M 683.0 489 l -4 4"/></g></g>
+      <text class="node-title" x="689.0" y="506"><tspan x="689.0" dy="0">4C · MCP Data Fetch</tspan></text>
+      <text class="node-subtitle" x="689.0" y="524"><tspan x="689.0" dy="0">Retrieve · transform ·</tspan></text>
+      <g class="node-step"><circle cx="781" cy="473" r="13"/><text class="node-step-number" x="781" y="477"></text></g>
+    </g>
+    <g id="node-synthesis" class="node node-mint">
+      <rect class="node-echo node-echo-back" x="822" y="446" width="214" height="84" rx="6"/><rect class="node-echo" x="828" y="442" width="214" height="84" rx="6"/>
+      <rect class="node-depth" x="834" y="520" width="214" height="14" rx="4"/>
+      <rect class="node-face" x="834" y="438" width="214" height="84" rx="6"/>
+      <path class="node-shine" d="M 850 445 H 1032"/>
+      <g transform="translate(0 -4)"><g class="node-icon"><circle cx="941.0" cy="456" r="6"/><path d="M 928.0 476 c 1 -9 7 -13 13 -13 s 12 4 13 13"/></g></g>
+      <text class="node-title" x="941.0" y="486"><tspan x="941.0" dy="0">5 · Synthesis Agent</tspan></text>
+      <text class="node-subtitle" x="941.0" y="504"><tspan x="941.0" dy="0">Merge · reason · decide</tspan></text>
+      <g class="node-step"><circle cx="1033" cy="453" r="13"/><text class="node-step-number" x="1033" y="457"></text></g>
+    </g>
+    <g id="node-approval" class="node node-amber">
+      <rect class="node-echo node-echo-back" x="1074" y="426" width="214" height="84" rx="6"/><rect class="node-echo" x="1080" y="422" width="214" height="84" rx="6"/>
+      <rect class="node-depth" x="1086" y="500" width="214" height="14" rx="4"/>
+      <rect class="node-face" x="1086" y="418" width="214" height="84" rx="6"/>
+      <path class="node-shine" d="M 1102 425 H 1284"/>
+      <g transform="translate(0 -4)"><g class="node-icon"><path d="M 1193.0 431 l 11 5 v 8 c 0 8 -5 13 -11 16 c -6 -3 -11 -8 -11 -16 v-8 z"/><path d="M 1188.0 444 l 4 4 l 7 -8"/></g></g>
+      <text class="node-title" x="1193.0" y="466"><tspan x="1193.0" dy="0">6 · Human Approval</tspan></text>
+      <text class="node-subtitle" x="1193.0" y="484"><tspan x="1193.0" dy="0">Review · approve · deny</tspan></text>
+      <g class="node-step"><circle cx="1285" cy="433" r="13"/><text class="node-step-number" x="1285" y="437"></text></g>
+    </g>
+    <g id="node-action" class="node node-mint">
+      <rect class="node-echo node-echo-back" x="570" y="564" width="214" height="84" rx="6"/><rect class="node-echo" x="576" y="560" width="214" height="84" rx="6"/>
+      <rect class="node-depth" x="582" y="638" width="214" height="14" rx="4"/>
+      <rect class="node-face" x="582" y="556" width="214" height="84" rx="6"/>
+      <path class="node-shine" d="M 598 563 H 780"/>
+      <g transform="translate(0 -4)"><g class="node-icon"><circle cx="689.0" cy="574" r="6"/><path d="M 676.0 594 c 1 -9 7 -13 13 -13 s 12 4 13 13"/></g></g>
+      <text class="node-title" x="689.0" y="604"><tspan x="689.0" dy="0">7 · Enterprise Action</tspan></text>
+      <text class="node-subtitle" x="689.0" y="622"><tspan x="689.0" dy="0">Execute · integrate ·</tspan></text>
+      <g class="node-step"><circle cx="781" cy="571" r="13"/><text class="node-step-number" x="781" y="575"></text></g>
+    </g>
+    <g id="node-evidence" class="node node-mint">
+      <rect class="node-echo node-echo-back" x="822" y="544" width="214" height="84" rx="6"/><rect class="node-echo" x="828" y="540" width="214" height="84" rx="6"/>
+      <rect class="node-depth" x="834" y="618" width="214" height="14" rx="4"/>
+      <rect class="node-face" x="834" y="536" width="214" height="84" rx="6"/>
+      <path class="node-shine" d="M 850 543 H 1032"/>
+      <g transform="translate(0 -4)"><g class="node-icon"><rect x="931.0" y="548" width="20" height="27" rx="2"/><path d="M 936.0 556 h 10 M 936.0 562 h 10 M 936.0 568 h 7"/></g></g>
+      <text class="node-title" x="941.0" y="584"><tspan x="941.0" dy="0">8 · Evidence +</tspan><tspan x="941.0" dy="16">Outcome</tspan></text>
+      <text class="node-subtitle" x="941.0" y="616"><tspan x="941.0" dy="0">Logs · artifacts · results</tspan></text>
+      <g class="node-step"><circle cx="1033" cy="551" r="13"/><text class="node-step-number" x="1033" y="555"></text></g>
+    </g>
+    <g id="node-checkpoint" class="node node-mint">
+      <rect class="node-echo node-echo-back" x="318" y="687" width="214" height="84" rx="6"/><rect class="node-echo" x="324" y="683" width="214" height="84" rx="6"/>
+      <rect class="node-depth" x="330" y="761" width="214" height="14" rx="4"/>
+      <rect class="node-face" x="330" y="679" width="214" height="84" rx="6"/>
+      <path class="node-shine" d="M 346 686 H 528"/>
+      <g transform="translate(0 -4)"><g class="node-icon"><circle cx="437.0" cy="704" r="12"/><path d="M 429.0 704 h 16 M 437.0 696 v 16"/></g></g>
+      <text class="node-title" x="437.0" y="727"><tspan x="437.0" dy="0">Checkpoint</tspan></text>
+      <text class="node-subtitle" x="437.0" y="745"><tspan x="437.0" dy="0">Save progress</tspan></text>
+      <g class="node-step"><circle cx="529" cy="694" r="13"/><text class="node-step-number" x="529" y="698"></text></g>
+    </g>
+    <g id="node-queue" class="node node-mint">
+      <rect class="node-echo node-echo-back" x="570" y="667" width="214" height="84" rx="6"/><rect class="node-echo" x="576" y="663" width="214" height="84" rx="6"/>
+      <rect class="node-depth" x="582" y="741" width="214" height="14" rx="4"/>
+      <rect class="node-face" x="582" y="659" width="214" height="84" rx="6"/>
+      <path class="node-shine" d="M 598 666 H 780"/>
+      <g transform="translate(0 -4)"><g class="node-icon"><circle cx="689.0" cy="684" r="12"/><path d="M 681.0 684 h 16 M 689.0 676 v 16"/></g></g>
+      <text class="node-title" x="689.0" y="707"><tspan x="689.0" dy="0">Queue</tspan></text>
+      <text class="node-subtitle" x="689.0" y="725"><tspan x="689.0" dy="0">Pending work</tspan></text>
+      <g class="node-step"><circle cx="781" cy="674" r="13"/><text class="node-step-number" x="781" y="678"></text></g>
+    </g>
+    <g id="node-receipt" class="node node-mint">
+      <rect class="node-echo node-echo-back" x="822" y="647" width="214" height="84" rx="6"/><rect class="node-echo" x="828" y="643" width="214" height="84" rx="6"/>
+      <rect class="node-depth" x="834" y="721" width="214" height="14" rx="4"/>
+      <rect class="node-face" x="834" y="639" width="214" height="84" rx="6"/>
+      <path class="node-shine" d="M 850 646 H 1032"/>
+      <g transform="translate(0 -4)"><g class="node-icon"><circle cx="941.0" cy="664" r="12"/><path d="M 933.0 664 h 16 M 941.0 656 v 16"/></g></g>
+      <text class="node-title" x="941.0" y="687"><tspan x="941.0" dy="0">Receipt</tspan></text>
+      <text class="node-subtitle" x="941.0" y="705"><tspan x="941.0" dy="0">Immutable record</tspan></text>
+      <g class="node-step"><circle cx="1033" cy="654" r="13"/><text class="node-step-number" x="1033" y="658"></text></g>
+    </g>
+    <g id="node-history" class="node node-mint">
+      <rect class="node-echo node-echo-back" x="1074" y="627" width="214" height="84" rx="6"/><rect class="node-echo" x="1080" y="623" width="214" height="84" rx="6"/>
+      <rect class="node-depth" x="1086" y="701" width="214" height="14" rx="4"/>
+      <rect class="node-face" x="1086" y="619" width="214" height="84" rx="6"/>
+      <path class="node-shine" d="M 1102 626 H 1284"/>
+      <g transform="translate(0 -4)"><g class="node-icon"><circle cx="1193.0" cy="644" r="12"/><path d="M 1185.0 644 h 16 M 1193.0 636 v 16"/></g></g>
+      <text class="node-title" x="1193.0" y="667"><tspan x="1193.0" dy="0">Run History</tspan></text>
+      <text class="node-subtitle" x="1193.0" y="685"><tspan x="1193.0" dy="0">Trace · search · audit</tspan></text>
+      <g class="node-step"><circle cx="1285" cy="634" r="13"/><text class="node-step-number" x="1285" y="638"></text></g>
+    </g>
+    <g id="node-retry" class="node node-amber">
+      <rect class="node-echo node-echo-back" x="570" y="765" width="214" height="84" rx="6"/><rect class="node-echo" x="576" y="761" width="214" height="84" rx="6"/>
+      <rect class="node-depth" x="582" y="839" width="214" height="14" rx="4"/>
+      <rect class="node-face" x="582" y="757" width="214" height="84" rx="6"/>
+      <path class="node-shine" d="M 598 764 H 780"/>
+      <g transform="translate(0 -4)"><g class="node-icon"><circle cx="689.0" cy="782" r="12"/><path d="M 681.0 782 h 16 M 689.0 774 v 16"/></g></g>
+      <text class="node-title" x="689.0" y="805"><tspan x="689.0" dy="0">Retry</tspan></text>
+      <text class="node-subtitle" x="689.0" y="823"><tspan x="689.0" dy="0">Backoff and retry</tspan></text>
+      <g class="node-step"><circle cx="781" cy="772" r="13"/><text class="node-step-number" x="781" y="776"></text></g>
+    </g>
+    <g id="node-compensation" class="node node-danger">
+      <rect class="node-echo node-echo-back" x="822" y="745" width="214" height="84" rx="6"/><rect class="node-echo" x="828" y="741" width="214" height="84" rx="6"/>
+      <rect class="node-depth" x="834" y="819" width="214" height="14" rx="4"/>
+      <rect class="node-face" x="834" y="737" width="214" height="84" rx="6"/>
+      <path class="node-shine" d="M 850 744 H 1032"/>
+      <g transform="translate(0 -4)"><g class="node-icon"><circle cx="941.0" cy="762" r="12"/><path d="M 933.0 762 h 16 M 941.0 754 v 16"/></g></g>
+      <text class="node-title" x="941.0" y="785"><tspan x="941.0" dy="0">Compensation</tspan></text>
+      <text class="node-subtitle" x="941.0" y="803"><tspan x="941.0" dy="0">Undo · revert · restore</tspan></text>
+      <g class="node-step"><circle cx="1033" cy="752" r="13"/><text class="node-step-number" x="1033" y="756"></text></g>
+    </g></g>
+
+          <g class="route-legend" transform="translate(58 914)">
+            <circle cx="0" cy="0" r="6" class="legend-lime"/><text x="15" y="4">Data / Execution</text>
+            <circle cx="180" cy="0" r="6" class="legend-amber"/><text x="195" y="4">Authorization / Approvals</text>
+            <circle cx="430" cy="0" r="6" class="legend-white"/><text x="445" y="4">Evidence / State</text>
+          </g>
+
+      <text class="brand-title" x="46" y="72"><tspan>CONTEXT</tspan><tspan class="brand-accent">WEAVER</tspan></text><text class="diagram-title" x="47" y="82">DURABLE SAGA FLOW</text><text class="diagram-subtitle" x="47" y="105">Parallel work, governed waits, safe recovery, and complete evidence.</text>
+    </g></svg>

@@ -71,19 +71,43 @@ test("diagram deliverables are complete", async () => {
     "durable-saga-flow.png",
   ]) {
     await access(join(root, "assets", "media", "spatial", image));
+    await access(join(root, "assets", "media", "spatial", image.replace(/\.png$/, ".svg")));
   }
+  await access(join(root, "diagrams", "contextweaver-spatial-visuals.drawio"));
 });
 
-test("architecture players preserve approved static masters with semantic overlays", async () => {
+test("architecture players preserve approved image-first masters and semantic topology", async () => {
   const expected = {
-    "intent-to-evidence": ["Authenticated request", "Evidence", "edge-i12"],
-    "generic-agent-runtime": ["Generic runtime image", "Publisher MCP", "edge-g11"],
-    "platform-planes": ["Eight Platform Planes", "Cerebro", "Loom"],
-    "capability-lifecycle": ["Release Registry", "Operate and improve", "edge-c11"],
-    "governed-run": ["Enterprise Input", "Workflow", "edge-r14"],
-    "scale-path": ["Individual", "Sovereign / regulated", "Outcome"],
+    "intent-to-evidence": {
+      nodes: ["intent", "solution", "service", "cerebro", "workflow", "agents", "mcp", "systems", "approval", "evidence", "outcome", "history"],
+      edges: ["i1", "i2", "i3", "i4", "i5", "i6", "i7", "i8", "i9", "i10", "i11", "i12"],
+    },
+    "generic-agent-runtime": {
+      nodes: ["registry", "compiler", "coordinator", "rabbit", "image", "risk", "readiness", "synthesis", "approval", "publisher"],
+      edges: ["g1", "g2", "g3", "g4", "g5", "g6", "g6b", "g7", "g8", "g9", "g10", "g11"],
+    },
+    "platform-planes": {
+      nodes: ["experience", "governance", "registry", "capabilities", "workflow", "knowledge", "evidence", "infrastructure", "cerebro", "weave", "loom"],
+      edges: ["p1", "p2", "p3", "p4", "p5", "p6", "p7", "p8", "p9", "p10", "p11", "p12", "p13", "p14", "p15"],
+    },
+    "capability-lifecycle": {
+      nodes: ["author", "conformance", "supply", "approval", "registry", "operator", "runtime", "attest", "canary", "active", "operate"],
+      edges: ["c1", "c2", "c3", "c4", "c5", "c6", "c7", "c8", "c9", "c10", "c11"],
+    },
+    "governed-run": {
+      nodes: ["enterprise", "workspace", "studio", "compiler", "identity", "policy", "workflow", "agents", "mcp", "orchestrator", "evidence", "outcome"],
+      edges: ["r1", "r2", "r3", "r4", "r5", "r6", "r7", "r8", "r9", "r10", "r11", "r12", "r13", "r14"],
+    },
+    "scale-path": {
+      nodes: ["individual", "team", "business", "enterprise", "sovereign", "contracts", "profiles", "packs", "outcomes"],
+      edges: ["s1", "s2", "s3", "s4", "s5", "s6", "s7", "s8", "s9", "s10"],
+    },
+    "service-factory": {
+      nodes: ["inputs", "studio", "contracts", "admission", "registry", "operator", "discovery", "compose", "execute", "outcome"],
+      edges: ["f1", "f2", "f3", "f4", "f5", "f6", "f7", "f8", "f9", "f10", "f11"],
+    },
   };
-  for (const [name, markers] of Object.entries(expected)) {
+  for (const [name, topology] of Object.entries(expected)) {
     const html = await readFile(join(root, "diagrams", `${name}.html`), "utf8");
     assert.match(html, /id="audio"[^>]*aria-pressed="false"/);
     assert.match(html, /id="popout"[^>]*>Pop out ↗<\/button>/);
@@ -92,47 +116,38 @@ test("architecture players preserve approved static masters with semantic overla
     assert.match(html, /Back · Esc/);
     assert.match(html, /SpeechSynthesisUtterance/);
     assert.match(html, /viewBox="0 0 1536 1024"/);
-    assert.match(html, new RegExp(`class="architecture diagram-${name} image-first-diagram"`));
-    assert.match(html, /href="data:image\/png;base64,/);
-    assert.match(html, /The approved static composition remains unchanged/);
-    assert.match(html, /class="image-overlay-edges"/);
-    assert.match(html, /class="image-overlay-hotspots"/);
-    assert.match(html, /class="node image-hotspot [^"]+"/);
-    assert.match(html, /class="edge image-overlay-edge [^"]+"/);
-    assert.match(html, /\.image-hotspot\.active \.hotspot-ring/);
-    assert.doesNotMatch(html, /edge-label/);
-    for (const marker of markers) assert.match(html, new RegExp(marker.replace(/[+]/g, "\\+")));
+    assert.match(html, new RegExp(`<svg class="architecture diagram-${name} image-first-diagram"`));
+    assert.match(html, /class="static-master" href="data:image\/png;base64,/);
+    assert.match(html, /<g class="image-overlay-edges">/);
+    assert.match(html, /<g class="image-overlay-hotspots">/);
+    assert.match(html, /class="node image-hotspot node-[^"]+"/);
+    assert.match(html, /class="edge image-overlay-edge edge-[^"]+"/);
+    assert.match(html, /\.node\.active/);
+    assert.match(html, /\.edge\.active/);
+    assert.deepEqual([...html.matchAll(/data-node-id="([^"]+)"/g)].map((match) => match[1]), topology.nodes);
+    assert.deepEqual([...html.matchAll(/data-edge-id="([^"]+)"/g)].map((match) => match[1]), topology.edges);
+    const steps = JSON.parse(html.match(/const steps=(\[.*?\]);/s)[1]);
+    for (const step of steps) {
+      assert.ok(step.nodes.every((node) => topology.nodes.includes(node)), `${name} stage references an unknown node`);
+      assert.ok(step.edges.every((edge) => topology.edges.includes(edge)), `${name} stage references an unknown edge`);
+    }
   }
 });
 
-test("service factory uses the shared angled rectangular slab renderer", async () => {
-  const html = await readFile(join(root, "diagrams", "service-factory.html"), "utf8");
-  assert.match(html, /<svg class="architecture diagram-service-factory" viewBox="0 0 1536 1024"/);
-  assert.doesNotMatch(html, /class="architecture diagram-service-factory image-first-diagram"/);
-  assert.match(html, /class="glass-deck deck-1"/);
-  assert.match(html, /M 250 227 L 1280 127 L 1400 335 L 370 435 Z/);
-  assert.match(html, /Product inputs/);
-  assert.match(html, /Solution result \+ proof/);
-  assert.match(html, /id="edge-f11"/);
-});
-
-test("nextgen atlas uses square-edged 3d trays and a grouped Studio module", async () => {
+test("nextgen compatibility outputs use the rendered-glass atlas", async () => {
   const html = await readFile(join(root, "diagrams", "contextweaver-nextgen-architecture.html"), "utf8");
-  const svg = await readFile(join(root, "diagrams", "contextweaver-nextgen-architecture.svg"), "utf8");
+  const manifest = JSON.parse(await readFile(join(root, "diagrams", "contextweaver-nextgen-architecture", "manifest.json"), "utf8"));
 
-  for (const output of [html, svg]) {
-    assert.match(output, /class="zone-depth"/);
-    assert.match(output, /class="node-side"/);
-    assert.match(output, /class="[^"]*\bstudio-module\b[^"]*"/);
-    assert.match(output, /class="studio-backplate"/);
-    assert.match(output, /class="studio-tray-depth"/);
-    assert.match(output, />STUDIO<\/text>/);
-    assert.match(output, /<rect class="studio-tray-depth"/);
-    assert.doesNotMatch(output, /<path class="studio-tray-depth"/);
-    for (const context of ["MCP", "AGENT", "FLOW", "SERVICE", "SOLUTION"]) {
-      assert.match(output, new RegExp(`>${context}<\\/text>`));
-    }
-    assert.doesNotMatch(output, /class="node-echo/);
+  assert.match(html, /"OpenTelemetry Run Trace Explorer"/);
+  assert.match(html, /"assetVersion"\s*:\s*"[a-f0-9]{12}"/);
+  assert.doesNotMatch(html, /Editable \.drawio|Open current SVG|\.svg"/);
+  assert.equal(manifest.pages.length, 19);
+  for (const page of manifest.pages) {
+    assert.match(page.file, /\.png$/);
+    await access(join(root, "diagrams", "contextweaver-nextgen-architecture", page.file));
+  }
+  for (const extension of ["svg", "gif", "drawio"]) {
+    await assert.rejects(access(join(root, "diagrams", `contextweaver-nextgen-architecture.${extension}`)));
   }
 });
 
@@ -179,8 +194,8 @@ test("product hierarchy and consumer journey remain explicit", async () => {
     assert.match(overview, new RegExp(provider));
     assert.match(story, new RegExp(provider));
   }
-  assert.match(overview, /intent-to-evidence\.png\?v=20261102-1/);
-  assert.match(architecture, /diagrams\/platform-planes\.html\?v=20261102-3/);
+  assert.match(overview, /intent-to-evidence\.png\?v=20261103-2/);
+  assert.match(architecture, /diagrams\/platform-planes\.html\?v=20261103-2/);
   for (const concept of [
     "MCP capability",
     "bounded reasoning specialist",
@@ -241,7 +256,7 @@ test("product hierarchy and consumer journey remain explicit", async () => {
   ]) {
     assert.match(architecture, new RegExp(component.replace(/[+]/g, "\\+")));
   }
-  assert.match(architecture, /assets\/media\/platform-planes-static-master\.png\?v=20261102-3/);
+  assert.match(architecture, /assets\/media\/platform-planes-static-master\.png\?v=20261103-2/);
   assert.match(architecture, /diagrams\/platform-planes\.svg/);
   assert.doesNotMatch(architecture, /Universal Solution and Capability Factory/);
   assert.doesNotMatch(architecture, /assets\/media\/service-factory-static-master\.png/);
@@ -250,7 +265,7 @@ test("product hierarchy and consumer journey remain explicit", async () => {
   assert.match(story, /user-facing Solution/);
   assert.match(landing, /data-site-intro/);
   assert.match(landing, /assets\/js\/site\.js\?v=20261102-4/);
-  assert.match(landing, /data-src="assets\/brand\/brainzbytes-contextweaver-overview\.html\?embedded=1&amp;intro=1&amp;v=20261101-25"/);
+  assert.match(landing, /data-src="assets\/brand\/brainzbytes-contextweaver-overview\.html\?embedded=1&amp;intro=1&amp;v=20261103-9"/);
   assert.match(landing, /data-intro-skip/);
   assert.match(landing, /data-intro-enter/);
   assert.match(landing, /data-intro-replay/);
@@ -270,7 +285,7 @@ test("product hierarchy and consumer journey remain explicit", async () => {
   assert.match(companyIntro, /brainzbytes-intro-complete/);
   assert.match(companyIntro, /class="logo-portal"/);
   assert.match(companyIntro, /class="logo-plate"/);
-  assert.match(companyIntro, /service-factory\.html\?portal=1&amp;v=20261101-3/);
+  assert.match(companyIntro, /service-factory\.html\?portal=1&amp;v=20261103-9/);
   assert.match(companyIntro, /id="factoryPlane"/);
   assert.match(companyIntro, /contextweaver-factory-stage/);
   assert.match(companyIntro, /function showOpening\(\)[\s\S]*syncFactoryPlane\(0\)/);
@@ -313,12 +328,12 @@ test("product hierarchy and consumer journey remain explicit", async () => {
   assert.match(siteJs, /history\.scrollRestoration = "manual"/);
   assert.doesNotMatch(companyIntro, /contextweaver-spatial-architecture\.html/);
   assert.match(architecture, /id="interactive-platform-architecture"/);
-  assert.match(architecture, /platform-planes-static-master\.png\?v=20261102-3/);
-  assert.match(architecture, /diagrams\/platform-planes\.html\?v=20261102-3/);
+  assert.match(architecture, /platform-planes-static-master\.png\?v=20261103-2/);
+  assert.match(architecture, /diagrams\/platform-planes\.html\?v=20261103-2/);
   assert.match(architecture, /id="technical-architecture-atlas"/);
-  assert.match(architecture, /diagrams\/contextweaver-nextgen-atlas\.html\?embedded=1&amp;v=928217a693a9/);
-  assert.match(architecture, /diagrams\/contextweaver-nextgen-architecture\.drawio/);
-  assert.match(architecture, /diagrams\/intent-to-evidence-flow\.html\?embedded=1&amp;v=20261103-1/);
+  assert.match(architecture, /diagrams\/contextweaver-nextgen-atlas\.html\?embedded=1&amp;v=[a-f0-9]{12}/);
+  assert.doesNotMatch(architecture, /contextweaver-nextgen-architecture\.(?:drawio|svg)/);
+  assert.match(architecture, /diagrams\/intent-to-evidence-flow\.html\?embedded=1&amp;v=20261103-11/);
   assert.doesNotMatch(architecture, /experiences\/contextweaver-spatial-r3f/);
   assert.doesNotMatch(architecture, /id="high-level-views"/);
   const factory = await readFile(join(root, "diagrams", "service-factory.html"), "utf8");

@@ -3,7 +3,10 @@ import os
 from pathlib import Path
 from textwrap import dedent
 
+from atlas_assets import atlas_asset_version
+
 ROOT = Path(__file__).resolve().parents[1]
+ATLAS_ASSET_VERSION = atlas_asset_version(ROOT)
 CURRENT_DATE = "November 1, 2026"
 PUBLIC_SITE_URL = os.environ.get(
     "PUBLIC_SITE_URL",
@@ -112,7 +115,7 @@ def page(name: str, title: str, description: str, content: str) -> str:
           <div class="site-intro__stage">
             <iframe
               data-intro-frame
-              data-src="assets/brand/brainzbytes-contextweaver-overview.html?embedded=1&amp;intro=1&amp;v=20261101-25"
+              data-src="assets/brand/brainzbytes-contextweaver-overview.html?embedded=1&amp;intro=1&amp;v=20261103-9"
               title="BrainzBytes and ContextWeaver narrated company overview"
               loading="eager"
               allow="autoplay"
@@ -159,12 +162,13 @@ def page(name: str, title: str, description: str, content: str) -> str:
 
 
 def diagram(name: str, title: str, note: str) -> str:
+    asset_version = "20261103-9" if name == "service-factory" else "20261103-2"
     return f"""
     <div class="diagram-shell" data-reveal>
       <div class="diagram-toolbar">
         <strong>{title}</strong>
       </div>
-      <iframe class="diagram-frame" src="diagrams/{name}.html?v=20261102-2" title="{title}" loading="lazy"></iframe>
+      <iframe class="diagram-frame" src="diagrams/{name}.html?v={asset_version}" title="{title}" loading="lazy"></iframe>
     </div>
     <p class="diagram-note">{note}</p>
     """
@@ -182,8 +186,8 @@ def spatial_visual(
     wide_class = " spatial-visual-wide" if wide else ""
     return f"""
     <figure class="spatial-visual{wide_class}" data-reveal>
-      <button class="spatial-visual-stage spatial-visual-trigger" type="button" data-spatial-open data-spatial-type="image" data-spatial-src="assets/media/spatial/{image}?v=20261102-1" data-spatial-title="{title}" aria-label="Open large view: {title}">
-        <img src="assets/media/spatial/{image}?v=20261102-1" alt="{alt}" loading="lazy">
+      <button class="spatial-visual-stage spatial-visual-trigger" type="button" data-spatial-open data-spatial-type="image" data-spatial-src="assets/media/spatial/{image}?v=20261103-2" data-spatial-title="{title}" aria-label="Open large view: {title}">
+        <img src="assets/media/spatial/{image}?v=20261103-2" alt="{alt}" loading="lazy">
         <span class="spatial-visual-expand" aria-hidden="true">Expand ↗</span>
       </button>
       <figcaption>
@@ -916,8 +920,8 @@ ARCHITECTURE = """
       </div>
     </div>
     <figure class="spatial-visual" data-reveal>
-      <button class="spatial-visual-stage spatial-visual-trigger" type="button" data-spatial-open data-spatial-type="image" data-spatial-src="assets/media/platform-planes-static-master.png?v=20261102-3" data-spatial-title="Eight Platform Planes" aria-label="Open large view: Eight Platform Planes">
-        <img src="assets/media/platform-planes-static-master.png?v=20261102-3" alt="Eight Platform Planes with Experience, Governance, Registry, Agents and MCP, Workflow runtime, RAG memory and models, Evidence, Infrastructure, Cerebro, Weave, and Loom on three angled rectangular slabs." loading="eager">
+      <button class="spatial-visual-stage spatial-visual-trigger" type="button" data-spatial-open data-spatial-type="image" data-spatial-src="assets/media/platform-planes-static-master.png?v=20261103-2" data-spatial-title="Eight Platform Planes" aria-label="Open large view: Eight Platform Planes">
+        <img src="assets/media/platform-planes-static-master.png?v=20261103-2" alt="Eight Platform Planes with Experience, Governance, Registry, Agents and MCP, Workflow runtime, RAG memory and models, Evidence, Infrastructure, Cerebro, Weave, and Loom on three angled rectangular slabs." loading="eager">
         <span class="spatial-visual-expand" aria-hidden="true">Expand ↗</span>
       </button>
       <figcaption>
@@ -937,9 +941,9 @@ ARCHITECTURE = """
   <div class="diagram-shell architecture-atlas-shell" data-reveal>
     <div class="diagram-toolbar">
       <strong>Eight Platform Planes</strong>
-      <button class="diagram-toolbar-action" type="button" data-spatial-open data-spatial-type="iframe" data-spatial-src="diagrams/platform-planes.html?popout=1&amp;v=20261102-3" data-spatial-title="Eight Platform Planes">Expand view ↗</button>
+      <button class="diagram-toolbar-action" type="button" data-spatial-open data-spatial-type="iframe" data-spatial-src="diagrams/platform-planes.html?popout=1&amp;v=20261103-2" data-spatial-title="Eight Platform Planes">Expand view ↗</button>
     </div>
-    <iframe class="diagram-frame architecture-spatial-frame" src="diagrams/platform-planes.html?v=20261102-3" title="Eight Platform Planes" loading="eager" sandbox="allow-scripts allow-same-origin"></iframe>
+    <iframe class="diagram-frame architecture-spatial-frame" src="diagrams/platform-planes.html?v=20261103-2" title="Eight Platform Planes" loading="eager" sandbox="allow-scripts allow-same-origin"></iframe>
   </div>
   <p class="diagram-note">Motion follows the active route only. Labels, captions, line styles, and stage controls keep the approved architecture readable when animation is paused or reduced.</p>
   <noscript><p class="diagram-note">JavaScript is required for the interactive player. <a href="diagrams/platform-planes.svg">Open the static platform architecture.</a></p></noscript>
@@ -947,20 +951,17 @@ ARCHITECTURE = """
 
 <section id="technical-architecture-atlas" class="container section compact">
   <div class="section-head">
-    <div><p class="section-kicker">18-page technical atlas</p><h2>Inspect every architecture concern in the same three-quarter perspective.</h2></div>
-    <p>Move through layered architecture, deployment, identity, durable execution, RAG, recovery, authorization, and operations without switching visual systems.</p>
+    <div><p class="section-kicker">19-page technical atlas</p><h2>Inspect every architecture concern in the same rendered-glass perspective.</h2></div>
+    <p>Move through layered architecture, deployment, identity, durable execution, RAG, recovery, authorization, operations, and an OpenTelemetry run trace explorer without switching visual systems.</p>
   </div>
   <div class="diagram-shell architecture-atlas-shell" data-reveal>
     <div class="diagram-toolbar">
       <strong>ContextWeaver NextGen Architecture</strong>
-      <a class="diagram-toolbar-action" href="diagrams/contextweaver-nextgen-atlas.html?popout=1&amp;v=928217a693a9" target="_blank" rel="noopener noreferrer">Open dedicated viewer ↗</a>
+      <a class="diagram-toolbar-action" href="diagrams/contextweaver-nextgen-atlas.html?popout=1&amp;v=__ATLAS_ASSET_VERSION__" target="_blank" rel="noopener noreferrer">Open dedicated viewer ↗</a>
     </div>
-    <iframe class="diagram-frame architecture-spatial-frame" src="diagrams/contextweaver-nextgen-atlas.html?embedded=1&amp;v=928217a693a9" title="ContextWeaver 18-page technical architecture atlas" loading="lazy" sandbox="allow-scripts allow-same-origin allow-downloads"></iframe>
+    <iframe class="diagram-frame architecture-spatial-frame" src="diagrams/contextweaver-nextgen-atlas.html?embedded=1&amp;v=__ATLAS_ASSET_VERSION__" title="ContextWeaver 19-page rendered-glass technical architecture atlas" loading="lazy" sandbox="allow-scripts allow-same-origin allow-downloads"></iframe>
   </div>
-  <p class="diagram-note">All 18 pages use receding architectural platforms, dimensional blocks, the approved black-and-green palette, responsive fitting, page selection, hash navigation, fullscreen, and SVG download.</p>
-  <div class="hero-actions">
-    <a class="button" href="diagrams/contextweaver-nextgen-architecture.drawio">Download editable 18-page Draw.io source</a>
-  </div>
+  <p class="diagram-note">All 19 pages use photoreal rendered-glass masters with exact semantic overlays. The trace explorer follows W3C context across browser, gateway, policy, workflow, Agent, MCP, model/RAG, queues, stores, and external side effects.</p>
 </section>
 
 <section class="container section compact architecture-explorer-intro">
@@ -978,9 +979,9 @@ ARCHITECTURE = """
       <div class="diagram-shell" data-reveal>
         <div class="diagram-toolbar">
           <strong>Intent to Governed Evidence</strong>
-          <a class="diagram-toolbar-action" href="diagrams/intent-to-evidence-flow.html?popout=1" target="_blank" rel="noopener noreferrer">Expand view ↗</a>
+          <a class="diagram-toolbar-action" href="diagrams/intent-to-evidence-flow.html?popout=1&amp;v=20261103-11" target="_blank" rel="noopener noreferrer">Expand view ↗</a>
         </div>
-        <iframe class="diagram-frame" src="diagrams/intent-to-evidence-flow.html?embedded=1&amp;v=20261103-1" title="Intent to governed evidence" loading="lazy" sandbox="allow-scripts allow-same-origin"></iframe>
+        <iframe class="diagram-frame" src="diagrams/intent-to-evidence-flow.html?embedded=1&amp;v=20261103-11" title="Intent to governed evidence" loading="lazy" sandbox="allow-scripts allow-same-origin"></iframe>
       </div>
       <p class="diagram-note">Seven governed stages move across three receding architectural planes from authenticated intent to a reviewable, replayable result.</p>
     </section>
@@ -1037,7 +1038,7 @@ ARCHITECTURE = """
     <a class="button primary" href="library.html">Open the technical library →</a>
   </div>
 </section>
-"""
+""".replace("__ATLAS_ASSET_VERSION__", ATLAS_ASSET_VERSION)
 
 LIBRARY = """
 <section class="container hero library-hero">

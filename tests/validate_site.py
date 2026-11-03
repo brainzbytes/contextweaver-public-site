@@ -35,14 +35,15 @@ DIAGRAMS = (
 )
 ATLAS = "contextweaver-nextgen-architecture"
 SPATIAL = "contextweaver-spatial-architecture"
-SPATIAL_IMAGES = (
-    "intent-to-evidence.png",
-    "layered-governed-architecture.png",
-    "governed-platform-city.png",
-    "governed-call-flow.png",
-    "governed-sequence-ladder.png",
-    "durable-saga-flow.png",
+SPATIAL_SLUGS = (
+    "intent-to-evidence",
+    "layered-governed-architecture",
+    "governed-platform-city",
+    "governed-call-flow",
+    "governed-sequence-ladder",
+    "durable-saga-flow",
 )
+SPATIAL_IMAGES = tuple(f"{slug}.png" for slug in SPATIAL_SLUGS)
 SOURCE_TRUTH = ROOT / "content" / "source-truth.json"
 
 
@@ -129,24 +130,18 @@ def validate_drawio() -> None:
 
 def validate_atlas() -> None:
     html_path = ROOT / "diagrams" / f"{ATLAS}.html"
-    svg_path = ROOT / "diagrams" / f"{ATLAS}.svg"
     png_path = ROOT / "diagrams" / f"{ATLAS}.png"
-    gif_path = ROOT / "diagrams" / f"{ATLAS}.gif"
-    drawio_path = ROOT / "diagrams" / f"{ATLAS}.drawio"
-    for path in (html_path, svg_path, png_path, gif_path, drawio_path):
+    for path in (html_path, png_path):
         assert_true(path.exists() and path.stat().st_size > 500, f"{ATLAS}: missing or empty {path.suffix}")
     validate_page(html_path)
-    ET.parse(svg_path)
-    atlas_pages = ET.parse(drawio_path).getroot().findall("diagram")
-    assert_true(len(atlas_pages) == 4, "NextGen atlas Draw.io must contain four pages")
+    assert_true(".svg" not in html_path.read_text(encoding="utf-8"), "Atlas viewer must not expose SVG pages")
+    for extension in ("svg", "gif", "drawio"):
+        assert_true(
+            not (ROOT / "diagrams" / f"{ATLAS}.{extension}").exists(),
+            f"Public atlas must not expose {extension.upper()} compatibility output",
+        )
     with Image.open(png_path) as image:
-        assert_true(image.size == (1600, 960), "NextGen atlas PNG must be 1600x960")
-    with Image.open(gif_path) as image:
-        assert_true(image.size == (1200, 720), "NextGen atlas GIF must be 1200x720")
-        assert_true(image.n_frames == 8, "NextGen atlas GIF must contain eight stages")
-        for frame in range(image.n_frames):
-            image.seek(frame)
-            assert_true(image.info.get("duration") == 1000, f"NextGen atlas frame {frame} is not 1,000 ms")
+        assert_true(image.size == (1536, 1024), "NextGen atlas PNG must be 1536x1024")
 
 
 def validate_technical_atlas() -> None:
@@ -159,11 +154,13 @@ def validate_technical_atlas() -> None:
         "Technical atlas source hash must be newline-independent",
     )
     pages = manifest.get("pages", [])
-    assert_true(len(pages) == 18, "Technical atlas must contain 18 pages")
+    assert_true(len(pages) == 19, "Technical atlas must contain 19 pages")
     for page in pages:
-        svg_path = output_path / page["file"]
-        assert_true(svg_path.exists() and svg_path.stat().st_size > 500, f"Missing technical atlas page {page['file']}")
-        ET.parse(svg_path)
+        png_path = output_path / page["file"]
+        assert_true(page["file"].endswith(".png"), f"Technical atlas page must be PNG: {page['file']}")
+        assert_true(png_path.exists() and png_path.stat().st_size > 500, f"Missing technical atlas page {page['file']}")
+        with Image.open(png_path) as image:
+            assert_true(image.size == (1536, 1024), f"Technical atlas page has wrong dimensions: {page['file']}")
 
 
 def validate_spatial_architecture() -> None:
@@ -193,6 +190,44 @@ def validate_spatial_architecture() -> None:
         assert_true(image_path.exists() and image_path.stat().st_size > 10_000, f"Missing spatial image {image_name}")
 
 
+def validate_standard_spatial_visuals() -> None:
+    spatial_dir = ROOT / "assets" / "media" / "spatial"
+    expected_routes = {
+        "intent-to-evidence": "edge-i12",
+        "layered-governed-architecture": "edge-l16",
+        "governed-platform-city": "edge-p17",
+        "governed-call-flow": "edge-c13",
+        "governed-sequence-ladder": "edge-q10",
+        "durable-saga-flow": "edge-d20",
+    }
+    prohibited_colors = ("#00d4ff", "#06b6d4", "#3b82f6", "#7c3aed", "#8b5cf6", "#a855f7")
+    for slug in SPATIAL_SLUGS:
+        png_path = spatial_dir / f"{slug}.png"
+        svg_path = spatial_dir / f"{slug}.svg"
+        assert_true(png_path.exists() and png_path.stat().st_size > 10_000, f"Missing spatial PNG {slug}")
+        assert_true(svg_path.exists() and svg_path.stat().st_size > 10_000, f"Missing spatial SVG {slug}")
+        assert_true(not (spatial_dir / f"{slug}.gif").exists(), f"Static spatial visual must not publish a GIF: {slug}")
+        with Image.open(png_path) as image:
+            assert_true(image.size == (1536, 1024), f"{slug}: spatial PNG must be 1536x1024")
+        ET.parse(svg_path)
+        svg = svg_path.read_text(encoding="utf-8").lower()
+        if slug == "intent-to-evidence":
+            assert_true('class="static-master"' in svg and 'href="data:image/png;base64,' in svg, f"{slug}: approved static master is missing")
+            assert_true("image-overlay-edges" not in svg and "data-edge-id=" not in svg, f"{slug}: static visual must not contain animated route overlays")
+        else:
+            assert_true('class="brand-title"' in svg, f"{slug}: shared brand header is missing")
+            assert_true('class="glass-deck' in svg, f"{slug}: angled deck geometry is missing")
+            assert_true('class="node ' in svg, f"{slug}: layered architecture cards are missing")
+            assert_true(expected_routes[slug] in svg, f"{slug}: terminal semantic route is missing")
+        for color in prohibited_colors:
+            assert_true(color not in svg, f"{slug}: prohibited blue/cyan/purple color remains: {color}")
+
+    drawio_path = ROOT / "diagrams" / "contextweaver-spatial-visuals.drawio"
+    pages = ET.parse(drawio_path).getroot().findall("diagram")
+    expected_pages = set(SPATIAL_SLUGS) - {"intent-to-evidence"}
+    assert_true({page.get("id") for page in pages} == expected_pages, "Spatial Draw.io pages do not match static models")
+
+
 def validate_brand_overview() -> None:
     brand = ROOT / "assets" / "brand"
     html_path = brand / "brainzbytes-contextweaver-overview.html"
@@ -207,10 +242,10 @@ def validate_brand_overview() -> None:
     drawio_pages = ET.parse(drawio_path).getroot().findall("diagram")
     assert_true(len(drawio_pages) == 1, "Brand overview Draw.io must contain one editable page")
     with Image.open(png_path) as image:
-        assert_true(image.size == (1200, 675), "Brand overview PNG must be 1200x675")
+        assert_true(image.size == (1600, 1000), "Brand overview PNG must be 1600x1000")
     with Image.open(gif_path) as image:
-        assert_true(image.size == (960, 540), "Brand overview GIF must be 960x540")
-        assert_true(image.n_frames == 10, "Brand overview GIF must contain ten semantic stages")
+        assert_true(image.size == (960, 600), "Brand overview GIF must be 960x600")
+        assert_true(image.n_frames == 12, "Brand overview GIF must contain twelve semantic stages")
         for frame in range(image.n_frames):
             image.seek(frame)
             assert_true(image.info.get("duration") == 1000, f"Brand overview frame {frame} is not 1,000 ms")
@@ -246,6 +281,7 @@ def validate_product_semantics() -> None:
     solutions = (ROOT / "solutions.html").read_text(encoding="utf-8")
     architecture = (ROOT / "architecture.html").read_text(encoding="utf-8")
     atlas = (ROOT / "diagrams" / f"{ATLAS}.html").read_text(encoding="utf-8")
+    atlas += (ROOT / "diagrams" / "contextweaver-nextgen-atlas-source.drawio").read_text(encoding="utf-8")
     story = (ROOT / "diagrams" / "intent-to-evidence.html").read_text(encoding="utf-8")
 
     assert_true("working Solution" in overview, "Overview must promise a working Solution")
@@ -308,11 +344,11 @@ def validate_product_semantics() -> None:
     ):
         assert_true(component in architecture, f"Architecture must preserve the approved {component} component")
     assert_true(
-        "assets/media/platform-planes-static-master.png?v=20261102-3" in architecture,
+        "assets/media/platform-planes-static-master.png?v=20261103-2" in architecture,
         "Architecture must lead with the approved Eight Platform Planes static master",
     )
     assert_true(
-        "diagrams/platform-planes.html?v=20261102-3" in architecture,
+        "diagrams/platform-planes.html?v=20261103-2" in architecture,
         "Architecture must embed the interactive Eight Platform Planes model",
     )
     assert_true(
@@ -357,6 +393,7 @@ def main() -> None:
     validate_atlas()
     validate_technical_atlas()
     validate_spatial_architecture()
+    validate_standard_spatial_visuals()
     validate_brand_overview()
     validate_source_truth()
     validate_product_semantics()

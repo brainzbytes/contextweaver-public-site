@@ -6,6 +6,8 @@ try {
     if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
     py -3 tools\generate_diagrams.py
     if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+    py -3 tools\generate_standard_spatial_visuals.py
+    if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
     py -3 tools\generate_spatial_architecture.py
     if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
     py -3 tools\build_angled_nextgen_architecture.py `

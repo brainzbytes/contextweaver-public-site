@@ -10,7 +10,7 @@ from dataclasses import dataclass
 from html import escape
 from pathlib import Path
 
-from PIL import Image, ImageDraw, ImageFont
+from PIL import Image, ImageDraw, ImageFilter, ImageFont
 
 ROOT = Path(__file__).resolve().parents[1]
 OUT = ROOT / "diagrams"
@@ -21,6 +21,15 @@ HEIGHT = 1024
 GIF_FRAME_DURATION_MS = 1000
 IMAGE_MASTER_WIDTH = 1536
 IMAGE_MASTER_HEIGHT = 1024
+STATIC_MASTER_PATHS = {
+    "intent-to-evidence": ROOT / "assets" / "media" / "spatial" / "intent-to-evidence.png",
+    "service-factory": ROOT / "assets" / "media" / "service-factory-static-master.png",
+    "generic-agent-runtime": ROOT / "assets" / "media" / "generic-agent-runtime-static-master.png",
+    "platform-planes": ROOT / "assets" / "media" / "platform-planes-static-master.png",
+    "capability-lifecycle": ROOT / "assets" / "media" / "capability-lifecycle-static-master.png",
+    "governed-run": ROOT / "assets" / "media" / "governed-run-static-master.png",
+    "scale-path": ROOT / "assets" / "media" / "scale-path-static-master.png",
+}
 
 COLORS = {
     "bg": "#07110f",
@@ -176,12 +185,16 @@ DIAGRAMS = (
         ),
         (
             Step("Bring approved raw material", "Import or describe the desired outcome and the information, systems, and standards it may use.", ("inputs", "studio"), ("f1",)),
-            Step("Create inspectable assets", "The Studio produces editable contracts and implementation assets rather than hiding behavior inside a prompt.", ("studio", "contracts"), ("f2",)),
-            Step("Prove the release", "Tests, security scanning, SBOM, provenance, compatibility, policy, and human approval bind one immutable release.", ("contracts", "admission", "registry"), ("f3", "f4")),
-            Step("Deploy through governed desired state", "The Capability Operator creates only the identity, network, secrets, resources, and runtime declared by the approved profile.", ("registry", "operator", "discovery"), ("f5", "f6")),
-            Step("Attest and publish discovery", "The live runtime must match the signed release and pass qualification before its logical capability alias becomes active.", ("discovery", "registry"), ("f7",)),
-            Step("Resolve the Solution action", "Cerebro maps the user-facing experience action to an approved Service, resolves exact compatible capabilities, validates the graph, and freezes an immutable execution plan.", ("registry", "compose", "execute"), ("f8", "f9")),
-            Step("Return an evidence-backed Solution result", "The durable Service Run finalizes a stable result and the Solution presents the proof needed to understand, operate, audit, and improve it.", ("execute", "outcome", "registry"), ("f10", "f11")),
+            Step("Create typed contracts", "The Studio produces editable contracts and implementation assets rather than hiding behavior inside a prompt.", ("studio", "contracts"), ("f2",)),
+            Step("Validate admission evidence", "Tests, security scanning, SBOM, provenance, compatibility, and policy are evaluated before release.", ("contracts", "admission"), ("f3",)),
+            Step("Publish the immutable release", "Independent approval binds the proven package and its evidence to one exact registry version.", ("admission", "registry"), ("f4",)),
+            Step("Reconcile approved desired state", "The Capability Operator creates only the identity, network, secrets, resources, and runtime declared by the approved profile.", ("registry", "operator"), ("f5",)),
+            Step("Inspect the live runtime", "Runtime discovery checks the deployed descriptor, operations, health, and synthetic qualification.", ("operator", "discovery"), ("f6",)),
+            Step("Promote the qualified capability", "Only a live runtime matching the signed release may promote its logical capability alias.", ("discovery", "registry"), ("f7",)),
+            Step("Resolve the Solution action", "Cerebro maps the experience action to an approved reusable Service and compatible capabilities.", ("registry", "compose"), ("f8",)),
+            Step("Commit the governed Service Run", "The complete graph is authorized and frozen as one immutable execution plan before work begins.", ("compose", "execute"), ("f9",)),
+            Step("Return the Solution result and proof", "The durable Service Run finalizes a stable typed result with citations, receipts, approvals, and evidence.", ("execute", "outcome"), ("f10",)),
+            Step("Feed health and learning back", "Operational evidence returns to the registry so discovery, support, and future releases improve without mutating history.", ("outcome", "registry"), ("f11",)),
         ),
     ),
     Diagram(
@@ -228,17 +241,17 @@ DIAGRAMS = (
         "Eight Platform Planes",
         "Cerebro, Weave, and Loom coordinate stable governance and execution contracts above replaceable infrastructure.",
         (
-            n("experience", "1 · Experience", "My Solutions · Studio · delegated clients", "One authenticated entry point presents consumer, builder, operator, or delegated headless experiences according to entitlement. Users receive governed Solution actions, never cluster-admin credentials.", 62, 92, 250, 95, "violet"),
+            n("experience", "1 · Experience", "My Solutions · Studio · delegated clients", "One authenticated entry point presents consumer, builder, operator, or delegated headless experiences according to entitlement. Users receive governed Solution actions, never cluster-admin credentials.", 62, 92, 250, 95, "mint"),
             n("governance", "2 · Governance", "Identity · policy · approval · audit", "Every protected action requires verified identity, tenant, purpose, policy version, bounded authority, and correlation.", 350, 92, 250, 95, "amber"),
-            n("registry", "3 · Registry", "Catalog · schemas · compiler · lifecycle", "Resolve exact compatible versions and compile immutable plans. Discovery never bypasses trust, lifecycle, health, region, residency, or entitlement.", 638, 92, 250, 95, "sky"),
-            n("capabilities", "4 · Agents + MCP", "Reasoning · tools · sandbox · evaluation", "Agents reason under bounded identity. MCP calls are schema-validated, policy-mediated, rate-limited, audited, and executed without giving credentials to Agents.", 926, 92, 220, 95, "coral"),
+            n("registry", "3 · Registry", "Catalog · schemas · compiler · lifecycle", "Resolve exact compatible versions and compile immutable plans. Discovery never bypasses trust, lifecycle, health, region, residency, or entitlement.", 638, 92, 250, 95, "mint"),
+            n("capabilities", "4 · Agents + MCP", "Reasoning · tools · sandbox · evaluation", "Agents reason under bounded identity. MCP calls are schema-validated, policy-mediated, rate-limited, audited, and executed without giving credentials to Agents.", 926, 92, 220, 95, "mint"),
             n("workflow", "5 · Workflow runtime", "Coordinator · queues · checkpoints · Saga", "Execute durable plans with persistent commands, inbox/outbox, idempotency, retries, approvals, callbacks, checkpoints, and compensation.", 62, 282, 250, 95, "mint"),
-            n("knowledge", "6 · RAG + memory + models", "Sources · retrieval · context · aliases", "Authorized retrieval and governed continuity respect source authority, ACLs, purpose, classification, residency, freshness, retention, and immutable generation pins.", 350, 282, 250, 95, "sky"),
-            n("evidence", "7 · Evidence", "Metrics · logs · traces · evaluations", "Correlate infrastructure, model, retrieval, policy, Workflow, tool, cost, quality, and business signals without placing secrets or private payloads in telemetry.", 638, 282, 250, 95, "amber"),
-            n("infrastructure", "8 · Infrastructure", "Kubernetes · data · event bus · secrets", "Portable provider implementations for compute, persistence, messaging, object storage, search, identity, secrets, networking, telemetry, backup, and recovery.", 926, 282, 220, 95, "violet"),
+            n("knowledge", "6 · RAG + memory + models", "Sources · retrieval · context · aliases", "Authorized retrieval and governed continuity respect source authority, ACLs, purpose, classification, residency, freshness, retention, and immutable generation pins.", 350, 282, 250, 95, "mint"),
+            n("evidence", "7 · Evidence", "Metrics · logs · traces · evaluations", "Correlate infrastructure, model, retrieval, policy, Workflow, tool, cost, quality, and business signals without placing secrets or private payloads in telemetry.", 638, 282, 250, 95, "mint"),
+            n("infrastructure", "8 · Infrastructure", "Kubernetes · data · event bus · secrets", "Portable provider implementations for compute, persistence, messaging, object storage, search, identity, secrets, networking, telemetry, backup, and recovery.", 926, 282, 220, 95, "mint"),
             n("cerebro", "Cerebro", "Understand · govern · compile · orchestrate · prove", "The product experience and control plane spanning intent, identity, policy, composition, durable execution, evidence, and operations.", 150, 500, 270, 105, "mint"),
-            n("weave", "Weave", "Solutions · Services · Workflows · Agents · MCPs", "The reusable governed solution and capability fabric: experience contracts, typed runtime contracts, policies, models, retrieval profiles, data products, and industry packs.", 465, 500, 270, 105, "amber"),
-            n("loom", "Loom", "Portable operational substrate", "The cloud-neutral Kubernetes, OCI, Helm, GitOps, data, messaging, secrets, identity, networking, and observability foundation.", 780, 500, 270, 105, "violet"),
+            n("weave", "Weave", "Solutions · Services · Workflows · Agents · MCPs", "The reusable governed solution and capability fabric: experience contracts, typed runtime contracts, policies, models, retrieval profiles, data products, and industry packs.", 465, 500, 270, 105, "mint"),
+            n("loom", "Loom", "Portable operational substrate", "The cloud-neutral Kubernetes, OCI, Helm, GitOps, data, messaging, secrets, identity, networking, and observability foundation.", 780, 500, 270, 105, "mint"),
         ),
         (
             e("p1", "experience", "governance", "identity + action", "governance"),
@@ -424,6 +437,16 @@ SCENE_LAYERS = (
     ("WEAVE + LOOM", "Workflows, Agents, MCP, Evidence, Kubernetes", 680, 830),
 )
 
+PLATFORM_PLANE_LAYERS = (
+    ("CONTROL PLANES", "Experience, Governance, Registry, Agents + MCP", 172, 320),
+    ("EXECUTION FABRIC", "Workflow, Knowledge, Evidence, Infrastructure", 430, 575),
+    ("PRODUCT LAYERS", "Cerebro control, Weave capabilities, Loom substrate", 680, 830),
+)
+
+
+def scene_layers(diagram: Diagram) -> tuple[tuple[str, str, int, int], ...]:
+    return PLATFORM_PLANE_LAYERS if diagram.slug == "platform-planes" else SCENE_LAYERS
+
 GOVERNED_RUN_LAYOUT = {
     "enterprise": (92, 350, 112, 150),
     "workspace": (218, 366, 112, 150),
@@ -437,6 +460,19 @@ GOVERNED_RUN_LAYOUT = {
     "orchestrator": (1100, 462, 112, 150),
     "evidence": (1226, 478, 112, 150),
     "outcome": (1352, 494, 104, 150),
+}
+
+SERVICE_FACTORY_LAYOUT = {
+    "inputs": (270, 218, 190, 132),
+    "studio": (482, 202, 190, 132),
+    "contracts": (694, 186, 190, 132),
+    "admission": (906, 170, 190, 132),
+    "registry": (1118, 154, 190, 132),
+    "operator": (350, 492, 220, 136),
+    "discovery": (592, 474, 220, 136),
+    "compose": (834, 456, 220, 136),
+    "execute": (1076, 438, 220, 136),
+    "outcome": (660, 728, 260, 142),
 }
 
 GOVERNED_EDGE_PATHS = {
@@ -453,6 +489,7 @@ GOVERNED_EDGE_PATHS = {
     "r11": "M 778 580 C 846 668 1028 690 1156 612",
     "r12": "M 1212 537 L 1226 553",
     "r13": "M 1338 553 L 1352 569",
+    "r14": "M 1456 569 L 1470 569 L 1470 830 L 68 830 L 68 425 L 92 425",
 }
 
 
@@ -469,11 +506,32 @@ def scene_nodes(diagram: Diagram) -> tuple[Node, ...]:
             )
             for node in diagram.nodes
         )
-    bands = (
-        [node for node in diagram.nodes if node.y < 280],
-        [node for node in diagram.nodes if 280 <= node.y < 520],
-        [node for node in diagram.nodes if node.y >= 520],
-    )
+    if diagram.slug == "service-factory":
+        return tuple(
+            Node(
+                node.id,
+                node.title,
+                node.subtitle,
+                node.detail,
+                *SERVICE_FACTORY_LAYOUT[node.id],
+                node.color,
+            )
+            for node in diagram.nodes
+        )
+    layers = scene_layers(diagram)
+    if diagram.slug == "platform-planes":
+        band_ids = (
+            {"experience", "governance", "registry", "capabilities"},
+            {"workflow", "knowledge", "evidence", "infrastructure"},
+            {"cerebro", "weave", "loom"},
+        )
+        bands = tuple([node for node in diagram.nodes if node.id in ids] for ids in band_ids)
+    else:
+        bands = (
+            [node for node in diagram.nodes if node.y < 280],
+            [node for node in diagram.nodes if 280 <= node.y < 520],
+            [node for node in diagram.nodes if node.y >= 520],
+        )
     visual_nodes: list[Node] = []
     for band_index, band in enumerate(bands):
         ordered = sorted(band, key=lambda item: (item.x, item.y))
@@ -489,7 +547,7 @@ def scene_nodes(diagram: Diagram) -> tuple[Node, ...]:
         card_height = 108 if rows == 1 else 84
         total_width = columns * card_width + gap_x * (columns - 1)
         start_x = 330 + (available - total_width) // 2
-        start_y = SCENE_LAYERS[band_index][2] + 48 - ((rows - 1) * (card_height + gap_y)) // 2
+        start_y = layers[band_index][2] + 48 - ((rows - 1) * (card_height + gap_y)) // 2
         for index, node in enumerate(ordered):
             row = index // columns
             column = index % columns
@@ -532,11 +590,11 @@ def svg_governed_decks() -> str:
     )
 
 
-def svg_decks(*, governed: bool = False) -> str:
+def svg_decks(*, governed: bool = False, layers: tuple[tuple[str, str, int, int], ...] = SCENE_LAYERS) -> str:
     if governed:
         return svg_governed_decks()
     decks = []
-    for index, (label, subtitle, top, bottom) in enumerate(SCENE_LAYERS, start=1):
+    for index, (label, subtitle, top, bottom) in enumerate(layers, start=1):
         top_left = (250, top + 55)
         top_right = (1280, top - 45)
         bottom_right = (1400, bottom + 15)
@@ -642,6 +700,39 @@ def svg_node(node: Node, interactive: bool = False, substantial: bool = False) -
       <text class="node-title" x="{node.x + node.w / 2}" y="{title_y}">{title_markup}</text>
       <text class="node-subtitle" x="{node.x + node.w / 2}" y="{subtitle_y}">{subtitle_markup}</text>
       <g class="node-step"><circle cx="{node.x + node.w - 15}" cy="{node.y + 15}" r="13"/><text class="node-step-number" x="{node.x + node.w - 15}" y="{node.y + 19}"></text></g>
+    </g>"""
+
+
+def svg_platform_node(node: Node, interactive: bool = False) -> str:
+    title_lines = text_lines(node.title, max(14, int(node.w / 10)))
+    subtitle_lines = text_lines(node.subtitle, max(18, int(node.w / 8)))
+    title_markup = "".join(
+        f'<tspan x="{node.x + node.w / 2}" dy="{0 if index == 0 else 16}">{escape(line)}</tspan>'
+        for index, line in enumerate(title_lines[:2])
+    )
+    subtitle_markup = "".join(
+        f'<tspan x="{node.x + node.w / 2}" dy="{0 if index == 0 else 13}">{escape(line)}</tspan>'
+        for index, line in enumerate(subtitle_lines[:1])
+    )
+    attrs = (
+        f' role="button" tabindex="0" aria-label="{escape(node.title)}" data-node-id="{node.id}"'
+        if interactive else ""
+    )
+    x, y, w, h = node.x, node.y, node.w, node.h
+    title_y = y + 52
+    subtitle_y = title_y + min(len(title_lines), 2) * 15 + 5
+    return f"""
+    <g id="node-{node.id}" class="node node-{node.color} platform-module"{attrs}>
+      <rect class="module-shadow" x="{x - 13}" y="{y + 13}" width="{w}" height="{h}" rx="7"/>
+      <rect class="module-plinth" x="{x - 7}" y="{y + h - 4}" width="{w + 14}" height="18" rx="4"/>
+      <rect class="module-top" x="{x + 5}" y="{y - 10}" width="{w - 10}" height="15" rx="4"/>
+      <rect class="module-side" x="{x + w - 2}" y="{y + 6}" width="11" height="{h - 8}" rx="4"/>
+      <rect class="node-face" x="{x}" y="{y}" width="{w}" height="{h}" rx="7"/>
+      <path class="node-shine" d="M {x + 15} {y + 7} H {x + w - 15}"/>
+      <g transform="translate(0 -3)">{svg_icon(node)}</g>
+      <text class="node-title" x="{x + w / 2}" y="{title_y}">{title_markup}</text>
+      <text class="node-subtitle" x="{x + w / 2}" y="{subtitle_y}">{subtitle_markup}</text>
+      <g class="node-step"><circle cx="{x + w - 15}" cy="{y + 15}" r="13"/><text class="node-step-number" x="{x + w - 15}" y="{y + 19}"></text></g>
     </g>"""
 
 
@@ -795,6 +886,29 @@ GOVERNED_IMAGE_GIF_ROUTES = {
 }
 
 IMAGE_FIRST_CONFIGS = {
+    "service-factory": ImageFirstConfig(
+        ROOT / "assets" / "media" / "service-factory-static-master.png",
+        {
+            "inputs": (290, 252, 78), "studio": (535, 220, 76),
+            "contracts": (775, 188, 74), "admission": (1000, 157, 74),
+            "registry": (1215, 132, 72), "operator": (420, 510, 78),
+            "discovery": (670, 478, 76), "compose": (915, 444, 76),
+            "execute": (1170, 407, 78), "outcome": (790, 770, 108),
+        },
+        {
+            "f1": ((406, 242), (430, 231)),
+            "f2": ((650, 214), (674, 203)),
+            "f3": ((880, 188), (903, 177)),
+            "f4": ((1115, 159), (1140, 148)),
+            "f5": ((1240, 235), (1420, 260), (1420, 365), (435, 365), (435, 420)),
+            "f6": ((540, 510), (565, 499)),
+            "f7": ((675, 390), (675, 335), (1230, 335), (1230, 250)),
+            "f8": ((1230, 250), (1230, 300), (900, 300), (900, 350)),
+            "f9": ((1030, 445), (1055, 434)),
+            "f10": ((1170, 515), (1170, 610), (800, 610), (800, 650)),
+            "f11": ((1000, 780), (1470, 780), (1470, 145), (1330, 145)),
+        },
+    ),
     "intent-to-evidence": ImageFirstConfig(
         ROOT / "assets" / "media" / "spatial" / "intent-to-evidence.png",
         {
@@ -872,6 +986,46 @@ IMAGE_FIRST_CONFIGS = {
 }
 
 
+def config_route_points(source: Node, target: Node) -> list[tuple[int, int]]:
+    sx, sy = center(source)
+    tx, ty = center(target)
+    if abs(tx - sx) >= abs(ty - sy):
+        source_x = source.x + source.w if tx > sx else source.x
+        target_x = target.x if tx > sx else target.x + target.w
+        mid = round((source_x + target_x) / 2)
+        return [(round(source_x), round(sy)), (mid, round(sy)), (mid, round(ty)), (round(target_x), round(ty))]
+    source_y = source.y + source.h if ty > sy else source.y
+    target_y = target.y if ty > sy else target.y + target.h
+    mid = round((source_y + target_y) / 2)
+    return [(round(sx), round(source_y)), (round(sx), mid), (round(tx), mid), (round(tx), round(target_y))]
+
+
+def generated_image_config(diagram: Diagram, master: Path) -> ImageFirstConfig:
+    visual_nodes = scene_nodes(diagram)
+    nodes = {node.id: node for node in visual_nodes}
+    hotspots = {
+        node.id: (
+            round(node.x + node.w / 2),
+            round(node.y + node.h / 2),
+            round(max(node.w, node.h) * 0.42),
+        )
+        for node in visual_nodes
+    }
+    routes = {
+        edge.id: tuple(config_route_points(nodes[edge.source], nodes[edge.target]))
+        for edge in diagram.edges
+    }
+    return ImageFirstConfig(master, hotspots, routes)
+
+
+for _diagram in DIAGRAMS:
+    if _diagram.slug in {"platform-planes", "service-factory"}:
+        continue
+    _master = STATIC_MASTER_PATHS.get(_diagram.slug)
+    if _master:
+        IMAGE_FIRST_CONFIGS[_diagram.slug] = generated_image_config(_diagram, _master)
+
+
 def image_config(diagram: Diagram) -> ImageFirstConfig | None:
     return IMAGE_FIRST_CONFIGS.get(diagram.slug)
 
@@ -898,6 +1052,17 @@ def image_route_path(points: tuple[tuple[int, int], ...]) -> str:
     return "M " + " L ".join(f"{x} {y}" for x, y in points)
 
 
+def image_title_overlay(diagram: Diagram) -> str:
+    if diagram.slug != "governed-run":
+        return ""
+    return """
+      <g class="governed-title-correction" aria-hidden="true">
+        <rect x="190" y="46" width="1156" height="128" rx="38" fill="#00130c"/>
+        <text x="768" y="96" class="governed-main-title">CONTEXTWEAVER — GOVERNED SERVICE RUN</text>
+        <text x="768" y="137" class="governed-main-subtitle">Intent becomes an approved, executed, evidence-backed outcome.</text>
+      </g>"""
+
+
 def svg_image_scene(diagram: Diagram, interactive: bool) -> str:
     config = IMAGE_FIRST_CONFIGS[diagram.slug]
     if not interactive:
@@ -906,13 +1071,14 @@ def svg_image_scene(diagram: Diagram, interactive: bool) -> str:
       <title id="diagram-title">{escape(diagram.title)}</title>
       <desc id="diagram-desc">{escape(diagram.subtitle)} Approved static master.</desc>
       <image class="static-master" href="{image_master_data_uri(config)}" x="0" y="0" width="{IMAGE_MASTER_WIDTH}" height="{IMAGE_MASTER_HEIGHT}" preserveAspectRatio="xMidYMid meet"/>
+      {image_title_overlay(diagram)}
     </svg>"""
     edge_markup = []
     for edge in diagram.edges:
         route = image_route_path(image_route_points(diagram, edge, config))
         edge_markup.append(
             f'<g id="edge-{edge.id}" class="edge image-overlay-edge edge-{edge.kind}" data-edge-id="{edge.id}">'
-            f'<path class="edge-halo" d="{route}"/><path class="edge-route" d="{route}" marker-end="url(#overlay-arrow)"/>'
+            f'<path class="edge-halo" d="{route}" fill="none"/><path class="edge-route" d="{route}" fill="none" marker-end="url(#overlay-arrow)"/>'
             f'<circle class="flow-pulse" r="6"><animateMotion dur="1.5s" repeatCount="indefinite" path="{route}"/></circle></g>'
         )
     hotspot_markup = []
@@ -934,12 +1100,13 @@ def svg_image_scene(diagram: Diagram, interactive: bool) -> str:
       <title id="diagram-title">{escape(diagram.title)}</title>
       <desc id="diagram-desc">{escape(diagram.subtitle)} The approved static composition remains unchanged while transparent overlays indicate the active semantic route.</desc>
       <defs>
-        <marker id="overlay-arrow" markerWidth="12" markerHeight="12" refX="10" refY="4" orient="auto">
+        <marker id="overlay-arrow" markerUnits="userSpaceOnUse" markerWidth="18" markerHeight="14" refX="11" refY="4" orient="auto">
           <path d="M0,0 L0,8 L11,4 z" fill="context-stroke"/>
         </marker>
         <filter id="glow" x="-80%" y="-80%" width="260%" height="260%"><feGaussianBlur stdDeviation="7" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
       </defs>
       <image class="static-master" href="{image_master_data_uri(config)}" x="0" y="0" width="{IMAGE_MASTER_WIDTH}" height="{IMAGE_MASTER_HEIGHT}" preserveAspectRatio="xMidYMid meet"/>
+      {image_title_overlay(diagram)}
       <g class="image-overlay-edges">{''.join(edge_markup)}</g>
       <g class="image-overlay-hotspots">{''.join(hotspot_markup)}</g>
     </svg>"""
@@ -964,7 +1131,11 @@ def svg_content(diagram: Diagram, interactive: bool = False) -> str:
         )
     governed = diagram.slug == "governed-run"
     node_markup = "".join(
-        svg_governed_node(node, interactive) if governed else svg_node(node, interactive)
+        svg_governed_node(node, interactive)
+        if governed
+        else svg_platform_node(node, interactive)
+        if diagram.slug == "platform-planes"
+        else svg_node(node, interactive)
         for node in visual_nodes
     )
     diagram_title_y = 68 if governed else 82
@@ -997,12 +1168,12 @@ def svg_content(diagram: Diagram, interactive: bool = False) -> str:
       </defs>
       <rect width="{WIDTH}" height="{HEIGHT}" fill="{COLORS['bg']}"/>
       <rect class="floor-grid" y="78" width="{WIDTH}" height="{HEIGHT - 78}" fill="url(#perspective-grid)"/>
-      {title_markup}
       {svg_scene_beams(diagram)}
-      <g class="decks">{svg_decks(governed=governed)}</g>
+      <g class="decks">{svg_decks(governed=governed, layers=scene_layers(diagram))}</g>
       <g class="edges">{''.join(edges)}</g>
       <g class="nodes">{node_markup}</g>
       {svg_scene_accents(diagram)}
+      {title_markup}
     </svg>"""
 
 
@@ -1045,6 +1216,13 @@ SVG_STYLE = f"""
   .node-coral .node-face {{ stroke:{COLORS['coral']}; }}
   .node-amber .node-depth,.node-amber .node-echo {{ stroke:{COLORS['amber']}; }}
   .governed-node .node-face {{ fill:url(#glass-face); stroke-width:2.8; }}
+  .platform-module .module-shadow {{ fill:#020705; stroke:#173629; stroke-width:1; }}
+  .platform-module .module-plinth {{ fill:#06170f; stroke:#65e99d; stroke-width:1.4; }}
+  .platform-module .module-top {{ fill:#173b29; stroke:#8affbd; stroke-width:1.4; }}
+  .platform-module .module-side {{ fill:#07160f; stroke:#65e99d; stroke-width:1.2; }}
+  .platform-module .node-face {{ fill:url(#glass-face); stroke:#65e99d; stroke-width:2.4; }}
+  .platform-module.node-amber .module-plinth,.platform-module.node-amber .module-top,.platform-module.node-amber .module-side,.platform-module.node-amber .node-face {{ stroke:#ffb938; }}
+  .platform-module.node-amber .node-face {{ fill:#332309; }}
   .governed-node .node-depth {{ stroke-width:1.6; }}
   .governed-node .node-shine {{ stroke-width:1.6; opacity:.8; }}
   .governed-cuboid {{ filter:url(#card-shadow); }}
@@ -1068,6 +1246,7 @@ SVG_STYLE = f"""
   .node-step {{ opacity:0; }} .node-step circle {{ fill:{COLORS['bg']}; stroke:{COLORS['mint']}; stroke-width:2; }}
   .node-step text {{ fill:{COLORS['mint']}; font:800 11px {FONT_STACK}; text-anchor:middle; }}
   .edge .edge-route {{ fill:none; stroke:{COLORS['mint']}; stroke-width:2.8; }}
+  .edge .edge-halo {{ fill:none; stroke:{COLORS['mint']}; stroke-width:12; stroke-opacity:.12; stroke-linecap:round; stroke-linejoin:round; }}
   .flow-pulse {{ fill:{COLORS['mint']}; opacity:0; filter:url(#glow); }}
   .edge text {{ fill:{COLORS['muted']}; font:9px {FONT_STACK}; text-anchor:middle; paint-order:stroke; stroke:{COLORS['bg']}; stroke-width:4; }}
   .edge-governance .edge-route {{ stroke:{COLORS['amber']}; stroke-dasharray:8 6; }}
@@ -1075,6 +1254,8 @@ SVG_STYLE = f"""
   .edge-success .edge-route {{ stroke:{COLORS['mint']}; }} .edge-evidence .edge-route {{ stroke:#d8fff0; stroke-dasharray:3 7; }}
   .edge-evidence .flow-pulse {{ fill:#d8fff0; }}
   .edge-waiting .edge-route {{ stroke:{COLORS['amber']}; stroke-dasharray:10 7; }}
+  .edge-failure .edge-route {{ stroke:{COLORS['danger']}; stroke-dasharray:10 7; }}
+  .edge-failure .flow-pulse {{ fill:{COLORS['danger']}; }}
   .route-legend text {{ fill:#d4e2dc; font:11px {FONT_STACK}; }}
   .legend-lime {{ fill:{COLORS['mint']}; filter:url(#glow); }} .legend-amber {{ fill:{COLORS['amber']}; filter:url(#glow); }}
   .legend-white {{ fill:#e8fff5; filter:url(#glow); }}
@@ -1107,17 +1288,6 @@ SVG_STYLE = f"""
   .return-glow {{ fill:none; stroke:#b8ff39; stroke-width:13; opacity:.16; filter:url(#glow); }}
   .return-route {{ fill:none; stroke:#c9ff42; stroke-width:3.5; marker-end:url(#arrow); filter:url(#glow); }}
   .evidence-return text {{ fill:#a9ff43; font:800 13px {FONT_STACK}; letter-spacing:.8px; }}
-  .image-first-diagram .static-master {{ pointer-events:none; }}
-  .image-first-diagram .image-overlay-edge {{ opacity:0; transition:opacity .35s; }}
-  .image-first-diagram .image-overlay-edge.dim {{ opacity:0; }}
-  .image-first-diagram .image-overlay-edge.complete {{ opacity:.08; }}
-  .image-first-diagram .image-overlay-edge.active {{ opacity:1; }}
-  .image-first-diagram .edge-halo {{ fill:none; stroke:#b8ff39; stroke-width:16; opacity:.18; filter:url(#glow); }}
-  .image-first-diagram .edge-route {{ fill:none; stroke:#d4ff3f; stroke-width:5; stroke-linecap:round; stroke-linejoin:round; }}
-  .image-first-diagram .edge-governance .edge-route,.image-first-diagram .edge-waiting .edge-route {{ stroke:#ffc76a; stroke-dasharray:11 8; }}
-  .image-first-diagram .edge-evidence .edge-route {{ stroke:#e8fff5; stroke-dasharray:5 8; }}
-  .image-first-diagram .flow-pulse {{ fill:#f1ff9c; opacity:0; filter:url(#glow); }}
-  .image-first-diagram .active .flow-pulse {{ opacity:1; }}
   .image-hotspot {{ cursor:pointer; }}
   .image-hotspot .hotspot-hit {{ fill:#000; fill-opacity:.001; stroke:none; }}
   .image-hotspot .hotspot-ring,.image-hotspot .hotspot-pulse {{ fill:#b8ff39; fill-opacity:0; stroke:#d4ff3f; stroke-width:0; opacity:0; pointer-events:none; }}
@@ -1165,17 +1335,21 @@ body.portal .storybar,body.portal .detailbar{display:none}
 body.portal .canvas{width:100%;height:100vh;background:radial-gradient(circle at 50% 44%,#173f2e77 0,transparent 48%),#020705}
 body.portal .architecture{min-width:0;width:100%;height:100%;transform:scale(1.08)}
 """ if factory_portal else ""
+    factory_focus_css = """.player-service-factory .edge.dim{opacity:0}
+.player-service-factory .edge:not(.active){pointer-events:none}
+""" if factory_portal else ""
     portal_setup = """const params=new URLSearchParams(location.search),isPopout=params.has("popout"),portal=params.get("portal")==="1";
 document.body.classList.toggle("portal",portal);
 const nodeEls=[...document.querySelectorAll(".node")],edgeEls=[...document.querySelectorAll(".edge")];
 const portalNodes=["inputs","studio","contracts","admission","registry","operator","discovery","compose","execute","outcome"];
-const portalEdges=[[],["f1"],["f2"],["f3"],["f4"],["f5"],["f6"],["f8"],["f9"],["f10","f11"]];""" if factory_portal else """const params=new URLSearchParams(location.search),isPopout=params.has("popout");
+const portalActiveNodes=[["inputs"],["inputs","studio"],["studio","contracts"],["contracts","admission"],["admission","registry"],["registry","operator"],["operator","discovery"],["registry","compose"],["compose","execute"],["execute","outcome"]];
+const portalEdges=[[],["f1"],["f2"],["f3"],["f4"],["f5"],["f6"],["f8"],["f9"],["f10"]];""" if factory_portal else """const params=new URLSearchParams(location.search),isPopout=params.has("popout");
 const nodeEls=[...document.querySelectorAll(".node")],edgeEls=[...document.querySelectorAll(".edge")];"""
-    portal_render = """function renderPortalStage(stage){const activeNode=portalNodes[stage],completeNodes=new Set(portalNodes.slice(0,stage)),activeEdges=new Set(portalEdges[stage]||[]),completeEdges=new Set(portalEdges.slice(0,stage).flat());nodeEls.forEach(el=>{const id=el.dataset.nodeId,active=id===activeNode,complete=completeNodes.has(id);el.classList.toggle("active",active);el.classList.toggle("complete",complete);el.classList.toggle("dim",!active&&!complete);el.classList.remove("selected")});edgeEls.forEach(el=>{const id=el.dataset.edgeId,active=activeEdges.has(id),complete=completeEdges.has(id)&&!active;el.classList.toggle("active",active);el.classList.toggle("complete",complete);el.classList.toggle("dim",!active&&!complete)});if(activeNode)inspect(activeNode);}
+    portal_render = """function renderPortalStage(stage){const activeNode=portalNodes[stage],activeNodes=new Set(portalActiveNodes[stage]||[]),activeEdges=new Set(portalEdges[stage]||[]);nodeEls.forEach(el=>{const active=activeNodes.has(el.dataset.nodeId);el.classList.toggle("active",active);el.classList.remove("complete");el.classList.toggle("dim",!active);el.classList.remove("selected")});edgeEls.forEach(el=>{const active=activeEdges.has(el.dataset.edgeId);el.classList.toggle("active",active);el.classList.remove("complete");el.classList.toggle("dim",!active)});if(activeNode)inspect(activeNode);}
 """ if factory_portal else ""
     portal_handler = """addEventListener("message",event=>{if(event.origin!==location.origin||event.data?.type!=="contextweaver-factory-stage")return;const requested=Number(event.data.stage);if(!Number.isInteger(requested)||requested<0||requested>=portalNodes.length)return;playing=false;stop();renderPortalStage(requested)});
 """ if factory_portal else ""
-    initial_render = '$("play").textContent=playing?"Pause":"Play";if(portal){playing=false;renderPortalStage(0)}else{render();restart()}' if factory_portal else '$("play").textContent=playing?"Pause":"Play";render();restart();'
+    initial_render = '$("play").textContent=playing?"Pause":"Play";if(portal){playing=false;renderPortalStage(current)}else{render();restart()}' if factory_portal else '$("play").textContent=playing?"Pause":"Play";render();restart();'
     html = f"""<!doctype html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="description" content="{escape(diagram.subtitle)}">
@@ -1191,6 +1365,7 @@ const nodeEls=[...document.querySelectorAll(".node")],edgeEls=[...document.query
 {SVG_STYLE}
 .node{{cursor:pointer;transition:opacity .35s}}.node-face,.node-depth,.edge path{{transition:.35s}}.node:hover .node-face,.node.selected .node-face{{stroke-width:4}}.node.active .node-face{{stroke-width:5;filter:url(#glow)}}.node.active .node-depth{{stroke:var(--mint)}}.node.active .node-step{{opacity:1}}.node.complete{{opacity:.94}}.node.dim{{opacity:.82}}
 .edge{{opacity:.42;transition:opacity .35s}}.edge.complete{{opacity:.7}}.edge.dim{{opacity:.32}}.edge.active{{opacity:1}}.edge.active .edge-route{{stroke-width:5;stroke-dasharray:15 9;animation:flow .75s linear infinite;filter:url(#glow)}}.edge.active .flow-pulse{{opacity:1}}.edge-governance.active .edge-route{{stroke:var(--amber)}}.edge-success.active .edge-route{{stroke:var(--mint)}}.edge-waiting.active .edge-route{{stroke:var(--amber)}}.edge-evidence.active .edge-route{{stroke:#d8fff0;stroke-dasharray:3 8}}
+{factory_focus_css}
 @keyframes flow{{to{{stroke-dashoffset:-23}}}}
 .controls{{display:flex;gap:7px}}.controls button{{min-height:38px;padding:0 13px;border:1px solid var(--line);border-radius:9px;color:var(--text);background:var(--panel);cursor:pointer;font-size:10px;font-weight:850}}.controls button:hover{{border-color:var(--mint)}}.controls .primary,.controls button[aria-pressed="true"]{{color:#07110f;background:var(--mint)}}
 .detailbar{{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;gap:22px;min-height:82px;padding:13px 18px;border-top:1px solid var(--line);background:#07110d}}.detailbar b{{display:block;font:700 15px/1.2 {FONT_STACK}}}.detailbar em{{display:block;margin:3px 0;color:var(--amber);font-size:9px;font-style:normal;font-weight:800}}.detailbar p{{margin:0;color:#c8d6d0;font-size:10px}}
@@ -1215,14 +1390,16 @@ const nodeEls=[...document.querySelectorAll(".node")],edgeEls=[...document.query
 <script>
 const nodes={json.dumps(nodes_json, ensure_ascii=False)};
 const steps={json.dumps(steps_json, ensure_ascii=False)};
+const retainHistory={str(not factory_portal).lower()};
 let current=0,playing=!matchMedia("(prefers-reduced-motion: reduce)").matches,narration=false,timer;
 const $=id=>document.getElementById(id);
 {portal_setup}
+const requestedStage=Number(params.get("stage"));if(Number.isInteger(requestedStage)&&requestedStage>=0&&requestedStage<steps.length)current=requestedStage;
 function inspect(id){{const d=nodes[id];if(!d)return;nodeEls.forEach(el=>el.classList.toggle("selected",el.dataset.nodeId===id));$("detail-title").textContent=d.title;$("detail-subtitle").textContent=d.subtitle;$("detail-copy").textContent=d.detail;}}
 nodeEls.forEach(el=>{{el.addEventListener("click",()=>{{playing=false;$("play").textContent="Play";stop();inspect(el.dataset.nodeId)}});el.addEventListener("keydown",ev=>{{if(ev.key==="Enter"||ev.key===" "){{ev.preventDefault();el.click()}}}})}});
 steps.forEach((_,i)=>{{const b=document.createElement("button");b.className="dot";b.type="button";b.setAttribute("aria-label",`Show stage ${{i+1}}`);b.onclick=()=>{{current=i;render(true);restart()}};$("dots").appendChild(b)}});
 function narrateStep(){{if(!narration||!("speechSynthesis" in window))return;window.speechSynthesis.cancel();const s=steps[current],utterance=new SpeechSynthesisUtterance(`${{s.title}}. ${{s.caption}}`);utterance.lang="en-US";utterance.rate=.95;window.speechSynthesis.speak(utterance);}}
-function render(withNarration=false){{const s=steps[current],done=steps.slice(0,current),doneNodes=new Set(done.flatMap(step=>step.nodes)),doneEdges=new Set(done.flatMap(step=>step.edges));nodeEls.forEach(el=>{{const id=el.dataset.nodeId,active=s.nodes.includes(id),complete=doneNodes.has(id)&&!active;el.classList.toggle("active",active);el.classList.toggle("complete",complete);el.classList.toggle("dim",!active&&!complete);el.classList.remove("selected");const number=el.querySelector(".node-step-number");if(number)number.textContent=active?String(s.nodes.indexOf(id)+1):"";}});edgeEls.forEach(el=>{{const id=el.dataset.edgeId,active=s.edges.includes(id),complete=doneEdges.has(id)&&!active;el.classList.toggle("active",active);el.classList.toggle("complete",complete);el.classList.toggle("dim",!active&&!complete)}});$("stage-count").textContent=`Current flow · stage ${{current+1}} of ${{steps.length}}`;$("stage-title").textContent=s.title;$("stage-caption").textContent=s.caption;[...$("dots").children].forEach((d,i)=>{{d.classList.toggle("active",i===current);d.classList.toggle("complete",i<current)}});if(s.nodes.length)inspect(s.nodes[s.nodes.length-1]);if(withNarration)narrateStep();}}
+function render(withNarration=false){{const s=steps[current],done=retainHistory?steps.slice(0,current):[],doneNodes=new Set(done.flatMap(step=>step.nodes)),doneEdges=new Set(done.flatMap(step=>step.edges));nodeEls.forEach(el=>{{const id=el.dataset.nodeId,active=s.nodes.includes(id),complete=retainHistory&&doneNodes.has(id)&&!active;el.classList.toggle("active",active);el.classList.toggle("complete",complete);el.classList.toggle("dim",!active&&!complete);el.classList.remove("selected");const number=el.querySelector(".node-step-number");if(number)number.textContent=active?String(s.nodes.indexOf(id)+1):"";}});edgeEls.forEach(el=>{{const id=el.dataset.edgeId,active=s.edges.includes(id),complete=retainHistory&&doneEdges.has(id)&&!active;el.classList.toggle("active",active);el.classList.toggle("complete",complete);el.classList.toggle("dim",!active&&!complete)}});$("stage-count").textContent=`Current flow · stage ${{current+1}} of ${{steps.length}}`;$("stage-title").textContent=s.title;$("stage-caption").textContent=s.caption;[...$("dots").children].forEach((d,i)=>{{d.classList.toggle("active",i===current);d.classList.toggle("complete",retainHistory&&i<current)}});if(s.nodes.length)inspect(s.nodes[s.nodes.length-1]);if(withNarration)narrateStep();}}
 {portal_render}function advance(delta=1){{current=(current+delta+steps.length)%steps.length;render(true)}}function stop(){{clearInterval(timer)}}function restart(){{stop();if(playing)timer=setInterval(()=>advance(),6000)}}
 $("prev").onclick=()=>{{advance(-1);restart()}};$("next").onclick=()=>{{advance();restart()}};$("reset").onclick=()=>{{current=0;render(true);restart()}};$("play").onclick=()=>{{playing=!playing;$("play").textContent=playing?"Pause":"Play";if(!playing&&"speechSynthesis" in window)window.speechSynthesis.cancel();restart()}};
 $("audio").onclick=()=>{{narration=!narration;$("audio").textContent=narration?"Audio on":"Audio off";$("audio").setAttribute("aria-pressed",String(narration));if(narration)narrateStep();else if("speechSynthesis" in window)window.speechSynthesis.cancel();}};if(!("speechSynthesis" in window)){{$("audio").disabled=true;$("audio").textContent="Audio unavailable";}}
@@ -1252,7 +1429,422 @@ def draw_wrapped(draw: ImageDraw.ImageDraw, box: tuple[int, int, int, int], text
     draw.multiline_text(((x1 + x2) / 2, (y1 + y2) / 2), "\n".join(lines), font=font, fill=fill, anchor=anchor, align="center", spacing=spacing)
 
 
-def draw_glass_decks(draw: ImageDraw.ImageDraw, governed: bool = False) -> None:
+def draw_service_factory_icon(draw: ImageDraw.ImageDraw, center: tuple[float, float], icon: str, color: str) -> None:
+    x, y = center
+    if icon == "inputs":
+        draw.rectangle((x - 11, y - 10, x + 7, y + 9), outline=color, width=2)
+        draw.line((x - 6, y - 4, x + 2, y - 4), fill=color, width=2)
+        draw.line((x - 6, y + 1, x + 3, y + 1), fill=color, width=2)
+    elif icon == "studio":
+        draw.rounded_rectangle((x - 11, y - 11, x + 11, y + 11), radius=5, outline=color, width=2)
+        draw.line((x - 6, y, x + 6, y), fill=color, width=2)
+        draw.line((x, y - 6, x, y + 6), fill=color, width=2)
+    elif icon == "contracts":
+        draw.line((x - 11, y - 9, x - 5, y, x - 11, y + 9), fill=color, width=2)
+        draw.line((x + 11, y - 9, x + 5, y, x + 11, y + 9), fill=color, width=2)
+        draw.line((x - 2, y - 11, x + 2, y + 11), fill=color, width=2)
+    elif icon == "admission":
+        draw.polygon(((x, y - 12), (x + 10, y - 7), (x + 8, y + 6), (x, y + 12), (x - 8, y + 6), (x - 10, y - 7)), outline=color)
+        draw.line((x - 5, y, x - 1, y + 4, x + 6, y - 5), fill=color, width=2)
+    elif icon == "registry":
+        draw.ellipse((x - 11, y - 10, x + 11, y - 3), outline=color, width=2)
+        draw.line((x - 11, y - 6, x - 11, y + 8), fill=color, width=2)
+        draw.line((x + 11, y - 6, x + 11, y + 8), fill=color, width=2)
+        draw.arc((x - 11, y + 1, x + 11, y + 9), 0, 180, fill=color, width=2)
+    elif icon == "operator":
+        draw.polygon(((x, y - 12), (x + 11, y), (x, y + 12), (x - 11, y)), outline=color)
+        draw.ellipse((x - 3, y - 3, x + 3, y + 3), fill=color)
+    elif icon == "discovery":
+        draw.ellipse((x - 11, y - 11, x + 11, y + 11), outline=color, width=2)
+        draw.ellipse((x - 5, y - 5, x + 5, y + 5), outline=color, width=2)
+        draw.line((x, y - 11, x, y - 6), fill=color, width=2)
+    elif icon == "compose":
+        draw.ellipse((x - 12, y - 5, x - 2, y + 5), outline=color, width=2)
+        draw.ellipse((x + 2, y - 5, x + 12, y + 5), outline=color, width=2)
+        draw.line((x - 2, y, x + 2, y), fill=color, width=2)
+    elif icon == "execute":
+        draw.ellipse((x - 3, y - 3, x + 3, y + 3), fill=color)
+        for dx, dy in ((-10, -8), (10, -8), (-10, 8), (10, 8)):
+            draw.line((x, y, x + dx, y + dy), fill=color, width=2)
+            draw.ellipse((x + dx - 2, y + dy - 2, x + dx + 2, y + dy + 2), fill=color)
+    else:
+        draw.rectangle((x - 11, y - 11, x + 11, y + 11), outline=color, width=2)
+        draw.line((x - 6, y, x - 1, y + 5, x + 7, y - 6), fill=color, width=2)
+
+
+def write_service_factory_master() -> None:
+    source = ROOT / "assets" / "media" / "service-factory-glass-base.png"
+    target = ROOT / "assets" / "media" / "service-factory-static-master.png"
+    if not source.exists():
+        raise FileNotFoundError(f"Missing approved Service Factory glass base: {source}")
+
+    image = Image.open(source).convert("RGBA")
+    draw = ImageDraw.Draw(image)
+    title_font = load_font(27, bold=True)
+    subtitle_font = load_font(13)
+    card_title_font = load_font(16, bold=True)
+    card_subtitle_font = load_font(10)
+    outcome_title_font = load_font(23, bold=True)
+    outcome_subtitle_font = load_font(15)
+    number_font = load_font(13, bold=True)
+
+    draw.text((48, 34), "UNIVERSAL SOLUTION AND", font=title_font, fill="#f3fff8")
+    draw.text((48, 65), "CAPABILITY FACTORY", font=title_font, fill="#f3fff8")
+    draw_wrapped(
+        draw,
+        (50, 101, 540, 142),
+        "Approved inputs become reusable capabilities and Services that compose into governed, user-facing Solutions.",
+        subtitle_font,
+        "#93b9a9",
+        max_lines=2,
+        spacing=2,
+    )
+
+    cards = (
+        ((160, 160, 420, 355), "01", "Product inputs", "Specs · APIs · wiki · data · code", False),
+        ((410, 125, 665, 320), "02", "Unified Studio", "MCP · Agent · Workflow · Service · Solution", False),
+        ((650, 95, 895, 292), "03", "Typed contracts", "Schemas · identity · SLOs · policy", False),
+        ((880, 65, 1120, 265), "04", "Admission pipeline", "Test · scan · SBOM · sign · approve", True),
+        ((1100, 35, 1335, 240), "05", "Immutable Registry", "Candidate · canary · active", False),
+        ((285, 415, 550, 625), "06", "Capability Operator", "Kubernetes · Helm · GitOps", False),
+        ((550, 385, 790, 585), "07", "Runtime discovery", "Attest · inspect · qualify", False),
+        ((795, 350, 1045, 550), "08", "Solution + Service resolution", "Experience action · compile · authorize", True),
+        ((1040, 310, 1305, 515), "09", "Governed Service Run", "Agents · MCPs · RAG · humans", False),
+        ((585, 650, 1000, 900), "10", "Solution result + proof", "Experience · citations · receipts · evidence", False),
+    )
+
+    for box, number, title, subtitle, amber in cards:
+        x1, y1, x2, y2 = box
+        accent = "#ffd166" if amber else "#74ffad"
+        draw.rounded_rectangle((x1 + 17, y1 + 13, x1 + 53, y1 + 37), radius=6, fill="#071510", outline=accent, width=2)
+        draw.text((x1 + 35, y1 + 25), number, font=number_font, fill=accent, anchor="mm")
+        center_x = (x1 + x2) / 2
+        if number == "10":
+            draw_wrapped(draw, (x1 + 44, y1 + 83, x2 - 44, y1 + 136), title, outcome_title_font, "#f5fff9", max_lines=2, spacing=2)
+            draw_wrapped(draw, (x1 + 42, y1 + 145, x2 - 42, y2 - 28), subtitle, outcome_subtitle_font, "#9ed0b8", max_lines=2, spacing=3)
+        else:
+            draw_wrapped(draw, (x1 + 18, y1 + 72, x2 - 18, y1 + 113), title, card_title_font, "#f5fff9", max_lines=2, spacing=1)
+            draw_wrapped(draw, (x1 + 17, y1 + 116, x2 - 17, y2 - 28), subtitle, card_subtitle_font, "#9ed0b8", max_lines=3, spacing=1)
+        draw_service_factory_icon(draw, (center_x, y1 + (67 if number == "10" else 56)), {
+            "01": "inputs", "02": "studio", "03": "contracts", "04": "admission",
+            "05": "registry", "06": "operator", "07": "discovery", "08": "compose",
+            "09": "execute", "10": "outcome",
+        }[number], accent)
+
+    target.parent.mkdir(parents=True, exist_ok=True)
+    image.convert("RGB").save(target, quality=96, optimize=True)
+
+
+def orthogonal_points(source: Node, target: Node) -> list[tuple[int, int]]:
+    sx, sy = center(source)
+    tx, ty = center(target)
+    if abs(tx - sx) >= abs(ty - sy):
+        source_x = source.x + source.w if tx > sx else source.x
+        target_x = target.x if tx > sx else target.x + target.w
+        mid = round((source_x + target_x) / 2)
+        return [(round(source_x), round(sy)), (mid, round(sy)), (mid, round(ty)), (round(target_x), round(ty))]
+    source_y = source.y + source.h if ty > sy else source.y
+    target_y = target.y if ty > sy else target.y + target.h
+    mid = round((source_y + target_y) / 2)
+    return [(round(sx), round(source_y)), (round(sx), mid), (round(tx), mid), (round(tx), round(target_y))]
+
+
+def glow_polyline(image: Image.Image, points: list[tuple[int, int]], color: tuple[int, int, int], width: int = 2, active: bool = False) -> None:
+    glow = Image.new("RGBA", image.size, (0, 0, 0, 0))
+    glow_draw = ImageDraw.Draw(glow)
+    glow_draw.line(points, fill=(*color, 125 if active else 55), width=14 if active else 8, joint="curve")
+    image.alpha_composite(glow.filter(ImageFilter.GaussianBlur(8 if active else 6)))
+    draw = ImageDraw.Draw(image)
+    draw.line(points, fill=(*color, 255 if active else 175), width=5 if active else width, joint="curve")
+    x1, y1 = points[-2]
+    x2, y2 = points[-1]
+    angle = math.atan2(y2 - y1, x2 - x1)
+    size = 14 if active else 10
+    wing = 0.55
+    draw.polygon(
+        [
+            (x2, y2),
+            (x2 - size * math.cos(angle - wing), y2 - size * math.sin(angle - wing)),
+            (x2 - size * math.cos(angle + wing), y2 - size * math.sin(angle + wing)),
+        ],
+        fill=(*color, 255 if active else 190),
+    )
+
+
+def draw_luminous_decks(
+    image: Image.Image,
+    layers: tuple[tuple[str, str, int, int], ...],
+    dimensional: bool = False,
+) -> None:
+    label_font = load_font(20, True)
+    subtitle_font = load_font(11)
+    for label, subtitle, top, bottom in layers:
+        face = [(250, top + 55), (1280, top - 45), (1400, bottom + 15), (370, bottom + 115)]
+        depth = 34 if dimensional else 24
+        front = [face[3], face[2], (face[2][0], face[2][1] + depth), (face[3][0], face[3][1] + depth)]
+        side = [face[1], face[2], (face[2][0], face[2][1] + depth), (face[1][0], face[1][1] + depth)]
+        shadow = Image.new("RGBA", image.size, (0, 0, 0, 0))
+        shadow_draw = ImageDraw.Draw(shadow)
+        shadow_draw.polygon([(x, y + 34) for x, y in face], fill=(0, 0, 0, 205))
+        image.alpha_composite(shadow.filter(ImageFilter.GaussianBlur(18)))
+        deck_glow = Image.new("RGBA", image.size, (0, 0, 0, 0))
+        glow_draw = ImageDraw.Draw(deck_glow)
+        glow_draw.line(face + [face[0]], fill=(72, 255, 139, 215 if dimensional else 170), width=17 if dimensional else 13, joint="curve")
+        glow_draw.line(front + [front[0]], fill=(72, 255, 139, 150 if dimensional else 105), width=14 if dimensional else 10, joint="curve")
+        image.alpha_composite(deck_glow.filter(ImageFilter.GaussianBlur(13)))
+        draw = ImageDraw.Draw(image, "RGBA")
+        draw.polygon(front, fill=(3, 46, 28, 180 if dimensional else 105), outline=(74, 245, 139, 245))
+        draw.polygon(side, fill=(2, 28, 17, 150 if dimensional else 92), outline=(74, 245, 139, 232))
+        draw.polygon(face, fill=(8, 70, 42, 84 if dimensional else 46), outline=(86, 255, 154, 255))
+        draw.line((face[0], face[1]), fill=(214, 255, 231, 245), width=2)
+        draw.line((face[3], face[2]), fill=(114, 255, 169, 205), width=2)
+        for offset in (0.25, 0.5, 0.75):
+            left = (
+                round(face[0][0] + (face[3][0] - face[0][0]) * offset),
+                round(face[0][1] + (face[3][1] - face[0][1]) * offset),
+            )
+            right = (
+                round(face[1][0] + (face[2][0] - face[1][0]) * offset),
+                round(face[1][1] + (face[2][1] - face[1][1]) * offset),
+            )
+            draw.line((left, right), fill=(92, 175, 129, 38), width=1)
+        draw.line((50, top + 57, 50, top + 119), fill=(127, 255, 176, 255), width=4)
+        draw.text((70, top + 67), label, font=label_font, fill=(244, 248, 242, 255))
+        draw.text((70, top + 96), subtitle, font=subtitle_font, fill=(168, 203, 189, 255))
+
+
+def draw_factory_icon(
+    draw: ImageDraw.ImageDraw,
+    node: Node,
+    center_x: int,
+    center_y: int,
+    color: tuple[int, int, int],
+) -> None:
+    label = f"{node.id} {node.title}".lower()
+    line = (*color, 235)
+    if "input" in label:
+        draw.rounded_rectangle((center_x - 8, center_y - 9, center_x + 6, center_y + 9), radius=2, outline=line, width=2)
+        draw.line((center_x - 4, center_y - 4, center_x + 3, center_y - 4), fill=line, width=1)
+        draw.line((center_x - 4, center_y, center_x + 3, center_y), fill=line, width=1)
+        draw.line((center_x - 4, center_y + 4, center_x + 2, center_y + 4), fill=line, width=1)
+    elif "studio" in label:
+        draw.line((center_x - 3, center_y - 8, center_x - 10, center_y, center_x - 3, center_y + 8), fill=line, width=2)
+        draw.line((center_x + 3, center_y - 8, center_x + 10, center_y, center_x + 3, center_y + 8), fill=line, width=2)
+        draw.line((center_x + 4, center_y - 10, center_x - 4, center_y + 10), fill=line, width=1)
+    elif any(word in label for word in ("admission", "contract")):
+        shield = [
+            (center_x, center_y - 10),
+            (center_x + 9, center_y - 6),
+            (center_x + 7, center_y + 4),
+            (center_x, center_y + 10),
+            (center_x - 7, center_y + 4),
+            (center_x - 9, center_y - 6),
+        ]
+        draw.line(shield + [shield[0]], fill=line, width=2, joint="curve")
+        draw.line((center_x - 4, center_y, center_x - 1, center_y + 4, center_x + 5, center_y - 4), fill=line, width=2)
+    elif "registry" in label:
+        draw.ellipse((center_x - 9, center_y - 9, center_x + 9, center_y - 3), outline=line, width=2)
+        draw.line((center_x - 9, center_y - 6, center_x - 9, center_y + 7), fill=line, width=2)
+        draw.line((center_x + 9, center_y - 6, center_x + 9, center_y + 7), fill=line, width=2)
+        draw.arc((center_x - 9, center_y + 2, center_x + 9, center_y + 10), 0, 180, fill=line, width=2)
+    elif any(word in label for word in ("operator", "discovery")):
+        draw.ellipse((center_x - 7, center_y - 7, center_x + 7, center_y + 7), outline=line, width=2)
+        draw.ellipse((center_x - 2, center_y - 2, center_x + 2, center_y + 2), fill=line)
+        for dx, dy in ((0, -11), (0, 11), (-11, 0), (11, 0), (-8, -8), (8, 8), (8, -8), (-8, 8)):
+            draw.line((center_x + dx * 0.62, center_y + dy * 0.62, center_x + dx, center_y + dy), fill=line, width=2)
+    elif any(word in label for word in ("resolution", "compose", "service run", "execute")):
+        for dx, dy in ((0, -8), (-9, 7), (9, 7)):
+            draw.ellipse((center_x + dx - 3, center_y + dy - 3, center_x + dx + 3, center_y + dy + 3), outline=line, width=2)
+        draw.line((center_x, center_y - 5, center_x, center_y), fill=line, width=2)
+        draw.line((center_x, center_y, center_x - 9, center_y + 4), fill=line, width=2)
+        draw.line((center_x, center_y, center_x + 9, center_y + 4), fill=line, width=2)
+    else:
+        draw.rounded_rectangle((center_x - 8, center_y - 10, center_x + 8, center_y + 10), radius=2, outline=line, width=2)
+        draw.line((center_x - 4, center_y, center_x - 1, center_y + 4, center_x + 5, center_y - 4), fill=line, width=2)
+
+
+def draw_glass_cuboid(
+    image: Image.Image,
+    node: Node,
+    active: bool = False,
+    number: str = "",
+    dimensional: bool = False,
+) -> None:
+    x, y, w, h = node.x, node.y, node.w, node.h
+    dx, dy = (28, -21) if dimensional else (17, -14)
+    radius = max(8, min(15, round(min(w, h) * 0.1)))
+    amber = node.color == "amber"
+    red = node.color == "danger"
+    edge = (255, 199, 106) if amber else (255, 113, 136) if red else (105, 255, 159)
+    glass = (112, 70, 8) if amber and dimensional else (92, 59, 9) if amber else (69, 13, 23) if red else (4, 96, 52) if dimensional else (5, 77, 43)
+    top = [(x, y), (x + dx, y + dy), (x + w + dx, y + dy), (x + w, y)]
+    side = [(x + w, y), (x + w + dx, y + dy), (x + w + dx, y + h + dy), (x + w, y + h)]
+
+    shadow = Image.new("RGBA", image.size, (0, 0, 0, 0))
+    shadow_draw = ImageDraw.Draw(shadow, "RGBA")
+    shadow_draw.rounded_rectangle((x - 3, y + h + 8, x + w + 19, y + h + 24), radius=8, fill=(0, 0, 0, 210))
+    image.alpha_composite(shadow.filter(ImageFilter.GaussianBlur(12)))
+
+    reflection = Image.new("RGBA", image.size, (0, 0, 0, 0))
+    reflection_draw = ImageDraw.Draw(reflection, "RGBA")
+    reflection_bottom = min(HEIGHT - 1, y + h + max(48, h // 2))
+    for row in range(y + h + 5, reflection_bottom):
+        fade = 1 - (row - y - h - 5) / max(1, reflection_bottom - y - h - 5)
+        inset = round((1 - fade) * w * 0.22)
+        reflection_draw.line(
+            (x + 10 + inset, row, x + w - 10 - inset, row),
+            fill=(*edge, round(58 * fade)),
+            width=1,
+        )
+    image.alpha_composite(reflection.filter(ImageFilter.GaussianBlur(12)))
+
+    glow = Image.new("RGBA", image.size, (0, 0, 0, 0))
+    glow_draw = ImageDraw.Draw(glow, "RGBA")
+    glow_draw.rounded_rectangle(
+        (x - 2, y - 2, x + w + 2, y + h + 2),
+        radius=radius + 2,
+        outline=(*edge, 250 if active or dimensional else 175),
+        width=16 if active or dimensional else 10,
+    )
+    glow_draw.line(top + [top[0]], fill=(*edge, 170), width=8, joint="curve")
+    glow_draw.line(side + [side[0]], fill=(*edge, 140), width=7, joint="curve")
+    image.alpha_composite(glow.filter(ImageFilter.GaussianBlur(11 if active else 9)))
+
+    draw = ImageDraw.Draw(image, "RGBA")
+    draw.polygon(top, fill=(*glass, 64), outline=(*edge, 250))
+    draw.polygon(side, fill=(*glass, 78), outline=(*edge, 235))
+    if dimensional:
+        draw.rounded_rectangle(
+            (x - 18, y + 18, x + w - 18, y + h + 18),
+            radius=radius,
+            fill=(1, 25, 16, 215),
+            outline=(*edge, 120),
+            width=2,
+        )
+        draw.rounded_rectangle(
+            (x - 9, y + 9, x + w - 9, y + h + 9),
+            radius=radius,
+            fill=(*glass, 105),
+            outline=(*edge, 190),
+            width=2,
+        )
+
+    surface = Image.new("RGBA", image.size, (0, 0, 0, 0))
+    surface_draw = ImageDraw.Draw(surface, "RGBA")
+    mask = Image.new("L", image.size, 0)
+    mask_draw = ImageDraw.Draw(mask)
+    mask_draw.rounded_rectangle((x, y, x + w, y + h), radius=radius, fill=255)
+    gradient = Image.new("RGBA", image.size, (0, 0, 0, 0))
+    gradient_draw = ImageDraw.Draw(gradient, "RGBA")
+    for row in range(y, y + h + 1):
+        ratio = (row - y) / max(1, h)
+        alpha = round((210 if active else 192) * (1 - ratio) + (150 if active else 136) * ratio)
+        shade = tuple(max(0, round(channel * (0.82 - ratio * 0.3))) for channel in glass)
+        gradient_draw.line((x, row, x + w, row), fill=(*shade, alpha), width=1)
+    surface.alpha_composite(Image.composite(gradient, Image.new("RGBA", image.size), mask))
+    image.alpha_composite(surface)
+
+    draw = ImageDraw.Draw(image, "RGBA")
+    draw.rounded_rectangle((x, y, x + w, y + h), radius=radius, outline=(*edge, 255), width=3)
+    draw.rounded_rectangle((x + 5, y + 5, x + w - 5, y + h - 5), radius=max(4, radius - 4), outline=(*edge, 155), width=2)
+    draw.rounded_rectangle(
+        (x + 10, y + 11, x + w - 10, y + h - 10),
+        radius=max(3, radius - 6),
+        fill=(1, 13, 8, 205 if dimensional else 112),
+        outline=(*edge, 125 if dimensional else 62),
+        width=2 if dimensional else 1,
+    )
+    draw.line((x + 12, y + 8, x + w - 15, y + 8), fill=(225, 255, 237, 245 if dimensional else 225), width=3 if dimensional else 2)
+    draw.line((x + 7, y + 13, x + 7, y + h - 13), fill=(*edge, 155), width=2)
+    draw.line((x + w - 7, y + 13, x + w - 7, y + h - 13), fill=(*edge, 105), width=1)
+    draw.line((x + 14, y + h - 7, x + w - 12, y + h - 7), fill=(*edge, 145), width=2)
+
+    pedestal_top = y + h - 2
+    draw.rounded_rectangle(
+        (x + 7, pedestal_top, x + w + (15 if dimensional else 7), y + h + (17 if dimensional else 11)),
+        radius=7 if dimensional else 5,
+        fill=(*glass, 135 if dimensional else 72),
+        outline=(*edge, 245 if dimensional else 210),
+        width=3 if dimensional else 2,
+    )
+
+    sparks = Image.new("RGBA", image.size, (0, 0, 0, 0))
+    sparks_draw = ImageDraw.Draw(sparks, "RGBA")
+    for px, py in ((x + 4, y + 5), (x + w - 3, y + 5), (x + 5, y + h - 4), (x + w - 4, y + h - 4)):
+        sparks_draw.ellipse((px - 4, py - 4, px + 4, py + 4), fill=(*edge, 225))
+    image.alpha_composite(sparks.filter(ImageFilter.GaussianBlur(6)))
+    draw = ImageDraw.Draw(image, "RGBA")
+
+    icon_y = y + (28 if dimensional else 24)
+    draw_factory_icon(draw, node, round(x + w / 2), icon_y, edge)
+    if number:
+        draw.ellipse((x - 10, y - 25, x + 24, y + 9), fill=(3, 10, 7, 245), outline=(*edge, 255), width=3)
+        draw.text((x + 7, y - 8), number, font=load_font(15, True), fill=(245, 255, 205, 255), anchor="mm")
+    compact = h < 100
+    title_font = load_font(15 if dimensional else 13, True)
+    subtitle_font = load_font(10 if dimensional else 9)
+    title_top = 42 if dimensional else 33 if compact else 39
+    title_bottom = 84 if dimensional else 68 if compact else 75
+    subtitle_top = 84 if dimensional else 64 if compact else 72
+    draw_wrapped(draw, (x + 8, y + title_top, x + w - 8, y + title_bottom), node.title, title_font, "#f4f8f2", max_lines=2)
+    draw_wrapped(draw, (x + 8, y + subtitle_top, x + w - 8, y + h - 8), node.subtitle, subtitle_font, "#b8ddcd", max_lines=2)
+
+
+def render_glass_scene(diagram: Diagram, active_nodes: set[str] | None = None, active_edges: set[str] | None = None) -> Image.Image:
+    active_nodes = active_nodes or set()
+    active_edges = active_edges or set()
+    image = Image.new("RGBA", (WIDTH, HEIGHT), (3, 12, 9, 255))
+    background = Image.new("RGBA", image.size, (0, 0, 0, 0))
+    bg_draw = ImageDraw.Draw(background, "RGBA")
+    for y in range(HEIGHT):
+        green = round(20 * (1 - y / HEIGHT))
+        bg_draw.line((0, y, WIDTH, y), fill=(2, 9 + green // 3, 7 + green // 4, 255))
+    for x in range(-HEIGHT, WIDTH + HEIGHT, 70):
+        bg_draw.line((x, HEIGHT, x + HEIGHT, 0), fill=(34, 86, 61, 25), width=1)
+    for y in range(120, HEIGHT, 70):
+        bg_draw.line((0, y, WIDTH, y), fill=(34, 86, 61, 20), width=1)
+    image.alpha_composite(background)
+    dimensional = diagram.slug in {"service-factory", "contextweaver-overview"}
+    draw_luminous_decks(image, scene_layers(diagram), dimensional=dimensional)
+    visual_nodes = scene_nodes(diagram)
+    nodes = {node.id: node for node in visual_nodes}
+    for edge in diagram.edges:
+        color = {
+            "governance": (255, 199, 106),
+            "waiting": (255, 199, 106),
+            "failure": (255, 113, 136),
+            "evidence": (216, 255, 240),
+            "success": (184, 255, 57),
+        }.get(edge.kind, (82, 214, 136))
+        points = list(IMAGE_FIRST_CONFIGS.get(diagram.slug, ImageFirstConfig(Path(), {}, {})).route_overrides.get(edge.id, ()))
+        if not points:
+            points = orthogonal_points(nodes[edge.source], nodes[edge.target])
+        glow_polyline(image, points, color, active=edge.id in active_edges)
+    for node in visual_nodes:
+        draw_glass_cuboid(
+            image,
+            node,
+            active=node.id in active_nodes,
+            number=GOVERNED_NODE_NUMBERS.get(node.id, "") if diagram.slug == "governed-run" else "",
+            dimensional=dimensional,
+        )
+    draw = ImageDraw.Draw(image, "RGBA")
+    draw.text((48, 24), "CONTEXTWEAVER", font=load_font(29, True), fill=(244, 248, 242, 255))
+    draw.text((50, 59), diagram.title.upper(), font=load_font(15, True), fill=(112, 230, 177, 255))
+    draw.text((50, 84), diagram.subtitle, font=load_font(11), fill=(168, 187, 179, 255))
+    return image
+
+
+def write_glass_master(diagram: Diagram, path: Path) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    render_glass_scene(diagram).convert("RGB").save(path, optimize=True)
+
+
+def draw_glass_decks(
+    draw: ImageDraw.ImageDraw,
+    governed: bool = False,
+    layers: tuple[tuple[str, str, int, int], ...] = SCENE_LAYERS,
+) -> None:
     label_font = load_font(20, True)
     subtitle_font = load_font(11)
     if governed:
@@ -1280,7 +1872,7 @@ def draw_glass_decks(draw: ImageDraw.ImageDraw, governed: bool = False) -> None:
         ):
             draw.polygon(points, fill="#0b281b", outline="#57df91")
         return
-    for index, (label, subtitle, top, bottom) in enumerate(SCENE_LAYERS):
+    for index, (label, subtitle, top, bottom) in enumerate(layers):
         depth_fill, face_fill, outline = "#03100b", "#0a2419", COLORS["mint"]
         face_points = [(250, top + 55), (1280, top - 45), (1400, bottom + 15), (370, bottom + 115)]
         shadow_points = [(x, y + 38) for x, y in face_points]
@@ -1339,6 +1931,7 @@ GOVERNED_GIF_ROUTES = {
     "r11": [(778, 580), (846, 668), (1028, 690), (1156, 612)],
     "r12": [(1212, 537), (1226, 553)],
     "r13": [(1338, 553), (1352, 569)],
+    "r14": [(1456, 569), (1470, 569), (1470, 830), (68, 830), (68, 425), (92, 425)],
 }
 
 
@@ -1539,6 +2132,25 @@ def write_gif(diagram: Diagram) -> None:
     if image_config(diagram):
         write_image_first_gif(diagram)
         return
+    frames: list[Image.Image] = []
+    for index, step in enumerate(diagram.steps):
+        scene = render_glass_scene(diagram, set(step.nodes), set(step.edges))
+        frame = Image.new("RGBA", (WIDTH, HEIGHT + 90), (3, 11, 8, 255))
+        frame.alpha_composite(scene, (0, 0))
+        caption = ImageDraw.Draw(frame)
+        caption.rectangle((0, HEIGHT, WIDTH, HEIGHT + 90), fill=(10, 35, 30, 255))
+        caption.text((24, HEIGHT + 14), f"{index + 1}/{len(diagram.steps)}  {step.title}", font=load_font(18, True), fill=(112, 230, 177, 255))
+        caption.text((24, HEIGHT + 43), textwrap.fill(step.caption, width=145), font=load_font(11), fill=(244, 248, 242, 255))
+        frames.append(frame.convert("RGB"))
+    frames[0].save(
+        OUT / f"{diagram.slug}.gif",
+        save_all=True,
+        append_images=frames[1:],
+        duration=GIF_FRAME_DURATION_MS,
+        loop=0,
+        optimize=True,
+    )
+    return
 
     brand_font = load_font(29, True)
     title_font = load_font(15, True)
@@ -1557,15 +2169,11 @@ def write_gif(diagram: Diagram) -> None:
             draw.line((x, 0, x, HEIGHT), fill="#10231e", width=1)
         for y in range(0, HEIGHT + 1, 60):
             draw.line((0, y, WIDTH, y), fill="#10231e", width=1)
-        if diagram.slug == "governed-run":
-            governed_brand = load_font(43, True)
-            draw.text((WIDTH // 2, 28), "CONTEXTWEAVER — GOVERNED CALL FLOW", font=governed_brand, fill="#f4f1e9", anchor="ma")
-            draw.text((WIDTH // 2, 86), "Every request carries identity, policy, state, and proof", font=load_font(21, True), fill="#a9aeb1", anchor="ma")
-        else:
-            draw.text((48, 24), "CONTEXTWEAVER", font=brand_font, fill=COLORS["text"])
-            draw.text((50, 59), diagram.title.upper(), font=title_font, fill=COLORS["mint"])
-            draw.text((50, 84), diagram.subtitle, font=subtitle_font, fill=COLORS["muted"])
-        draw_glass_decks(draw, governed=diagram.slug == "governed-run")
+        draw_glass_decks(
+            draw,
+            governed=diagram.slug == "governed-run",
+            layers=scene_layers(diagram),
+        )
         active_edges = set(step.edges)
         active_nodes = set(step.nodes)
         for edge in diagram.edges:
@@ -1577,6 +2185,7 @@ def write_gif(diagram: Diagram) -> None:
                     "success": COLORS["mint"],
                     "waiting": COLORS["amber"],
                     "evidence": "#d8fff0",
+                    "failure": COLORS["danger"],
                 }.get(edge.kind, COLORS["sky"])
                 line_width = 5
             if diagram.slug == "governed-run":
@@ -1605,6 +2214,16 @@ def write_gif(diagram: Diagram) -> None:
                 draw.line((x + 15, y + 7, x + w - 15, y + 7), fill="#b4ffda", width=2)
                 draw.ellipse((x - 8, y - 31, x + 24, y + 1), fill="#07100b", outline="#ffc76a" if node.color == "amber" else "#d9ff38", width=3)
                 draw.text((x + 8, y - 15), GOVERNED_NODE_NUMBERS[node.id], font=load_font(15, True), fill="#ffcb68" if node.color == "amber" else "#f1ffad", anchor="mm")
+            elif diagram.slug == "platform-planes":
+                x, y, w, h = node.x, node.y, node.w, node.h
+                module_stroke = COLORS["amber"] if node.color == "amber" else "#65e99d"
+                draw.rounded_rectangle((x - 13, y + 13, x + w - 13, y + h + 13), radius=7, fill="#020705", outline="#173629")
+                draw.rounded_rectangle((x - 7, y + h - 4, x + w + 7, y + h + 14), radius=4, fill="#06170f", outline=module_stroke, width=2)
+                draw.rounded_rectangle((x + 5, y - 10, x + w - 5, y + 5), radius=4, fill="#173b29", outline=module_stroke, width=2)
+                draw.rounded_rectangle((x + w - 2, y + 6, x + w + 9, y + h - 2), radius=4, fill="#07160f", outline=module_stroke, width=2)
+                face_fill = "#332309" if node.color == "amber" else fill
+                draw.rounded_rectangle(box, radius=7, fill=face_fill, outline=module_stroke, width=5 if active else 3)
+                draw.line((x + 15, y + 7, x + w - 15, y + 7), fill="#b4ffda", width=2)
             else:
                 draw.rounded_rectangle(
                     (node.x - 10, node.y + 7, node.x + node.w - 10, node.y + node.h + 7),
@@ -1647,16 +2266,22 @@ def write_gif(diagram: Diagram) -> None:
             for x, color, text in legend_items:
                 draw.ellipse((x - 6, 908, x + 6, 920), fill=color)
                 draw.text((x + 15, 906), text, font=legend_font, fill="#d4e2dc")
+        if diagram.slug == "governed-run":
+            governed_brand = load_font(43, True)
+            draw.text((WIDTH // 2, 28), "CONTEXTWEAVER — GOVERNED CALL FLOW", font=governed_brand, fill="#f4f1e9", anchor="ma")
+            draw.text((WIDTH // 2, 86), "Every request carries identity, policy, state, and proof", font=load_font(21, True), fill="#a9aeb1", anchor="ma")
+        else:
+            draw.text((48, 24), "CONTEXTWEAVER", font=brand_font, fill=COLORS["text"])
+            draw.text((50, 59), diagram.title.upper(), font=title_font, fill=COLORS["mint"])
+            draw.text((50, 84), diagram.subtitle, font=subtitle_font, fill=COLORS["muted"])
         draw.rectangle((0, HEIGHT, WIDTH, HEIGHT + 90), fill=COLORS["panel2"])
         draw.text((24, HEIGHT + 14), f"{index + 1}/{len(diagram.steps)}  {step.title}", font=caption_title, fill=COLORS["mint"])
         wrapped = textwrap.fill(step.caption, width=145)
         draw.text((24, HEIGHT + 43), wrapped, font=caption_font, fill=COLORS["text"])
         frames.append(image)
-    if diagram.slug == "service-factory":
-        frames[0].crop((0, 0, WIDTH, HEIGHT)).save(
-            ROOT / "assets" / "media" / "service-factory-static-master.png",
-            optimize=True,
-        )
+    static_master = STATIC_MASTER_PATHS.get(diagram.slug)
+    if static_master:
+        frames[0].crop((0, 0, WIDTH, HEIGHT)).save(static_master, optimize=True)
     frames[0].save(
         OUT / f"{diagram.slug}.gif",
         save_all=True,
@@ -1672,7 +2297,10 @@ def drawio_style(node: Node) -> str:
     return f"rounded=1;whiteSpace=wrap;html=1;shadow=1;glass=1;arcSize=16;fillColor={COLORS['panel']};gradientColor={COLORS['panel2']};gradientDirection=north;strokeColor={stroke};strokeWidth=2;fontSize=14;fontFamily=Inter;fontColor={COLORS['text']};align=center;verticalAlign=middle;spacing=10;"
 
 
-def write_drawio(diagrams: tuple[Diagram, ...]) -> None:
+def write_drawio(
+    diagrams: tuple[Diagram, ...],
+    output_path: Path | None = None,
+) -> None:
     mxfile = ET.Element("mxfile", host="app.diagrams.net", version="26.0.0")
     for diagram in diagrams:
         visual_nodes = scene_nodes(diagram)
@@ -1763,8 +2391,9 @@ def write_drawio(diagrams: tuple[Diagram, ...]) -> None:
                 "success": COLORS["mint"],
                 "waiting": COLORS["amber"],
                 "evidence": "#d8fff0",
+                "failure": COLORS["danger"],
             }.get(edge.kind, COLORS["sky"])
-            dashed = "1" if edge.kind in {"governance", "waiting", "evidence"} else "0"
+            dashed = "1" if edge.kind in {"governance", "waiting", "evidence", "failure"} else "0"
             cell = ET.SubElement(
                 root,
                 "mxCell",
@@ -1779,11 +2408,21 @@ def write_drawio(diagrams: tuple[Diagram, ...]) -> None:
             ET.SubElement(cell, "mxGeometry", relative="1", **{"as": "geometry"})
     ET.indent(mxfile, space="  ")
     tree = ET.ElementTree(mxfile)
-    tree.write(OUT / "contextweaver-public-architecture.drawio", encoding="utf-8", xml_declaration=True)
+    tree.write(
+        output_path or OUT / "contextweaver-public-architecture.drawio",
+        encoding="utf-8",
+        xml_declaration=True,
+    )
 
 
 def main(*, skip_raster: bool = False) -> None:
+    if not skip_raster:
+        write_service_factory_master()
     for diagram in DIAGRAMS:
+        if not skip_raster and image_config(diagram):
+            master = IMAGE_FIRST_CONFIGS[diagram.slug].master
+            if not master.exists():
+                write_glass_master(diagram, master)
         write_static_svg(diagram)
         write_interactive_html(diagram)
         if not skip_raster:
