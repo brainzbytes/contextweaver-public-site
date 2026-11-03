@@ -1,1 +1,134 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 675" role="img" aria-labelledby="title description"><title id="title">BrainzBytes and ContextWeaver governed AI architecture</title><desc id="description">Intent moves through Studio, Cerebros, Weave, Loom, governed runtime, reusable Services, and a user-facing Solution with evidence attached.</desc><defs><pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse"><path d="M40 0H0V40" fill="none" stroke="#07110c" stroke-width="1"/></pattern><radialGradient id="glowA"><stop stop-color="#123a22"/><stop offset="1" stop-color="#020705" stop-opacity="0"/></radialGradient><marker id="arrow" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0L8 4L0 8Z" fill="#376a49"/></marker></defs><rect width="1200" height="675" fill="#020705"/><rect width="1200" height="675" fill="url(#grid)"/><circle cx="80" cy="20" r="310" fill="url(#glowA)" opacity=".58"/><text font-family="Inter,Segoe UI,Arial,sans-serif" font-size="28" font-weight="800" fill="#f4fff5"><tspan x="38" y="54">BUILD THE SYSTEM THAT FULFILLS THE INTENT</tspan></text><text font-family="Inter,Segoe UI,Arial,sans-serif" font-size="15" font-weight="400" fill="#a8c2af"><tspan x="38" y="88">BrainzBytes composes governed AI through ContextWeaver, Cerebros, Weave, and Loom.</tspan></text><rect x="38" y="112" width="1124" height="42" rx="12" fill="#08180f" stroke="#28543a"/><circle cx="61" cy="131" r="4" fill="#7cff8f"/><text font-family="Inter,Segoe UI,Arial,sans-serif" font-size="11" font-weight="700" fill="#f4fff5"><tspan x="72" y="135">IDENTITY</tspan></text><circle cx="216" cy="131" r="4" fill="#7cff8f"/><text font-family="Inter,Segoe UI,Arial,sans-serif" font-size="11" font-weight="700" fill="#f4fff5"><tspan x="227" y="135">POLICY</tspan></text><circle cx="358" cy="131" r="4" fill="#ffbd59"/><text font-family="Inter,Segoe UI,Arial,sans-serif" font-size="11" font-weight="700" fill="#f4fff5"><tspan x="369" y="135">APPROVALS</tspan></text><circle cx="528" cy="131" r="4" fill="#7cff8f"/><text font-family="Inter,Segoe UI,Arial,sans-serif" font-size="11" font-weight="700" fill="#f4fff5"><tspan x="539" y="135">ISOLATION</tspan></text><circle cx="683" cy="131" r="4" fill="#7cff8f"/><text font-family="Inter,Segoe UI,Arial,sans-serif" font-size="11" font-weight="700" fill="#f4fff5"><tspan x="694" y="135">AUDIT</tspan></text><text font-family="Inter,Segoe UI,Arial,sans-serif" font-size="11" font-weight="700" fill="#7cff8f"><tspan x="1000" y="135">GOVERNED BY DEFAULT</tspan></text><polyline points="192,251 207,251 207,251 222,251" fill="none" stroke="#376a49" stroke-width="2" marker-end="url(#arrow)"/><polyline points="400,251 419,251 419,247 438,247" fill="none" stroke="#376a49" stroke-width="2" marker-end="url(#arrow)"/><polyline points="696,247 715,247 715,251 734,251" fill="none" stroke="#376a49" stroke-width="2" marker-end="url(#arrow)"/><polyline points="922,251 937,251 937,251 952,251" fill="none" stroke="#376a49" stroke-width="2" marker-end="url(#arrow)"/><polyline points="311,326 311,335 331,335 331,344" fill="none" stroke="#376a49" stroke-width="2" marker-end="url(#arrow)"/><polyline points="440,416 439,416 439,247 438,247" fill="none" stroke="#376a49" stroke-width="2" marker-end="url(#arrow)"/><polyline points="567,326 567,335 599,335 599,344" fill="none" stroke="#376a49" stroke-width="2" marker-end="url(#arrow)"/><polyline points="708,416 733,416 733,416 758,416" fill="none" stroke="#376a49" stroke-width="2" marker-end="url(#arrow)"/><polyline points="867,344 867,335 828,335 828,326" fill="none" stroke="#376a49" stroke-width="2" marker-end="url(#arrow)"/><polyline points="1057,326 1057,426 997,426 997,526" fill="none" stroke="#376a49" stroke-width="2" marker-end="url(#arrow)"/><polyline points="203,526 203,507 331,507 331,489" fill="none" stroke="#376a49" stroke-width="2" marker-end="url(#arrow)"/><polyline points="600,526 600,426 567,426 567,326" fill="none" stroke="#376a49" stroke-width="2" marker-end="url(#arrow)"/><polyline points="867,489 867,507 997,507 997,526" fill="none" stroke="#376a49" stroke-width="2" marker-end="url(#arrow)"/><g id="intent" class="architecture-node"><rect x="38" y="176" width="154" height="150" rx="16" fill="#07140d" stroke="#28543a"/><rect x="52" y="189" width="13" height="13" rx="4" fill="#35d06f"/><text font-family="Inter,Segoe UI,Arial,sans-serif" font-size="11" font-weight="700" fill="#a8c2af"><tspan x="74" y="200">01 · INTENT</tspan></text><text font-family="Inter,Segoe UI,Arial,sans-serif" font-size="17" font-weight="700" fill="#f4fff5"><tspan x="52" y="233">Approved</tspan><tspan x="52" y="253">request</tspan></text><text font-family="Inter,Segoe UI,Arial,sans-serif" font-size="11" font-weight="400" fill="#a8c2af"><tspan x="52" y="271">A goal enters with</tspan><tspan x="52" y="285">identity, context, and</tspan><tspan x="52" y="299">constraints.</tspan></text></g><g id="studio" class="architecture-node"><rect x="222" y="176" width="178" height="150" rx="16" fill="#07140d" stroke="#28543a"/><rect x="236" y="189" width="13" height="13" rx="4" fill="#35d06f"/><text font-family="Inter,Segoe UI,Arial,sans-serif" font-size="11" font-weight="700" fill="#a8c2af"><tspan x="258" y="200">02 · STUDIO</tspan></text><text font-family="Inter,Segoe UI,Arial,sans-serif" font-size="17" font-weight="700" fill="#f4fff5"><tspan x="236" y="233">Compose the</tspan><tspan x="236" y="253">path</tspan></text><text font-family="Inter,Segoe UI,Arial,sans-serif" font-size="11" font-weight="400" fill="#a8c2af"><tspan x="236" y="271">Choose Services,</tspan><tspan x="236" y="285">Workflows, Agents, and</tspan><tspan x="236" y="299">capabilities.</tspan></text></g><g id="weave" class="architecture-node"><rect x="438" y="168" width="258" height="158" rx="16" fill="#07140d" stroke="#28543a"/><rect x="452" y="181" width="13" height="13" rx="4" fill="#7cff8f"/><text font-family="Inter,Segoe UI,Arial,sans-serif" font-size="11" font-weight="700" fill="#a8c2af"><tspan x="474" y="192">05 · WEAVE</tspan></text><text font-family="Inter,Segoe UI,Arial,sans-serif" font-size="17" font-weight="700" fill="#f4fff5"><tspan x="452" y="225">Coordinate the</tspan><tspan x="452" y="245">outcome</tspan></text><text font-family="Inter,Segoe UI,Arial,sans-serif" font-size="11" font-weight="400" fill="#a8c2af"><tspan x="452" y="263">Durable orchestration turns</tspan><tspan x="452" y="277">approved intent into</tspan><tspan x="452" y="291">accountable execution.</tspan></text></g><g id="services" class="architecture-node"><rect x="734" y="176" width="188" height="150" rx="16" fill="#07140d" stroke="#28543a"/><rect x="748" y="189" width="13" height="13" rx="4" fill="#35d06f"/><text font-family="Inter,Segoe UI,Arial,sans-serif" font-size="11" font-weight="700" fill="#a8c2af"><tspan x="770" y="200">07 · SERVICES</tspan></text><text font-family="Inter,Segoe UI,Arial,sans-serif" font-size="17" font-weight="700" fill="#f4fff5"><tspan x="748" y="233">Execute</tspan><tspan x="748" y="253">capabilities</tspan></text><text font-family="Inter,Segoe UI,Arial,sans-serif" font-size="11" font-weight="400" fill="#a8c2af"><tspan x="748" y="271">Typed contracts</tspan><tspan x="748" y="285">connect tools,</tspan><tspan x="748" y="299">systems, and people.</tspan></text></g><g id="solution" class="architecture-node"><rect x="952" y="176" width="210" height="150" rx="16" fill="#07140d" stroke="#28543a"/><rect x="966" y="189" width="13" height="13" rx="4" fill="#7cff8f"/><text font-family="Inter,Segoe UI,Arial,sans-serif" font-size="11" font-weight="700" fill="#a8c2af"><tspan x="988" y="200">09 · SOLUTION</tspan></text><text font-family="Inter,Segoe UI,Arial,sans-serif" font-size="17" font-weight="700" fill="#f4fff5"><tspan x="966" y="233">Deliver the</tspan><tspan x="966" y="253">experience</tspan></text><text font-family="Inter,Segoe UI,Arial,sans-serif" font-size="11" font-weight="400" fill="#a8c2af"><tspan x="966" y="271">A complete user-facing</tspan><tspan x="966" y="285">outcome with evidence</tspan><tspan x="966" y="299">attached.</tspan></text></g><g id="cerebros" class="architecture-node"><rect x="222" y="344" width="218" height="145" rx="16" fill="#07140d" stroke="#28543a"/><rect x="236" y="357" width="13" height="13" rx="4" fill="#35d06f"/><text font-family="Inter,Segoe UI,Arial,sans-serif" font-size="11" font-weight="700" fill="#a8c2af"><tspan x="258" y="368">04 · CEREBROS</tspan></text><text font-family="Inter,Segoe UI,Arial,sans-serif" font-size="17" font-weight="700" fill="#f4fff5"><tspan x="236" y="401">Reason within</tspan><tspan x="236" y="421">bounds</tspan></text><text font-family="Inter,Segoe UI,Arial,sans-serif" font-size="11" font-weight="400" fill="#a8c2af"><tspan x="236" y="439">Specialists interpret</tspan><tspan x="236" y="453">context and propose the</tspan><tspan x="236" y="467">next safe action.</tspan></text></g><g id="loom" class="architecture-node"><rect x="490" y="344" width="218" height="145" rx="16" fill="#07140d" stroke="#28543a"/><rect x="504" y="357" width="13" height="13" rx="4" fill="#35d06f"/><text font-family="Inter,Segoe UI,Arial,sans-serif" font-size="11" font-weight="700" fill="#a8c2af"><tspan x="526" y="368">06 · LOOM</tspan></text><text font-family="Inter,Segoe UI,Arial,sans-serif" font-size="17" font-weight="700" fill="#f4fff5"><tspan x="504" y="401">Shape the</tspan><tspan x="504" y="421">architecture</tspan></text><text font-family="Inter,Segoe UI,Arial,sans-serif" font-size="11" font-weight="400" fill="#a8c2af"><tspan x="504" y="439">Reusable patterns keep</tspan><tspan x="504" y="453">every capability</tspan><tspan x="504" y="467">composable and portable.</tspan></text></g><g id="runtime" class="architecture-node"><rect x="758" y="344" width="218" height="145" rx="16" fill="#07140d" stroke="#28543a"/><rect x="772" y="357" width="13" height="13" rx="4" fill="#35d06f"/><text font-family="Inter,Segoe UI,Arial,sans-serif" font-size="11" font-weight="700" fill="#a8c2af"><tspan x="794" y="368">08 · RUNTIME</tspan></text><text font-family="Inter,Segoe UI,Arial,sans-serif" font-size="17" font-weight="700" fill="#f4fff5"><tspan x="772" y="401">Govern every run</tspan></text><text font-family="Inter,Segoe UI,Arial,sans-serif" font-size="11" font-weight="400" fill="#a8c2af"><tspan x="772" y="419">Policy, approvals,</tspan><tspan x="772" y="433">retries, and state remain</tspan><tspan x="772" y="447">visible.</tspan></text></g><g id="knowledge" class="architecture-node"><rect x="38" y="526" width="330" height="108" rx="16" fill="#07140d" stroke="#28543a"/><rect x="52" y="539" width="13" height="13" rx="4" fill="#35d06f"/><text font-family="Inter,Segoe UI,Arial,sans-serif" font-size="11" font-weight="700" fill="#a8c2af"><tspan x="74" y="550">CONTEXT PLANE</tspan></text><text font-family="Inter,Segoe UI,Arial,sans-serif" font-size="17" font-weight="700" fill="#f4fff5"><tspan x="52" y="583">Knowledge + models</tspan></text><text font-family="Inter,Segoe UI,Arial,sans-serif" font-size="11" font-weight="400" fill="#a8c2af"><tspan x="52" y="601">Grounded retrieval, approved models,</tspan><tspan x="52" y="615">and reusable memory.</tspan></text></g><g id="policy" class="architecture-node"><rect x="435" y="526" width="330" height="108" rx="16" fill="#07140d" stroke="#28543a"/><rect x="449" y="539" width="13" height="13" rx="4" fill="#ffbd59"/><text font-family="Inter,Segoe UI,Arial,sans-serif" font-size="11" font-weight="700" fill="#a8c2af"><tspan x="471" y="550">03 · TRUST PLANE</tspan></text><text font-family="Inter,Segoe UI,Arial,sans-serif" font-size="17" font-weight="700" fill="#f4fff5"><tspan x="449" y="583">Identity + policy</tspan></text><text font-family="Inter,Segoe UI,Arial,sans-serif" font-size="11" font-weight="400" fill="#a8c2af"><tspan x="449" y="601">Least privilege, consent, isolation,</tspan><tspan x="449" y="615">and human control.</tspan></text></g><g id="evidence" class="architecture-node"><rect x="832" y="526" width="330" height="108" rx="16" fill="#07140d" stroke="#28543a"/><rect x="846" y="539" width="13" height="13" rx="4" fill="#7cff8f"/><text font-family="Inter,Segoe UI,Arial,sans-serif" font-size="11" font-weight="700" fill="#a8c2af"><tspan x="868" y="550">10 · EVIDENCE</tspan></text><text font-family="Inter,Segoe UI,Arial,sans-serif" font-size="17" font-weight="700" fill="#f4fff5"><tspan x="846" y="583">Observe + improve</tspan></text><text font-family="Inter,Segoe UI,Arial,sans-serif" font-size="11" font-weight="400" fill="#a8c2af"><tspan x="846" y="601">Receipts, traces, evaluations, and</tspan><tspan x="846" y="615">learning close the loop.</tspan></text></g><text font-family="Inter,Segoe UI,Arial,sans-serif" font-size="10" font-weight="700" fill="#6f947a"><tspan x="38" y="660">INTENT → COMPOSITION → REASONING → ORCHESTRATION → SERVICE → SOLUTION → EVIDENCE</tspan></text></svg>
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1000" viewBox="0 0 1600 1000" role="img" aria-labelledby="title desc">
+<title id="title">BrainzBytes and ContextWeaver</title><desc id="desc">A three-quarter architectural view of governed composition, execution, and evidence.</desc>
+<defs>
+  <radialGradient id="bg" cx="18%" cy="4%" r="90%"><stop stop-color="#12351F"/><stop offset=".42" stop-color="#030A06"/><stop offset="1" stop-color="#010402"/></radialGradient>
+  <linearGradient id="plane" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#0C2516"/><stop offset="1" stop-color="#041009"/></linearGradient>
+  <linearGradient id="front" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#10291A"/><stop offset="1" stop-color="#06120B"/></linearGradient>
+  <linearGradient id="amberFront" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#382B0D"/><stop offset="1" stop-color="#120D03"/></linearGradient>
+  <filter id="glow" x="-80%" y="-80%" width="260%" height="260%"><feGaussianBlur stdDeviation="7" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+  <filter id="shadow" x="-50%" y="-50%" width="220%" height="240%"><feGaussianBlur stdDeviation="14"/></filter>
+  <pattern id="grid" width="48" height="48" patternUnits="userSpaceOnUse" patternTransform="skewX(-24)"><path d="M48 0H0V48" fill="none" stroke="#173623" stroke-width="1"/></pattern>
+  <marker id="arrow" markerWidth="12" markerHeight="12" refX="10" refY="4" orient="auto"><path d="M0 0L11 4L0 8Z" fill="#A8FF3E"/></marker>
+  <style>
+    text{font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+    .eyebrow{font-size:16px;font-weight:850;letter-spacing:2.7px;fill:#A8FF3E}
+    .title{font-size:48px;font-weight:900;letter-spacing:-1.4px;fill:#F4FFF5}
+    .subtitle{font-size:20px;fill:#9AAF9E}
+    .plane-label{font-size:13px;font-weight:850;letter-spacing:2px;fill:#42F59E}
+    .block-title{font-size:22px;font-weight:850;fill:#F4FFF5;text-anchor:middle}
+    .block-copy{font-size:13px;fill:#9AAF9E;text-anchor:middle}
+    .side-copy{font-size:13px;fill:#9AAF9E;text-anchor:start}
+    .number{font-size:15px;font-weight:900;fill:#071009;text-anchor:middle}
+    .route{fill:none;stroke:#A8FF3E;stroke-width:4;stroke-linecap:round;stroke-linejoin:round;marker-end:url(#arrow);filter:url(#glow)}
+  </style>
+</defs>
+<rect width="1600" height="1000" fill="url(#bg)"/><rect y="105" width="1600" height="895" fill="url(#grid)" opacity=".28"/>
+<text x="70" y="70" class="eyebrow">CONTEXTWEAVER BY BRAINZBYTES</text><text x="70" y="125" class="title">Build governed AI systems from intent to evidence</text><text x="70" y="160" class="subtitle">Compose once. Govern every action. Deploy on any Kubernetes platform.</text><g>
+<polygon points="85,318 1205,422 1425,414 305,310" fill="#020704" stroke="#16733B" stroke-width="2" opacity=".9"/>
+<polygon points="85,300 1205,404 1425,348 305,244" fill="url(#plane)" stroke="#42F59E" stroke-width="2" opacity=".96" filter="url(#glow)"/>
+<text x="329" y="276" class="plane-label">COMPOSE + GOVERN</text>
+</g><g>
+<polygon points="155,583 1275,687 1495,679 375,575" fill="#020704" stroke="#16733B" stroke-width="2" opacity=".9"/>
+<polygon points="155,565 1275,669 1495,613 375,509" fill="url(#plane)" stroke="#42F59E" stroke-width="2" opacity=".96" filter="url(#glow)"/>
+<text x="399" y="541" class="plane-label">ORCHESTRATE + EXECUTE</text>
+</g><g>
+<polygon points="225,848 1345,952 1565,944 445,840" fill="#020704" stroke="#16733B" stroke-width="2" opacity=".9"/>
+<polygon points="225,830 1345,934 1565,878 445,774" fill="url(#plane)" stroke="#42F59E" stroke-width="2" opacity=".96" filter="url(#glow)"/>
+<text x="469" y="806" class="plane-label">INTELLIGENCE + EVIDENCE</text>
+</g><g id="intent">
+<ellipse cx="289.0" cy="343" rx="121.00000000000001" ry="17" fill="#42F59E" opacity=".18" filter="url(#shadow)"/>
+<polygon points="165,220 183,207 403,207 385,220" fill="#163B22" stroke="#42F59E" stroke-width="2"/>
+<polygon points="385,220 403,207 403,312 385,325" fill="#06100A" stroke="#42F59E" stroke-width="2"/>
+<rect x="165" y="220" width="220" height="105" rx="13" fill="url(#front)" stroke="#42F59E" stroke-width="2.5" filter="url(#glow)"/>
+<circle cx="183" cy="238" r="17" fill="#A8FF3E" stroke="#E8FFB8" stroke-width="2" filter="url(#glow)"/><text x="183" y="244" class="number">1</text>
+<text x="275.0" y="270.5" class="block-title">Intent</text>
+<text x="275.0" y="297.5" class="block-copy">Goals + constraints</text>
+</g><g id="governance">
+<ellipse cx="564.0" cy="373" rx="121.00000000000001" ry="17" fill="#F2B84B" opacity=".18" filter="url(#shadow)"/>
+<polygon points="440,250 458,237 678,237 660,250" fill="#163B22" stroke="#F2B84B" stroke-width="2"/>
+<polygon points="660,250 678,237 678,342 660,355" fill="#06100A" stroke="#F2B84B" stroke-width="2"/>
+<rect x="440" y="250" width="220" height="105" rx="13" fill="url(#amberFront)" stroke="#F2B84B" stroke-width="2.5" filter="url(#glow)"/>
+<circle cx="458" cy="268" r="17" fill="#A8FF3E" stroke="#E8FFB8" stroke-width="2" filter="url(#glow)"/><text x="458" y="274" class="number">2</text>
+<text x="550.0" y="300.5" class="block-title">Governance</text>
+<text x="550.0" y="327.5" class="block-copy">Identity + policy</text>
+</g><g id="studio">
+<ellipse cx="839.0" cy="403" rx="121.00000000000001" ry="17" fill="#42F59E" opacity=".18" filter="url(#shadow)"/>
+<polygon points="715,280 733,267 953,267 935,280" fill="#163B22" stroke="#42F59E" stroke-width="2"/>
+<polygon points="935,280 953,267 953,372 935,385" fill="#06100A" stroke="#42F59E" stroke-width="2"/>
+<rect x="715" y="280" width="220" height="105" rx="13" fill="url(#front)" stroke="#42F59E" stroke-width="2.5" filter="url(#glow)"/>
+<circle cx="733" cy="298" r="17" fill="#A8FF3E" stroke="#E8FFB8" stroke-width="2" filter="url(#glow)"/><text x="733" y="304" class="number">3</text>
+<text x="825.0" y="330.5" class="block-title">Agent + MCP Studio</text>
+<text x="825.0" y="357.5" class="block-copy">Build + validate</text>
+</g><g id="registry">
+<ellipse cx="1114.0" cy="433" rx="121.00000000000001" ry="17" fill="#42F59E" opacity=".18" filter="url(#shadow)"/>
+<polygon points="990,310 1008,297 1228,297 1210,310" fill="#163B22" stroke="#42F59E" stroke-width="2"/>
+<polygon points="1210,310 1228,297 1228,402 1210,415" fill="#06100A" stroke="#42F59E" stroke-width="2"/>
+<rect x="990" y="310" width="220" height="105" rx="13" fill="url(#front)" stroke="#42F59E" stroke-width="2.5" filter="url(#glow)"/>
+<circle cx="1008" cy="328" r="17" fill="#A8FF3E" stroke="#E8FFB8" stroke-width="2" filter="url(#glow)"/><text x="1008" y="334" class="number">4</text>
+<text x="1100.0" y="360.5" class="block-title">Registry</text>
+<text x="1100.0" y="387.5" class="block-copy">Signed releases</text>
+</g><g id="orchestrator">
+<ellipse cx="359.0" cy="608" rx="121.00000000000001" ry="17" fill="#42F59E" opacity=".18" filter="url(#shadow)"/>
+<polygon points="235,485 253,472 473,472 455,485" fill="#163B22" stroke="#42F59E" stroke-width="2"/>
+<polygon points="455,485 473,472 473,577 455,590" fill="#06100A" stroke="#42F59E" stroke-width="2"/>
+<rect x="235" y="485" width="220" height="105" rx="13" fill="url(#front)" stroke="#42F59E" stroke-width="2.5" filter="url(#glow)"/>
+<circle cx="253" cy="503" r="17" fill="#A8FF3E" stroke="#E8FFB8" stroke-width="2" filter="url(#glow)"/><text x="253" y="509" class="number">5</text>
+<text x="345.0" y="535.5" class="block-title">Orchestrator</text>
+<text x="345.0" y="562.5" class="block-copy">Plan + reconcile</text>
+</g><g id="runtime">
+<ellipse cx="634.0" cy="638" rx="121.00000000000001" ry="17" fill="#42F59E" opacity=".18" filter="url(#shadow)"/>
+<polygon points="510,515 528,502 748,502 730,515" fill="#163B22" stroke="#42F59E" stroke-width="2"/>
+<polygon points="730,515 748,502 748,607 730,620" fill="#06100A" stroke="#42F59E" stroke-width="2"/>
+<rect x="510" y="515" width="220" height="105" rx="13" fill="url(#front)" stroke="#42F59E" stroke-width="2.5" filter="url(#glow)"/>
+<circle cx="528" cy="533" r="17" fill="#A8FF3E" stroke="#E8FFB8" stroke-width="2" filter="url(#glow)"/><text x="528" y="539" class="number">6</text>
+<text x="620.0" y="565.5" class="block-title">Agents + MCP</text>
+<text x="620.0" y="592.5" class="block-copy">Bounded execution</text>
+</g><g id="mesh">
+<ellipse cx="909.0" cy="668" rx="121.00000000000001" ry="17" fill="#F2B84B" opacity=".18" filter="url(#shadow)"/>
+<polygon points="785,545 803,532 1023,532 1005,545" fill="#163B22" stroke="#F2B84B" stroke-width="2"/>
+<polygon points="1005,545 1023,532 1023,637 1005,650" fill="#06100A" stroke="#F2B84B" stroke-width="2"/>
+<rect x="785" y="545" width="220" height="105" rx="13" fill="url(#amberFront)" stroke="#F2B84B" stroke-width="2.5" filter="url(#glow)"/>
+<circle cx="803" cy="563" r="17" fill="#A8FF3E" stroke="#E8FFB8" stroke-width="2" filter="url(#glow)"/><text x="803" y="569" class="number">7</text>
+<text x="895.0" y="595.5" class="block-title">Event Mesh</text>
+<text x="895.0" y="622.5" class="block-copy">Commands + retries</text>
+</g><g id="services">
+<ellipse cx="1184.0" cy="698" rx="121.00000000000001" ry="17" fill="#42F59E" opacity=".18" filter="url(#shadow)"/>
+<polygon points="1060,575 1078,562 1298,562 1280,575" fill="#163B22" stroke="#42F59E" stroke-width="2"/>
+<polygon points="1280,575 1298,562 1298,667 1280,680" fill="#06100A" stroke="#42F59E" stroke-width="2"/>
+<rect x="1060" y="575" width="220" height="105" rx="13" fill="url(#front)" stroke="#42F59E" stroke-width="2.5" filter="url(#glow)"/>
+<circle cx="1078" cy="593" r="17" fill="#A8FF3E" stroke="#E8FFB8" stroke-width="2" filter="url(#glow)"/><text x="1078" y="599" class="number">8</text>
+<text x="1170.0" y="625.5" class="block-title">Live Services</text>
+<text x="1170.0" y="652.5" class="block-copy">Scale + replace</text>
+</g><g id="cerebros">
+<ellipse cx="429.0" cy="873" rx="121.00000000000001" ry="17" fill="#42F59E" opacity=".18" filter="url(#shadow)"/>
+<polygon points="305,750 323,737 543,737 525,750" fill="#163B22" stroke="#42F59E" stroke-width="2"/>
+<polygon points="525,750 543,737 543,842 525,855" fill="#06100A" stroke="#42F59E" stroke-width="2"/>
+<rect x="305" y="750" width="220" height="105" rx="13" fill="url(#front)" stroke="#42F59E" stroke-width="2.5" filter="url(#glow)"/>
+<circle cx="323" cy="768" r="17" fill="#A8FF3E" stroke="#E8FFB8" stroke-width="2" filter="url(#glow)"/><text x="323" y="774" class="number">9</text>
+<text x="415.0" y="800.5" class="block-title">Cerebros</text>
+<text x="415.0" y="827.5" class="block-copy">Understand + reason</text>
+</g><g id="weave">
+<ellipse cx="704.0" cy="903" rx="121.00000000000001" ry="17" fill="#42F59E" opacity=".18" filter="url(#shadow)"/>
+<polygon points="580,780 598,767 818,767 800,780" fill="#163B22" stroke="#42F59E" stroke-width="2"/>
+<polygon points="800,780 818,767 818,872 800,885" fill="#06100A" stroke="#42F59E" stroke-width="2"/>
+<rect x="580" y="780" width="220" height="105" rx="13" fill="url(#front)" stroke="#42F59E" stroke-width="2.5" filter="url(#glow)"/>
+<circle cx="598" cy="798" r="17" fill="#A8FF3E" stroke="#E8FFB8" stroke-width="2" filter="url(#glow)"/><text x="598" y="804" class="number">10</text>
+<text x="690.0" y="830.5" class="block-title">Weave</text>
+<text x="690.0" y="857.5" class="block-copy">Durable workflows</text>
+</g><g id="loom">
+<ellipse cx="979.0" cy="933" rx="121.00000000000001" ry="17" fill="#42F59E" opacity=".18" filter="url(#shadow)"/>
+<polygon points="855,810 873,797 1093,797 1075,810" fill="#163B22" stroke="#42F59E" stroke-width="2"/>
+<polygon points="1075,810 1093,797 1093,902 1075,915" fill="#06100A" stroke="#42F59E" stroke-width="2"/>
+<rect x="855" y="810" width="220" height="105" rx="13" fill="url(#front)" stroke="#42F59E" stroke-width="2.5" filter="url(#glow)"/>
+<circle cx="873" cy="828" r="17" fill="#A8FF3E" stroke="#E8FFB8" stroke-width="2" filter="url(#glow)"/><text x="873" y="834" class="number">11</text>
+<text x="965.0" y="860.5" class="block-title">Loom</text>
+<text x="965.0" y="887.5" class="block-copy">Portable foundation</text>
+</g><g id="evidence">
+<ellipse cx="1254.0" cy="963" rx="121.00000000000001" ry="17" fill="#F2B84B" opacity=".18" filter="url(#shadow)"/>
+<polygon points="1130,840 1148,827 1368,827 1350,840" fill="#163B22" stroke="#F2B84B" stroke-width="2"/>
+<polygon points="1350,840 1368,827 1368,932 1350,945" fill="#06100A" stroke="#F2B84B" stroke-width="2"/>
+<rect x="1130" y="840" width="220" height="105" rx="13" fill="url(#amberFront)" stroke="#F2B84B" stroke-width="2.5" filter="url(#glow)"/>
+<circle cx="1148" cy="858" r="17" fill="#A8FF3E" stroke="#E8FFB8" stroke-width="2" filter="url(#glow)"/><text x="1148" y="864" class="number">12</text>
+<text x="1240.0" y="890.5" class="block-title">Evidence</text>
+<text x="1240.0" y="917.5" class="block-copy">Receipts + replay</text>
+</g><path d="M385 273 L440 280" class="route"/><path d="M660 303 L715 310" class="route"/><path d="M935 333 L990 340" class="route"/><path d="M1100 415 L1100 455 L345 455 L345 485" class="route"/><path d="M455 538 L510 545" class="route"/><path d="M730 568 L785 575" class="route"/><path d="M1005 598 L1060 605" class="route"/><path d="M1170 680 L1170 720 L415 720 L415 750" class="route"/><path d="M525 803 L580 810" class="route"/><path d="M800 833 L855 840" class="route"/><path d="M1075 863 L1130 870" class="route"/><text x="70" y="965" class="subtitle">CEREBROS understands  ·  WEAVE coordinates  ·  LOOM runs portably  ·  EVIDENCE proves every material action</text></svg>
