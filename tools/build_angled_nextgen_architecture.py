@@ -703,7 +703,8 @@ def write_outputs(source: Path, output: Path, *, write_source: bool = False) -> 
         filename = f"{index:02d}-{slug(diagram.get('name') or f'page-{index}')}.svg"
         (output / filename).write_text(render_page(diagram), encoding="utf-8")
         pages.append({"name": diagram.get("name") or f"Page {index}", "file": filename})
-    source_hash = hashlib.sha256(source.read_bytes()).hexdigest()
+    source_bytes = source.read_bytes().replace(b"\r\n", b"\n").replace(b"\r", b"\n")
+    source_hash = hashlib.sha256(source_bytes).hexdigest()
     manifest = {
         "source": source.name,
         "sourceSha256": source_hash,

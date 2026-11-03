@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import hashlib
 import json
 import re
 import xml.etree.ElementTree as ET
@@ -146,6 +147,23 @@ def validate_atlas() -> None:
         for frame in range(image.n_frames):
             image.seek(frame)
             assert_true(image.info.get("duration") == 1000, f"NextGen atlas frame {frame} is not 1,000 ms")
+
+
+def validate_technical_atlas() -> None:
+    source_path = ROOT / "diagrams" / "contextweaver-nextgen-atlas-source.drawio"
+    output_path = ROOT / "diagrams" / "contextweaver-nextgen-architecture"
+    manifest = json.loads((output_path / "manifest.json").read_text(encoding="utf-8"))
+    source_bytes = source_path.read_bytes().replace(b"\r\n", b"\n").replace(b"\r", b"\n")
+    assert_true(
+        manifest.get("sourceSha256") == hashlib.sha256(source_bytes).hexdigest(),
+        "Technical atlas source hash must be newline-independent",
+    )
+    pages = manifest.get("pages", [])
+    assert_true(len(pages) == 18, "Technical atlas must contain 18 pages")
+    for page in pages:
+        svg_path = output_path / page["file"]
+        assert_true(svg_path.exists() and svg_path.stat().st_size > 500, f"Missing technical atlas page {page['file']}")
+        ET.parse(svg_path)
 
 
 def validate_spatial_architecture() -> None:
@@ -337,6 +355,7 @@ def main() -> None:
         validate_diagram(slug)
     validate_drawio()
     validate_atlas()
+    validate_technical_atlas()
     validate_spatial_architecture()
     validate_brand_overview()
     validate_source_truth()
