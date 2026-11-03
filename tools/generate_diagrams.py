@@ -829,12 +829,12 @@ IMAGE_FIRST_CONFIGS = {
     "platform-planes": ImageFirstConfig(
         ROOT / "assets" / "media" / "platform-planes-static-master.png",
         {
-            "experience": (292, 254, 70), "governance": (605, 254, 70),
-            "registry": (923, 254, 70), "capabilities": (1237, 254, 70),
-            "workflow": (292, 485, 70), "knowledge": (610, 485, 70),
-            "evidence": (925, 485, 70), "infrastructure": (1248, 485, 70),
-            "cerebro": (331, 738, 82), "weave": (773, 738, 82),
-            "loom": (1210, 738, 82),
+            "experience": (260, 245, 80), "governance": (470, 270, 80),
+            "registry": (680, 285, 80), "capabilities": (905, 300, 86),
+            "workflow": (385, 455, 86), "knowledge": (645, 485, 92),
+            "evidence": (900, 525, 88), "infrastructure": (1160, 550, 94),
+            "cerebro": (415, 690, 112), "weave": (780, 735, 122),
+            "loom": (1150, 810, 122),
         },
         {},
     ),
@@ -900,6 +900,13 @@ def image_route_path(points: tuple[tuple[int, int], ...]) -> str:
 
 def svg_image_scene(diagram: Diagram, interactive: bool) -> str:
     config = IMAGE_FIRST_CONFIGS[diagram.slug]
+    if not interactive:
+        return f"""
+    <svg class="architecture diagram-{diagram.slug} image-first-diagram" viewBox="0 0 {IMAGE_MASTER_WIDTH} {IMAGE_MASTER_HEIGHT}" role="img" aria-labelledby="diagram-title diagram-desc">
+      <title id="diagram-title">{escape(diagram.title)}</title>
+      <desc id="diagram-desc">{escape(diagram.subtitle)} Approved static master.</desc>
+      <image class="static-master" href="{image_master_data_uri(config)}" x="0" y="0" width="{IMAGE_MASTER_WIDTH}" height="{IMAGE_MASTER_HEIGHT}" preserveAspectRatio="xMidYMid meet"/>
+    </svg>"""
     edge_markup = []
     for edge in diagram.edges:
         route = image_route_path(image_route_points(diagram, edge, config))
@@ -911,6 +918,7 @@ def svg_image_scene(diagram: Diagram, interactive: bool) -> str:
     hotspot_markup = []
     for node in diagram.nodes:
         x, y, radius = config.hotspots[node.id]
+        focus_radius = max(28, round(radius * 0.55))
         attrs = (
             f' role="button" tabindex="0" aria-label="{escape(node.title)}" data-node-id="{node.id}"'
             if interactive else f' data-node-id="{node.id}"'
@@ -918,8 +926,8 @@ def svg_image_scene(diagram: Diagram, interactive: bool) -> str:
         hotspot_markup.append(
             f'<g id="node-{node.id}" class="node image-hotspot node-{node.color}"{attrs}>'
             f'<circle class="hotspot-hit" cx="{x}" cy="{y}" r="{radius}"/>'
-            f'<circle class="hotspot-ring" cx="{x}" cy="{y}" r="{radius + 6}"/>'
-            f'<circle class="hotspot-pulse" cx="{x}" cy="{y}" r="{radius + 14}"/></g>'
+            f'<circle class="hotspot-ring" cx="{x}" cy="{y}" r="{focus_radius}"/>'
+            f'<circle class="hotspot-pulse" cx="{x}" cy="{y}" r="{focus_radius + 8}"/></g>'
         )
     return f"""
     <svg class="architecture diagram-{diagram.slug} image-first-diagram" viewBox="0 0 {IMAGE_MASTER_WIDTH} {IMAGE_MASTER_HEIGHT}" role="img" aria-labelledby="diagram-title diagram-desc">
@@ -1101,7 +1109,8 @@ SVG_STYLE = f"""
   .evidence-return text {{ fill:#a9ff43; font:800 13px {FONT_STACK}; letter-spacing:.8px; }}
   .image-first-diagram .static-master {{ pointer-events:none; }}
   .image-first-diagram .image-overlay-edge {{ opacity:0; transition:opacity .35s; }}
-  .image-first-diagram .image-overlay-edge.complete {{ opacity:.16; }}
+  .image-first-diagram .image-overlay-edge.dim {{ opacity:0; }}
+  .image-first-diagram .image-overlay-edge.complete {{ opacity:.08; }}
   .image-first-diagram .image-overlay-edge.active {{ opacity:1; }}
   .image-first-diagram .edge-halo {{ fill:none; stroke:#b8ff39; stroke-width:16; opacity:.18; filter:url(#glow); }}
   .image-first-diagram .edge-route {{ fill:none; stroke:#d4ff3f; stroke-width:5; stroke-linecap:round; stroke-linejoin:round; }}
@@ -1112,8 +1121,8 @@ SVG_STYLE = f"""
   .image-hotspot {{ cursor:pointer; }}
   .image-hotspot .hotspot-hit {{ fill:#000; fill-opacity:.001; stroke:none; }}
   .image-hotspot .hotspot-ring,.image-hotspot .hotspot-pulse {{ fill:#b8ff39; fill-opacity:0; stroke:#d4ff3f; stroke-width:0; opacity:0; pointer-events:none; }}
-  .image-hotspot.active .hotspot-ring,.image-hotspot.selected .hotspot-ring {{ fill-opacity:.09; stroke-width:4; opacity:1; filter:url(#glow); }}
-  .image-hotspot.active .hotspot-pulse {{ stroke-width:2; opacity:.72; transform-box:fill-box; transform-origin:center; animation:hotspot-pulse 1.7s ease-out infinite; }}
+  .image-hotspot.active .hotspot-ring,.image-hotspot.selected .hotspot-ring {{ fill-opacity:.04; stroke-width:2.5; opacity:.88; filter:url(#glow); }}
+  .image-hotspot.active .hotspot-pulse {{ stroke-width:1.5; opacity:.48; transform-box:fill-box; transform-origin:center; animation:hotspot-pulse 1.7s ease-out infinite; }}
   .image-hotspot.node-amber.active .hotspot-ring,.image-hotspot.node-amber.active .hotspot-pulse {{ fill:#ffc76a; stroke:#ffc76a; }}
   .image-hotspot:focus-visible .hotspot-ring {{ stroke-width:5; opacity:1; }}
   @keyframes hotspot-pulse {{ 0%{{transform:scale(.82);opacity:.8}} 100%{{transform:scale(1.22);opacity:0}} }}

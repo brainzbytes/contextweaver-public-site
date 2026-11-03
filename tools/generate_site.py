@@ -112,7 +112,7 @@ def page(name: str, title: str, description: str, content: str) -> str:
           <div class="site-intro__stage">
             <iframe
               data-intro-frame
-              data-src="assets/brand/brainzbytes-contextweaver-overview.html?embedded=1&amp;intro=1&amp;v=20261103-1"
+              data-src="assets/brand/brainzbytes-contextweaver-overview.html?embedded=1&amp;intro=1&amp;v=20261101-25"
               title="BrainzBytes and ContextWeaver narrated company overview"
               loading="eager"
               allow="autoplay"

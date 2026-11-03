@@ -49,9 +49,9 @@ COLOR_MAP = {
 }
 
 LANES = (
-    (160, 160, 1280, 188),
-    (110, 390, 1380, 188),
-    (60, 620, 1480, 188),
+    (180, 145, 1220, 195),
+    (120, 375, 1340, 195),
+    (60, 605, 1460, 195),
 )
 
 
@@ -248,12 +248,14 @@ def transform_page(diagram: ET.Element) -> None:
             old_style = parse_style(card.get("style", ""))
             kind = semantic_kind(old_style)
             card_x = margin + index * (card_width + gap)
-            set_geometry(card, card_x, 54, card_width, 112)
+            card_progress = card_x / max(1.0, width - card_width)
+            card_y = 30.0 + card_progress * 54.0
+            set_geometry(card, card_x, card_y, card_width, 112)
             card.set("style", format_style(card_style(kind)))
             card.set("value", replace_colors(card.get("value", "")))
             badge = cells.get(f"{card.get('id')}-badge")
             if badge is not None:
-                set_geometry(badge, card_x + 12, 60, 88, 24)
+                set_geometry(badge, card_x + 12, card_y + 6, 88, 24)
                 badge.set("style", format_style(badge_style(kind)))
                 badge.set("value", replace_colors(badge.get("value", "")))
 
@@ -424,8 +426,7 @@ def edge_points(
         return [start, (start[0], mid), (end[0], mid), end]
     start = (sx + sw if tcx >= scx else sx, scy)
     end = (tx if tcx >= scx else tx + tw, tcy)
-    mid = (start[0] + end[0]) / 2
-    return [start, (mid, start[1]), (mid, end[1]), end]
+    return [start, end]
 
 
 def polygon_points(points: list[tuple[float, float]]) -> str:
@@ -454,11 +455,14 @@ def render_page(diagram: ET.Element) -> str:
         '<linearGradient id="platform-fill" x1="0" y1="0" x2="1" y2="1">'
         '<stop stop-color="#0b2415"/><stop offset="1" stop-color="#041009"/></linearGradient>',
         '<linearGradient id="card-green" x1="0" y1="0" x2="0" y2="1">'
-        '<stop stop-color="#123624"/><stop offset="1" stop-color="#06140c"/></linearGradient>',
+        '<stop stop-color="#0d4829"/><stop offset=".58" stop-color="#09331f"/>'
+        '<stop offset="1" stop-color="#04170e"/></linearGradient>',
         '<linearGradient id="card-amber" x1="0" y1="0" x2="0" y2="1">'
-        '<stop stop-color="#3b2808"/><stop offset="1" stop-color="#201707"/></linearGradient>',
+        '<stop stop-color="#53390c"/><stop offset=".58" stop-color="#38260a"/>'
+        '<stop offset="1" stop-color="#1f1607"/></linearGradient>',
         '<linearGradient id="card-red" x1="0" y1="0" x2="0" y2="1">'
-        '<stop stop-color="#42101a"/><stop offset="1" stop-color="#24080d"/></linearGradient>',
+        '<stop stop-color="#571521"/><stop offset=".58" stop-color="#3b0f18"/>'
+        '<stop offset="1" stop-color="#21080d"/></linearGradient>',
         '<filter id="shadow" x="-20%" y="-30%" width="150%" height="180%">'
         '<feDropShadow dx="0" dy="10" stdDeviation="12" flood-color="#000" flood-opacity=".65"/>'
         "</filter>",
@@ -479,14 +483,48 @@ def render_page(diagram: ET.Element) -> str:
         '<path d="M0 0L9 3.5L0 7Z" fill="#ff7188"/></marker>',
         "</defs>",
         "<style>"
-        ".flow{stroke-dasharray:14 22;animation:cw-flow 3s linear infinite}"
-        "@keyframes cw-flow{to{stroke-dashoffset:-72}}"
-        "@media(prefers-reduced-motion:reduce){.flow{animation:none;stroke-dasharray:none}}"
+        ".flow{stroke-dasharray:14 10}"
         "</style>",
         f'<rect width="{WIDTH}" height="{HEIGHT}" fill="{BACKGROUND}"/>',
         '<ellipse cx="100" cy="190" rx="310" ry="310" fill="url(#ambient-left)"/>',
         '<ellipse cx="1510" cy="690" rx="300" ry="300" fill="url(#ambient-right)"/>',
     ]
+
+    for cell in root.findall("mxCell"):
+        cell_id = cell.get("id", "")
+        if cell.get("vertex") != "1" or re.fullmatch(r"lane-\d+", cell_id) is None:
+            continue
+        x, y, width, _ = boxes[cell_id]
+        depth = 18.0
+        platform = [
+            (x, y + 126.0),
+            (x + width - 90.0, y + 184.0),
+            (x + width, y + 126.0),
+            (x + 90.0, y + 68.0),
+        ]
+        front = [
+            platform[0],
+            platform[1],
+            (platform[1][0], platform[1][1] + depth),
+            (platform[0][0], platform[0][1] + depth),
+        ]
+        side = [
+            platform[1],
+            platform[2],
+            (platform[2][0], platform[2][1] + depth),
+            (platform[1][0], platform[1][1] + depth),
+        ]
+        lines = clean_lines(cell.get("value", ""))
+        parts.append(
+            f'<g filter="url(#shadow)"><polygon points="{polygon_points(front)}" fill="#020905" '
+            f'stroke="{LINE}" stroke-width="2"/><polygon points="{polygon_points(side)}" '
+            f'fill="#06140c" stroke="{LINE}" stroke-width="2"/><polygon '
+            f'points="{polygon_points(platform)}" fill="url(#platform-fill)" '
+            f'stroke="{LINE}" stroke-width="2"/></g>'
+        )
+        parts.append(
+            text_svg(lines[:1], x + 102, y + 44, width - 204, 28, MUTED, 13, align="left", max_lines=1)
+        )
 
     for cell in root.findall("mxCell"):
         if cell.get("edge") != "1":
@@ -537,32 +575,7 @@ def render_page(diagram: ET.Element) -> str:
         x, y, width, height = boxes[cell_id]
         style = parse_style(cell.get("style", ""))
         lines = clean_lines(cell.get("value", ""))
-        if cell_id.startswith("lane-"):
-            inset = 42
-            depth = 18
-            platform = [(x + inset, y), (x + width, y), (x + width - inset, y + height), (x, y + height)]
-            front = [
-                (x, y + height),
-                (x + width - inset, y + height),
-                (x + width - inset, y + height + depth),
-                (x, y + height + depth),
-            ]
-            side = [
-                (x + width - inset, y + height),
-                (x + width, y),
-                (x + width, y + depth),
-                (x + width - inset, y + height + depth),
-            ]
-            parts.append(
-                f'<g filter="url(#shadow)"><polygon points="{polygon_points(front)}" fill="#020905" '
-                f'stroke="{LINE}" stroke-width="2"/><polygon points="{polygon_points(side)}" '
-                f'fill="#06140c" stroke="{LINE}" stroke-width="2"/><polygon '
-                f'points="{polygon_points(platform)}" fill="url(#platform-fill)" '
-                f'stroke="{LINE}" stroke-width="2"/></g>'
-            )
-            parts.append(
-                text_svg(lines[:1], x + 48, y + 12, width - 96, 28, MUTED, 13, align="left", max_lines=1)
-            )
+        if re.fullmatch(r"lane-\d+", cell_id):
             continue
         if cell_id == "legend-bg":
             inset = 28
@@ -672,14 +685,15 @@ def slug(value: str) -> str:
     )
 
 
-def write_outputs(source: Path, output: Path) -> None:
+def write_outputs(source: Path, output: Path, *, write_source: bool = False) -> None:
     tree = ET.parse(source)
     root = tree.getroot()
     root.set("modified", datetime.now(timezone.utc).replace(microsecond=0).isoformat())
     for diagram in root.findall("diagram"):
         transform_page(diagram)
-    ET.indent(tree, space="  ")
-    tree.write(source, encoding="utf-8", xml_declaration=True)
+    if write_source:
+        ET.indent(tree, space="  ")
+        tree.write(source, encoding="utf-8", xml_declaration=True)
 
     output.mkdir(parents=True, exist_ok=True)
     for generated in output.glob("*.svg"):
@@ -707,8 +721,17 @@ def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--source", type=Path, required=True)
     parser.add_argument("--output", type=Path, required=True)
+    parser.add_argument(
+        "--write-source",
+        action="store_true",
+        help="Persist the normalized angled geometry back to the Draw.io source.",
+    )
     args = parser.parse_args()
-    write_outputs(args.source.resolve(), args.output.resolve())
+    write_outputs(
+        args.source.resolve(),
+        args.output.resolve(),
+        write_source=args.write_source,
+    )
 
 
 if __name__ == "__main__":

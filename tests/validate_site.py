@@ -189,9 +189,9 @@ def validate_brand_overview() -> None:
     drawio_pages = ET.parse(drawio_path).getroot().findall("diagram")
     assert_true(len(drawio_pages) == 1, "Brand overview Draw.io must contain one editable page")
     with Image.open(png_path) as image:
-        assert_true(image.size == (1600, 1000), "Brand overview PNG must be 1600x1000")
+        assert_true(image.size == (1200, 675), "Brand overview PNG must be 1200x675")
     with Image.open(gif_path) as image:
-        assert_true(image.size == (960, 600), "Brand overview GIF must be 960x600")
+        assert_true(image.size == (960, 540), "Brand overview GIF must be 960x540")
         assert_true(image.n_frames == 10, "Brand overview GIF must contain ten semantic stages")
         for frame in range(image.n_frames):
             image.seek(frame)
