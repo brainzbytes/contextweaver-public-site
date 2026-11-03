@@ -601,6 +601,27 @@ def write_visuals(skip_raster: bool = False, overview_only: bool = False, intent
     BRAND.mkdir(parents=True, exist_ok=True)
     DIAGRAMS.mkdir(parents=True, exist_ok=True)
 
+    if skip_raster:
+        required = [
+            BRAND / "brainzbytes-contextweaver-overview.svg",
+            BRAND / "brainzbytes-contextweaver-overview.drawio",
+            BRAND / "brainzbytes-contextweaver-overview.html",
+            BRAND / "brainzbytes-contextweaver-overview.png",
+            BRAND / "brainzbytes-contextweaver-overview.gif",
+            DIAGRAMS / "intent-to-evidence-flow.svg",
+            DIAGRAMS / "intent-to-evidence-flow.drawio",
+            DIAGRAMS / "intent-to-evidence-flow.html",
+            DIAGRAMS / "intent-to-evidence-flow.png",
+            DIAGRAMS / "intent-to-evidence-flow.gif",
+        ]
+        missing = [str(path.relative_to(ROOT)) for path in required if not path.exists()]
+        if missing:
+            raise FileNotFoundError(
+                "Committed rendered visual assets are missing: " + ", ".join(missing)
+            )
+        print("Using committed angled public visual assets.")
+        return
+
     if intent_only:
         write_intent_visual(skip_raster)
         return
