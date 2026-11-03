@@ -1,80 +1,85 @@
 {
   "source": "contextweaver-nextgen-atlas-source.drawio",
-  "sourceSha256": "c73fece72aa6ad38011324712043392311160ca1e47b37f6a5aa7afba49df0d3",
-  "exporter": "ContextWeaver deterministic angled SVG renderer",
-  "orientation": "three-quarter perspective",
+  "sourceSha256": "535ad9899ef975fdfe8e365046aeac90dd14992f432ea3431db0b2c7fe324de3",
+  "exporter": "ContextWeaver raster-first rendered-glass PNG renderer",
+  "orientation": "rendered three-quarter perspective",
+  "visualMedium": "photoreal rendered glass master with deterministic semantic overlays",
   "pages": [
     {
       "name": "Layered Architecture",
-      "file": "01-layered-architecture.svg"
+      "file": "01-layered-architecture.png"
     },
     {
       "name": "Deployment Pipeline",
-      "file": "02-deployment-pipeline.svg"
+      "file": "02-deployment-pipeline.png"
     },
     {
       "name": "Namespace Topology",
-      "file": "03-namespace-topology.svg"
+      "file": "03-namespace-topology.png"
     },
     {
       "name": "Governed Agentic Platform",
-      "file": "04-governed-agentic-platform.svg"
+      "file": "04-governed-agentic-platform.png"
     },
     {
       "name": "RAG Freshness and Versioning",
-      "file": "05-rag-freshness-and-versioning.svg"
+      "file": "05-rag-freshness-and-versioning.png"
     },
     {
       "name": "Durable Work Recovery",
-      "file": "06-durable-work-recovery.svg"
+      "file": "06-durable-work-recovery.png"
     },
     {
       "name": "Credential Non-Possession",
-      "file": "07-credential-non-possession.svg"
+      "file": "07-credential-non-possession.png"
     },
     {
       "name": "Dynamic Agent and MCP Lifecycle",
-      "file": "08-dynamic-agent-and-mcp-lifecycle.svg"
+      "file": "08-dynamic-agent-and-mcp-lifecycle.png"
     },
     {
       "name": "Continuous Entitlement Enforcement",
-      "file": "09-continuous-entitlement-enforcement.svg"
+      "file": "09-continuous-entitlement-enforcement.png"
     },
     {
       "name": "Azure Production Platform",
-      "file": "10-azure-production-platform.svg"
+      "file": "10-azure-production-platform.png"
     },
     {
       "name": "Hello World Approval PoC",
-      "file": "11-hello-world-approval-poc.svg"
+      "file": "11-hello-world-approval-poc.png"
     },
     {
       "name": "Durable Async Execution",
-      "file": "12-durable-async-execution.svg"
+      "file": "12-durable-async-execution.png"
     },
     {
       "name": "Asynchronous RAG Ingestion",
-      "file": "13-asynchronous-rag-ingestion.svg"
+      "file": "13-asynchronous-rag-ingestion.png"
     },
     {
       "name": "Azure Data and Operations",
-      "file": "14-azure-data-and-operations.svg"
+      "file": "14-azure-data-and-operations.png"
     },
     {
       "name": "Hello World Execution Detail",
-      "file": "15-hello-world-execution-detail.svg"
+      "file": "15-hello-world-execution-detail.png"
     },
     {
       "name": "Durable Recovery and Replay",
-      "file": "16-durable-recovery-and-replay.svg"
+      "file": "16-durable-recovery-and-replay.png"
     },
     {
       "name": "RAG Publication and Freshness",
-      "file": "17-rag-publication-and-freshness.svg"
+      "file": "17-rag-publication-and-freshness.png"
     },
     {
       "name": "Authorization Runtime Sequence",
-      "file": "18-authorization-runtime-sequence.svg"
+      "file": "18-authorization-runtime-sequence.png"
+    },
+    {
+      "name": "OpenTelemetry Run Trace Explorer",
+      "file": "19-opentelemetry-run-trace-explorer.png"
     }
   ]
 }

@@ -307,6 +307,21 @@ def main() -> None:
     parser.add_argument("--skip-raster", action="store_true")
     args = parser.parse_args()
     OUT.mkdir(parents=True, exist_ok=True)
+    if args.skip_raster:
+        required = [
+            OUT / "brainzbytes-contextweaver-overview.svg",
+            OUT / "brainzbytes-contextweaver-overview.drawio",
+            OUT / "brainzbytes-contextweaver-overview.png",
+            OUT / "brainzbytes-contextweaver-overview.gif",
+            OUT / "contextweaver-weaving.png",
+        ]
+        missing = [str(path.relative_to(ROOT)) for path in required if not path.exists()]
+        if missing:
+            raise FileNotFoundError(
+                "Committed BrainzBytes overview assets are missing: " + ", ".join(missing)
+            )
+        print("Using committed BrainzBytes ContextWeaver overview assets.")
+        return
     write_svg()
     write_drawio()
     if not args.skip_raster:

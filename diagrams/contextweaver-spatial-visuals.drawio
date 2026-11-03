@@ -1,0 +1,523 @@
+<?xml version='1.0' encoding='utf-8'?>
+<mxfile host="app.diagrams.net" version="26.0.0">
+  <diagram id="layered-governed-architecture" name="Layered Governed Architecture">
+    <mxGraphModel dx="1600" dy="1000" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1536" pageHeight="1024">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="layered-governed-architecture-title" value="&lt;b&gt;Layered Governed Architecture&lt;/b&gt;&lt;br&gt;Experience channels compose governed capabilities across Cerebro, Weave, and Loom." style="text;html=1;strokeColor=none;fillColor=none;whiteSpace=wrap;fontSize=18;fontFamily=Inter;fontColor=#f4f8f2;align=left;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry x="35" y="20" width="1100" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="layered-governed-architecture-portal" value="&lt;b&gt;Portal&lt;/b&gt;&lt;br&gt;Experience channel" style="rounded=1;whiteSpace=wrap;html=1;shadow=1;glass=1;arcSize=16;fillColor=#10231e;gradientColor=#152d26;gradientDirection=north;strokeColor=#70e6b1;strokeWidth=2;fontSize=14;fontFamily=Inter;fontColor=#f4f8f2;align=center;verticalAlign=middle;spacing=10;" vertex="1" parent="1">
+          <mxGeometry x="330" y="220" width="214" height="108" as="geometry" />
+        </mxCell>
+        <mxCell id="layered-governed-architecture-ide" value="&lt;b&gt;IDE&lt;/b&gt;&lt;br&gt;Developer channel" style="rounded=1;whiteSpace=wrap;html=1;shadow=1;glass=1;arcSize=16;fillColor=#10231e;gradientColor=#152d26;gradientDirection=north;strokeColor=#70e6b1;strokeWidth=2;fontSize=14;fontFamily=Inter;fontColor=#f4f8f2;align=center;verticalAlign=middle;spacing=10;" vertex="1" parent="1">
+          <mxGeometry x="582" y="200" width="214" height="108" as="geometry" />
+        </mxCell>
+        <mxCell id="layered-governed-architecture-api" value="&lt;b&gt;API&lt;/b&gt;&lt;br&gt;Programmatic channel" style="rounded=1;whiteSpace=wrap;html=1;shadow=1;glass=1;arcSize=16;fillColor=#10231e;gradientColor=#152d26;gradientDirection=north;strokeColor=#70e6b1;strokeWidth=2;fontSize=14;fontFamily=Inter;fontColor=#f4f8f2;align=center;verticalAlign=middle;spacing=10;" vertex="1" parent="1">
+          <mxGeometry x="834" y="180" width="214" height="108" as="geometry" />
+        </mxCell>
+        <mxCell id="layered-governed-architecture-assistant" value="&lt;b&gt;Assistant&lt;/b&gt;&lt;br&gt;Conversational channel" style="rounded=1;whiteSpace=wrap;html=1;shadow=1;glass=1;arcSize=16;fillColor=#10231e;gradientColor=#152d26;gradientDirection=north;strokeColor=#70e6b1;strokeWidth=2;fontSize=14;fontFamily=Inter;fontColor=#f4f8f2;align=center;verticalAlign=middle;spacing=10;" vertex="1" parent="1">
+          <mxGeometry x="1086" y="160" width="214" height="108" as="geometry" />
+        </mxCell>
+        <mxCell id="layered-governed-architecture-intent" value="&lt;b&gt;Intent&lt;/b&gt;&lt;br&gt;Bounded request" style="rounded=1;whiteSpace=wrap;html=1;shadow=1;glass=1;arcSize=16;fillColor=#10231e;gradientColor=#152d26;gradientDirection=north;strokeColor=#70e6b1;strokeWidth=2;fontSize=14;fontFamily=Inter;fontColor=#f4f8f2;align=center;verticalAlign=middle;spacing=10;" vertex="1" parent="1">
+          <mxGeometry x="330" y="429" width="214" height="84" as="geometry" />
+        </mxCell>
+        <mxCell id="layered-governed-architecture-identity" value="&lt;b&gt;Identity&lt;/b&gt;&lt;br&gt;Principal and authority" style="rounded=1;whiteSpace=wrap;html=1;shadow=1;glass=1;arcSize=16;fillColor=#10231e;gradientColor=#152d26;gradientDirection=north;strokeColor=#70e6b1;strokeWidth=2;fontSize=14;fontFamily=Inter;fontColor=#f4f8f2;align=center;verticalAlign=middle;spacing=10;" vertex="1" parent="1">
+          <mxGeometry x="582" y="409" width="214" height="84" as="geometry" />
+        </mxCell>
+        <mxCell id="layered-governed-architecture-compiler" value="&lt;b&gt;Compiler&lt;/b&gt;&lt;br&gt;Typed execution plan" style="rounded=1;whiteSpace=wrap;html=1;shadow=1;glass=1;arcSize=16;fillColor=#10231e;gradientColor=#152d26;gradientDirection=north;strokeColor=#70e6b1;strokeWidth=2;fontSize=14;fontFamily=Inter;fontColor=#f4f8f2;align=center;verticalAlign=middle;spacing=10;" vertex="1" parent="1">
+          <mxGeometry x="834" y="389" width="214" height="84" as="geometry" />
+        </mxCell>
+        <mxCell id="layered-governed-architecture-policy" value="&lt;b&gt;Policy&lt;/b&gt;&lt;br&gt;Rules and guardrails" style="rounded=1;whiteSpace=wrap;html=1;shadow=1;glass=1;arcSize=16;fillColor=#10231e;gradientColor=#152d26;gradientDirection=north;strokeColor=#70e6b1;strokeWidth=2;fontSize=14;fontFamily=Inter;fontColor=#f4f8f2;align=center;verticalAlign=middle;spacing=10;" vertex="1" parent="1">
+          <mxGeometry x="1086" y="369" width="214" height="84" as="geometry" />
+        </mxCell>
+        <mxCell id="layered-governed-architecture-registry" value="&lt;b&gt;Registry&lt;/b&gt;&lt;br&gt;Approved versions" style="rounded=1;whiteSpace=wrap;html=1;shadow=1;glass=1;arcSize=16;fillColor=#10231e;gradientColor=#152d26;gradientDirection=north;strokeColor=#70e6b1;strokeWidth=2;fontSize=14;fontFamily=Inter;fontColor=#f4f8f2;align=center;verticalAlign=middle;spacing=10;" vertex="1" parent="1">
+          <mxGeometry x="582" y="507" width="214" height="84" as="geometry" />
+        </mxCell>
+        <mxCell id="layered-governed-architecture-approval" value="&lt;b&gt;Approval Gate&lt;/b&gt;&lt;br&gt;Independent review" style="rounded=1;whiteSpace=wrap;html=1;shadow=1;glass=1;arcSize=16;fillColor=#10231e;gradientColor=#152d26;gradientDirection=north;strokeColor=#ffc76a;strokeWidth=2;fontSize=14;fontFamily=Inter;fontColor=#f4f8f2;align=center;verticalAlign=middle;spacing=10;" vertex="1" parent="1">
+          <mxGeometry x="834" y="487" width="214" height="84" as="geometry" />
+        </mxCell>
+        <mxCell id="layered-governed-architecture-workflows" value="&lt;b&gt;Workflows&lt;/b&gt;&lt;br&gt;Durable coordination" style="rounded=1;whiteSpace=wrap;html=1;shadow=1;glass=1;arcSize=16;fillColor=#10231e;gradientColor=#152d26;gradientDirection=north;strokeColor=#70e6b1;strokeWidth=2;fontSize=14;fontFamily=Inter;fontColor=#f4f8f2;align=center;verticalAlign=middle;spacing=10;" vertex="1" parent="1">
+          <mxGeometry x="330" y="679" width="214" height="84" as="geometry" />
+        </mxCell>
+        <mxCell id="layered-governed-architecture-agents" value="&lt;b&gt;Agents&lt;/b&gt;&lt;br&gt;Specialist reasoning" style="rounded=1;whiteSpace=wrap;html=1;shadow=1;glass=1;arcSize=16;fillColor=#10231e;gradientColor=#152d26;gradientDirection=north;strokeColor=#70e6b1;strokeWidth=2;fontSize=14;fontFamily=Inter;fontColor=#f4f8f2;align=center;verticalAlign=middle;spacing=10;" vertex="1" parent="1">
+          <mxGeometry x="582" y="659" width="214" height="84" as="geometry" />
+        </mxCell>
+        <mxCell id="layered-governed-architecture-mcp" value="&lt;b&gt;MCP&lt;/b&gt;&lt;br&gt;Tools and resources" style="rounded=1;whiteSpace=wrap;html=1;shadow=1;glass=1;arcSize=16;fillColor=#10231e;gradientColor=#152d26;gradientDirection=north;strokeColor=#70e6b1;strokeWidth=2;fontSize=14;fontFamily=Inter;fontColor=#f4f8f2;align=center;verticalAlign=middle;spacing=10;" vertex="1" parent="1">
+          <mxGeometry x="834" y="639" width="214" height="84" as="geometry" />
+        </mxCell>
+        <mxCell id="layered-governed-architecture-evidence" value="&lt;b&gt;Evidence&lt;/b&gt;&lt;br&gt;Receipts and traces" style="rounded=1;whiteSpace=wrap;html=1;shadow=1;glass=1;arcSize=16;fillColor=#10231e;gradientColor=#152d26;gradientDirection=north;strokeColor=#70e6b1;strokeWidth=2;fontSize=14;fontFamily=Inter;fontColor=#f4f8f2;align=center;verticalAlign=middle;spacing=10;" vertex="1" parent="1">
+          <mxGeometry x="1086" y="619" width="214" height="84" as="geometry" />
+        </mxCell>
+        <mxCell id="layered-governed-architecture-kubernetes" value="&lt;b&gt;Kubernetes&lt;/b&gt;&lt;br&gt;Portable runtime" style="rounded=1;whiteSpace=wrap;html=1;shadow=1;glass=1;arcSize=16;fillColor=#10231e;gradientColor=#152d26;gradientDirection=north;strokeColor=#70e6b1;strokeWidth=2;fontSize=14;fontFamily=Inter;fontColor=#f4f8f2;align=center;verticalAlign=middle;spacing=10;" vertex="1" parent="1">
+          <mxGeometry x="330" y="777" width="214" height="84" as="geometry" />
+        </mxCell>
+        <mxCell id="layered-governed-architecture-models" value="&lt;b&gt;Models + Knowledge&lt;/b&gt;&lt;br&gt;LLMs · Vector DB · Graph" style="rounded=1;whiteSpace=wrap;html=1;shadow=1;glass=1;arcSize=16;fillColor=#10231e;gradientColor=#152d26;gradientDirection=north;strokeColor=#70e6b1;strokeWidth=2;fontSize=14;fontFamily=Inter;fontColor=#f4f8f2;align=center;verticalAlign=middle;spacing=10;" vertex="1" parent="1">
+          <mxGeometry x="582" y="757" width="214" height="84" as="geometry" />
+        </mxCell>
+        <mxCell id="layered-governed-architecture-systems" value="&lt;b&gt;Enterprise Systems&lt;/b&gt;&lt;br&gt;ERP · CRM · Apps" style="rounded=1;whiteSpace=wrap;html=1;shadow=1;glass=1;arcSize=16;fillColor=#10231e;gradientColor=#152d26;gradientDirection=north;strokeColor=#70e6b1;strokeWidth=2;fontSize=14;fontFamily=Inter;fontColor=#f4f8f2;align=center;verticalAlign=middle;spacing=10;" vertex="1" parent="1">
+          <mxGeometry x="834" y="737" width="214" height="84" as="geometry" />
+        </mxCell>
+        <mxCell id="layered-governed-architecture-infrastructure" value="&lt;b&gt;Infrastructure&lt;/b&gt;&lt;br&gt;Compute · Storage · Cloud" style="rounded=1;whiteSpace=wrap;html=1;shadow=1;glass=1;arcSize=16;fillColor=#10231e;gradientColor=#152d26;gradientDirection=north;strokeColor=#70e6b1;strokeWidth=2;fontSize=14;fontFamily=Inter;fontColor=#f4f8f2;align=center;verticalAlign=middle;spacing=10;" vertex="1" parent="1">
+          <mxGeometry x="1086" y="717" width="214" height="84" as="geometry" />
+        </mxCell>
+        <mxCell id="layered-governed-architecture-l1" value="intent" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeWidth=2;strokeColor=#52b788;dashed=0;fontSize=10;fontFamily=Inter;fontColor=#a8bbb3;" edge="1" parent="1" source="layered-governed-architecture-portal" target="layered-governed-architecture-intent">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="layered-governed-architecture-l2" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeWidth=2;strokeColor=#52b788;dashed=0;fontSize=10;fontFamily=Inter;fontColor=#a8bbb3;" edge="1" parent="1" source="layered-governed-architecture-ide" target="layered-governed-architecture-compiler">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="layered-governed-architecture-l3" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeWidth=2;strokeColor=#ffc76a;dashed=1;fontSize=10;fontFamily=Inter;fontColor=#a8bbb3;" edge="1" parent="1" source="layered-governed-architecture-api" target="layered-governed-architecture-policy">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="layered-governed-architecture-l4" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeWidth=2;strokeColor=#52b788;dashed=0;fontSize=10;fontFamily=Inter;fontColor=#a8bbb3;" edge="1" parent="1" source="layered-governed-architecture-assistant" target="layered-governed-architecture-intent">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="layered-governed-architecture-l5" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeWidth=2;strokeColor=#ffc76a;dashed=1;fontSize=10;fontFamily=Inter;fontColor=#a8bbb3;" edge="1" parent="1" source="layered-governed-architecture-intent" target="layered-governed-architecture-identity">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="layered-governed-architecture-l6" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeWidth=2;strokeColor=#ffc76a;dashed=1;fontSize=10;fontFamily=Inter;fontColor=#a8bbb3;" edge="1" parent="1" source="layered-governed-architecture-identity" target="layered-governed-architecture-policy">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="layered-governed-architecture-l7" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeWidth=2;strokeColor=#52b788;dashed=0;fontSize=10;fontFamily=Inter;fontColor=#a8bbb3;" edge="1" parent="1" source="layered-governed-architecture-compiler" target="layered-governed-architecture-registry">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="layered-governed-architecture-l8" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeWidth=2;strokeColor=#52b788;dashed=0;fontSize=10;fontFamily=Inter;fontColor=#a8bbb3;" edge="1" parent="1" source="layered-governed-architecture-policy" target="layered-governed-architecture-approval">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="layered-governed-architecture-l9" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeWidth=2;strokeColor=#52b788;dashed=0;fontSize=10;fontFamily=Inter;fontColor=#a8bbb3;" edge="1" parent="1" source="layered-governed-architecture-registry" target="layered-governed-architecture-workflows">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="layered-governed-architecture-l10" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeWidth=2;strokeColor=#52b788;dashed=0;fontSize=10;fontFamily=Inter;fontColor=#a8bbb3;" edge="1" parent="1" source="layered-governed-architecture-workflows" target="layered-governed-architecture-agents">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="layered-governed-architecture-l11" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeWidth=2;strokeColor=#52b788;dashed=0;fontSize=10;fontFamily=Inter;fontColor=#a8bbb3;" edge="1" parent="1" source="layered-governed-architecture-workflows" target="layered-governed-architecture-mcp">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="layered-governed-architecture-l12" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeWidth=2;strokeColor=#d8fff0;dashed=1;fontSize=10;fontFamily=Inter;fontColor=#a8bbb3;" edge="1" parent="1" source="layered-governed-architecture-agents" target="layered-governed-architecture-evidence">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="layered-governed-architecture-l13" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeWidth=2;strokeColor=#52b788;dashed=0;fontSize=10;fontFamily=Inter;fontColor=#a8bbb3;" edge="1" parent="1" source="layered-governed-architecture-mcp" target="layered-governed-architecture-systems">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="layered-governed-architecture-l14" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeWidth=2;strokeColor=#52b788;dashed=0;fontSize=10;fontFamily=Inter;fontColor=#a8bbb3;" edge="1" parent="1" source="layered-governed-architecture-kubernetes" target="layered-governed-architecture-infrastructure">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="layered-governed-architecture-l15" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeWidth=2;strokeColor=#52b788;dashed=0;fontSize=10;fontFamily=Inter;fontColor=#a8bbb3;" edge="1" parent="1" source="layered-governed-architecture-models" target="layered-governed-architecture-agents">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="layered-governed-architecture-l16" value="evidence" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeWidth=2;strokeColor=#d8fff0;dashed=1;fontSize=10;fontFamily=Inter;fontColor=#a8bbb3;" edge="1" parent="1" source="layered-governed-architecture-evidence" target="layered-governed-architecture-portal">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="governed-platform-city" name="Governed Platform">
+    <mxGraphModel dx="1600" dy="1000" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1536" pageHeight="1024">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="governed-platform-city-title" value="&lt;b&gt;Governed Platform&lt;/b&gt;&lt;br&gt;Cerebro governs, Weave composes, and Loom runs across enterprise and cloud systems." style="text;html=1;strokeColor=none;fillColor=none;whiteSpace=wrap;fontSize=18;fontFamily=Inter;fontColor=#f4f8f2;align=left;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry x="35" y="20" width="1100" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="governed-platform-city-salesforce" value="&lt;b&gt;Salesforce&lt;/b&gt;&lt;br&gt;Enterprise system" style="rounded=1;whiteSpace=wrap;html=1;shadow=1;glass=1;arcSize=16;fillColor=#10231e;gradientColor=#152d26;gradientDirection=north;strokeColor=#70e6b1;strokeWidth=2;fontSize=14;fontFamily=Inter;fontColor=#f4f8f2;align=center;verticalAlign=middle;spacing=10;" vertex="1" parent="1">
+          <mxGeometry x="330" y="171" width="214" height="84" as="geometry" />
+        </mxCell>
+        <mxCell id="governed-platform-city-sap" value="&lt;b&gt;SAP&lt;/b&gt;&lt;br&gt;Enterprise system" style="rounded=1;whiteSpace=wrap;html=1;shadow=1;glass=1;arcSize=16;fillColor=#10231e;gradientColor=#152d26;gradientDirection=north;strokeColor=#70e6b1;strokeWidth=2;fontSize=14;fontFamily=Inter;fontColor=#f4f8f2;align=center;verticalAlign=middle;spacing=10;" vertex="1" parent="1">
+          <mxGeometry x="582" y="151" width="214" height="84" as="geometry" />
+        </mxCell>
+        <mxCell id="governed-platform-city-servicenow" value="&lt;b&gt;ServiceNow&lt;/b&gt;&lt;br&gt;Enterprise system" style="rounded=1;whiteSpace=wrap;html=1;shadow=1;glass=1;arcSize=16;fillColor=#10231e;gradientColor=#152d26;gradientDirection=north;strokeColor=#70e6b1;strokeWidth=2;fontSize=14;fontFamily=Inter;fontColor=#f4f8f2;align=center;verticalAlign=middle;spacing=10;" vertex="1" parent="1">
+          <mxGeometry x="834" y="131" width="214" height="84" as="geometry" />
+        </mxCell>
+        <mxCell id="governed-platform-city-m365" value="&lt;b&gt;Microsoft 365&lt;/b&gt;&lt;br&gt;Enterprise system" style="rounded=1;whiteSpace=wrap;html=1;shadow=1;glass=1;arcSize=16;fillColor=#10231e;gradientColor=#152d26;gradientDirection=north;strokeColor=#70e6b1;strokeWidth=2;fontSize=14;fontFamily=Inter;fontColor=#f4f8f2;align=center;verticalAlign=middle;spacing=10;" vertex="1" parent="1">
+          <mxGeometry x="1086" y="111" width="214" height="84" as="geometry" />
+        </mxCell>
+        <mxCell id="governed-platform-city-aws" value="&lt;b&gt;AWS&lt;/b&gt;&lt;br&gt;Cloud platform" style="rounded=1;whiteSpace=wrap;html=1;shadow=1;glass=1;arcSize=16;fillColor=#10231e;gradientColor=#152d26;gradientDirection=north;strokeColor=#70e6b1;strokeWidth=2;fontSize=14;fontFamily=Inter;fontColor=#f4f8f2;align=center;verticalAlign=middle;spacing=10;" vertex="1" parent="1">
+          <mxGeometry x="456" y="259" width="214" height="84" as="geometry" />
+        </mxCell>
+        <mxCell id="governed-platform-city-snowflake" value="&lt;b&gt;Snowflake&lt;/b&gt;&lt;br&gt;Data platform" style="rounded=1;whiteSpace=wrap;html=1;shadow=1;glass=1;arcSize=16;fillColor=#10231e;gradientColor=#152d26;gradientDirection=north;strokeColor=#70e6b1;strokeWidth=2;fontSize=14;fontFamily=Inter;fontColor=#f4f8f2;align=center;verticalAlign=middle;spacing=10;" vertex="1" parent="1">
+          <mxGeometry x="708" y="239" width="214" height="84" as="geometry" />
+        </mxCell>
+        <mxCell id="governed-platform-city-databases" value="&lt;b&gt;Databases&lt;/b&gt;&lt;br&gt;Enterprise data" style="rounded=1;whiteSpace=wrap;html=1;shadow=1;glass=1;arcSize=16;fillColor=#10231e;gradientColor=#152d26;gradientDirection=north;strokeColor=#70e6b1;strokeWidth=2;fontSize=14;fontFamily=Inter;fontColor=#f4f8f2;align=center;verticalAlign=middle;spacing=10;" vertex="1" parent="1">
+          <mxGeometry x="960" y="219" width="214" height="84" as="geometry" />
+        </mxCell>
+        <mxCell id="governed-platform-city-solutions" value="&lt;b&gt;Solutions&lt;/b&gt;&lt;br&gt;User-facing compositions" style="rounded=1;whiteSpace=wrap;html=1;shadow=1;glass=1;arcSize=16;fillColor=#10231e;gradientColor=#152d26;gradientDirection=north;strokeColor=#70e6b1;strokeWidth=2;fontSize=14;fontFamily=Inter;fontColor=#f4f8f2;align=center;verticalAlign=middle;spacing=10;" vertex="1" parent="1">
+          <mxGeometry x="330" y="429" width="214" height="84" as="geometry" />
+        </mxCell>
+        <mxCell id="governed-platform-city-services" value="&lt;b&gt;Services&lt;/b&gt;&lt;br&gt;Reusable contracts" style="rounded=1;whiteSpace=wrap;html=1;shadow=1;glass=1;arcSize=16;fillColor=#10231e;gradientColor=#152d26;gradientDirection=north;strokeColor=#70e6b1;strokeWidth=2;fontSize=14;fontFamily=Inter;fontColor=#f4f8f2;align=center;verticalAlign=middle;spacing=10;" vertex="1" parent="1">
+          <mxGeometry x="582" y="409" width="214" height="84" as="geometry" />
+        </mxCell>
+        <mxCell id="governed-platform-city-cerebro" value="&lt;b&gt;Cerebro Control Plane&lt;/b&gt;&lt;br&gt;Intent · Identity · Policy · Registry" style="rounded=1;whiteSpace=wrap;html=1;shadow=1;glass=1;arcSize=16;fillColor=#10231e;gradientColor=#152d26;gradientDirection=north;strokeColor=#70e6b1;strokeWidth=2;fontSize=14;fontFamily=Inter;fontColor=#f4f8f2;align=center;verticalAlign=middle;spacing=10;" vertex="1" parent="1">
+          <mxGeometry x="834" y="389" width="214" height="84" as="geometry" />
+        </mxCell>
+        <mxCell id="governed-platform-city-workflows" value="&lt;b&gt;Workflows&lt;/b&gt;&lt;br&gt;Durable coordination" style="rounded=1;whiteSpace=wrap;html=1;shadow=1;glass=1;arcSize=16;fillColor=#10231e;gradientColor=#152d26;gradientDirection=north;strokeColor=#70e6b1;strokeWidth=2;fontSize=14;fontFamily=Inter;fontColor=#f4f8f2;align=center;verticalAlign=middle;spacing=10;" vertex="1" parent="1">
+          <mxGeometry x="1086" y="369" width="214" height="84" as="geometry" />
+        </mxCell>
+        <mxCell id="governed-platform-city-approval" value="&lt;b&gt;Human Approval&lt;/b&gt;&lt;br&gt;Independent decision" style="rounded=1;whiteSpace=wrap;html=1;shadow=1;glass=1;arcSize=16;fillColor=#10231e;gradientColor=#152d26;gradientDirection=north;strokeColor=#ffc76a;strokeWidth=2;fontSize=14;fontFamily=Inter;fontColor=#f4f8f2;align=center;verticalAlign=middle;spacing=10;" vertex="1" parent="1">
+          <mxGeometry x="708" y="497" width="214" height="84" as="geometry" />
+        </mxCell>
+        <mxCell id="governed-platform-city-loom" value="&lt;b&gt;Loom Foundation&lt;/b&gt;&lt;br&gt;Portable substrate" style="rounded=1;whiteSpace=wrap;html=1;shadow=1;glass=1;arcSize=16;fillColor=#10231e;gradientColor=#152d26;gradientDirection=north;strokeColor=#70e6b1;strokeWidth=2;fontSize=14;fontFamily=Inter;fontColor=#f4f8f2;align=center;verticalAlign=middle;spacing=10;" vertex="1" parent="1">
+          <mxGeometry x="330" y="679" width="214" height="84" as="geometry" />
+        </mxCell>
+        <mxCell id="governed-platform-city-evidence" value="&lt;b&gt;Evidence Fabric&lt;/b&gt;&lt;br&gt;Receipts and traces" style="rounded=1;whiteSpace=wrap;html=1;shadow=1;glass=1;arcSize=16;fillColor=#10231e;gradientColor=#152d26;gradientDirection=north;strokeColor=#70e6b1;strokeWidth=2;fontSize=14;fontFamily=Inter;fontColor=#f4f8f2;align=center;verticalAlign=middle;spacing=10;" vertex="1" parent="1">
+          <mxGeometry x="582" y="659" width="214" height="84" as="geometry" />
+        </mxCell>
+        <mxCell id="governed-platform-city-knowledge" value="&lt;b&gt;Knowledge + Models&lt;/b&gt;&lt;br&gt;RAG · Memory · Models" style="rounded=1;whiteSpace=wrap;html=1;shadow=1;glass=1;arcSize=16;fillColor=#10231e;gradientColor=#152d26;gradientDirection=north;strokeColor=#70e6b1;strokeWidth=2;fontSize=14;fontFamily=Inter;fontColor=#f4f8f2;align=center;verticalAlign=middle;spacing=10;" vertex="1" parent="1">
+          <mxGeometry x="834" y="639" width="214" height="84" as="geometry" />
+        </mxCell>
+        <mxCell id="governed-platform-city-mcp" value="&lt;b&gt;MCP Gateways&lt;/b&gt;&lt;br&gt;Tools and resources" style="rounded=1;whiteSpace=wrap;html=1;shadow=1;glass=1;arcSize=16;fillColor=#10231e;gradientColor=#152d26;gradientDirection=north;strokeColor=#70e6b1;strokeWidth=2;fontSize=14;fontFamily=Inter;fontColor=#f4f8f2;align=center;verticalAlign=middle;spacing=10;" vertex="1" parent="1">
+          <mxGeometry x="1086" y="619" width="214" height="84" as="geometry" />
+        </mxCell>
+        <mxCell id="governed-platform-city-agents" value="&lt;b&gt;Agents&lt;/b&gt;&lt;br&gt;Specialist execution" style="rounded=1;whiteSpace=wrap;html=1;shadow=1;glass=1;arcSize=16;fillColor=#10231e;gradientColor=#152d26;gradientDirection=north;strokeColor=#70e6b1;strokeWidth=2;fontSize=14;fontFamily=Inter;fontColor=#f4f8f2;align=center;verticalAlign=middle;spacing=10;" vertex="1" parent="1">
+          <mxGeometry x="582" y="757" width="214" height="84" as="geometry" />
+        </mxCell>
+        <mxCell id="governed-platform-city-history" value="&lt;b&gt;Run History&lt;/b&gt;&lt;br&gt;Status and observability" style="rounded=1;whiteSpace=wrap;html=1;shadow=1;glass=1;arcSize=16;fillColor=#10231e;gradientColor=#152d26;gradientDirection=north;strokeColor=#70e6b1;strokeWidth=2;fontSize=14;fontFamily=Inter;fontColor=#f4f8f2;align=center;verticalAlign=middle;spacing=10;" vertex="1" parent="1">
+          <mxGeometry x="834" y="737" width="214" height="84" as="geometry" />
+        </mxCell>
+        <mxCell id="governed-platform-city-p1" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeWidth=2;strokeColor=#52b788;dashed=0;fontSize=10;fontFamily=Inter;fontColor=#a8bbb3;" edge="1" parent="1" source="governed-platform-city-salesforce" target="governed-platform-city-solutions">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="governed-platform-city-p2" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeWidth=2;strokeColor=#52b788;dashed=0;fontSize=10;fontFamily=Inter;fontColor=#a8bbb3;" edge="1" parent="1" source="governed-platform-city-sap" target="governed-platform-city-solutions">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="governed-platform-city-p3" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeWidth=2;strokeColor=#52b788;dashed=0;fontSize=10;fontFamily=Inter;fontColor=#a8bbb3;" edge="1" parent="1" source="governed-platform-city-servicenow" target="governed-platform-city-services">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="governed-platform-city-p4" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeWidth=2;strokeColor=#52b788;dashed=0;fontSize=10;fontFamily=Inter;fontColor=#a8bbb3;" edge="1" parent="1" source="governed-platform-city-m365" target="governed-platform-city-services">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="governed-platform-city-p5" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeWidth=2;strokeColor=#52b788;dashed=0;fontSize=10;fontFamily=Inter;fontColor=#a8bbb3;" edge="1" parent="1" source="governed-platform-city-solutions" target="governed-platform-city-cerebro">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="governed-platform-city-p6" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeWidth=2;strokeColor=#52b788;dashed=0;fontSize=10;fontFamily=Inter;fontColor=#a8bbb3;" edge="1" parent="1" source="governed-platform-city-services" target="governed-platform-city-cerebro">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="governed-platform-city-p7" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeWidth=2;strokeColor=#52b788;dashed=0;fontSize=10;fontFamily=Inter;fontColor=#a8bbb3;" edge="1" parent="1" source="governed-platform-city-cerebro" target="governed-platform-city-workflows">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="governed-platform-city-p8" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeWidth=2;strokeColor=#52b788;dashed=0;fontSize=10;fontFamily=Inter;fontColor=#a8bbb3;" edge="1" parent="1" source="governed-platform-city-cerebro" target="governed-platform-city-approval">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="governed-platform-city-p9" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeWidth=2;strokeColor=#52b788;dashed=0;fontSize=10;fontFamily=Inter;fontColor=#a8bbb3;" edge="1" parent="1" source="governed-platform-city-workflows" target="governed-platform-city-agents">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="governed-platform-city-p10" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeWidth=2;strokeColor=#52b788;dashed=0;fontSize=10;fontFamily=Inter;fontColor=#a8bbb3;" edge="1" parent="1" source="governed-platform-city-agents" target="governed-platform-city-mcp">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="governed-platform-city-p11" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeWidth=2;strokeColor=#52b788;dashed=0;fontSize=10;fontFamily=Inter;fontColor=#a8bbb3;" edge="1" parent="1" source="governed-platform-city-knowledge" target="governed-platform-city-agents">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="governed-platform-city-p12" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeWidth=2;strokeColor=#52b788;dashed=0;fontSize=10;fontFamily=Inter;fontColor=#a8bbb3;" edge="1" parent="1" source="governed-platform-city-loom" target="governed-platform-city-workflows">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="governed-platform-city-p13" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeWidth=2;strokeColor=#52b788;dashed=0;fontSize=10;fontFamily=Inter;fontColor=#a8bbb3;" edge="1" parent="1" source="governed-platform-city-mcp" target="governed-platform-city-aws">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="governed-platform-city-p14" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeWidth=2;strokeColor=#52b788;dashed=0;fontSize=10;fontFamily=Inter;fontColor=#a8bbb3;" edge="1" parent="1" source="governed-platform-city-mcp" target="governed-platform-city-snowflake">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="governed-platform-city-p15" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeWidth=2;strokeColor=#52b788;dashed=0;fontSize=10;fontFamily=Inter;fontColor=#a8bbb3;" edge="1" parent="1" source="governed-platform-city-mcp" target="governed-platform-city-databases">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="governed-platform-city-p16" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeWidth=2;strokeColor=#d8fff0;dashed=1;fontSize=10;fontFamily=Inter;fontColor=#a8bbb3;" edge="1" parent="1" source="governed-platform-city-workflows" target="governed-platform-city-evidence">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="governed-platform-city-p17" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeWidth=2;strokeColor=#d8fff0;dashed=1;fontSize=10;fontFamily=Inter;fontColor=#a8bbb3;" edge="1" parent="1" source="governed-platform-city-evidence" target="governed-platform-city-history">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="governed-call-flow" name="Governed Call Flow">
+    <mxGraphModel dx="1600" dy="1000" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1536" pageHeight="1024">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="governed-call-flow-title" value="&lt;b&gt;Governed Call Flow&lt;/b&gt;&lt;br&gt;Every request carries identity, policy, state, and proof." style="text;html=1;strokeColor=none;fillColor=none;whiteSpace=wrap;fontSize=18;fontFamily=Inter;fontColor=#f4f8f2;align=left;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry x="35" y="20" width="1100" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="governed-call-flow-channel" value="&lt;b&gt;User / Channel&lt;/b&gt;&lt;br&gt;Request and purpose" style="rounded=1;whiteSpace=wrap;html=1;shadow=1;glass=1;arcSize=16;fillColor=#10231e;gradientColor=#152d26;gradientDirection=north;strokeColor=#70e6b1;strokeWidth=2;fontSize=14;fontFamily=Inter;fontColor=#f4f8f2;align=center;verticalAlign=middle;spacing=10;" vertex="1" parent="1">
+          <mxGeometry x="330" y="220" width="214" height="108" as="geometry" />
+        </mxCell>
+        <mxCell id="governed-call-flow-solution" value="&lt;b&gt;Solution API&lt;/b&gt;&lt;br&gt;Published action" style="rounded=1;whiteSpace=wrap;html=1;shadow=1;glass=1;arcSize=16;fillColor=#10231e;gradientColor=#152d26;gradientDirection=north;strokeColor=#70e6b1;strokeWidth=2;fontSize=14;fontFamily=Inter;fontColor=#f4f8f2;align=center;verticalAlign=middle;spacing=10;" vertex="1" parent="1">
+          <mxGeometry x="582" y="200" width="214" height="108" as="geometry" />
+        </mxCell>
+        <mxCell id="governed-call-flow-identity" value="&lt;b&gt;Identity + Intent&lt;/b&gt;&lt;br&gt;Principal and bounded request" style="rounded=1;whiteSpace=wrap;html=1;shadow=1;glass=1;arcSize=16;fillColor=#10231e;gradientColor=#152d26;gradientDirection=north;strokeColor=#70e6b1;strokeWidth=2;fontSize=14;fontFamily=Inter;fontColor=#f4f8f2;align=center;verticalAlign=middle;spacing=10;" vertex="1" parent="1">
+          <mxGeometry x="834" y="180" width="214" height="108" as="geometry" />
+        </mxCell>
+        <mxCell id="governed-call-flow-policy" value="&lt;b&gt;Policy Decision&lt;/b&gt;&lt;br&gt;Authorize reachable graph" style="rounded=1;whiteSpace=wrap;html=1;shadow=1;glass=1;arcSize=16;fillColor=#10231e;gradientColor=#152d26;gradientDirection=north;strokeColor=#ffc76a;strokeWidth=2;fontSize=14;fontFamily=Inter;fontColor=#f4f8f2;align=center;verticalAlign=middle;spacing=10;" vertex="1" parent="1">
+          <mxGeometry x="1086" y="160" width="214" height="108" as="geometry" />
+        </mxCell>
+        <mxCell id="governed-call-flow-compiler" value="&lt;b&gt;Workflow Compiler&lt;/b&gt;&lt;br&gt;Typed execution plan" style="rounded=1;whiteSpace=wrap;html=1;shadow=1;glass=1;arcSize=16;fillColor=#10231e;gradientColor=#152d26;gradientDirection=north;strokeColor=#70e6b1;strokeWidth=2;fontSize=14;fontFamily=Inter;fontColor=#f4f8f2;align=center;verticalAlign=middle;spacing=10;" vertex="1" parent="1">
+          <mxGeometry x="330" y="478" width="214" height="108" as="geometry" />
+        </mxCell>
+        <mxCell id="governed-call-flow-coordinator" value="&lt;b&gt;Run Coordinator&lt;/b&gt;&lt;br&gt;Durable state" style="rounded=1;whiteSpace=wrap;html=1;shadow=1;glass=1;arcSize=16;fillColor=#10231e;gradientColor=#152d26;gradientDirection=north;strokeColor=#70e6b1;strokeWidth=2;fontSize=14;fontFamily=Inter;fontColor=#f4f8f2;align=center;verticalAlign=middle;spacing=10;" vertex="1" parent="1">
+          <mxGeometry x="582" y="458" width="214" height="108" as="geometry" />
+        </mxCell>
+        <mxCell id="governed-call-flow-agent" value="&lt;b&gt;Agent Runtime&lt;/b&gt;&lt;br&gt;Specialist reasoning" style="rounded=1;whiteSpace=wrap;html=1;shadow=1;glass=1;arcSize=16;fillColor=#10231e;gradientColor=#152d26;gradientDirection=north;strokeColor=#70e6b1;strokeWidth=2;fontSize=14;fontFamily=Inter;fontColor=#f4f8f2;align=center;verticalAlign=middle;spacing=10;" vertex="1" parent="1">
+          <mxGeometry x="834" y="438" width="214" height="108" as="geometry" />
+        </mxCell>
+        <mxCell id="governed-call-flow-mcp" value="&lt;b&gt;MCP Gateway&lt;/b&gt;&lt;br&gt;Tools and credentials" style="rounded=1;whiteSpace=wrap;html=1;shadow=1;glass=1;arcSize=16;fillColor=#10231e;gradientColor=#152d26;gradientDirection=north;strokeColor=#70e6b1;strokeWidth=2;fontSize=14;fontFamily=Inter;fontColor=#f4f8f2;align=center;verticalAlign=middle;spacing=10;" vertex="1" parent="1">
+          <mxGeometry x="1086" y="418" width="214" height="108" as="geometry" />
+        </mxCell>
+        <mxCell id="governed-call-flow-system" value="&lt;b&gt;Enterprise System&lt;/b&gt;&lt;br&gt;Consequential side effect" style="rounded=1;whiteSpace=wrap;html=1;shadow=1;glass=1;arcSize=16;fillColor=#10231e;gradientColor=#152d26;gradientDirection=north;strokeColor=#70e6b1;strokeWidth=2;fontSize=14;fontFamily=Inter;fontColor=#f4f8f2;align=center;verticalAlign=middle;spacing=10;" vertex="1" parent="1">
+          <mxGeometry x="330" y="728" width="214" height="108" as="geometry" />
+        </mxCell>
+        <mxCell id="governed-call-flow-approval" value="&lt;b&gt;Human Approval&lt;/b&gt;&lt;br&gt;Review · approve · deny" style="rounded=1;whiteSpace=wrap;html=1;shadow=1;glass=1;arcSize=16;fillColor=#10231e;gradientColor=#152d26;gradientDirection=north;strokeColor=#ffc76a;strokeWidth=2;fontSize=14;fontFamily=Inter;fontColor=#f4f8f2;align=center;verticalAlign=middle;spacing=10;" vertex="1" parent="1">
+          <mxGeometry x="582" y="708" width="214" height="108" as="geometry" />
+        </mxCell>
+        <mxCell id="governed-call-flow-evidence" value="&lt;b&gt;Evidence Store&lt;/b&gt;&lt;br&gt;Logs · state · proof" style="rounded=1;whiteSpace=wrap;html=1;shadow=1;glass=1;arcSize=16;fillColor=#10231e;gradientColor=#152d26;gradientDirection=north;strokeColor=#70e6b1;strokeWidth=2;fontSize=14;fontFamily=Inter;fontColor=#f4f8f2;align=center;verticalAlign=middle;spacing=10;" vertex="1" parent="1">
+          <mxGeometry x="834" y="688" width="214" height="108" as="geometry" />
+        </mxCell>
+        <mxCell id="governed-call-flow-outcome" value="&lt;b&gt;Outcome&lt;/b&gt;&lt;br&gt;Approved and provable" style="rounded=1;whiteSpace=wrap;html=1;shadow=1;glass=1;arcSize=16;fillColor=#10231e;gradientColor=#152d26;gradientDirection=north;strokeColor=#70e6b1;strokeWidth=2;fontSize=14;fontFamily=Inter;fontColor=#f4f8f2;align=center;verticalAlign=middle;spacing=10;" vertex="1" parent="1">
+          <mxGeometry x="1086" y="668" width="214" height="108" as="geometry" />
+        </mxCell>
+        <mxCell id="governed-call-flow-c1" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeWidth=2;strokeColor=#52b788;dashed=0;fontSize=10;fontFamily=Inter;fontColor=#a8bbb3;" edge="1" parent="1" source="governed-call-flow-channel" target="governed-call-flow-solution">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="governed-call-flow-c2" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeWidth=2;strokeColor=#52b788;dashed=0;fontSize=10;fontFamily=Inter;fontColor=#a8bbb3;" edge="1" parent="1" source="governed-call-flow-solution" target="governed-call-flow-identity">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="governed-call-flow-c3" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeWidth=2;strokeColor=#ffc76a;dashed=1;fontSize=10;fontFamily=Inter;fontColor=#a8bbb3;" edge="1" parent="1" source="governed-call-flow-identity" target="governed-call-flow-policy">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="governed-call-flow-c4" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeWidth=2;strokeColor=#52b788;dashed=0;fontSize=10;fontFamily=Inter;fontColor=#a8bbb3;" edge="1" parent="1" source="governed-call-flow-policy" target="governed-call-flow-compiler">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="governed-call-flow-c5" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeWidth=2;strokeColor=#52b788;dashed=0;fontSize=10;fontFamily=Inter;fontColor=#a8bbb3;" edge="1" parent="1" source="governed-call-flow-compiler" target="governed-call-flow-coordinator">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="governed-call-flow-c6" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeWidth=2;strokeColor=#52b788;dashed=0;fontSize=10;fontFamily=Inter;fontColor=#a8bbb3;" edge="1" parent="1" source="governed-call-flow-coordinator" target="governed-call-flow-agent">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="governed-call-flow-c7" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeWidth=2;strokeColor=#52b788;dashed=0;fontSize=10;fontFamily=Inter;fontColor=#a8bbb3;" edge="1" parent="1" source="governed-call-flow-coordinator" target="governed-call-flow-mcp">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="governed-call-flow-c8" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeWidth=2;strokeColor=#52b788;dashed=0;fontSize=10;fontFamily=Inter;fontColor=#a8bbb3;" edge="1" parent="1" source="governed-call-flow-agent" target="governed-call-flow-system">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="governed-call-flow-c9" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeWidth=2;strokeColor=#52b788;dashed=0;fontSize=10;fontFamily=Inter;fontColor=#a8bbb3;" edge="1" parent="1" source="governed-call-flow-mcp" target="governed-call-flow-system">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="governed-call-flow-c10" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeWidth=2;strokeColor=#52b788;dashed=0;fontSize=10;fontFamily=Inter;fontColor=#a8bbb3;" edge="1" parent="1" source="governed-call-flow-system" target="governed-call-flow-approval">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="governed-call-flow-c11" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeWidth=2;strokeColor=#d8fff0;dashed=1;fontSize=10;fontFamily=Inter;fontColor=#a8bbb3;" edge="1" parent="1" source="governed-call-flow-approval" target="governed-call-flow-evidence">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="governed-call-flow-c12" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeWidth=2;strokeColor=#70e6b1;dashed=0;fontSize=10;fontFamily=Inter;fontColor=#a8bbb3;" edge="1" parent="1" source="governed-call-flow-evidence" target="governed-call-flow-outcome">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="governed-call-flow-c13" value="evidence return" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeWidth=2;strokeColor=#d8fff0;dashed=1;fontSize=10;fontFamily=Inter;fontColor=#a8bbb3;" edge="1" parent="1" source="governed-call-flow-outcome" target="governed-call-flow-channel">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="governed-sequence-ladder" name="Governed Sequence">
+    <mxGraphModel dx="1600" dy="1000" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1536" pageHeight="1024">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="governed-sequence-ladder-title" value="&lt;b&gt;Governed Sequence&lt;/b&gt;&lt;br&gt;The sequence preserves identity, authorization, parallel work, approval, evidence, and outcome." style="text;html=1;strokeColor=none;fillColor=none;whiteSpace=wrap;fontSize=18;fontFamily=Inter;fontColor=#f4f8f2;align=left;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry x="35" y="20" width="1100" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="governed-sequence-ladder-s1" value="&lt;b&gt;1 · Submit intent&lt;/b&gt;&lt;br&gt;Channel → Cerebro" style="rounded=1;whiteSpace=wrap;html=1;shadow=1;glass=1;arcSize=16;fillColor=#10231e;gradientColor=#152d26;gradientDirection=north;strokeColor=#70e6b1;strokeWidth=2;fontSize=14;fontFamily=Inter;fontColor=#f4f8f2;align=center;verticalAlign=middle;spacing=10;" vertex="1" parent="1">
+          <mxGeometry x="330" y="220" width="214" height="108" as="geometry" />
+        </mxCell>
+        <mxCell id="governed-sequence-ladder-s2" value="&lt;b&gt;2 · Resolve identity&lt;/b&gt;&lt;br&gt;Cerebro" style="rounded=1;whiteSpace=wrap;html=1;shadow=1;glass=1;arcSize=16;fillColor=#10231e;gradientColor=#152d26;gradientDirection=north;strokeColor=#70e6b1;strokeWidth=2;fontSize=14;fontFamily=Inter;fontColor=#f4f8f2;align=center;verticalAlign=middle;spacing=10;" vertex="1" parent="1">
+          <mxGeometry x="582" y="200" width="214" height="108" as="geometry" />
+        </mxCell>
+        <mxCell id="governed-sequence-ladder-s3" value="&lt;b&gt;3 · Authorize plan&lt;/b&gt;&lt;br&gt;Cerebro → Coordinator" style="rounded=1;whiteSpace=wrap;html=1;shadow=1;glass=1;arcSize=16;fillColor=#10231e;gradientColor=#152d26;gradientDirection=north;strokeColor=#ffc76a;strokeWidth=2;fontSize=14;fontFamily=Inter;fontColor=#f4f8f2;align=center;verticalAlign=middle;spacing=10;" vertex="1" parent="1">
+          <mxGeometry x="834" y="180" width="214" height="108" as="geometry" />
+        </mxCell>
+        <mxCell id="governed-sequence-ladder-s4" value="&lt;b&gt;4 · Dispatch workflow&lt;/b&gt;&lt;br&gt;Coordinator → Agent" style="rounded=1;whiteSpace=wrap;html=1;shadow=1;glass=1;arcSize=16;fillColor=#10231e;gradientColor=#152d26;gradientDirection=north;strokeColor=#70e6b1;strokeWidth=2;fontSize=14;fontFamily=Inter;fontColor=#f4f8f2;align=center;verticalAlign=middle;spacing=10;" vertex="1" parent="1">
+          <mxGeometry x="1086" y="160" width="214" height="108" as="geometry" />
+        </mxCell>
+        <mxCell id="governed-sequence-ladder-s5" value="&lt;b&gt;5 · Invoke Agent&lt;/b&gt;&lt;br&gt;Parallel execution" style="rounded=1;whiteSpace=wrap;html=1;shadow=1;glass=1;arcSize=16;fillColor=#10231e;gradientColor=#152d26;gradientDirection=north;strokeColor=#70e6b1;strokeWidth=2;fontSize=14;fontFamily=Inter;fontColor=#f4f8f2;align=center;verticalAlign=middle;spacing=10;" vertex="1" parent="1">
+          <mxGeometry x="330" y="478" width="214" height="108" as="geometry" />
+        </mxCell>
+        <mxCell id="governed-sequence-ladder-s6" value="&lt;b&gt;6 · Request MCP tool&lt;/b&gt;&lt;br&gt;Agent → MCP Gateway" style="rounded=1;whiteSpace=wrap;html=1;shadow=1;glass=1;arcSize=16;fillColor=#10231e;gradientColor=#152d26;gradientDirection=north;strokeColor=#70e6b1;strokeWidth=2;fontSize=14;fontFamily=Inter;fontColor=#f4f8f2;align=center;verticalAlign=middle;spacing=10;" vertex="1" parent="1">
+          <mxGeometry x="582" y="458" width="214" height="108" as="geometry" />
+        </mxCell>
+        <mxCell id="governed-sequence-ladder-s7" value="&lt;b&gt;7 · Approval required&lt;/b&gt;&lt;br&gt;Governed wait" style="rounded=1;whiteSpace=wrap;html=1;shadow=1;glass=1;arcSize=16;fillColor=#10231e;gradientColor=#152d26;gradientDirection=north;strokeColor=#ffc76a;strokeWidth=2;fontSize=14;fontFamily=Inter;fontColor=#f4f8f2;align=center;verticalAlign=middle;spacing=10;" vertex="1" parent="1">
+          <mxGeometry x="834" y="438" width="214" height="108" as="geometry" />
+        </mxCell>
+        <mxCell id="governed-sequence-ladder-s8" value="&lt;b&gt;8 · Execute side effect&lt;/b&gt;&lt;br&gt;MCP → Enterprise System" style="rounded=1;whiteSpace=wrap;html=1;shadow=1;glass=1;arcSize=16;fillColor=#10231e;gradientColor=#152d26;gradientDirection=north;strokeColor=#70e6b1;strokeWidth=2;fontSize=14;fontFamily=Inter;fontColor=#f4f8f2;align=center;verticalAlign=middle;spacing=10;" vertex="1" parent="1">
+          <mxGeometry x="1086" y="418" width="214" height="108" as="geometry" />
+        </mxCell>
+        <mxCell id="governed-sequence-ladder-s9" value="&lt;b&gt;9 · Return receipt&lt;/b&gt;&lt;br&gt;Enterprise System → Agent" style="rounded=1;whiteSpace=wrap;html=1;shadow=1;glass=1;arcSize=16;fillColor=#10231e;gradientColor=#152d26;gradientDirection=north;strokeColor=#70e6b1;strokeWidth=2;fontSize=14;fontFamily=Inter;fontColor=#f4f8f2;align=center;verticalAlign=middle;spacing=10;" vertex="1" parent="1">
+          <mxGeometry x="330" y="728" width="214" height="108" as="geometry" />
+        </mxCell>
+        <mxCell id="governed-sequence-ladder-s10" value="&lt;b&gt;10 · Persist evidence&lt;/b&gt;&lt;br&gt;Agent → Evidence" style="rounded=1;whiteSpace=wrap;html=1;shadow=1;glass=1;arcSize=16;fillColor=#10231e;gradientColor=#152d26;gradientDirection=north;strokeColor=#70e6b1;strokeWidth=2;fontSize=14;fontFamily=Inter;fontColor=#f4f8f2;align=center;verticalAlign=middle;spacing=10;" vertex="1" parent="1">
+          <mxGeometry x="582" y="708" width="214" height="108" as="geometry" />
+        </mxCell>
+        <mxCell id="governed-sequence-ladder-s11" value="&lt;b&gt;11 · Return outcome&lt;/b&gt;&lt;br&gt;Cerebro → Channel" style="rounded=1;whiteSpace=wrap;html=1;shadow=1;glass=1;arcSize=16;fillColor=#10231e;gradientColor=#152d26;gradientDirection=north;strokeColor=#70e6b1;strokeWidth=2;fontSize=14;fontFamily=Inter;fontColor=#f4f8f2;align=center;verticalAlign=middle;spacing=10;" vertex="1" parent="1">
+          <mxGeometry x="834" y="688" width="214" height="108" as="geometry" />
+        </mxCell>
+        <mxCell id="governed-sequence-ladder-participants" value="&lt;b&gt;Participants&lt;/b&gt;&lt;br&gt;Channel · Cerebro · Coordinator · Agent · MCP · System" style="rounded=1;whiteSpace=wrap;html=1;shadow=1;glass=1;arcSize=16;fillColor=#10231e;gradientColor=#152d26;gradientDirection=north;strokeColor=#70e6b1;strokeWidth=2;fontSize=14;fontFamily=Inter;fontColor=#f4f8f2;align=center;verticalAlign=middle;spacing=10;" vertex="1" parent="1">
+          <mxGeometry x="1086" y="668" width="214" height="108" as="geometry" />
+        </mxCell>
+        <mxCell id="governed-sequence-ladder-q1" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeWidth=2;strokeColor=#52b788;dashed=0;fontSize=10;fontFamily=Inter;fontColor=#a8bbb3;" edge="1" parent="1" source="governed-sequence-ladder-s1" target="governed-sequence-ladder-s2">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="governed-sequence-ladder-q2" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeWidth=2;strokeColor=#52b788;dashed=0;fontSize=10;fontFamily=Inter;fontColor=#a8bbb3;" edge="1" parent="1" source="governed-sequence-ladder-s2" target="governed-sequence-ladder-s3">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="governed-sequence-ladder-q3" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeWidth=2;strokeColor=#52b788;dashed=0;fontSize=10;fontFamily=Inter;fontColor=#a8bbb3;" edge="1" parent="1" source="governed-sequence-ladder-s3" target="governed-sequence-ladder-s4">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="governed-sequence-ladder-q4" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeWidth=2;strokeColor=#52b788;dashed=0;fontSize=10;fontFamily=Inter;fontColor=#a8bbb3;" edge="1" parent="1" source="governed-sequence-ladder-s4" target="governed-sequence-ladder-s5">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="governed-sequence-ladder-q5" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeWidth=2;strokeColor=#52b788;dashed=0;fontSize=10;fontFamily=Inter;fontColor=#a8bbb3;" edge="1" parent="1" source="governed-sequence-ladder-s5" target="governed-sequence-ladder-s6">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="governed-sequence-ladder-q6" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeWidth=2;strokeColor=#52b788;dashed=0;fontSize=10;fontFamily=Inter;fontColor=#a8bbb3;" edge="1" parent="1" source="governed-sequence-ladder-s6" target="governed-sequence-ladder-s7">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="governed-sequence-ladder-q7" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeWidth=2;strokeColor=#52b788;dashed=0;fontSize=10;fontFamily=Inter;fontColor=#a8bbb3;" edge="1" parent="1" source="governed-sequence-ladder-s7" target="governed-sequence-ladder-s8">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="governed-sequence-ladder-q8" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeWidth=2;strokeColor=#52b788;dashed=0;fontSize=10;fontFamily=Inter;fontColor=#a8bbb3;" edge="1" parent="1" source="governed-sequence-ladder-s8" target="governed-sequence-ladder-s9">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="governed-sequence-ladder-q9" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeWidth=2;strokeColor=#52b788;dashed=0;fontSize=10;fontFamily=Inter;fontColor=#a8bbb3;" edge="1" parent="1" source="governed-sequence-ladder-s9" target="governed-sequence-ladder-s10">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="governed-sequence-ladder-q10" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeWidth=2;strokeColor=#52b788;dashed=0;fontSize=10;fontFamily=Inter;fontColor=#a8bbb3;" edge="1" parent="1" source="governed-sequence-ladder-s10" target="governed-sequence-ladder-s11">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="durable-saga-flow" name="Durable Saga Flow">
+    <mxGraphModel dx="1600" dy="1000" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1536" pageHeight="1024">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="durable-saga-flow-title" value="&lt;b&gt;Durable Saga Flow&lt;/b&gt;&lt;br&gt;Parallel work, governed waits, safe recovery, and complete evidence." style="text;html=1;strokeColor=none;fillColor=none;whiteSpace=wrap;fontSize=18;fontFamily=Inter;fontColor=#f4f8f2;align=left;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry x="35" y="20" width="1100" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="durable-saga-flow-identity" value="&lt;b&gt;Identity&lt;/b&gt;&lt;br&gt;Who can do what" style="rounded=1;whiteSpace=wrap;html=1;shadow=1;glass=1;arcSize=16;fillColor=#10231e;gradientColor=#152d26;gradientDirection=north;strokeColor=#70e6b1;strokeWidth=2;fontSize=14;fontFamily=Inter;fontColor=#f4f8f2;align=center;verticalAlign=middle;spacing=10;" vertex="1" parent="1">
+          <mxGeometry x="444" y="211" width="222" height="108" as="geometry" />
+        </mxCell>
+        <mxCell id="durable-saga-flow-policy" value="&lt;b&gt;Policy&lt;/b&gt;&lt;br&gt;Rules and guardrails" style="rounded=1;whiteSpace=wrap;html=1;shadow=1;glass=1;arcSize=16;fillColor=#10231e;gradientColor=#152d26;gradientDirection=north;strokeColor=#70e6b1;strokeWidth=2;fontSize=14;fontFamily=Inter;fontColor=#f4f8f2;align=center;verticalAlign=middle;spacing=10;" vertex="1" parent="1">
+          <mxGeometry x="704" y="190" width="222" height="108" as="geometry" />
+        </mxCell>
+        <mxCell id="durable-saga-flow-governance" value="&lt;b&gt;Governance&lt;/b&gt;&lt;br&gt;Compliance · audit · controls" style="rounded=1;whiteSpace=wrap;html=1;shadow=1;glass=1;arcSize=16;fillColor=#10231e;gradientColor=#152d26;gradientDirection=north;strokeColor=#70e6b1;strokeWidth=2;fontSize=14;fontFamily=Inter;fontColor=#f4f8f2;align=center;verticalAlign=middle;spacing=10;" vertex="1" parent="1">
+          <mxGeometry x="964" y="169" width="222" height="108" as="geometry" />
+        </mxCell>
+        <mxCell id="durable-saga-flow-intent" value="&lt;b&gt;1 · Intent&lt;/b&gt;&lt;br&gt;User request" style="rounded=1;whiteSpace=wrap;html=1;shadow=1;glass=1;arcSize=16;fillColor=#10231e;gradientColor=#152d26;gradientDirection=north;strokeColor=#70e6b1;strokeWidth=2;fontSize=14;fontFamily=Inter;fontColor=#f4f8f2;align=center;verticalAlign=middle;spacing=10;" vertex="1" parent="1">
+          <mxGeometry x="330" y="380" width="214" height="84" as="geometry" />
+        </mxCell>
+        <mxCell id="durable-saga-flow-compile" value="&lt;b&gt;2 · Compile Plan&lt;/b&gt;&lt;br&gt;Tasks and dependencies" style="rounded=1;whiteSpace=wrap;html=1;shadow=1;glass=1;arcSize=16;fillColor=#10231e;gradientColor=#152d26;gradientDirection=north;strokeColor=#70e6b1;strokeWidth=2;fontSize=14;fontFamily=Inter;fontColor=#f4f8f2;align=center;verticalAlign=middle;spacing=10;" vertex="1" parent="1">
+          <mxGeometry x="582" y="360" width="214" height="84" as="geometry" />
+        </mxCell>
+        <mxCell id="durable-saga-flow-start" value="&lt;b&gt;3 · Start Run&lt;/b&gt;&lt;br&gt;Initialize Saga" style="rounded=1;whiteSpace=wrap;html=1;shadow=1;glass=1;arcSize=16;fillColor=#10231e;gradientColor=#152d26;gradientDirection=north;strokeColor=#70e6b1;strokeWidth=2;fontSize=14;fontFamily=Inter;fontColor=#f4f8f2;align=center;verticalAlign=middle;spacing=10;" vertex="1" parent="1">
+          <mxGeometry x="834" y="340" width="214" height="84" as="geometry" />
+        </mxCell>
+        <mxCell id="durable-saga-flow-readiness" value="&lt;b&gt;4A · Readiness Agent&lt;/b&gt;&lt;br&gt;Validate · prepare · check" style="rounded=1;whiteSpace=wrap;html=1;shadow=1;glass=1;arcSize=16;fillColor=#10231e;gradientColor=#152d26;gradientDirection=north;strokeColor=#70e6b1;strokeWidth=2;fontSize=14;fontFamily=Inter;fontColor=#f4f8f2;align=center;verticalAlign=middle;spacing=10;" vertex="1" parent="1">
+          <mxGeometry x="1086" y="320" width="214" height="84" as="geometry" />
+        </mxCell>
+        <mxCell id="durable-saga-flow-risk" value="&lt;b&gt;4B · Risk Agent&lt;/b&gt;&lt;br&gt;Analyze · mitigate · guard" style="rounded=1;whiteSpace=wrap;html=1;shadow=1;glass=1;arcSize=16;fillColor=#10231e;gradientColor=#152d26;gradientDirection=north;strokeColor=#70e6b1;strokeWidth=2;fontSize=14;fontFamily=Inter;fontColor=#f4f8f2;align=center;verticalAlign=middle;spacing=10;" vertex="1" parent="1">
+          <mxGeometry x="330" y="478" width="214" height="84" as="geometry" />
+        </mxCell>
+        <mxCell id="durable-saga-flow-fetch" value="&lt;b&gt;4C · MCP Data Fetch&lt;/b&gt;&lt;br&gt;Retrieve · transform · enrich" style="rounded=1;whiteSpace=wrap;html=1;shadow=1;glass=1;arcSize=16;fillColor=#10231e;gradientColor=#152d26;gradientDirection=north;strokeColor=#70e6b1;strokeWidth=2;fontSize=14;fontFamily=Inter;fontColor=#f4f8f2;align=center;verticalAlign=middle;spacing=10;" vertex="1" parent="1">
+          <mxGeometry x="582" y="458" width="214" height="84" as="geometry" />
+        </mxCell>
+        <mxCell id="durable-saga-flow-synthesis" value="&lt;b&gt;5 · Synthesis Agent&lt;/b&gt;&lt;br&gt;Merge · reason · decide" style="rounded=1;whiteSpace=wrap;html=1;shadow=1;glass=1;arcSize=16;fillColor=#10231e;gradientColor=#152d26;gradientDirection=north;strokeColor=#70e6b1;strokeWidth=2;fontSize=14;fontFamily=Inter;fontColor=#f4f8f2;align=center;verticalAlign=middle;spacing=10;" vertex="1" parent="1">
+          <mxGeometry x="834" y="438" width="214" height="84" as="geometry" />
+        </mxCell>
+        <mxCell id="durable-saga-flow-approval" value="&lt;b&gt;6 · Human Approval&lt;/b&gt;&lt;br&gt;Review · approve · deny" style="rounded=1;whiteSpace=wrap;html=1;shadow=1;glass=1;arcSize=16;fillColor=#10231e;gradientColor=#152d26;gradientDirection=north;strokeColor=#ffc76a;strokeWidth=2;fontSize=14;fontFamily=Inter;fontColor=#f4f8f2;align=center;verticalAlign=middle;spacing=10;" vertex="1" parent="1">
+          <mxGeometry x="1086" y="418" width="214" height="84" as="geometry" />
+        </mxCell>
+        <mxCell id="durable-saga-flow-action" value="&lt;b&gt;7 · Enterprise Action&lt;/b&gt;&lt;br&gt;Execute · integrate · commit" style="rounded=1;whiteSpace=wrap;html=1;shadow=1;glass=1;arcSize=16;fillColor=#10231e;gradientColor=#152d26;gradientDirection=north;strokeColor=#70e6b1;strokeWidth=2;fontSize=14;fontFamily=Inter;fontColor=#f4f8f2;align=center;verticalAlign=middle;spacing=10;" vertex="1" parent="1">
+          <mxGeometry x="582" y="556" width="214" height="84" as="geometry" />
+        </mxCell>
+        <mxCell id="durable-saga-flow-evidence" value="&lt;b&gt;8 · Evidence + Outcome&lt;/b&gt;&lt;br&gt;Logs · artifacts · results" style="rounded=1;whiteSpace=wrap;html=1;shadow=1;glass=1;arcSize=16;fillColor=#10231e;gradientColor=#152d26;gradientDirection=north;strokeColor=#70e6b1;strokeWidth=2;fontSize=14;fontFamily=Inter;fontColor=#f4f8f2;align=center;verticalAlign=middle;spacing=10;" vertex="1" parent="1">
+          <mxGeometry x="834" y="536" width="214" height="84" as="geometry" />
+        </mxCell>
+        <mxCell id="durable-saga-flow-checkpoint" value="&lt;b&gt;Checkpoint&lt;/b&gt;&lt;br&gt;Save progress" style="rounded=1;whiteSpace=wrap;html=1;shadow=1;glass=1;arcSize=16;fillColor=#10231e;gradientColor=#152d26;gradientDirection=north;strokeColor=#70e6b1;strokeWidth=2;fontSize=14;fontFamily=Inter;fontColor=#f4f8f2;align=center;verticalAlign=middle;spacing=10;" vertex="1" parent="1">
+          <mxGeometry x="330" y="679" width="214" height="84" as="geometry" />
+        </mxCell>
+        <mxCell id="durable-saga-flow-queue" value="&lt;b&gt;Queue&lt;/b&gt;&lt;br&gt;Pending work" style="rounded=1;whiteSpace=wrap;html=1;shadow=1;glass=1;arcSize=16;fillColor=#10231e;gradientColor=#152d26;gradientDirection=north;strokeColor=#70e6b1;strokeWidth=2;fontSize=14;fontFamily=Inter;fontColor=#f4f8f2;align=center;verticalAlign=middle;spacing=10;" vertex="1" parent="1">
+          <mxGeometry x="582" y="659" width="214" height="84" as="geometry" />
+        </mxCell>
+        <mxCell id="durable-saga-flow-receipt" value="&lt;b&gt;Receipt&lt;/b&gt;&lt;br&gt;Immutable record" style="rounded=1;whiteSpace=wrap;html=1;shadow=1;glass=1;arcSize=16;fillColor=#10231e;gradientColor=#152d26;gradientDirection=north;strokeColor=#70e6b1;strokeWidth=2;fontSize=14;fontFamily=Inter;fontColor=#f4f8f2;align=center;verticalAlign=middle;spacing=10;" vertex="1" parent="1">
+          <mxGeometry x="834" y="639" width="214" height="84" as="geometry" />
+        </mxCell>
+        <mxCell id="durable-saga-flow-history" value="&lt;b&gt;Run History&lt;/b&gt;&lt;br&gt;Trace · search · audit" style="rounded=1;whiteSpace=wrap;html=1;shadow=1;glass=1;arcSize=16;fillColor=#10231e;gradientColor=#152d26;gradientDirection=north;strokeColor=#70e6b1;strokeWidth=2;fontSize=14;fontFamily=Inter;fontColor=#f4f8f2;align=center;verticalAlign=middle;spacing=10;" vertex="1" parent="1">
+          <mxGeometry x="1086" y="619" width="214" height="84" as="geometry" />
+        </mxCell>
+        <mxCell id="durable-saga-flow-retry" value="&lt;b&gt;Retry&lt;/b&gt;&lt;br&gt;Backoff and retry" style="rounded=1;whiteSpace=wrap;html=1;shadow=1;glass=1;arcSize=16;fillColor=#10231e;gradientColor=#152d26;gradientDirection=north;strokeColor=#ffc76a;strokeWidth=2;fontSize=14;fontFamily=Inter;fontColor=#f4f8f2;align=center;verticalAlign=middle;spacing=10;" vertex="1" parent="1">
+          <mxGeometry x="582" y="757" width="214" height="84" as="geometry" />
+        </mxCell>
+        <mxCell id="durable-saga-flow-compensation" value="&lt;b&gt;Compensation&lt;/b&gt;&lt;br&gt;Undo · revert · restore" style="rounded=1;whiteSpace=wrap;html=1;shadow=1;glass=1;arcSize=16;fillColor=#10231e;gradientColor=#152d26;gradientDirection=north;strokeColor=#ff7188;strokeWidth=2;fontSize=14;fontFamily=Inter;fontColor=#f4f8f2;align=center;verticalAlign=middle;spacing=10;" vertex="1" parent="1">
+          <mxGeometry x="834" y="737" width="214" height="84" as="geometry" />
+        </mxCell>
+        <mxCell id="durable-saga-flow-d1" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeWidth=2;strokeColor=#ffc76a;dashed=1;fontSize=10;fontFamily=Inter;fontColor=#a8bbb3;" edge="1" parent="1" source="durable-saga-flow-identity" target="durable-saga-flow-policy">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="durable-saga-flow-d2" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeWidth=2;strokeColor=#ffc76a;dashed=1;fontSize=10;fontFamily=Inter;fontColor=#a8bbb3;" edge="1" parent="1" source="durable-saga-flow-policy" target="durable-saga-flow-governance">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="durable-saga-flow-d3" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeWidth=2;strokeColor=#52b788;dashed=0;fontSize=10;fontFamily=Inter;fontColor=#a8bbb3;" edge="1" parent="1" source="durable-saga-flow-intent" target="durable-saga-flow-compile">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="durable-saga-flow-d4" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeWidth=2;strokeColor=#52b788;dashed=0;fontSize=10;fontFamily=Inter;fontColor=#a8bbb3;" edge="1" parent="1" source="durable-saga-flow-compile" target="durable-saga-flow-start">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="durable-saga-flow-d5" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeWidth=2;strokeColor=#52b788;dashed=0;fontSize=10;fontFamily=Inter;fontColor=#a8bbb3;" edge="1" parent="1" source="durable-saga-flow-start" target="durable-saga-flow-readiness">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="durable-saga-flow-d6" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeWidth=2;strokeColor=#52b788;dashed=0;fontSize=10;fontFamily=Inter;fontColor=#a8bbb3;" edge="1" parent="1" source="durable-saga-flow-start" target="durable-saga-flow-risk">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="durable-saga-flow-d7" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeWidth=2;strokeColor=#52b788;dashed=0;fontSize=10;fontFamily=Inter;fontColor=#a8bbb3;" edge="1" parent="1" source="durable-saga-flow-start" target="durable-saga-flow-fetch">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="durable-saga-flow-d8" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeWidth=2;strokeColor=#52b788;dashed=0;fontSize=10;fontFamily=Inter;fontColor=#a8bbb3;" edge="1" parent="1" source="durable-saga-flow-readiness" target="durable-saga-flow-synthesis">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="durable-saga-flow-d9" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeWidth=2;strokeColor=#52b788;dashed=0;fontSize=10;fontFamily=Inter;fontColor=#a8bbb3;" edge="1" parent="1" source="durable-saga-flow-risk" target="durable-saga-flow-synthesis">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="durable-saga-flow-d10" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeWidth=2;strokeColor=#52b788;dashed=0;fontSize=10;fontFamily=Inter;fontColor=#a8bbb3;" edge="1" parent="1" source="durable-saga-flow-fetch" target="durable-saga-flow-synthesis">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="durable-saga-flow-d11" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeWidth=2;strokeColor=#52b788;dashed=0;fontSize=10;fontFamily=Inter;fontColor=#a8bbb3;" edge="1" parent="1" source="durable-saga-flow-synthesis" target="durable-saga-flow-approval">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="durable-saga-flow-d12" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeWidth=2;strokeColor=#52b788;dashed=0;fontSize=10;fontFamily=Inter;fontColor=#a8bbb3;" edge="1" parent="1" source="durable-saga-flow-approval" target="durable-saga-flow-action">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="durable-saga-flow-d13" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeWidth=2;strokeColor=#70e6b1;dashed=0;fontSize=10;fontFamily=Inter;fontColor=#a8bbb3;" edge="1" parent="1" source="durable-saga-flow-action" target="durable-saga-flow-evidence">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="durable-saga-flow-d14" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeWidth=2;strokeColor=#52b788;dashed=0;fontSize=10;fontFamily=Inter;fontColor=#a8bbb3;" edge="1" parent="1" source="durable-saga-flow-fetch" target="durable-saga-flow-retry">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="durable-saga-flow-d15" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeWidth=2;strokeColor=#ff7188;dashed=1;fontSize=10;fontFamily=Inter;fontColor=#a8bbb3;" edge="1" parent="1" source="durable-saga-flow-fetch" target="durable-saga-flow-compensation">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="durable-saga-flow-d16" value="rejoin" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeWidth=2;strokeColor=#d8fff0;dashed=1;fontSize=10;fontFamily=Inter;fontColor=#a8bbb3;" edge="1" parent="1" source="durable-saga-flow-compensation" target="durable-saga-flow-synthesis">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="durable-saga-flow-d17" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeWidth=2;strokeColor=#d8fff0;dashed=1;fontSize=10;fontFamily=Inter;fontColor=#a8bbb3;" edge="1" parent="1" source="durable-saga-flow-start" target="durable-saga-flow-checkpoint">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="durable-saga-flow-d18" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeWidth=2;strokeColor=#d8fff0;dashed=1;fontSize=10;fontFamily=Inter;fontColor=#a8bbb3;" edge="1" parent="1" source="durable-saga-flow-checkpoint" target="durable-saga-flow-queue">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="durable-saga-flow-d19" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeWidth=2;strokeColor=#d8fff0;dashed=1;fontSize=10;fontFamily=Inter;fontColor=#a8bbb3;" edge="1" parent="1" source="durable-saga-flow-queue" target="durable-saga-flow-receipt">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="durable-saga-flow-d20" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeWidth=2;strokeColor=#d8fff0;dashed=1;fontSize=10;fontFamily=Inter;fontColor=#a8bbb3;" edge="1" parent="1" source="durable-saga-flow-receipt" target="durable-saga-flow-history">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
