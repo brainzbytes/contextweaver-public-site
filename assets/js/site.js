@@ -279,6 +279,11 @@
 
   const closeExperience = () => {
     if (!experienceDialog?.open) return;
+    try {
+      experienceFrame?.contentWindow?.stopExperience?.();
+    } catch {
+      // The iframe is reset below even if its document is not available.
+    }
     experienceDialog.close();
   };
 
@@ -301,7 +306,12 @@
   });
   experienceDialog?.addEventListener("close", () => {
     document.body.classList.remove("experience-open");
+    if (experienceFrame) experienceFrame.removeAttribute("src");
     experienceTrigger?.focus();
+  });
+  window.addEventListener("message", (event) => {
+    if (event.source !== experienceFrame?.contentWindow || event.data !== "contextweaver:stop-experience") return;
+    closeExperience();
   });
   experienceFrame?.addEventListener("load", () => {
     experienceFrame.contentWindow?.addEventListener("keydown", (event) => {

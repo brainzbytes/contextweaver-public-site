@@ -759,6 +759,106 @@ body.site-intro-open { overflow: hidden; }
   background: #f5f1e8;
 }
 body.experience-open { overflow: hidden; }
+.journey-showcase {
+  display: grid;
+  grid-template-columns: minmax(320px, .82fr) minmax(0, 1.18fr);
+  align-items: center;
+  gap: clamp(30px, 5vw, 72px);
+}
+.journey-showcase__copy > p:not(.section-kicker, .journey-showcase__note) {
+  max-width: 62ch;
+  color: var(--muted);
+  font-size: 15px;
+}
+.journey-showcase__proof {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 24px;
+}
+.journey-showcase__proof span {
+  padding: 8px 10px;
+  border: 1px solid var(--line);
+  border-radius: 9px;
+  color: var(--mint-soft);
+  background: color-mix(in srgb, var(--surface-2) 76%, transparent);
+  font-size: 9px;
+  font-weight: 850;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+}
+.journey-showcase__note {
+  margin: 14px 0 0;
+  color: var(--muted);
+  font-size: 10px;
+}
+.journey-showcase__visual {
+  position: relative;
+  min-height: 430px;
+  display: block;
+  overflow: hidden;
+  border: 1px solid var(--line-strong);
+  border-radius: 24px;
+  background: var(--surface-solid);
+  box-shadow: var(--shadow);
+  text-decoration: none;
+  isolation: isolate;
+}
+.journey-showcase__visual::before {
+  position: absolute;
+  inset: 14px;
+  z-index: 3;
+  border: 1px solid color-mix(in srgb, var(--mint) 30%, transparent);
+  border-radius: 16px;
+  content: "";
+  pointer-events: none;
+}
+.journey-showcase__visual img {
+  width: 100%;
+  height: 100%;
+  min-height: 430px;
+  display: block;
+  object-fit: cover;
+  transition: transform .6s ease, filter .6s ease;
+}
+.journey-showcase__scrim {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background:
+    linear-gradient(180deg, transparent 34%, rgba(3, 11, 7, .9) 100%),
+    radial-gradient(circle at 50% 42%, transparent, rgba(2, 8, 5, .28));
+}
+.journey-showcase__launch {
+  position: absolute;
+  right: 30px;
+  bottom: 28px;
+  left: 30px;
+  z-index: 4;
+  display: grid;
+  grid-template-columns: 48px minmax(0, 1fr);
+  gap: 3px 14px;
+  align-items: center;
+}
+.journey-showcase__launch i {
+  grid-row: 1 / span 2;
+  width: 48px;
+  height: 48px;
+  display: grid;
+  place-items: center;
+  border: 1px solid var(--mint);
+  border-radius: 14px;
+  color: #07110f;
+  background: var(--mint);
+  box-shadow: 0 0 30px color-mix(in srgb, var(--mint) 28%, transparent);
+  font-style: normal;
+}
+.journey-showcase__launch b { font-size: 15px; }
+.journey-showcase__launch small { color: #b7c9c0; font-size: 10px; line-height: 1.5; }
+.journey-showcase__visual:hover img {
+  transform: scale(1.025);
+  filter: saturate(1.08) brightness(1.04);
+}
 .spatial-modal {
   width: calc(100vw - 24px);
   max-width: none;
@@ -2309,6 +2409,22 @@ body.spatial-modal-open { overflow: hidden; }
   .experience-modal-bar { padding: 0 10px; }
   .experience-modal-bar strong { font-size: 12px; }
   .experience-modal-close { padding: 8px 10px; }
+  .journey-showcase { gap: 24px; }
+  .journey-showcase__copy .hero-actions { display: grid; }
+  .journey-showcase__copy .button { width: 100%; }
+  .journey-showcase__visual,
+  .journey-showcase__visual img { min-height: 320px; }
+  .journey-showcase__visual::before { inset: 8px; border-radius: 13px; }
+  .journey-showcase__launch {
+    right: 18px;
+    bottom: 18px;
+    left: 18px;
+    grid-template-columns: 42px minmax(0, 1fr);
+    gap: 3px 10px;
+  }
+  .journey-showcase__launch i { width: 42px; height: 42px; border-radius: 11px; }
+  .journey-showcase__launch b { font-size: 12px; }
+  .journey-showcase__launch small { font-size: 8px; }
   .landing-next { padding-top: 40px; }
   h1 { font-size: clamp(35px, 10vw, 44px); text-wrap: wrap; overflow-wrap: anywhere; }
   .hero .lede, .quote { overflow-wrap: anywhere; }
@@ -3214,6 +3330,8 @@ body.learning-jargon-on [data-learning-jargon-term] {
 }
 
 @media (max-width: 1120px) {
+  .journey-showcase { grid-template-columns: 1fr; }
+  .journey-showcase__copy { max-width: 780px; }
   .outcome-primer { grid-template-columns: 1fr; }
   .outcome-workspace { grid-template-columns: minmax(215px, 240px) minmax(0, 1fr); }
   .outcome-workspace .outcome-panel {

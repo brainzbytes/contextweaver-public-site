@@ -251,6 +251,25 @@ def validate_brand_overview() -> None:
             assert_true(image.info.get("duration") == 1000, f"Brand overview frame {frame} is not 1,000 ms")
 
 
+def validate_airline_journey() -> None:
+    journey = ROOT / "experiences" / "contextweaver-airline-journey"
+    html_path = journey / "index.html"
+    asset_names = ("architecture.gif", "run-journal.png", "trace-explorer.png", "grafana.png")
+    assert_true(html_path.exists() and html_path.stat().st_size > 50_000, "Complete airline journey is missing")
+    validate_page(html_path)
+    html = html_path.read_text(encoding="utf-8")
+    assert_true(len(re.findall(r'eyebrow: "\d{2} ·', html)) == 18, "Airline journey must contain exactly 18 scenes")
+    for asset_name in asset_names:
+        asset = journey / asset_name
+        assert_true(asset.exists() and asset.stat().st_size > 10_000, f"Airline journey asset is missing: {asset_name}")
+        assert_true(f'src="{asset_name}"' in html, f"Airline journey does not reference {asset_name}")
+    assert_true('params.get("embedded") === "1"' in html, "Airline journey must support embedded mode")
+    assert_true('id="stopButton"' in html, "Embedded airline journey must expose a stop control")
+    assert_true("function stopExperience()" in html, "Airline journey must stop narration and ambient audio")
+    assert_true("contextweaver:stop-experience" in html, "Embedded airline journey must notify its parent when stopped")
+    assert_true('href="../../overview.html"' in html, "Standalone airline journey must return to the Overview")
+
+
 def validate_source_truth() -> None:
     ledger = json.loads(SOURCE_TRUTH.read_text(encoding="utf-8"))
     assert_true(ledger.get("schemaVersion") == 1, "Source-truth schema version must be 1")
@@ -395,6 +414,7 @@ def main() -> None:
     validate_spatial_architecture()
     validate_standard_spatial_visuals()
     validate_brand_overview()
+    validate_airline_journey()
     validate_source_truth()
     validate_product_semantics()
     print(

@@ -217,6 +217,7 @@ test("product hierarchy and consumer journey remain explicit", async () => {
   const learningData = await readFile(join(root, "learning-data.js"), "utf8");
   const story = await readFile(join(root, "diagrams", "intent-to-evidence.html"), "utf8");
   const companyIntro = await readFile(join(root, "assets", "brand", "brainzbytes-contextweaver-overview.html"), "utf8");
+  const airlineJourney = await readFile(join(root, "experiences", "contextweaver-airline-journey", "index.html"), "utf8");
 
   assert.match(overview, /working Solution/);
   for (const example of [
@@ -234,6 +235,23 @@ test("product hierarchy and consumer journey remain explicit", async () => {
     assert.match(overview, new RegExp(`>${buildingBlock}<`));
   }
   assert.match(overview, /class="outcome-workspace"/);
+  assert.match(overview, /id="complete-journey"/);
+  assert.match(overview, /data-experience-open/);
+  assert.match(overview, /experiences\/contextweaver-airline-journey\/architecture\.gif/);
+  assert.match(overview, /Actual Run Journal/);
+  assert.match(overview, /Grafana \+ Loki proof/);
+  assert.match(overview, /data-src="experiences\/contextweaver-airline-journey\/index\.html\?embedded=1"/);
+  assert.match(overview, /Stop &amp; return to Overview/);
+  assert.match(airlineJourney, /const scenes = \[/);
+  assert.equal((airlineJourney.match(/eyebrow: "\d{2} ·/g) || []).length, 18);
+  assert.match(airlineJourney, /run-journal\.png/);
+  assert.match(airlineJourney, /trace-explorer\.png/);
+  assert.match(airlineJourney, /grafana\.png/);
+  assert.match(airlineJourney, /params\.get\("embedded"\) === "1"/);
+  assert.match(airlineJourney, /id="stopButton"/);
+  assert.match(airlineJourney, /function stopExperience\(\)/);
+  assert.match(airlineJourney, /contextweaver:stop-experience/);
+  assert.match(siteJs, /experienceFrame\.removeAttribute\("src"\)/);
   assert.match(overview, /class="outcome-story-rail"/);
   assert.match(overview, /aria-orientation="vertical"/);
   assert.match(overview, /class="outcome-detail-nav"/);
@@ -386,6 +404,7 @@ test("product hierarchy and consumer journey remain explicit", async () => {
     /href="library\.html/,
   );
   assert.doesNotMatch(sitemap, /library\.html/);
+  assert.match(sitemap, /experiences\/contextweaver-airline-journey\//);
   assert.match(libraryRedirect, /name="robots" content="noindex"/);
   assert.match(libraryRedirect, /url=learning\.html/);
   assert.match(learningJs, /window\.CW_LEARNING/);

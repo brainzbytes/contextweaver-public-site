@@ -92,6 +92,23 @@ def footer() -> str:
 
 
 def page(name: str, title: str, description: str, content: str) -> str:
+    experience_dialog = """
+      <dialog class="experience-modal" data-experience-modal aria-label="Complete ContextWeaver airline journey">
+        <div class="experience-modal-frame">
+          <div class="experience-modal-bar">
+            <strong>ContextWeaver: architecture to airline outcome to operational proof</strong>
+            <button class="experience-modal-close" type="button" data-experience-close>Stop &amp; return to Overview</button>
+          </div>
+          <iframe
+            data-experience-frame
+            data-src="experiences/contextweaver-airline-journey/index.html?embedded=1"
+            title="Complete narrated ContextWeaver airline journey"
+            allow="autoplay"
+            sandbox="allow-scripts allow-same-origin"
+          ></iframe>
+        </div>
+      </dialog>
+    """ if "data-experience-open" in content else ""
     spatial_dialog = """
       <dialog class="spatial-modal" data-spatial-modal aria-label="Expanded spatial view">
         <div class="spatial-modal-frame">
@@ -157,7 +174,7 @@ def page(name: str, title: str, description: str, content: str) -> str:
       <main id="main-content">
         {content}
       </main>
-      {spatial_dialog}
+      {experience_dialog}{spatial_dialog}
       {footer()}
       <script src="assets/js/site.js?v=20261104-2"></script>
     </body>
@@ -277,6 +294,30 @@ HOME = """
 <div class="container trust-strip" aria-label="Supported creation inputs">
   <span>Specifications & RFCs</span><span>OpenAPI & AsyncAPI</span><span>Wikis & enterprise data</span><span>MCPs, Agents & Workflows</span><span>Services & solution packs</span>
 </div>
+
+<section id="complete-journey" class="container section journey-showcase" aria-labelledby="complete-journey-title">
+  <div class="journey-showcase__copy">
+    <p class="section-kicker">Watch the architecture become real</p>
+    <h2 id="complete-journey-title">One complete journey—from a blank Studio canvas to a booked flight and the evidence behind it.</h2>
+    <p>Follow the approved architecture through reusable MCP capabilities, Agents, Workflows, Services, RAG, policy, cloud-neutral compute placement, and two travelers whose identical request produces different—but equally governed—outcomes.</p>
+    <div class="journey-showcase__proof">
+      <span>18 narrated scenes</span>
+      <span>Actual Run Journal</span>
+      <span>Actual Trace Explorer</span>
+      <span>Grafana + Loki proof</span>
+    </div>
+    <div class="hero-actions">
+      <a class="button primary" href="experiences/contextweaver-airline-journey/index.html" data-experience-open>Begin the complete journey <span aria-hidden="true">→</span></a>
+      <a class="button" href="experiences/contextweaver-airline-journey/index.html">Open standalone ↗</a>
+    </div>
+    <p class="journey-showcase__note">About seven minutes. Narration and ambient audio begin only after you choose to start.</p>
+  </div>
+  <a class="journey-showcase__visual" href="experiences/contextweaver-airline-journey/index.html" data-experience-open aria-label="Open the complete narrated ContextWeaver airline journey">
+    <img src="experiences/contextweaver-airline-journey/architecture.gif" alt="Animated ContextWeaver architecture connecting intent, Cerebro, reusable capabilities, governed execution, outcome, and evidence">
+    <span class="journey-showcase__scrim"></span>
+    <span class="journey-showcase__launch"><i aria-hidden="true">▶</i><b>Architecture → airline story → evidence</b><small>See Studio, two policy outcomes, product GUI, traces, logs, metrics, and reusable building blocks.</small></span>
+  </a>
+</section>
 
 <section id="intent-outcome-examples" class="container section outcome-overview" aria-labelledby="outcome-overview-title">
   <div class="section-head">
@@ -1791,10 +1832,14 @@ def main() -> None:
     for filename, content in pages.items():
         (ROOT / filename).write_text(content, encoding="utf-8", newline="\n")
 
-    sitemap = "\n".join(
-        f"  <url><loc>{PUBLIC_SITE_URL}/{filename}</loc></url>"
+    sitemap_paths = [
+        filename
         for filename in pages
         if filename != "library.html"
+    ] + ["experiences/contextweaver-airline-journey/"]
+    sitemap = "\n".join(
+        f"  <url><loc>{PUBLIC_SITE_URL}/{path}</loc></url>"
+        for path in sitemap_paths
     )
     (ROOT / "sitemap.xml").write_text(
         f'<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n{sitemap}\n</urlset>\n',
