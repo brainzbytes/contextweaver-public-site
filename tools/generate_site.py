@@ -30,7 +30,6 @@ NAV = (
     ("solutions", "Solutions", "solutions.html"),
     ("architecture", "Architecture", "architecture.html"),
     ("learning", "Learn", "learning.html"),
-    ("library", "Library", "library.html"),
     ("company", "Company", "company.html"),
 )
 
@@ -81,7 +80,7 @@ def footer() -> str:
           <p style="margin-top:16px">Turn approved intent into user-facing Solutions assembled from governed Services, Workflows, Agents, MCP capabilities, knowledge, models, policy, and portable infrastructure—with evidence attached.</p>
         </div>
         <div><h3>Explore</h3><div class="footer-links"><a href="platform.html">Platform model</a><a href="studio.html">Studio and creation contexts</a><a href="runtime.html">Dynamic runtime</a></div></div>
-        <div><h3>Trust</h3><div class="footer-links"><a href="governance.html">Governance</a><a href="architecture.html">Architecture</a><a href="library.html">Technical library</a></div></div>
+        <div><h3>Trust</h3><div class="footer-links"><a href="governance.html">Governance</a><a href="architecture.html">Architecture</a><a href="learning.html">Learning</a></div></div>
         <div><h3>Company</h3><div class="footer-links"><a href="company.html#about">About BrainzBytes</a><a href="company.html#about">Founder</a><a href="company.html#company-paths">Careers · planned</a></div></div>
       </div>
       <div class="container footer-bottom">
@@ -299,7 +298,7 @@ HOME = """
     <a class="reader-step" href="governance.html?from=journey"><span>04</span><b>Trust</b><small>Who has authority?</small></a>
     <a class="reader-step" href="solutions.html?from=journey#consumer"><span>05</span><b>Use</b><small>How do people enter?</small></a>
     <a class="reader-step" href="architecture.html?from=journey"><span>06</span><b>Inspect</b><small>How does it fit together?</small></a>
-    <a class="reader-step" href="library.html?from=journey"><span>07</span><b>Evaluate</b><small>Where is the depth?</small></a>
+    <a class="reader-step" href="learning.html?from=journey"><span>07</span><b>Learn</b><small>Explore every concept</small></a>
   </nav>
 </section>
 
@@ -1040,7 +1039,7 @@ ARCHITECTURE = """
 <section class="container section compact">
   <div class="chapter-next">
     <div><p class="section-kicker">Final chapter</p><h2>Move from visual architecture into the technical reasoning behind it.</h2><p>Explore the curated briefs on security, identity, runtime resilience, RAG, observability, cloud neutrality, and deployment readiness.</p></div>
-    <a class="button primary" href="library.html">Open the technical library →</a>
+    <a class="button primary" href="learning.html">Open Learning →</a>
   </div>
 </section>
 """.replace("__ATLAS_ASSET_VERSION__", ATLAS_ASSET_VERSION)
@@ -1237,8 +1236,8 @@ COMPANY = """
 """ + FOUNDER_PROFILE + """
 <section class="container section compact">
   <div class="chapter-next">
-    <div><p class="section-kicker">Explore the work</p><h2>See how the engineering principles become a governed AI platform.</h2><p>Continue into the ContextWeaver overview or inspect the technical decisions in the library.</p></div>
-    <div class="hero-actions"><a class="button primary" href="overview.html">Open the overview →</a><a class="button" href="library.html">Technical library</a></div>
+    <div><p class="section-kicker">Explore the work</p><h2>See how the engineering principles become a governed AI platform.</h2><p>Continue into the ContextWeaver overview or explore the complete Learning experience.</p></div>
+    <div class="hero-actions"><a class="button primary" href="overview.html">Open the overview →</a><a class="button" href="learning.html">Learning</a></div>
   </div>
 </section>
 """
@@ -1635,6 +1634,7 @@ def main() -> None:
     sitemap = "\n".join(
         f"  <url><loc>{PUBLIC_SITE_URL}/{filename}</loc></url>"
         for filename in pages
+        if filename != "library.html"
     )
     (ROOT / "sitemap.xml").write_text(
         f'<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n{sitemap}\n</urlset>\n',

@@ -185,7 +185,10 @@ test("product hierarchy and consumer journey remain explicit", async () => {
   const runtime = await readFile(join(root, "runtime.html"), "utf8");
   const solutions = await readFile(join(root, "solutions.html"), "utf8");
   const architecture = await readFile(join(root, "architecture.html"), "utf8");
+  const company = await readFile(join(root, "company.html"), "utf8");
   const learning = await readFile(join(root, "learning.html"), "utf8");
+  const libraryRedirect = await readFile(join(root, "library.html"), "utf8");
+  const sitemap = await readFile(join(root, "sitemap.xml"), "utf8");
   const learningJs = await readFile(join(root, "learning.js"), "utf8");
   const learningCss = await readFile(join(root, "learning.css"), "utf8");
   const learningData = await readFile(join(root, "learning-data.js"), "utf8");
@@ -315,6 +318,13 @@ test("product hierarchy and consumer journey remain explicit", async () => {
   assert.match(learning, /id="lesson-next"/);
   assert.match(learning, /Complete A–Z glossary/);
   assert.match(learning, /Latest capabilities connected to the master architecture/);
+  assert.doesNotMatch(
+    [landing, overview, studio, runtime, solutions, architecture, company, learning].join("\n"),
+    /href="library\.html/,
+  );
+  assert.doesNotMatch(sitemap, /library\.html/);
+  assert.match(libraryRedirect, /name="robots" content="noindex"/);
+  assert.match(libraryRedirect, /url=learning\.html/);
   assert.match(learningJs, /window\.CW_LEARNING/);
   assert.match(learningJs, /localStorage\.setItem/);
   assert.match(learningJs, /history\.pushState/);
