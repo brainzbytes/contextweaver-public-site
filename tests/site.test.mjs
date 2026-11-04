@@ -316,7 +316,7 @@ test("product hierarchy and consumer journey remain explicit", async () => {
   assert.match(story, /user-facing Solution/);
   assert.match(landing, /data-site-intro/);
   assert.match(landing, /assets\/js\/site\.js\?v=20261104-2/);
-  assert.match(landing, /data-src="assets\/brand\/brainzbytes-contextweaver-overview\.html\?embedded=1&amp;intro=1&amp;v=20261103-9"/);
+  assert.match(landing, /data-src="assets\/brand\/brainzbytes-contextweaver-overview\.html\?embedded=1&amp;intro=1&amp;v=20261104-1"/);
   assert.match(landing, /data-intro-skip/);
   assert.match(landing, /data-intro-enter/);
   assert.match(landing, /data-intro-replay/);
@@ -330,8 +330,9 @@ test("product hierarchy and consumer journey remain explicit", async () => {
   assert.match(siteJs, /event\.key === "Escape"/);
   assert.match(siteJs, /prefers-reduced-motion: reduce/);
   assert.match(siteCss, /\.site-intro\[hidden\]\s*\{\s*display:\s*none;\s*\}/);
-  assert.match(companyIntro, /Start jazz \+ female narration/);
-  assert.match(companyIntro, /showOpening\(\);\s*tryIntroMusic\(\);\s*<\/script>/);
+  assert.doesNotMatch(companyIntro, /Start jazz \+ female narration|id="audioGate"|id="beginStory"/);
+  assert.match(companyIntro, /setTimeout\(startNarratedStory,10000\)/);
+  assert.match(companyIntro, /showOpening\(\);\s*tryIntroMusic\(\);scheduleNarratedStory\(\);\s*<\/script>/);
   assert.match(companyIntro, /const introMode=params\.get\("intro"\)==="1"/);
   assert.match(companyIntro, /brainzbytes-intro-complete/);
   assert.match(companyIntro, /class="logo-portal"/);
@@ -348,11 +349,13 @@ test("product hierarchy and consumer journey remain explicit", async () => {
   assert.match(companyIntro, /const startGuard=setTimeout\(retry,1800\)/);
   assert.match(companyIntro, /setTimeout\(\(\)=>startUtterance\(\),120\)/);
   assert.match(companyIntro, /window\.unlockIntroAudio=\(\)=>beginAudio\(\)/);
-  assert.match(companyIntro, /window\.isIntroAudioUnlocked=\(\)=>audioStarted/);
-  assert.match(companyIntro, /function beginAudio\(\)[\s\S]*storyStarted=true[\s\S]*render\(true\)/);
+  assert.match(companyIntro, /window\.isIntroAudioUnlocked=\(\)=>musicStarted/);
+  assert.match(companyIntro, /window\.isIntroNarrationStarted=\(\)=>storyStarted/);
+  assert.match(companyIntro, /function startNarratedStory\(\)[\s\S]*storyStarted=true[\s\S]*audioStarted=true[\s\S]*render\(true\)/);
   assert.match(companyIntro, /addEventListener\("pointerdown"[\s\S]*unlockFromGesture/);
-  assert.match(companyIntro, /showOpening\(\);\s*tryIntroMusic\(\)/);
-  assert.doesNotMatch(companyIntro, /showOpening\(\);\s*beginAudio\(\)/);
+  assert.match(companyIntro, /showOpening\(\);\s*tryIntroMusic\(\);scheduleNarratedStory\(\)/);
+  assert.match(siteCss, /intent-to-evidence-glass-master\.png/);
+  assert.match(siteCss, /176vw auto no-repeat/);
   assert.match(siteJs, /frameWindow\?\.unlockIntroAudio/);
   assert.match(siteJs, /document\.addEventListener\("pointerdown"[\s\S]*unlockIntroAudio/);
   assert.match(learning, /assets\/architecture\/contextweaver-intent-to-evidence\.png/);

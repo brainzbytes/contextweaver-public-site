@@ -22,6 +22,10 @@
   --max: 1240px;
   --font-display: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   --font-body: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --page-art-position: center 70px;
+  --page-art-size: min(94vw, 1480px) auto;
+  --page-art-veil-top: rgba(5, 11, 8, 0.82);
+  --page-art-veil-bottom: rgba(5, 11, 8, 0.93);
 }
 
 [data-theme="deep"] {
@@ -43,6 +47,8 @@
   --sky: #7ce8ad;
   --danger: #f06b5f;
   --shadow: 0 28px 82px rgba(0, 0, 0, 0.48);
+  --page-art-veil-top: rgba(1, 6, 4, 0.76);
+  --page-art-veil-bottom: rgba(1, 6, 4, 0.9);
 }
 
 * { box-sizing: border-box; }
@@ -52,6 +58,8 @@ body {
   min-width: 320px;
   color: var(--text);
   background:
+    linear-gradient(180deg, var(--page-art-veil-top), var(--page-art-veil-bottom)) center / cover no-repeat fixed,
+    url("../media/intent-to-evidence-glass-master.png") var(--page-art-position) / var(--page-art-size) no-repeat fixed,
     radial-gradient(circle at 8% 4%, color-mix(in srgb, var(--mint) 10%, transparent), transparent 30rem),
     radial-gradient(circle at 94% 12%, color-mix(in srgb, var(--amber) 6%, transparent), transparent 34rem),
     linear-gradient(180deg, var(--bg-elevated), var(--bg) 34rem);
@@ -2256,6 +2264,16 @@ body.spatial-modal-open { overflow: hidden; }
 }
 
 @media (max-width: 700px) {
+  body {
+    --page-art-veil-top: rgba(5, 11, 8, 0.8);
+    --page-art-veil-bottom: rgba(5, 11, 8, 0.94);
+    background:
+      linear-gradient(180deg, var(--page-art-veil-top), var(--page-art-veil-bottom)) center / cover no-repeat,
+      url("../media/intent-to-evidence-glass-master.png") center 58px / 176vw auto no-repeat,
+      radial-gradient(circle at 8% 4%, color-mix(in srgb, var(--mint) 10%, transparent), transparent 23rem),
+      radial-gradient(circle at 94% 12%, color-mix(in srgb, var(--amber) 6%, transparent), transparent 24rem),
+      linear-gradient(180deg, var(--bg-elevated), var(--bg) 28rem);
+  }
   .container, .nav-shell { width: min(100% - 22px, var(--max)); }
   .brand-copy span { display: none; }
   .brand-lockup__copy { display: none; }
@@ -2267,6 +2285,9 @@ body.spatial-modal-open { overflow: hidden; }
   .site-intro__footer p { font-size: 9px; line-height: 1.45; }
   .site-intro__stage { padding: 3px; }
   .site-intro__stage iframe { border-radius: 0; }
+  .button, .icon-button, .menu-button, .primary-nav a, .scenario-tab, .outcome-tab {
+    min-height: 44px;
+  }
   .landing-replay { grid-template-columns: 1fr; gap: 18px; margin-top: 14px; }
   .landing-replay__visual { max-height: 190px; }
   .landing-replay__button { grid-column: auto; width: 100%; }

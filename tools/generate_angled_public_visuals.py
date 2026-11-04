@@ -426,12 +426,6 @@ def player_html(
             }
         )
     data = json.dumps(stage_data, separators=(",", ":"))
-    audio_gate = (
-        '<div class="audio-gate" id="audioGate"><button type="button" id="beginStory">Start jazz + female narration'
-        "<small>Or press any key to begin the narrated story</small></button></div>"
-        if audio_file
-        else ""
-    )
     audio_controls = (
         '<button id="music" aria-pressed="true">Music on</button><button id="narration" aria-pressed="true">Narration on</button>'
         if audio_file
@@ -443,7 +437,7 @@ def player_html(
         f'<svg class="overlay" viewBox="0 0 {WIDTH} {HEIGHT}" aria-hidden="true"><defs><filter id="glow">'
         '<feGaussianBlur stdDeviation="6" result="b"/><feMerge><feMergeNode in="b"/>'
         '<feMergeNode in="SourceGraphic"/></feMerge></filter></defs><g id="focusLayer"></g>'
-        f'<g id="routeLayer"></g></svg>{audio_gate}</section>'
+        f'<g id="routeLayer"></g></svg></section>'
     )
     portal_css = """
 .logo-portal{display:grid;grid-template-columns:104px minmax(0,1fr) 104px;border-bottom:1px solid var(--line);background:#020705}
@@ -480,7 +474,7 @@ def player_html(
     factory_opening = "architectureCanvas.hidden=false;factoryPlane.hidden=true;syncFactoryPlane(0);" if audio_file else ""
     intro_finish = "showFactoryPlane()" if audio_file else "completeIntro()"
     audio_init = (
-        """const jazz=byId("jazz");let audioStarted=false,musicEnabled=true,narrationEnabled=true,storyStarted=false,narratorVoice=null,voiceLoadPromise=null,speechToken=0,speechKeepAlive=0;jazz.volume=.2;
+        """const jazz=byId("jazz");let audioStarted=false,musicStarted=false,musicStartPending=false,musicEnabled=true,narrationEnabled=true,storyStarted=false,narratorVoice=null,voiceLoadPromise=null,speechToken=0,speechKeepAlive=0,introLeadInTimer=0;jazz.volume=.2;
 const narratorPreferences=[
   {label:"Jenny",pattern:/Microsoft Jenny/i},{label:"Aria",pattern:/Microsoft Aria/i},
   {label:"Ava",pattern:/Microsoft Ava/i},{label:"Emma",pattern:/Microsoft Emma/i},
@@ -536,22 +530,25 @@ function scheduleFallback(stage){clearTimeout(timer);if(playing)timer=setTimeout
         else "function speak(){}"
     )
     audio_handlers = (
-        'async function beginAudio(){if(audioStarted)return true;audioStarted=true;storyStarted=true;byId("audioGate").hidden=true;if("speechSynthesis" in window)speechSynthesis.resume();'
-        'if(musicEnabled){try{await jazz.play()}catch{musicEnabled=false;byId("music").textContent="Music off"}}render(true);return true};'
-        'function unlockFromGesture(event){if(audioStarted||event?.isTrusted===false)return false;beginAudio();return true};'
-        'window.unlockIntroAudio=()=>beginAudio();window.isIntroAudioUnlocked=()=>audioStarted;'
-        'byId("beginStory").onclick=beginAudio;'
+        'async function beginAudio(){if(musicStarted||musicStartPending||!musicEnabled)return musicStarted;musicStartPending=true;'
+        'if("speechSynthesis" in window)speechSynthesis.resume();try{await jazz.play();musicStarted=true;return true}catch{return false}finally{musicStartPending=false}};'
+        'function startNarratedStory(){if(storyStarted)return;storyStarted=true;audioStarted=true;clearTimeout(introLeadInTimer);render(true)};'
+        'function scheduleNarratedStory(){clearTimeout(introLeadInTimer);introLeadInTimer=setTimeout(startNarratedStory,10000)};'
+        'function unlockFromGesture(event){if(event?.isTrusted===false)return false;beginAudio();return true};'
+        'window.unlockIntroAudio=()=>beginAudio();window.isIntroAudioUnlocked=()=>musicStarted;window.isIntroNarrationStarted=()=>storyStarted;'
         'byId("music").onclick=async()=>{musicEnabled=!musicEnabled;byId("music").ariaPressed=String(musicEnabled);'
-        'byId("music").textContent=musicEnabled?"Music on":"Music off";if(musicEnabled){audioStarted=true;byId("audioGate").hidden=true;'
-        'try{await jazz.play()}catch{musicEnabled=false}}else jazz.pause()};'
+        'byId("music").textContent=musicEnabled?"Music on":"Music off";if(musicEnabled){await beginAudio()}else{jazz.pause();musicStarted=false}};'
         'byId("narration").onclick=()=>{narrationEnabled=!narrationEnabled;byId("narration").ariaPressed=String(narrationEnabled);'
-        'byId("narration").textContent=narrationEnabled?"Narration on":"Narration off";if(narrationEnabled){audioStarted=true;'
-        'byId("audioGate").hidden=true;speak(stages[index])}else{stopSpeech();scheduleFallback(stages[index])}};'
-        'addEventListener("pointerdown",event=>{if(!event.target.closest("button,a"))unlockFromGesture(event)},{capture:true});'
-        'addEventListener("pagehide",()=>{clearTimeout(timer);stopSpeech();jazz.pause()});'
+        'byId("narration").textContent=narrationEnabled?"Narration on":"Narration off";if(narrationEnabled){'
+        'if(!storyStarted)startNarratedStory();else{audioStarted=true;speak(stages[index])}}else{stopSpeech();scheduleFallback(stages[index])}};'
+        'addEventListener("pointerdown",event=>unlockFromGesture(event),{capture:true});'
+        'addEventListener("keydown",event=>unlockFromGesture(event),{capture:true});'
+        'addEventListener("pagehide",()=>{clearTimeout(timer);clearTimeout(introLeadInTimer);stopSpeech();jazz.pause()});'
         if audio_file
         else ""
     )
+    opening_render = "render(false,true)" if audio_file else "render()"
+    audio_startup = "tryIntroMusic();scheduleNarratedStory();" if audio_file else ""
     return f"""<!doctype html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="description" content="{html.escape(subtitle)}"><meta name="theme-color" content="{BG}">
 <title>{html.escape(title)} | BrainzBytes</title>
@@ -564,12 +561,11 @@ body{{display:grid;place-items:center;padding:18px;background:radial-gradient(ci
 .canvas{{position:relative;aspect-ratio:8/5;background:#020704;overflow:hidden}}.canvas>img{{display:block;width:100%;height:100%;object-fit:contain;transform:scale(.88);transform-origin:center}}
 .overlay{{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;transform:scale(.88);transform-origin:center}}.focus{{fill:#a8ff3e12;stroke:var(--lime);stroke-width:5;vector-effect:non-scaling-stroke;filter:url(#glow)}}.route{{fill:none;stroke:var(--lime);stroke-width:6;stroke-linecap:round;stroke-linejoin:round;vector-effect:non-scaling-stroke;stroke-dasharray:14 11;filter:url(#glow);animation:flow 1.1s linear infinite}}
 @keyframes flow{{to{{stroke-dashoffset:-50}}}}.caption{{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:18px;align-items:center;min-height:108px;padding:16px 18px;border-top:1px solid var(--line);background:linear-gradient(135deg,var(--surface),var(--panel))}}.caption-label{{margin:0 0 5px;color:var(--lime);font-size:9px;font-weight:900;letter-spacing:.16em;text-transform:uppercase}}.caption h1{{margin:0;font-size:clamp(17px,2vw,25px)}}.caption p:last-child{{margin:6px 0 0;color:var(--muted);font-size:12px;line-height:1.45}}
-.audio-gate{{position:absolute;inset:0;display:grid;place-items:center;background:linear-gradient(#050b0812,#050b08b8)}}.audio-gate[hidden]{{display:none}}.audio-gate button{{display:grid;gap:4px;min-width:210px;padding:14px 18px;border:1px solid var(--lime);border-radius:12px;background:#102c1d;color:var(--ink);font-weight:850;cursor:pointer}}.audio-gate small{{color:#b8cabd;font-size:10px}}
 .controls{{display:flex;flex-wrap:wrap;justify-content:flex-end;gap:6px}}.controls button{{min-height:35px;padding:0 11px;border:1px solid #315b3b;border-radius:8px;background:#0c1810;color:#d4e4d7;font-size:10px;font-weight:800;cursor:pointer}}.controls button:hover,.controls button:focus-visible{{border-color:var(--lime);color:var(--ink);outline:none}}.controls .primary{{border-color:var(--lime);background:var(--lime);color:#061008}}
 .progress{{display:grid;grid-template-columns:repeat({len(stages)},1fr);gap:4px;padding:0 18px 14px}}.progress button{{height:4px;padding:0;border:0;border-radius:99px;background:#244a2d;cursor:pointer}}.progress button.active{{background:var(--lime);box-shadow:0 0 12px #a8ff3e88}}
 {portal_css}
 body.embedded{{padding:0}}body.embedded .player{{width:100%;border:0;border-radius:0;box-shadow:none}}body.popout{{padding:24px}}
-@media(max-width:760px){{.caption{{grid-template-columns:1fr}}.controls{{justify-content:flex-start}}.controls button{{flex:1 1 auto}}.topbar span{{display:none}}.logo-portal{{grid-template-columns:58px minmax(0,1fr) 58px}}.portal-rail{{padding:7px 4px}}.logo-plate{{width:44px;height:44px;border-radius:13px}}.logo-plate::after{{inset:5px;border-radius:9px}}.logo-plate img{{width:31px;height:31px}}.portal-name{{display:none}}}}
+@media(max-width:760px){{body{{padding:0}}.player{{border-radius:0}}.topbar{{padding:10px 12px}}.topbar strong{{font-size:12px}}#voiceName{{display:none}}.logo-portal{{grid-template-columns:48px minmax(0,1fr) 48px}}.portal-rail{{padding:6px 3px}}.logo-plate{{width:38px;height:38px;border-radius:12px}}.logo-plate::after{{inset:4px;border-radius:8px}}.logo-plate img{{width:27px;height:27px}}.portal-name{{display:none}}.canvas{{aspect-ratio:4/3}}.canvas>img,.overlay{{transform:scale(.98)}}.caption{{grid-template-columns:1fr;gap:12px;min-height:0;padding:12px}}.caption h1{{font-size:16px}}.caption p:last-child{{font-size:11px}}.controls{{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));justify-content:stretch;width:100%}}.controls button{{min-height:42px;padding:0 6px}}.progress{{padding:0 12px 12px}}}}
 @media(prefers-reduced-motion:reduce){{*,*::before,*::after{{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}}}
 </style></head><body>
 <main class="player" aria-label="{html.escape(title)}">
@@ -585,15 +581,15 @@ function node(name,attrs){{const n=document.createElementNS("http://www.w3.org/2
 function completeIntro(){{playing=false;clearTimeout(timer);if("speechSynthesis" in window)speechSynthesis.cancel();if(typeof jazz!=="undefined")jazz.pause();if(window.parent!==window)window.parent.postMessage({{type:"brainzbytes-intro-complete"}},location.origin)}}
 function advance(){{if(!playing)return;if(index===stages.length-1){{if(introMode){intro_finish};else{{index=0;render()}}}}else{{index+=1;render(true)}}}}
 function schedule(){{clearTimeout(timer);if(playing)timer=setTimeout(advance,4200)}}
-function render(announce=false){{const s=stages[index];{factory_render}focusLayer.replaceChildren();routeLayer.replaceChildren();const [x,y,w,h]=s.box;focusLayer.append(node("rect",{{x,y,width:w,height:h,rx:20,class:"focus"}}));if(s.route.length){{const d="M"+s.route.map(p=>p.join(" ")).join(" L");routeLayer.append(node("path",{{d,class:"route"}}))}}byId("stageLabel").textContent=`${{String(index+1).padStart(2,"0")}} · ${{s.label}}`;byId("stageTitle").textContent=s.title;byId("stageCaption").textContent=s.caption;byId("stageCount").textContent=`${{String(index+1).padStart(2,"0")}} / ${{String(stages.length).padStart(2,"0")}}`;[...progress.children].forEach((b,i)=>b.classList.toggle("active",i===index));byId("playPause").textContent=playing?"Pause":"Play";if(announce)speak(s);else schedule()}}
-function showOpening(){{index=0;playing=true;{factory_opening}render()}}
-function tryIntroMusic(){{if(typeof jazz!=="undefined")jazz.play().catch(()=>{{if(byId("audioGate"))byId("audioGate").hidden=false}})}}
+function render(announce=false,hold=false){{const s=stages[index];{factory_render}focusLayer.replaceChildren();routeLayer.replaceChildren();const [x,y,w,h]=s.box;focusLayer.append(node("rect",{{x,y,width:w,height:h,rx:20,class:"focus"}}));if(s.route.length){{const d="M"+s.route.map(p=>p.join(" ")).join(" L");routeLayer.append(node("path",{{d,class:"route"}}))}}byId("stageLabel").textContent=`${{String(index+1).padStart(2,"0")}} · ${{s.label}}`;byId("stageTitle").textContent=s.title;byId("stageCaption").textContent=s.caption;byId("stageCount").textContent=`${{String(index+1).padStart(2,"0")}} / ${{String(stages.length).padStart(2,"0")}}`;[...progress.children].forEach((b,i)=>b.classList.toggle("active",i===index));byId("playPause").textContent=playing?"Pause":"Play";if(announce)speak(s);else if(!hold)schedule()}}
+function showOpening(){{index=0;playing=true;{factory_opening}{opening_render}}}
+function tryIntroMusic(){{if(typeof jazz!=="undefined")beginAudio()}}
 byId("previous").onclick=()=>{{index=(index-1+stages.length)%stages.length;render(true)}};byId("next").onclick=()=>{{index=(index+1)%stages.length;render(true)}};byId("playPause").onclick=()=>{{playing=!playing;render()}};byId("reset").onclick=()=>{{index=0;playing=false;render()}};
 {audio_handlers}
 byId("popout").textContent=popout?"Back":"Pop out";byId("popout").onclick=()=>{{if(popout){{window.close();setTimeout(()=>{{if(history.length>1)history.back();else location.href="{standalone_fallback}"}},80)}}else window.open("{standalone_fallback}?popout=1","contextweaver-animation","popup,width=1380,height=960,noopener")}};
 addEventListener("keydown",e=>{{if(["INPUT","TEXTAREA","BUTTON"].includes(document.activeElement?.tagName))return;if(e.key===" "){{e.preventDefault();byId("playPause").click()}}if(e.key==="ArrowLeft")byId("previous").click();if(e.key==="ArrowRight")byId("next").click();if(e.key==="Home")byId("reset").click();if(e.key==="Escape"&&popout)byId("popout").click()}});
 showOpening();
-tryIntroMusic();
+{audio_startup}
 </script></body></html>"""
 
 
