@@ -308,7 +308,6 @@ HOME = """
     </div>
     <div class="hero-actions">
       <a class="button primary" href="experiences/contextweaver-airline-journey/index.html" data-experience-open>Begin the complete journey <span aria-hidden="true">→</span></a>
-      <a class="button" href="experiences/contextweaver-airline-journey/index.html">Open standalone ↗</a>
     </div>
     <p class="journey-showcase__note">About seven minutes. Narration and ambient audio begin only after you choose to start.</p>
   </div>

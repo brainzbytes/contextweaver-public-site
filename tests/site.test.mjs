@@ -242,12 +242,15 @@ test("product hierarchy and consumer journey remain explicit", async () => {
   assert.match(overview, /Grafana \+ Loki proof/);
   assert.match(overview, /data-src="experiences\/contextweaver-airline-journey\/index\.html\?embedded=1"/);
   assert.match(overview, /Stop &amp; return to Overview/);
+  assert.doesNotMatch(overview, /Open standalone/);
   assert.match(airlineJourney, /const scenes = \[/);
   assert.equal((airlineJourney.match(/eyebrow: "\d{2} ·/g) || []).length, 18);
   assert.match(airlineJourney, /run-journal\.png/);
   assert.match(airlineJourney, /trace-explorer\.png/);
   assert.match(airlineJourney, /grafana\.png/);
   assert.match(airlineJourney, /params\.get\("embedded"\) === "1"/);
+  assert.match(airlineJourney, /\.experience\s*\{[^}]*width:\s*100vw/s);
+  assert.match(airlineJourney, /body:not\(\.embedded\) \.proof-image-frame img\s*\{ max-height: 620px; \}/);
   assert.match(airlineJourney, /id="stopButton"/);
   assert.match(airlineJourney, /function stopExperience\(\)/);
   assert.match(airlineJourney, /contextweaver:stop-experience/);
