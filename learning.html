@@ -1,290 +1,237 @@
 <!doctype html>
-    <html lang="en">
-    <head>
-      <meta charset="utf-8">
-      <meta name="viewport" content="width=device-width,initial-scale=1">
-      <meta name="description" content="Choose a role and depth to learn ContextWeaver from AI fundamentals through MCPs, Agents, Workflows, Services, Solutions, identity, data, Kubernetes, governance, operations, and every platform component.">
-      <meta name="theme-color" content="#07110f">
-      <title>ContextWeaver Learning Atlas — From AI basics to platform architecture</title>
-      <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
-      <link rel="stylesheet" href="assets/css/site.css?v=20261102-4">
-    </head>
-    <body data-page="learning">
+<html lang="en" data-theme="midnight">
+<head>
+  <script src="/gate.js"></script>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>ContextWeaver Learning | Architecture Atlas and AI Glossary</title>
+  <meta name="description" content="Explore the complete ContextWeaver architecture, then learn AI, Agents, RAG, security, MCP, cloud, observability, and hardware through detailed interactive lessons.">
+  <meta name="theme-color" content="#050b08">
+  <link rel="canonical" href="https://brainzbytes.com/learning.html">
+  <link rel="icon" type="image/svg+xml" href="/logo.svg">
+  <link rel="stylesheet" href="/contextweaver-site.css?v=20261101">
+  <link rel="stylesheet" href="/learning.css?v=20261103-2">
+  <script src="/contextweaver-site.js?v=20261031" defer></script>
+  <script src="/learning-data.js?v=20261103" defer></script>
+  <script src="/learning.js?v=20261103" defer></script>
+</head>
+<body class="cw-page learning-page">
+  <a class="cw-skip" href="#main">Skip to learning content</a>
+  <div class="cw-progress" aria-hidden="true"></div>
+  <header class="cw-header">
+    <div class="cw-container cw-nav">
+      <a class="cw-brand" href="/" aria-label="BrainzBytes ContextWeaver home">
+        <span class="cw-brand-mark" aria-hidden="true"></span>
+        <span><strong>ContextWeaver</strong><span>Learning Atlas</span></span>
+      </a>
+      <nav class="cw-nav-links" aria-label="Learning navigation">
+        <a href="#atlas">Architecture atlas</a>
+        <a href="#glossary">A–Z glossary</a>
+        <a href="/docs/">Technical library</a>
+      </nav>
+      <a class="cw-button primary" href="https://app.brainzbytes.com">Launch platform →</a>
+      <button class="cw-menu" type="button" aria-label="Open navigation" aria-expanded="false">Menu</button>
+    </div>
+  </header>
 
-
-    <a class="skip-link" href="#main-content">Skip to content</a>
-    <header class="site-header">
-      <div class="nav-shell">
-        <a class="brand" href="index.html" aria-label="ContextWeaver home">
-      <span class="brand-lockup brand-lockup--compact" aria-hidden="true">
-        <span class="brand-lockup__marks">
-          <img src="assets/brand/brainzbytes-b4.svg" alt="" width="38" height="38">
-          <span class="brand-lockup__bridge"></span>
-          <img src="assets/brand/contextweaver-c1.svg" alt="" width="38" height="38">
-        </span>
-        <span class="brand-lockup__copy">
-          <strong>BrainzBytes</strong>
-          <span>ContextWeaver</span>
-        </span>
-      </span>
-    </a>
-        <nav class="primary-nav" data-primary-nav aria-label="Primary navigation"><a href="index.html" data-nav-page="landing">Home</a><a href="overview.html" data-nav-page="overview">Overview</a><a href="platform.html" data-nav-page="platform">Platform</a><a href="studio.html" data-nav-page="studio">Studio</a><a href="runtime.html" data-nav-page="runtime">Runtime</a><a href="governance.html" data-nav-page="governance">Governance</a><a href="solutions.html" data-nav-page="solutions">Solutions</a><a href="architecture.html" data-nav-page="architecture">Architecture</a><a href="learning.html" data-nav-page="learning">Learn</a><a href="library.html" data-nav-page="library">Library</a><a href="company.html" data-nav-page="company">Company</a></nav>
-        <div class="nav-actions">
-          <button class="icon-button" type="button" data-theme-toggle aria-label="Change dark contrast theme">◑</button>
-          <button class="menu-button" type="button" data-menu-toggle aria-label="Open navigation" aria-expanded="false">☰</button>
+  <main id="main">
+    <section class="learning-hero">
+      <div class="cw-container learning-hero-shell">
+        <p class="cw-eyebrow">One-stop product and technology learning</p>
+        <h1>Start with the complete platform. <span>Explore every building block.</span></h1>
+        <p class="cw-lead">The architecture atlas is the center of this Learning experience. Select any component to understand what it is, why it exists, how it works, where it fits in ContextWeaver, its security boundaries, related concepts, and authoritative resources.</p>
+        <div class="learning-stats" aria-label="Learning Center statistics">
+          <div><strong id="term-total">0</strong><span>terms and components</span></div>
+          <div><strong>12</strong><span>learning domains</span></div>
+          <div><strong>1</strong><span>connected architecture</span></div>
         </div>
       </div>
-    </header>
+    </section>
 
-      <main id="main-content">
+    <section class="atlas-section" id="atlas" aria-labelledby="atlas-title">
+      <div class="cw-container">
+        <div class="learning-heading">
+          <div><p class="cw-eyebrow">ContextWeaver architecture atlas</p><h2 id="atlas-title">Intent to evidence—every product plane connected.</h2></div>
+          <p>Click a block or journey stage to open its complete lesson. The atlas adds the lifecycle, trust, runtime, knowledge, and operations components needed beyond the conceptual sample.</p>
+        </div>
 
-<section class="learning-atlas" data-learning-atlas>
-  <div class="container learning-hero">
-    <div class="learning-hero-copy">
-      <p class="eyebrow">Visual learning center</p>
-      <h1>Pick a concept. <em>Learn it visually.</em></h1>
-      <p class="learning-lede">Choose any topic to open one complete infographic: what it is, why it matters, the core concepts, the flow, and the key takeaway.</p>
-      <div class="learning-actions">
-        <a class="button primary" href="#visual-learning-cards">Choose a concept <span aria-hidden="true">↓</span></a>
-        <a class="button" href="#learning-curriculum-title">Browse the full curriculum</a>
-      </div>
-      <div class="learning-proof" aria-label="Learning Atlas scope">
-        <span><b>9</b> visual concepts</span>
-        <span><b>8</b> curriculum areas</span>
-        <span><b>48</b> platform services</span>
-        <span><b>0</b> prerequisites</span>
-      </div>
-    </div>
-    <div class="learning-orbit learning-overview-infographic" aria-label="How governed AI becomes a trusted outcome">
-      <header>
-        <span>Start anywhere</span>
-        <h2>Choose what you want to understand.</h2>
-        <p>Every item opens its complete visual lesson below.</p>
-      </header>
-      <div class="learning-infographic-flow">
-        <button type="button" data-learning-step="ai" aria-controls="learning-lesson-board"><i>01</i><b>AI</b><small>Models and generation</small></button>
-        <button type="button" data-learning-step="rag" aria-controls="learning-lesson-board"><i>02</i><b>RAG</b><small>Grounded knowledge</small></button>
-        <button type="button" data-learning-step="agents" aria-controls="learning-lesson-board"><i>03</i><b>Agent</b><small>Bounded reasoning</small></button>
-        <button type="button" data-learning-step="mcp" aria-controls="learning-lesson-board"><i>04</i><b>MCP</b><small>Governed capabilities</small></button>
-        <button type="button" data-learning-step="workflows" aria-controls="learning-lesson-board"><i>05</i><b>Workflow</b><small>Durable coordination</small></button>
-        <button type="button" data-learning-step="services" aria-controls="learning-lesson-board"><i>06</i><b>Service</b><small>Reusable contracts</small></button>
-        <button type="button" data-learning-step="solutions" aria-controls="learning-lesson-board"><i>07</i><b>Solution</b><small>User-facing outcomes</small></button>
-        <button type="button" data-learning-step="contextweaver" aria-controls="learning-lesson-board"><i>08</i><b>Platform</b><small>Cerebro, Weave, Loom</small></button>
-        <button type="button" data-learning-step="evidence" aria-controls="learning-lesson-board"><i>09</i><b>Evidence</b><small>Trust and proof</small></button>
-      </div>
-      <footer class="learning-map-instruction"><strong>Select a topic</strong><span>Its visual explanation opens immediately below.</span></footer>
-    </div>
-  </div>
+        <div class="atlas-shell">
+          <figure class="atlas-master">
+            <img src="assets/architecture/contextweaver-intent-to-evidence.png?v=20261104-1" width="1536" height="1024" alt="ContextWeaver Intent to Evidence architecture with Product, Execution, Foundation, and Proof planes around Cerebro.">
+            <figcaption>Choose any illuminated architecture component to open its complete lesson.</figcaption>
 
-  <section id="visual-learning-cards" class="container learning-route" aria-labelledby="learning-route-title">
-    <div class="learning-route-summary">
-      <div>
-        <p class="section-kicker">Choose one concept</p>
-        <h2 id="learning-route-title">What do you want to learn?</h2>
-        <p>Select a card. The complete visual explanation appears directly beneath the cards.</p>
-      </div>
-      <div class="learning-route-meta"><span>Click any card</span><span>9 visual lessons</span><span>Previous / Next included</span></div>
-    </div>
-    <div class="learning-lesson-grid" role="group" aria-label="Choose a visual concept card">
-      <button class="learning-lesson-card active" type="button" data-learning-step="ai" aria-pressed="true" aria-controls="learning-lesson-board"><span class="learning-card-number">01</span><i>AI</i><b>AI and LLMs</b><small>What models can and cannot do</small><span class="learning-mini-diagram"><em>Prompt</em><u>→</u><em>Model</em><u>→</u><em>Validate</em></span></button>
-      <button class="learning-lesson-card" type="button" data-learning-step="rag" aria-pressed="false" aria-controls="learning-lesson-board"><span class="learning-card-number">02</span><i>RAG</i><b>Grounded knowledge</b><small>Retrieve authorized context with citations</small><span class="learning-mini-diagram"><em>Sources</em><u>→</u><em>Retrieve</em><u>→</u><em>Cite</em></span></button>
-      <button class="learning-lesson-card" type="button" data-learning-step="agents" aria-pressed="false" aria-controls="learning-lesson-board"><span class="learning-card-number">03</span><i>AG</i><b>AI Agents</b><small>Bounded reasoning with typed contracts</small><span class="learning-mini-diagram"><em>Observe</em><u>→</u><em>Act</em><u>→</u><em>Stop</em></span></button>
-      <button class="learning-lesson-card" type="button" data-learning-step="mcp" aria-pressed="false" aria-controls="learning-lesson-board"><span class="learning-card-number">04</span><i>MCP</i><b>Model Context Protocol</b><small>Governed access to external capabilities</small><span class="learning-mini-diagram"><em>Discover</em><u>→</u><em>Allow</em><u>→</u><em>Invoke</em></span></button>
-      <button class="learning-lesson-card" type="button" data-learning-step="workflows" aria-pressed="false" aria-controls="learning-lesson-board"><span class="learning-card-number">05</span><i>WF</i><b>Workflows</b><small>Durable coordination, retries, and approval</small><span class="learning-mini-diagram"><em>Plan</em><u>→</u><em>Save</em><u>→</u><em>Finish</em></span></button>
-      <button class="learning-lesson-card" type="button" data-learning-step="services" aria-pressed="false" aria-controls="learning-lesson-board"><span class="learning-card-number">06</span><i>SV</i><b>Services</b><small>Stable reusable business contracts</small><span class="learning-mini-diagram"><em>Request</em><u>→</u><em>Run</em><u>→</u><em>Return</em></span></button>
-      <button class="learning-lesson-card" type="button" data-learning-step="solutions" aria-pressed="false" aria-controls="learning-lesson-board"><span class="learning-card-number">07</span><i>SO</i><b>Solutions</b><small>Complete user-facing compositions</small><span class="learning-mini-diagram"><em>Intent</em><u>→</u><em>Services</em><u>→</u><em>Outcome</em></span></button>
-      <button class="learning-lesson-card" type="button" data-learning-step="contextweaver" aria-pressed="false" aria-controls="learning-lesson-board"><span class="learning-card-number">08</span><i>CW</i><b>ContextWeaver</b><small>Cerebro, Weave, and Loom together</small><span class="learning-mini-diagram"><em>Cerebro</em><u>→</u><em>Weave</em><u>→</u><em>Loom</em></span></button>
-      <button class="learning-lesson-card" type="button" data-learning-step="evidence" aria-pressed="false" aria-controls="learning-lesson-board"><span class="learning-card-number">09</span><i>EV</i><b>Verified result</b><small>Evidence, receipts, citations, and history</small><span class="learning-mini-diagram"><em>Capture</em><u>→</u><em>Score</em><u>→</u><em>Preserve</em></span></button>
-    </div>
-    <article id="learning-lesson-board" class="learning-lesson-board" data-learning-route-detail aria-live="polite" aria-atomic="true">
-      <div class="learning-lesson-toolbar">
-        <span data-learning-progress>Lesson 1 of 9</span>
-        <div>
-          <button type="button" data-learning-previous>← Previous</button>
-          <button type="button" data-learning-next>Next lesson →</button>
+            <button class="atlas-hotspot" style="--x:7%;--y:14%;--w:38%;--h:8%" data-term="policy-decision-service" aria-label="Learn about policy and governance"><span>Policy &amp; governance</span></button>
+            <button class="atlas-hotspot" style="--x:56%;--y:14%;--w:36%;--h:8%" data-term="identity-context" aria-label="Learn about identity context"><span>Identity context</span></button>
+            <button class="atlas-hotspot" style="--x:1%;--y:22%;--w:17%;--h:21%" data-term="audit-trail" aria-label="Learn about audit trails"><span>Audit trail</span></button>
+
+            <button class="atlas-hotspot" style="--x:21%;--y:30%;--w:8%;--h:15%" data-term="studio" aria-label="Learn about Studio and channels"><span>Studio &amp; channels</span></button>
+            <button class="atlas-hotspot" style="--x:29%;--y:28%;--w:8%;--h:15%" data-term="solution-composer" aria-label="Learn about solution composition"><span>Solutions</span></button>
+            <button class="atlas-hotspot" style="--x:37%;--y:26%;--w:8%;--h:15%" data-term="service-definition" aria-label="Learn about services"><span>Services</span></button>
+
+            <button class="atlas-hotspot" style="--x:56%;--y:24%;--w:8%;--h:15%" data-term="workflow-definition" aria-label="Learn about workflows"><span>Workflows</span></button>
+            <button class="atlas-hotspot" style="--x:64%;--y:28%;--w:8%;--h:15%" data-term="ai-agent" aria-label="Learn about Agents"><span>Agents</span></button>
+            <button class="atlas-hotspot" style="--x:72%;--y:31%;--w:8%;--h:15%" data-term="mcp-gateway" aria-label="Learn about MCP"><span>MCP</span></button>
+            <button class="atlas-hotspot atlas-hotspot-warning" style="--x:79%;--y:35%;--w:7%;--h:16%" data-term="evaluation-gate" aria-label="Learn about approval and evaluation gates"><span>Approval gate</span></button>
+
+            <button class="atlas-hotspot atlas-hotspot-core" style="--x:41%;--y:35%;--w:17%;--h:28%" data-term="contextweaver" aria-label="Learn about ContextWeaver and Cerebro"><span>ContextWeaver Cerebro</span></button>
+
+            <button class="atlas-hotspot atlas-hotspot-node" style="--x:2%;--y:43%;--w:7%;--h:14%" data-term="intent-router" aria-label="Learn about intent routing"><span>Intent</span></button>
+            <button class="atlas-hotspot atlas-hotspot-node" style="--x:13%;--y:43%;--w:7%;--h:14%" data-term="solution-composer" aria-label="Learn about Solutions"><span>Solution</span></button>
+            <button class="atlas-hotspot atlas-hotspot-node" style="--x:24%;--y:43%;--w:7%;--h:14%" data-term="service-definition" aria-label="Learn about Services"><span>Service</span></button>
+            <button class="atlas-hotspot atlas-hotspot-node" style="--x:56%;--y:43%;--w:7%;--h:14%" data-term="run-coordinator" aria-label="Learn about workflow coordination"><span>Workflow</span></button>
+            <button class="atlas-hotspot atlas-hotspot-node" style="--x:63%;--y:39%;--w:7%;--h:13%" data-term="ai-agent" aria-label="Learn about Agent execution"><span>Agents</span></button>
+            <button class="atlas-hotspot atlas-hotspot-node" style="--x:63%;--y:51%;--w:7%;--h:13%" data-term="mcp-gateway" aria-label="Learn about MCP execution"><span>MCP</span></button>
+            <button class="atlas-hotspot atlas-hotspot-node" style="--x:72%;--y:44%;--w:8%;--h:14%" data-term="mcp-gateway" aria-label="Learn how MCP connects enterprise systems"><span>Enterprise systems</span></button>
+            <button class="atlas-hotspot atlas-hotspot-node" style="--x:82%;--y:44%;--w:7%;--h:14%" data-term="execution-evidence" aria-label="Learn about execution evidence"><span>Evidence</span></button>
+            <button class="atlas-hotspot atlas-hotspot-node" style="--x:92%;--y:44%;--w:7%;--h:14%" data-term="action-receipt" aria-label="Learn about proven outcomes"><span>Outcome</span></button>
+
+            <button class="atlas-hotspot" style="--x:22%;--y:61%;--w:8%;--h:15%" data-term="operator-pattern" aria-label="Learn about Loom and the operator pattern"><span>Loom &amp; operators</span></button>
+            <button class="atlas-hotspot" style="--x:30%;--y:64%;--w:8%;--h:16%" data-term="kubernetes" aria-label="Learn about Kubernetes"><span>Kubernetes</span></button>
+            <button class="atlas-hotspot" style="--x:38%;--y:67%;--w:8%;--h:16%" data-term="durable-execution" aria-label="Learn about durable state and events"><span>State &amp; events</span></button>
+            <button class="atlas-hotspot" style="--x:54%;--y:68%;--w:8%;--h:15%" data-term="run-coordinator" aria-label="Learn about run history and coordination"><span>Run history</span></button>
+            <button class="atlas-hotspot" style="--x:61%;--y:65%;--w:7%;--h:15%" data-term="execution-evidence" aria-label="Learn about evidence"><span>Evidence</span></button>
+            <button class="atlas-hotspot" style="--x:67%;--y:62%;--w:7%;--h:15%" data-term="action-receipt" aria-label="Learn about receipts"><span>Receipts</span></button>
+            <button class="atlas-hotspot" style="--x:73%;--y:59%;--w:7%;--h:15%" data-term="citation" aria-label="Learn about citations"><span>Citations</span></button>
+          </figure>
+
+          <section class="atlas-capability-dock" aria-labelledby="latest-capabilities-title">
+            <div class="atlas-capability-intro">
+              <p class="cw-eyebrow">Current platform expansion</p>
+              <h3 id="latest-capabilities-title">Latest capabilities connected to the master architecture</h3>
+              <p>These production capabilities extend the original hero without replacing its approved glass composition.</p>
+            </div>
+            <div class="atlas-capability-grid">
+              <button data-term="registry"><b>Registry</b><span>Version and publish</span></button>
+              <button data-term="model-gateway"><b>Model Gateway</b><span>Route providers</span></button>
+              <button data-term="rag-retrieval-service"><b>RAG Retrieval</b><span>Ground responses</span></button>
+              <button data-term="context-memory-service"><b>Context Memory</b><span>Retain safely</span></button>
+              <button data-term="token-broker"><b>Token Broker</b><span>Issue narrow authority</span></button>
+              <button data-term="evaluation-harness"><b>Eval Harness</b><span>Gate promotion</span></button>
+              <button data-term="workspace-lab"><b>Workspaces</b><span>Build and inspect</span></button>
+              <button data-term="webhook"><b>Event Ingress</b><span>Trigger workflows</span></button>
+            </div>
+          </section>
         </div>
       </div>
-      <header class="learning-board-head">
-        <div><span data-learning-step-label>Lesson 01 · Foundation</span><h3 data-learning-step-title>What are AI and large language models?</h3><p data-learning-step-copy>A language model predicts useful language from learned patterns. It can explain, summarize, and draft—but it does not know enterprise truth or hold authority to act.</p></div>
-        <div class="learning-board-mark" data-learning-step-mark aria-hidden="true">AI</div>
-      </header>
-      <div class="learning-board-pair">
-        <section><span>What it is</span><p data-learning-step-definition>A probabilistic language engine that turns instructions and context into generated text, code, classifications, or structured output.</p></section>
-        <section><span>Why it matters</span><ul data-learning-step-why><li>Makes complex knowledge easier to use</li><li>Accelerates analysis and drafting</li><li>Still requires grounding, validation, and control</li></ul></section>
-      </div>
-      <section class="learning-board-section">
-        <span>Four core concepts</span>
-        <div class="learning-concept-grid" data-learning-step-concepts></div>
-      </section>
-      <section class="learning-board-section">
-        <span>How it works</span>
-        <div class="learning-flow-cards" data-learning-step-flow></div>
-      </section>
-      <footer class="learning-board-takeaway"><div><span>Key takeaway</span><strong data-learning-step-takeaway>A model produces possibilities. A governed platform decides what is trusted, permitted, and recorded.</strong></div><a class="button compact" data-learning-step-link href="overview.html">Explore the platform view <span aria-hidden="true">→</span></a></footer>
-    </article>
-    <div class="learning-poster-gallery-head" hidden>
-      <div><p class="section-kicker">Keep and revisit</p><h2>Every lesson as a complete visual learning card.</h2></div>
-      <p>Scan the cards in order or jump directly to the concept you need. Each card uses the same learning pattern: definition, purpose, concepts, flow, and takeaway.</p>
-    </div>
-    <div class="learning-poster-gallery" data-learning-poster-gallery aria-label="Complete visual learning card collection" hidden></div>
-  </section>
+    </section>
 
-  <section id="agent-learning" class="container learning-deep-dive" aria-labelledby="agent-deep-dive-title" hidden>
-    <div class="learning-deep-head">
-      <div><p class="section-kicker">See progressive depth in action</p><h2 id="agent-deep-dive-title">What is an AI Agent?</h2></div>
-      <span class="learning-status">Foundation concept</span>
-    </div>
-    <div class="learning-definition">
-      <div class="learning-definition-mark" aria-hidden="true">A</div>
-      <div><span>60-second explanation</span><p>An Agent is a specialist role that uses a model to decide the next safe step, but only within typed instructions, approved knowledge, permitted tools, budgets, and stop conditions.</p></div>
-      <button type="button" data-learning-jargon-term="typed contract">What is a typed contract?</button>
-    </div>
-    <div class="learning-lens-layout">
-      <div class="learning-lens-tabs" role="tablist" aria-label="Agent explanation lenses">
-        <button class="active" type="button" role="tab" data-learning-lens="business" aria-selected="true">Business</button>
-        <button type="button" role="tab" data-learning-lens="sales" aria-selected="false">Sales</button>
-        <button type="button" role="tab" data-learning-lens="engineering" aria-selected="false">Engineering</button>
-        <button type="button" role="tab" data-learning-lens="architecture" aria-selected="false">Architecture</button>
-        <button type="button" role="tab" data-learning-lens="operations" aria-selected="false">Operations</button>
-      </div>
-      <div class="learning-lens-panel" data-learning-lens-panel>
-        <div>
-          <span class="learning-panel-kicker">Why it matters</span>
-          <h3>Turn repeatable expertise into a governed capability.</h3>
-          <p>An Agent can apply a specialist role consistently while the platform preserves ownership, limits, approvals, and evidence. It augments a process; it does not become an unaccountable digital employee.</p>
+    <section class="glossary-section" id="glossary" aria-labelledby="glossary-title">
+      <div class="cw-container">
+        <div class="learning-heading">
+          <div><p class="cw-eyebrow">Complete A–Z glossary</p><h2 id="glossary-title">Search the technology behind the platform.</h2></div>
+          <p>Use the index for concepts beyond the architecture blocks—from Agent patterns and RAG variants to caching, evaluation, identity, APIs, cloud, observability, and hardware.</p>
         </div>
-        <div class="learning-agent-loop" aria-label="Bounded Agent loop">
-          <span>Observe</span><i>→</i><span>Plan</span><i>→</i><span>Act</span><i>→</i><span>Inspect</span><i>→</i><b>Stop</b>
+
+        <div class="glossary-tools">
+          <label class="learning-search"><span>Search all lessons</span><input id="learning-search" type="search" placeholder="Try RAG, OAuth, GPU, cache, tracing…" autocomplete="off"></label>
+          <div class="learning-selects">
+            <label><span>Domain</span><select id="category-filter"><option value="">All domains</option></select></label>
+            <label><span>Level</span><select id="level-filter"><option value="">All levels</option><option>Beginner</option><option>Intermediate</option><option>Advanced</option></select></label>
+            <label><span>Kind</span><select id="kind-filter"><option value="">Software + hardware</option><option>Software</option><option>Hardware</option></select></label>
+          </div>
         </div>
-        <div class="learning-panel-grid">
-          <article><span>Good fit</span><b>Research, classify, compare, recommend, draft</b></article>
-          <article><span>Needs control</span><b>Side effects, sensitive data, high-risk decisions</b></article>
-          <article><span>ContextWeaver adds</span><b>Identity, policy, MCP boundaries, approval, evidence</b></article>
-        </div>
+
+        <div class="alphabet" id="alphabet" aria-label="Filter by first letter"></div>
+        <div class="result-bar"><strong id="result-count">0 lessons</strong><button id="clear-filters" type="button">Clear filters</button></div>
+        <div class="glossary-grid" id="glossary-grid" aria-live="polite"></div>
+        <div class="empty-state" id="empty-state" hidden><strong>No lessons match those filters.</strong><span>Try a broader word or clear one of the filters.</span></div>
       </div>
-    </div>
-  </section>
+    </section>
+  </main>
 
-  <section class="container learning-curriculum" aria-labelledby="learning-curriculum-title">
-    <div class="learning-curriculum-head">
-      <div><p class="section-kicker">Complete platform curriculum</p><h2 id="learning-curriculum-title">Learn every concept the platform uses.</h2></div>
-      <p>The curriculum starts with AI foundations, then follows knowledge, reasoning, orchestration, security, infrastructure, operations, and evidence. Every topic maps to a real ContextWeaver responsibility.</p>
-    </div>
-    <div class="learning-curriculum-grid">
-      <article class="learning-curriculum-card"><span>01 · Intelligence</span><h3>AI and model foundations</h3><p>Understand the probabilistic systems behind generation before adding tools or autonomy.</p><ul><li>AI, machine learning, and deep learning</li><li>Neural networks and transformers</li><li>Tokens, context windows, and attention</li><li>Prompting and system instructions</li><li>Structured output and function calling</li><li>Multimodal models and inference</li><li>Hallucination, safety, and guardrails</li><li>Model evaluation and selection</li></ul></article>
-      <article class="learning-curriculum-card"><span>02 · Knowledge</span><h3>RAG, search, and memory</h3><p>Learn how governed knowledge becomes searchable context without moving authority into the model.</p><ul><li>Source catalogs and ingestion</li><li>Parsing, normalization, and chunking</li><li>Embeddings and vector search</li><li>Keyword, semantic, and hybrid retrieval</li><li>Re-ranking and context packing</li><li>Citations and provenance</li><li>Session, working, and durable memory</li><li>Freshness, access, and deletion</li></ul></article>
-      <article class="learning-curriculum-card"><span>03 · Reasoning</span><h3>Agents, tools, and MCP</h3><p>Move from conversation to bounded specialist reasoning with explicit capability boundaries.</p><ul><li>Agent roles and typed contracts</li><li>Planning, reflection, and stop conditions</li><li>Tools, resources, and prompts</li><li>Model Context Protocol servers</li><li>Plugins and capability packages</li><li>Multi-Agent delegation and routing</li><li>Budgets, timeouts, and approvals</li><li>Human-in-the-loop escalation</li></ul></article>
-      <article class="learning-curriculum-card"><span>04 · Product model</span><h3>Workflows, Services, and Solutions</h3><p>See how reusable assets become reliable, user-facing outcomes.</p><ul><li>Immutable plans and Workflow compilation</li><li>Durable coordination and checkpoints</li><li>Retries, idempotency, and compensation</li><li>Saga and approval patterns</li><li>Service contracts and entitlements</li><li>Solution composition and experience</li><li>Registries, versions, and publication</li><li>Lifecycle, rollout, and retirement</li></ul></article>
-      <article class="learning-curriculum-card"><span>05 · Trust</span><h3>Identity, security, and governance</h3><p>Understand how every request carries identity, authority, policy, and an auditable decision path.</p><ul><li>OIDC, OAuth 2.0, and Keycloak</li><li>Identity context and delegated authority</li><li>Token brokering and credential non-possession</li><li>Authentication and API gateways</li><li>Entitlement and policy decisions</li><li>Secrets and least privilege</li><li>Audit records and signed receipts</li><li>Evaluation, risk, and compliance</li></ul></article>
-      <article class="learning-curriculum-card"><span>06 · Platform</span><h3>Data, messaging, and infrastructure</h3><p>Learn the cloud-neutral foundation that keeps state durable and capabilities portable.</p><ul><li>PostgreSQL and pgvector</li><li>RabbitMQ commands and events</li><li>Object and artifact storage</li><li>Valkey caching and coordination</li><li>Kubernetes namespaces and workloads</li><li>Cilium networking and policy</li><li>Helm, CRDs, and operators</li><li>Ingress, gateways, and service discovery</li></ul></article>
-      <article class="learning-curriculum-card"><span>07 · Operations</span><h3>Observability and reliability</h3><p>Follow health, performance, failures, and recovery from one trace to the whole cluster.</p><ul><li>OpenTelemetry context propagation</li><li>Prometheus metrics and alerts</li><li>Loki logs and Tempo traces</li><li>Grafana dashboards and SLOs</li><li>Health, readiness, and dependency checks</li><li>Backups, restore, and disaster recovery</li><li>Shutdown, startup, and reconciliation</li><li>Capacity, scaling, and resilience</li></ul></article>
-      <article class="learning-curriculum-card"><span>08 · Proof</span><h3>Evaluation, evidence, and improvement</h3><p>Turn each run into a result that can be reviewed, compared, reproduced, and improved.</p><ul><li>Offline and online evaluation</li><li>Golden datasets and scoring rubrics</li><li>Quality, safety, and policy thresholds</li><li>Prompt and model comparison</li><li>Citations, tool receipts, and approvals</li><li>Run history and report stores</li><li>Feedback and regression detection</li><li>Release gates and continuous learning</li></ul></article>
-    </div>
-  </section>
+  <dialog class="lesson-dialog" id="lesson-dialog" aria-labelledby="lesson-title">
+    <div class="lesson-app">
+      <aside class="lesson-sidebar">
+        <div class="lesson-sidebar-brand"><span aria-hidden="true">▣</span><strong>Learning Glossary</strong></div>
+        <label class="lesson-sidebar-search"><span aria-hidden="true">⌕</span><input id="lesson-search" type="search" placeholder="Search glossary terms…" autocomplete="off"></label>
+        <div class="lesson-crumbs"><span>Learning</span><b>/</b><span id="lesson-crumb-category"></span><b>/</b><strong id="lesson-crumb-term"></strong></div>
+        <nav class="lesson-term-nav" id="lesson-term-nav" aria-label="Lessons in this domain"></nav>
+        <button class="lesson-back" type="button">← <span>Back to glossary index</span></button>
+      </aside>
 
-  <section class="container learning-service-catalog" aria-labelledby="learning-services-title">
-    <div class="learning-curriculum-head">
-      <div><p class="section-kicker">Platform service atlas</p><h2 id="learning-services-title">Know what every ContextWeaver service owns.</h2></div>
-      <p>These cards map conceptual learning to the concrete services used by the platform. Names remain visible so architecture, code, operations, and learning use the same language.</p>
-    </div>
-    <div class="learning-service-grid">
-      <article><span>Entry and identity</span><h3>Who is asking, and what may they do?</h3><p>API Gateway · Authentication Gateway · Identity Context · Entitlement Service · Token Broker · Policy Decision Service · Session Service</p></article>
-      <article><span>Knowledge and intelligence</span><h3>Which context and model should be used?</h3><p>Source Catalog · RAG Ingestion · RAG Retrieval · Context Memory · Context Citation · Model Gateway · Intent Router</p></article>
-      <article><span>Design and composition</span><h3>How does intent become an immutable plan?</h3><p>Solution Composer · Workflow Compiler · Registry Service · Configuration Service · Developer Portal · Admin Web</p></article>
-      <article><span>Runtime and coordination</span><h3>How does work continue safely?</h3><p>Run Coordinator · Saga HITL · Finalizer · Notification Service · Audit Service · Report Store</p></article>
-      <article><span>Capabilities and workspaces</span><h3>Where do tools and isolated work execute?</h3><p>Capability Operator · Capability Protocol Gateway · Artifact Gateway · Workspace API · Workspace Controller · Workspace Operations · Workspace Session Gateway</p></article>
-      <article><span>Evidence and operations</span><h3>How is the platform observed and improved?</h3><p>Prometheus · Loki · Tempo · Grafana · Alloy · Kubernetes Events · evaluation cards · policy receipts · run reports</p></article>
-    </div>
-  </section>
+      <main class="lesson-workspace">
+        <header class="lesson-header">
+          <div class="lesson-title-row">
+            <div class="lesson-title-copy">
+              <span class="lesson-category" id="lesson-category"></span>
+              <h2 id="lesson-title"></h2>
+              <p id="lesson-summary"></p>
+              <div class="lesson-facts" id="lesson-facts"></div>
+            </div>
+            <div class="lesson-progress-actions">
+              <div class="lesson-progress-copy"><span>Lesson progress</span><b id="lesson-progress-label">0%</b></div>
+              <div class="lesson-progress-track"><i id="lesson-progress-bar"></i></div>
+              <div class="lesson-actions"><button id="bookmark-term" type="button">☆ Bookmark</button><button id="complete-term" type="button">✓ Mark complete</button></div>
+            </div>
+            <button class="lesson-close" type="button" aria-label="Close lesson">×</button>
+          </div>
+        </header>
 
-  <section id="component-atlas" class="container component-atlas" aria-labelledby="component-atlas-title">
-    <div class="component-atlas-head">
-      <div><p class="section-kicker">Every component. No black boxes.</p><h2 id="component-atlas-title">Explore the platform by responsibility.</h2></div>
-      <p>Each component page connects purpose, ownership, identity, data, protocols, dependencies, health, failure behavior, recovery, and implementation status.</p>
-    </div>
-    <div class="component-filter" role="group" aria-label="Filter platform components">
-      <button class="active" type="button" data-component-filter="all" aria-pressed="true">All domains</button>
-      <button type="button" data-component-filter="identity" aria-pressed="false">Identity</button>
-      <button type="button" data-component-filter="data" aria-pressed="false">Data and messaging</button>
-      <button type="button" data-component-filter="runtime" aria-pressed="false">Runtime</button>
-      <button type="button" data-component-filter="cluster" aria-pressed="false">Cluster</button>
-      <button type="button" data-component-filter="observe" aria-pressed="false">Observability</button>
-    </div>
-    <div class="component-grid">
-      <article class="component-card" data-component-domain="identity"><div class="component-icon">ID</div><div class="component-title"><span>Identity provider</span><h3>Keycloak</h3></div><p>Authenticates users, publishes OIDC metadata, owns realms and clients, and supports delegated token exchange.</p><div class="component-tags"><span>Active · Kubernetes</span><span>OIDC / OAuth</span></div><a href="#keycloak-path">Open deep dive <span>→</span></a></article>
-      <article class="component-card" data-component-domain="data"><div class="component-icon">SQL</div><div class="component-title"><span>Durable state</span><h3>PostgreSQL + pgvector</h3></div><p>Stores platform state, configuration revisions, run checkpoints, RAG generations, chunks, embeddings, inboxes, and outboxes.</p><div class="component-tags"><span>Active · Local and K8s</span><span>SQL / vector</span></div><a href="#data-path">Open deep dive <span>→</span></a></article>
-      <article class="component-card" data-component-domain="data runtime"><div class="component-icon">MQ</div><div class="component-title"><span>Durable messaging</span><h3>RabbitMQ</h3></div><p>Moves signed commands, results, and events between isolated workers without coupling work to an HTTP request lifetime.</p><div class="component-tags"><span>Active foundation</span><span>AMQP</span></div><a href="#runtime-path">Open deep dive <span>→</span></a></article>
-      <article class="component-card" data-component-domain="runtime"><div class="component-icon">RC</div><div class="component-title"><span>Orchestration</span><h3>Run Coordinator</h3></div><p>Commits durable run state, dispatches typed work, tracks checkpoints, applies retries, and drives finalization.</p><div class="component-tags"><span>Active realization</span><span>Workflow runtime</span></div><a href="#runtime-path">Open deep dive <span>→</span></a></article>
-      <article class="component-card" data-component-domain="cluster"><div class="component-icon">K8S</div><div class="component-title"><span>Portable foundation</span><h3>Kubernetes + Cilium</h3></div><p>Provides workload lifecycle, namespace trust boundaries, service discovery, storage, policy enforcement, and recovery.</p><div class="component-tags"><span>Active · kind and AKS</span><span>Cloud-neutral</span></div><a href="#cluster-path">Open deep dive <span>→</span></a></article>
-      <article class="component-card" data-component-domain="observe"><div class="component-icon">OBS</div><div class="component-title"><span>Evidence and health</span><h3>Prometheus · Loki · Tempo</h3></div><p>Collects metrics, logs, and traces through Alloy and presents operational evidence through Grafana.</p><div class="component-tags"><span>Active foundation</span><span>OpenTelemetry</span></div><a href="#observe-path">Open deep dive <span>→</span></a></article>
-      <article class="component-card" data-component-domain="data"><div class="component-icon">OBJ</div><div class="component-title"><span>Artifacts and content</span><h3>Object storage</h3></div><p>Preserves private artifacts, source snapshots, extracted content, context packs, reports, and immutable evidence.</p><div class="component-tags"><span>MinIO / S3 contract</span><span>Encrypted storage</span></div><a href="#data-path">Open deep dive <span>→</span></a></article>
-      <article class="component-card" data-component-domain="identity runtime"><div class="component-icon">GW</div><div class="component-title"><span>Capability boundary</span><h3>Authentication and token gateways</h3></div><p>Maintain principal context, broker scoped credentials, and keep provider secrets out of Agents and user-facing clients.</p><div class="component-tags"><span>Fail closed</span><span>Delegated authority</span></div><a href="#keycloak-path">Open deep dive <span>→</span></a></article>
-    </div>
-  </section>
+        <nav class="lesson-tabs" aria-label="Lesson sections">
+          <a href="#lesson-overview">Overview</a><a href="#lesson-architecture">Architecture</a><a href="#lesson-flow">Flows</a><a href="#lesson-security">Security</a><a href="#lesson-fit">ContextWeaver</a><a href="#lesson-example-card">Examples</a><a href="#lesson-troubleshooting">Troubleshooting</a><a href="#lesson-resources">Resources</a>
+        </nav>
 
-  <section class="container learning-system-map" aria-labelledby="system-map-title">
-    <div class="learning-system-copy">
-      <p class="section-kicker">Follow one request end to end</p>
-      <h2 id="system-map-title">From signed-in user to verified result.</h2>
-      <p>Select any stage to learn who owns it, what data crosses the boundary, which identity is used, how it fails, and what evidence remains.</p>
-      <div class="learning-map-legend"><span><i class="current"></i>Active foundation</span><span><i class="realizing"></i>Active realization</span><span><i class="target"></i>Target</span></div>
-    </div>
-    <div class="learning-flow" aria-label="Governed request flow">
-      <div><span>01</span><b>User portal</b><small>Intent and identity</small></div><i>→</i>
-      <div><span>02</span><b>Auth + policy</b><small>Scope and authority</small></div><i>→</i>
-      <div><span>03</span><b>Compiler</b><small>Immutable plan</small></div><i>→</i>
-      <div><span>04</span><b>Coordinator</b><small>Durable execution</small></div><i>→</i>
-      <div><span>05</span><b>Agent + MCP</b><small>Bounded work</small></div><i>→</i>
-      <div><span>06</span><b>Evidence</b><small>Verified result</small></div>
-    </div>
-  </section>
+        <div class="lesson-canvas">
+          <article class="lesson-primary">
+            <section class="lesson-sentence" id="lesson-overview"><span aria-hidden="true">◉</span><div><h3>In one sentence</h3><p id="lesson-definition"></p></div></section>
 
-  <section class="container learning-guide" aria-labelledby="learning-guide-title">
-    <div>
-      <p class="section-kicker">Generate my guide</p>
-      <h2 id="learning-guide-title">Your path, assembled from canonical material.</h2>
-      <p>The guide keeps implementation-status labels, source links, diagrams, and the complete glossary. It never invents architecture or unsupported product claims.</p>
-    </div>
-    <div class="learning-guide-preview">
-      <span>Guide preview</span>
-      <strong data-learning-guide-title>ContextWeaver essentials for a new learner</strong>
-      <ul data-learning-guide-list><li>AI, LLM, and RAG in plain language</li><li>Agent, MCP, Workflow, Service, and Solution</li><li>One governed journey with evidence</li></ul>
-      <button class="button primary" type="button" data-learning-generate>Download my guide <span aria-hidden="true">↓</span></button>
-    </div>
-  </section>
-</section>
+            <div class="lesson-two-up">
+              <section class="lesson-panel lesson-solves"><h3><span aria-hidden="true">✓</span> What it solves</h3><p id="lesson-solves"></p></section>
+              <section class="lesson-panel lesson-not"><h3><span aria-hidden="true">⊘</span> What it does NOT do</h3><p id="lesson-not-does"></p></section>
+            </div>
 
+            <section class="lesson-panel" id="lesson-architecture">
+              <h3><span aria-hidden="true">♙</span> The four main roles</h3>
+              <div class="lesson-role-grid" id="lesson-role-grid"></div>
+            </section>
+
+            <section class="lesson-panel lesson-flow-panel" id="lesson-flow">
+              <h3><span aria-hidden="true">⌘</span> Simplified architecture flow</h3>
+              <ol class="lesson-flow" id="lesson-flow-list"></ol>
+            </section>
+
+            <div class="lesson-two-up lesson-lower-grid">
+              <section class="lesson-panel lesson-table-panel">
+                <h3><span aria-hidden="true">▤</span> Terms and permissions</h3>
+                <table><thead><tr><th>Term</th><th>What it means (in simple terms)</th></tr></thead><tbody id="lesson-term-table"></tbody></table>
+              </section>
+              <section class="lesson-panel" id="lesson-fit">
+                <h3><span aria-hidden="true">⌘</span> Where it fits in ContextWeaver</h3>
+                <div class="lesson-fit-flow" id="lesson-fit-flow"></div>
+                <p id="lesson-fit-copy"></p>
+              </section>
+            </div>
+
+            <footer class="lesson-navigation">
+              <button id="lesson-previous" type="button">← <span>Previous lesson</span><strong></strong></button>
+              <div class="lesson-related" id="lesson-related"></div>
+              <button id="lesson-next" type="button"><span>Next lesson</span><strong></strong> →</button>
+            </footer>
+          </article>
+
+          <aside class="lesson-rail">
+            <section class="lesson-panel lesson-video">
+              <h3><span aria-hidden="true">◉</span> <b id="lesson-video-title">Visual guide</b></h3>
+              <button id="lesson-video-link" type="button" aria-label="Open visual guide"><span>▶</span><em>5:00</em></button>
+              <p>Plays here—no page change.</p>
+            </section>
+            <section class="lesson-panel" id="lesson-example-card">
+              <h3><span aria-hidden="true">▣</span> Real-world example</h3>
+              <div class="lesson-example" id="lesson-example"></div>
+              <div class="lesson-consent"><b>▣ Consent required</b><span id="lesson-consent-copy">Allow this application to continue?</span><div><button type="button">Allow</button><button type="button">Deny</button></div></div>
+            </section>
+            <section class="lesson-panel lesson-warning" id="lesson-troubleshooting"><h3><span aria-hidden="true">△</span> Common misconception</h3><p id="lesson-misconception"></p></section>
+            <section class="lesson-panel" id="lesson-security"><h3><span aria-hidden="true">⬡</span> Security checklist</h3><ul class="lesson-cautions" id="lesson-cautions"></ul></section>
+            <section class="lesson-panel lesson-takeaway"><h3><span aria-hidden="true">◉</span> Key takeaway</h3><p id="lesson-takeaway"></p></section>
+            <section class="lesson-panel" id="lesson-resources"><h3>Resources</h3><div class="lesson-sources" id="lesson-sources"></div></section>
+          </aside>
+        </div>
       </main>
+    </div>
+  </dialog>
 
-
-    <footer class="site-footer">
-      <div class="container footer-grid">
-        <div>
-          <a class="brand" href="index.html" aria-label="ContextWeaver home">
-      <span class="brand-lockup brand-lockup--compact" aria-hidden="true">
-        <span class="brand-lockup__marks">
-          <img src="assets/brand/brainzbytes-b4.svg" alt="" width="38" height="38">
-          <span class="brand-lockup__bridge"></span>
-          <img src="assets/brand/contextweaver-c1.svg" alt="" width="38" height="38">
-        </span>
-        <span class="brand-lockup__copy">
-          <strong>BrainzBytes</strong>
-          <span>ContextWeaver</span>
-        </span>
-      </span>
-    </a>
-          <p style="margin-top:16px">Turn approved intent into user-facing Solutions assembled from governed Services, Workflows, Agents, MCP capabilities, knowledge, models, policy, and portable infrastructure—with evidence attached.</p>
-        </div>
-        <div><h3>Explore</h3><div class="footer-links"><a href="platform.html">Platform model</a><a href="studio.html">Studio and creation contexts</a><a href="runtime.html">Dynamic runtime</a></div></div>
-        <div><h3>Trust</h3><div class="footer-links"><a href="governance.html">Governance</a><a href="architecture.html">Architecture</a><a href="library.html">Technical library</a></div></div>
-        <div><h3>Company</h3><div class="footer-links"><a href="company.html#about">About BrainzBytes</a><a href="company.html#about">Founder</a><a href="company.html#company-paths">Careers · planned</a></div></div>
-      </div>
-      <div class="container footer-bottom">
-        <span>© 2026 BrainzBytes. ContextWeaver product architecture.</span>
-        <span>Architecture refreshed November 1, 2026. Compliance and deployment outcomes remain customer-specific.</span>
-      </div>
-    </footer>
-
-      <script src="assets/js/site.js?v=20261102-4"></script>
-    </body>
-    </html>
+  <footer class="learning-footer">
+    <div class="cw-container"><strong>ContextWeaver Learning</strong><span>Architecture atlas · Technology glossary · Technical library</span><a href="/">Product overview</a></div>
+  </footer>
+</body>
+</html>
