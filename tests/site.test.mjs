@@ -251,6 +251,9 @@ test("product hierarchy and consumer journey remain explicit", async () => {
   assert.match(airlineJourney, /params\.get\("embedded"\) === "1"/);
   assert.match(airlineJourney, /\.experience\s*\{[^}]*width:\s*100vw/s);
   assert.match(airlineJourney, /body:not\(\.embedded\) \.proof-image-frame img\s*\{ max-height: 620px; \}/);
+  assert.match(airlineJourney, /body\.embedded \.story\s*\{[^}]*min-height:\s*auto;[^}]*align-items:\s*start;/s);
+  assert.match(airlineJourney, /body\.embedded \.visual\s*\{ min-height: min\(760px, calc\(100svh - 230px\)\); \}/);
+  assert.match(airlineJourney, /body\.embedded \.proof-image-frame img\s*\{ max-height: 560px; \}/);
   assert.match(airlineJourney, /id="stopButton"/);
   assert.match(airlineJourney, /function stopExperience\(\)/);
   assert.match(airlineJourney, /contextweaver:stop-experience/);

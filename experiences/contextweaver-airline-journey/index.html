@@ -1279,6 +1279,20 @@
 
     body.embedded .experience { width: 100%; padding: 0; }
     body.embedded .shell { min-height: 100svh; border: 0; border-radius: 0; }
+    body.embedded .story {
+      min-height: auto;
+      padding-top: 92px;
+      align-items: start;
+    }
+    @media (min-width: 1041px) {
+      body.embedded .visual { min-height: min(760px, calc(100svh - 230px)); }
+      body.embedded .visual-body { min-height: min(702px, calc(100svh - 288px)); }
+      body.embedded .proof-image-frame,
+      body.embedded .proof-image-frame img {
+        min-height: min(540px, calc(100svh - 400px));
+      }
+      body.embedded .proof-image-frame img { max-height: 560px; }
+    }
     body.embedded .overview-link { display: none; }
     .stop-button { display: none; }
     body.embedded .stop-button {
