@@ -16,6 +16,8 @@
   --cw-radius-control: 9px;
   --cw-shadow: 0 28px 90px rgba(0, 0, 0, .34);
   --cw-max: 1180px;
+  --cw-page-art-veil-top: rgba(5, 11, 8, .8);
+  --cw-page-art-veil-bottom: rgba(5, 11, 8, .94);
 }
 
 * { box-sizing: border-box; }
@@ -25,6 +27,8 @@ body.cw-page {
   min-width: 320px;
   color: var(--cw-text);
   background:
+    linear-gradient(180deg, var(--cw-page-art-veil-top), var(--cw-page-art-veil-bottom)) center / cover no-repeat fixed,
+    url("../media/spatial/intent-to-evidence.png") center 70px / min(94vw, 1480px) auto no-repeat fixed,
     radial-gradient(circle at 18% -8%, rgba(188, 255, 91, .09), transparent 28rem),
     linear-gradient(180deg, #07110c, var(--cw-bg) 36rem);
   font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
@@ -345,6 +349,13 @@ body.cw-page::before {
   .cw-footer-grid { grid-template-columns: 1fr 1fr; }
 }
 @media (max-width: 620px) {
+  body.cw-page {
+    background:
+      linear-gradient(180deg, var(--cw-page-art-veil-top), var(--cw-page-art-veil-bottom)) center / cover no-repeat,
+      url("../media/spatial/intent-to-evidence.png") center 58px / 176vw auto no-repeat,
+      radial-gradient(circle at 18% -8%, rgba(188, 255, 91, .09), transparent 23rem),
+      linear-gradient(180deg, #07110c, var(--cw-bg) 28rem);
+  }
   .cw-container { width: min(100% - 24px, var(--cw-max)); }
   .cw-section { padding: 46px 0; }
   .cw-hero { padding-top: 48px; }

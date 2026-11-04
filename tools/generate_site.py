@@ -149,7 +149,7 @@ def page(name: str, title: str, description: str, content: str) -> str:
       <meta name="theme-color" content="#07110f">
       <title>{title}</title>
       <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
-      <link rel="stylesheet" href="assets/css/site.css?v=20261104-2">
+      <link rel="stylesheet" href="assets/css/site.css?v=20261104-3">
     </head>
     <body data-page="{name}">
       {intro}

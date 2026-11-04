@@ -213,6 +213,7 @@ test("product hierarchy and consumer journey remain explicit", async () => {
   const sitemap = await readFile(join(root, "sitemap.xml"), "utf8");
   const learningJs = await readFile(join(root, "learning.js"), "utf8");
   const learningCss = await readFile(join(root, "learning.css"), "utf8");
+  const learningShellCss = await readFile(join(root, "assets", "css", "learning-shell.css"), "utf8");
   const learningData = await readFile(join(root, "learning-data.js"), "utf8");
   const story = await readFile(join(root, "diagrams", "intent-to-evidence.html"), "utf8");
   const companyIntro = await readFile(join(root, "assets", "brand", "brainzbytes-contextweaver-overview.html"), "utf8");
@@ -323,7 +324,7 @@ test("product hierarchy and consumer journey remain explicit", async () => {
   assert.match(landing, /assets\/brand\/brainzbytes-b4\.svg/);
   assert.match(landing, /assets\/brand\/contextweaver-c1\.svg/);
   assert.match(landing, /sandbox="allow-scripts allow-same-origin"/);
-  assert.match(landing, /assets\/css\/site\.css\?v=20261104-2/);
+  assert.match(landing, /assets\/css\/site\.css\?v=20261104-3/);
   assert.doesNotMatch(landing, /assets\/js\/site\.js\?v=20261101-18/);
   assert.match(siteJs, /contextweaver-company-intro-seen/);
   assert.match(siteJs, /brainzbytes-intro-complete/);
@@ -354,8 +355,10 @@ test("product hierarchy and consumer journey remain explicit", async () => {
   assert.match(companyIntro, /function startNarratedStory\(\)[\s\S]*storyStarted=true[\s\S]*audioStarted=true[\s\S]*render\(true\)/);
   assert.match(companyIntro, /addEventListener\("pointerdown"[\s\S]*unlockFromGesture/);
   assert.match(companyIntro, /showOpening\(\);\s*tryIntroMusic\(\);scheduleNarratedStory\(\)/);
-  assert.match(siteCss, /intent-to-evidence-glass-master\.png/);
+  assert.match(siteCss, /media\/spatial\/intent-to-evidence\.png/);
   assert.match(siteCss, /176vw auto no-repeat/);
+  assert.match(learning, /assets\/css\/learning-shell\.css\?v=20261104-2/);
+  assert.match(learningShellCss, /media\/spatial\/intent-to-evidence\.png/);
   assert.match(siteJs, /frameWindow\?\.unlockIntroAudio/);
   assert.match(siteJs, /document\.addEventListener\("pointerdown"[\s\S]*unlockIntroAudio/);
   assert.match(learning, /assets\/architecture\/contextweaver-intent-to-evidence\.png/);

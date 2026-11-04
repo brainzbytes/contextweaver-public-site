@@ -59,7 +59,7 @@ body {
   color: var(--text);
   background:
     linear-gradient(180deg, var(--page-art-veil-top), var(--page-art-veil-bottom)) center / cover no-repeat fixed,
-    url("../media/intent-to-evidence-glass-master.png") var(--page-art-position) / var(--page-art-size) no-repeat fixed,
+    url("../media/spatial/intent-to-evidence.png") var(--page-art-position) / var(--page-art-size) no-repeat fixed,
     radial-gradient(circle at 8% 4%, color-mix(in srgb, var(--mint) 10%, transparent), transparent 30rem),
     radial-gradient(circle at 94% 12%, color-mix(in srgb, var(--amber) 6%, transparent), transparent 34rem),
     linear-gradient(180deg, var(--bg-elevated), var(--bg) 34rem);
@@ -2269,7 +2269,7 @@ body.spatial-modal-open { overflow: hidden; }
     --page-art-veil-bottom: rgba(5, 11, 8, 0.94);
     background:
       linear-gradient(180deg, var(--page-art-veil-top), var(--page-art-veil-bottom)) center / cover no-repeat,
-      url("../media/intent-to-evidence-glass-master.png") center 58px / 176vw auto no-repeat,
+      url("../media/spatial/intent-to-evidence.png") center 58px / 176vw auto no-repeat,
       radial-gradient(circle at 8% 4%, color-mix(in srgb, var(--mint) 10%, transparent), transparent 23rem),
       radial-gradient(circle at 94% 12%, color-mix(in srgb, var(--amber) 6%, transparent), transparent 24rem),
       linear-gradient(180deg, var(--bg-elevated), var(--bg) 28rem);
