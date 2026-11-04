@@ -8,11 +8,11 @@
   <meta name="theme-color" content="#050b08">
   <link rel="canonical" href="https://brainzbytes.com/learning.html">
   <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
-  <link rel="stylesheet" href="assets/css/learning-shell.css?v=20261103">
-  <link rel="stylesheet" href="learning.css?v=20261103-2">
-  <script src="assets/js/learning-shell.js?v=20261103" defer></script>
-  <script src="learning-data.js?v=20261103" defer></script>
-  <script src="learning.js?v=20261103" defer></script>
+  <link rel="stylesheet" href="assets/css/learning-shell.css?v=20261104-1">
+  <link rel="stylesheet" href="learning.css?v=20261104-2">
+  <script src="assets/js/learning-shell.js?v=20261104-2" defer></script>
+  <script src="learning-data.js?v=20261104-1" defer></script>
+  <script src="learning.js?v=20261104-2" defer></script>
 </head>
 <body class="cw-page learning-page">
   <a class="cw-skip" href="#main">Skip to learning content</a>
@@ -23,9 +23,17 @@
         <span class="cw-brand-mark" aria-hidden="true"></span>
         <span><strong>ContextWeaver</strong><span>Learning Atlas</span></span>
       </a>
-      <nav class="cw-nav-links" aria-label="Learning navigation">
-        <a href="#atlas">Architecture atlas</a>
-        <a href="#glossary">A–Z glossary</a>
+      <nav class="cw-nav-links cw-main-links" aria-label="Primary navigation">
+        <a href="index.html">Home</a>
+        <a href="overview.html">Overview</a>
+        <a href="platform.html">Platform</a>
+        <a href="studio.html">Studio</a>
+        <a href="runtime.html">Runtime</a>
+        <a href="governance.html">Governance</a>
+        <a href="solutions.html">Solutions</a>
+        <a href="architecture.html">Architecture</a>
+        <a href="learning.html" aria-current="page">Learn</a>
+        <a href="company.html">Company</a>
       </nav>
       <a class="cw-button primary" href="https://app.brainzbytes.com">Launch platform →</a>
       <button class="cw-menu" type="button" aria-label="Open navigation" aria-expanded="false">Menu</button>
@@ -38,10 +46,31 @@
         <p class="cw-eyebrow">One-stop product and technology learning</p>
         <h1>Start with the complete platform. <span>Explore every building block.</span></h1>
         <p class="cw-lead">The architecture atlas is the center of this Learning experience. Select any component to understand what it is, why it exists, how it works, where it fits in ContextWeaver, its security boundaries, related concepts, and authoritative resources.</p>
+        <nav class="learning-jump-nav" aria-label="Learning page sections">
+          <a href="#paths"><strong>Choose a path</strong><span>Start by role or goal</span></a>
+          <a href="#atlas"><strong>Architecture atlas</strong><span>Explore the complete platform</span></a>
+          <a href="#glossary"><strong>A–Z quick reference</strong><span>Find any concept fast</span></a>
+        </nav>
         <div class="learning-stats" aria-label="Learning Center statistics">
           <div><strong id="term-total">0</strong><span>terms and components</span></div>
           <div><strong>12</strong><span>learning domains</span></div>
           <div><strong>1</strong><span>connected architecture</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="learning-paths" id="paths" aria-labelledby="paths-title">
+      <div class="cw-container">
+        <div class="learning-heading">
+          <div><p class="cw-eyebrow">Choose the shortest useful path</p><h2 id="paths-title">Learn by what you need to do.</h2></div>
+          <p>Each path opens a complete quick-reference lesson. Use the lesson tabs to jump within the same lesson—nothing takes you away from your place.</p>
+        </div>
+        <div class="learning-path-grid">
+          <button type="button" data-term="contextweaver"><span>New to ContextWeaver</span><strong>Understand intent to outcome</strong><small>See how Services, Workflows, Agents, MCPs, policy, and evidence fit together.</small></button>
+          <button type="button" data-term="service-definition"><span>Customer or business user</span><strong>Understand what the product does</strong><small>Follow a request from a useful Solution through approval, execution, and proof.</small></button>
+          <button type="button" data-term="model-context-protocol"><span>Developer or integrator</span><strong>Connect tools and enterprise systems</strong><small>Learn MCP contracts, schemas, gateways, scoped authority, and receipts.</small></button>
+          <button type="button" data-term="distributed-tracing"><span>Operator or support engineer</span><strong>Diagnose a run end to end</strong><small>Use traces, logs, metrics, durable events, and evidence without confusing one signal for another.</small></button>
+          <button type="button" data-term="policy-decision-service"><span>Security or governance</span><strong>Control who can do what</strong><small>Understand identity, policy decisions, approvals, token brokering, audit, and separation of duty.</small></button>
         </div>
       </div>
     </section>
@@ -165,8 +194,16 @@
           </div>
         </header>
 
+        <div class="lesson-tab-guide"><strong>Quick-reference sections</strong><span>Choose a section to jump within this lesson. Your lesson stays open.</span></div>
         <nav class="lesson-tabs" aria-label="Lesson sections">
-          <a href="#lesson-overview">Overview</a><a href="#lesson-architecture">Architecture</a><a href="#lesson-flow">Flows</a><a href="#lesson-security">Security</a><a href="#lesson-fit">ContextWeaver</a><a href="#lesson-example-card">Examples</a><a href="#lesson-troubleshooting">Troubleshooting</a><a href="#lesson-resources">Resources</a>
+          <a href="#lesson-overview" title="Plain-English definition and purpose">Quick answer</a>
+          <a href="#lesson-architecture" title="People and systems involved">How it works</a>
+          <a href="#lesson-flow" title="Typical execution sequence">Flow</a>
+          <a href="#lesson-security" title="Risks, controls, and safe use">Risks</a>
+          <a href="#lesson-fit" title="Where this appears in ContextWeaver">In ContextWeaver</a>
+          <a href="#lesson-example-card" title="Customer and developer examples">Real example</a>
+          <a href="#lesson-troubleshooting" title="Misconceptions and debugging checks">Fix issues</a>
+          <a href="#lesson-resources" title="Official video and documentation">Learn more</a>
         </nav>
 
         <div class="lesson-canvas">
@@ -209,19 +246,21 @@
 
           <aside class="lesson-rail">
             <section class="lesson-panel lesson-video">
-              <h3><span aria-hidden="true">◉</span> <b id="lesson-video-title">Visual guide</b></h3>
-              <button id="lesson-video-link" type="button" aria-label="Open visual guide"><span>▶</span><em>5:00</em></button>
-              <p>Plays here—no page change.</p>
+              <h3><span aria-hidden="true">◉</span> <b id="lesson-video-title">Official learning video</b></h3>
+              <a id="lesson-video-link" href="#" target="_blank" rel="noopener noreferrer" aria-label="Open official learning video"><span>▶</span><em id="lesson-video-duration">Video</em></a>
+              <p id="lesson-video-copy">Opens a verified learning resource in a new tab.</p>
             </section>
             <section class="lesson-panel" id="lesson-example-card">
               <h3><span aria-hidden="true">▣</span> Real-world example</h3>
               <div class="lesson-example" id="lesson-example"></div>
-              <div class="lesson-consent"><b>▣ Consent required</b><span id="lesson-consent-copy">Allow this application to continue?</span><div><button type="button">Allow</button><button type="button">Deny</button></div></div>
+              <div class="lesson-audience-example"><b>Customer view</b><p id="lesson-customer-view"></p></div>
+              <div class="lesson-audience-example"><b>Developer view</b><p id="lesson-developer-view"></p></div>
+              <a class="lesson-product-link" id="lesson-product-link" href="overview.html">See where this is used in the product →</a>
             </section>
-            <section class="lesson-panel lesson-warning" id="lesson-troubleshooting"><h3><span aria-hidden="true">△</span> Common misconception</h3><p id="lesson-misconception"></p></section>
+            <section class="lesson-panel lesson-warning" id="lesson-troubleshooting"><h3><span aria-hidden="true">△</span> Common misconception</h3><p id="lesson-misconception"></p><h4>Check these first</h4><ul class="lesson-troubleshooting-list" id="lesson-troubleshooting-list"></ul></section>
             <section class="lesson-panel" id="lesson-security"><h3><span aria-hidden="true">⬡</span> Security checklist</h3><ul class="lesson-cautions" id="lesson-cautions"></ul></section>
             <section class="lesson-panel lesson-takeaway"><h3><span aria-hidden="true">◉</span> Key takeaway</h3><p id="lesson-takeaway"></p></section>
-            <section class="lesson-panel" id="lesson-resources"><h3>Resources</h3><div class="lesson-sources" id="lesson-sources"></div></section>
+            <section class="lesson-panel" id="lesson-resources"><h3>Official resources</h3><p class="lesson-resource-intro">Start with the video, then use the documentation for implementation details.</p><div class="lesson-sources" id="lesson-sources"></div></section>
           </aside>
         </div>
       </div>

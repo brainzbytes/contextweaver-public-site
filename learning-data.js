@@ -100,6 +100,183 @@
     }
   };
 
+  var learningGuides = {
+    'ai-foundations': {
+      customer: 'Use AI to draft, summarize, classify, or recommend—while ContextWeaver keeps the request, approved context, model choice, and result reviewable.',
+      developer: 'Call approved model aliases through Model Gateway, require structured output where possible, validate results, and record prompt and model versions.',
+      roles: ['Requester', 'Model Gateway', 'Approved model', 'Output validator'],
+      scenarios: ['A support leader requests a grounded case summary before a customer call.', 'A developer sends an approved prompt and context package, validates the response schema, and stores the evaluation result.'],
+      misconception: 'A fluent response is not proof that the answer is correct, authorized, grounded, or safe to act on.',
+      troubleshooting: ['Confirm the exact model and prompt versions.', 'Inspect the context that was actually sent.', 'Validate structured output and safety checks before using the result.'],
+      product: { label: 'Explore the governed model layer', url: 'platform.html' },
+      video: { title: 'Generative AI for Beginners — official Microsoft video series', url: 'https://www.youtube.com/watch?v=QpZ7HhoTgLI&list=PLlrxD0HtieHj2nfK1_fTYQ9s2lTtmmtKD', duration: '18-part series', provider: 'Microsoft' },
+      resources: [
+        { title: 'Microsoft Generative AI for Beginners', url: 'https://github.com/microsoft/generative-ai-for-beginners', type: 'Course' },
+        { title: 'Microsoft responsible AI principles', url: 'https://www.microsoft.com/ai/responsible-ai', type: 'Guidance' }
+      ]
+    },
+    'agentic-systems': {
+      customer: 'An Agent can pursue a goal across several steps, but its identity, tools, budget, approvals, and stopping conditions must remain explicit.',
+      developer: 'Package instructions, model policy, allowed skills, memory scope, budgets, evaluation, and runtime restrictions as one versioned Agent definition.',
+      roles: ['User or triggering system', 'Agent runtime', 'Approved tools and knowledge', 'Human approver'],
+      scenarios: ['An operations Agent gathers evidence and drafts a response, but asks a human before a high-impact change.', 'A developer tests the Agent against held-out tasks, tool-injection attacks, budget limits, and stop conditions before publication.'],
+      misconception: 'An Agent is not simply a chatbot with more tools; it is a bounded runtime that can plan, act, observe, and stop under policy.',
+      troubleshooting: ['Check whether the goal and stop condition are explicit.', 'Verify the Agent only sees approved tools and memory.', 'Inspect the plan, tool receipts, and approval state for the failing step.'],
+      product: { label: 'See how Agents are designed in Studio', url: 'studio.html' },
+      video: { title: 'AI Agents for Beginners — course introduction', url: 'https://www.youtube.com/watch?v=kBVsqJbM7Vc', duration: 'Official course', provider: 'Microsoft' },
+      resources: [
+        { title: 'Microsoft AI Agents for Beginners', url: 'https://github.com/microsoft/ai-agents-for-beginners', type: 'Course' },
+        { title: 'Azure Architecture Center: AI agent orchestration patterns', url: 'https://learn.microsoft.com/azure/architecture/ai-ml/guide/ai-agent-design-patterns', type: 'Architecture' }
+      ]
+    },
+    'rag-knowledge': {
+      customer: 'RAG lets an AI answer from approved business knowledge and show the evidence it used instead of relying only on model memory.',
+      developer: 'Separate ingestion, authorization, retrieval, ranking, generation, and citation evaluation so a failure can be located and corrected.',
+      roles: ['Source owner', 'Ingestion pipeline', 'Retrieval service', 'Model and citation service'],
+      scenarios: ['A customer asks a policy question and receives an answer linked to the exact approved paragraph.', 'A developer verifies source freshness, authorization filters, retrieval relevance, groundedness, and citation precision independently.'],
+      misconception: 'Adding vector search does not automatically make an answer grounded; authorization, ranking, freshness, and citation accuracy still need proof.',
+      troubleshooting: ['Confirm the source was ingested and published.', 'Verify identity filters were applied before retrieval.', 'Compare retrieved passages with the final claims and citations.'],
+      product: { label: 'Explore ContextWeaver knowledge services', url: 'platform.html' },
+      video: { title: 'RAG deep dive with Azure AI Search', url: 'https://www.youtube.com/watch?v=hfx7F7lObdg', duration: 'Deep dive', provider: 'Microsoft Reactor' },
+      resources: [
+        { title: 'RAG in Azure AI Search', url: 'https://learn.microsoft.com/azure/search/retrieval-augmented-generation-overview', type: 'Documentation' },
+        { title: 'RAG time: Advanced RAG with Azure AI Search', url: 'https://www.youtube.com/watch?v=DHebceyjCbk', type: 'Video' }
+      ]
+    },
+    'caching-performance': {
+      customer: 'Caching makes repeated work faster, but ContextWeaver treats identity, policy, source freshness, and version changes as part of cache correctness.',
+      developer: 'Design cache keys with tenant, authority, model, prompt, source, and policy versions; retain last-known-good data only when its safety boundary remains valid.',
+      roles: ['Caller', 'Policy-aware cache', 'Source service', 'Invalidation event'],
+      scenarios: ['A repeated approved query returns quickly without exposing another tenant’s result.', 'A developer invalidates the entry when the source, prompt, model, permission, or policy version changes.'],
+      misconception: 'A cache hit is not permission to skip authorization or freshness checks.',
+      troubleshooting: ['Inspect every dimension in the cache key.', 'Confirm invalidation fired for source and policy changes.', 'Compare a cached response with a fresh recomputation.'],
+      product: { label: 'See the runtime reliability model', url: 'runtime.html' },
+      video: { title: 'Introduction to Azure Cache for Redis', url: 'https://www.youtube.com/watch?v=KdPrFjHw5rI', duration: 'Overview', provider: 'Microsoft Azure' },
+      resources: [
+        { title: 'Azure Architecture Center caching guidance', url: 'https://learn.microsoft.com/azure/architecture/best-practices/caching', type: 'Architecture' },
+        { title: 'Cache-aside pattern', url: 'https://learn.microsoft.com/azure/architecture/patterns/cache-aside', type: 'Pattern' }
+      ]
+    },
+    'evaluation-testing': {
+      customer: 'Evaluation answers whether a capability is useful, safe, reliable, fast enough, and affordable before it is promoted—and whether it stays that way.',
+      developer: 'Version datasets, rubrics, judge prompts, thresholds, failure categories, and production monitors; gate promotion on the complete evaluation card.',
+      roles: ['Capability owner', 'Evaluation harness', 'Human reviewer', 'Publication gate'],
+      scenarios: ['A product owner sees quality, safety, latency, and cost results before approving a release.', 'A developer reproduces a regression against the exact dataset, prompt, model, and policy versions.'],
+      misconception: 'One aggregate score cannot explain quality, safety, latency, cost, edge cases, and operational risk.',
+      troubleshooting: ['Confirm the test set represents real and adversarial use.', 'Review per-category failures instead of only the average.', 'Check whether judge and rubric versions changed.'],
+      product: { label: 'See governed lifecycle controls', url: 'governance.html' },
+      video: { title: 'Beyond accuracy: evaluating generative AI applications', url: 'https://www.youtube.com/watch?v=ObAoGDh3r-Q', duration: 'Technical session', provider: 'Microsoft Reactor' },
+      resources: [
+        { title: 'Azure AI evaluation concepts', url: 'https://learn.microsoft.com/azure/ai-foundry/concepts/evaluation-concepts', type: 'Documentation' },
+        { title: 'NIST AI Risk Management Framework', url: 'https://www.nist.gov/itl/ai-risk-management-framework', type: 'Framework' }
+      ]
+    },
+    'identity-security': {
+      customer: 'Every protected action should answer who requested it, for what purpose, under which policy, with whose approval, and what actually happened.',
+      developer: 'Separate authentication, authorization, consent, token exchange, secret custody, workload identity, policy decisions, and audit evidence.',
+      roles: ['Human identity', 'Workload identity', 'Policy decision service', 'Token broker and provider'],
+      scenarios: ['A user can inspect data but must obtain approval before an Agent changes a protected system.', 'A developer exchanges verified identity and purpose for a narrow, short-lived provider token instead of passing reusable credentials to the Agent.'],
+      misconception: 'Successful sign-in proves identity; it does not grant every action the identity could technically attempt.',
+      troubleshooting: ['Trace the identity and purpose attached to the run.', 'Inspect the exact policy decision and entitlement.', 'Verify the issued authority was narrow, temporary, and used by the expected workload.'],
+      product: { label: 'Explore policy and governance', url: 'governance.html' },
+      video: { title: 'Microsoft identity platform video library', url: 'https://learn.microsoft.com/entra/identity-platform/identity-videos', duration: 'Video series', provider: 'Microsoft Entra' },
+      resources: [
+        { title: 'Microsoft identity platform documentation', url: 'https://learn.microsoft.com/entra/identity-platform/', type: 'Documentation' },
+        { title: 'OAuth 2.0 authorization framework', url: 'https://datatracker.ietf.org/doc/html/rfc6749', type: 'Standard' },
+        { title: 'OpenID Connect Core', url: 'https://openid.net/specs/openid-connect-core-1_0.html', type: 'Standard' }
+      ]
+    },
+    'mcp-integration': {
+      customer: 'MCP gives approved AI experiences a consistent way to discover and use enterprise tools and context without hiding who authorized each action.',
+      developer: 'Publish narrow schemas, validate every argument and result, mediate remote discovery through a gateway, and return durable receipts for side effects.',
+      roles: ['MCP client', 'Capability gateway', 'MCP server', 'Enterprise provider'],
+      scenarios: ['A workflow discovers a support tool and requests an approved case update with a visible receipt.', 'A developer exposes a small, well-described tool contract instead of giving the model broad API or network access.'],
+      misconception: 'Discovering a remote MCP tool does not make the server, its descriptions, its content, or its requested authority trustworthy.',
+      troubleshooting: ['Inspect the advertised tool schema and description.', 'Confirm gateway policy and caller authority.', 'Validate the normalized result and side-effect receipt.'],
+      product: { label: 'Explore the governed MCP runtime', url: 'runtime.html' },
+      video: { title: 'Model Context Protocol: an introduction', url: 'https://www.youtube.com/watch?v=Wp0p7iKH6ho', duration: 'Introduction', provider: 'Microsoft Developer' },
+      resources: [
+        { title: 'Model Context Protocol documentation', url: 'https://modelcontextprotocol.io/', type: 'Documentation' },
+        { title: 'Model Context Protocol specification', url: 'https://modelcontextprotocol.io/specification/', type: 'Specification' }
+      ]
+    },
+    'data-search': {
+      customer: 'Different information belongs in different stores: durable run state, searchable knowledge, artifacts, memory, and audit evidence are not interchangeable.',
+      developer: 'Choose storage and indexing from access patterns, consistency, provenance, retention, authorization, and recovery requirements—not convenience alone.',
+      roles: ['Data owner', 'Operational store', 'Search or vector index', 'Retention and access policy'],
+      scenarios: ['A user searches approved knowledge without exposing private memory or audit records.', 'A developer keeps durable workflow state in a transactional store while publishing only authorized searchable projections.'],
+      misconception: 'A vector database is not a universal memory system, source of truth, authorization layer, or proof of relevance.',
+      troubleshooting: ['Identify which store is authoritative.', 'Check schema, provenance, and freshness.', 'Verify access controls exist on both source data and searchable projections.'],
+      product: { label: 'See the platform data and evidence layers', url: 'platform.html' },
+      video: { title: 'RAG time: search, vectors, and retrieval', url: 'https://www.youtube.com/watch?v=DHebceyjCbk', duration: 'Technical session', provider: 'Microsoft Reactor' },
+      resources: [
+        { title: 'Azure AI Search documentation', url: 'https://learn.microsoft.com/azure/search/', type: 'Documentation' },
+        { title: 'Vector search in Azure AI Search', url: 'https://learn.microsoft.com/azure/search/vector-search-overview', type: 'Documentation' }
+      ]
+    },
+    'cloud-runtime': {
+      customer: 'The runtime keeps long-running work recoverable and observable even when containers restart, nodes move, or dependencies slow down.',
+      developer: 'Keep desired state declarative, durable state external, workers replaceable, retries idempotent, and deployment health separate from business completion.',
+      roles: ['Control plane', 'Scheduler and runtime', 'Durable state and queue', 'Replaceable worker'],
+      scenarios: ['A workflow resumes from durable state after a worker restarts instead of beginning again.', 'A developer deploys a versioned capability through Kubernetes while preserving provider-independent control-plane contracts.'],
+      misconception: 'A healthy pod only proves a process is running; it does not prove a workflow completed correctly or durably.',
+      troubleshooting: ['Compare desired state with the running version.', 'Inspect durable checkpoints and queue state.', 'Check readiness, dependencies, retries, and idempotency independently.'],
+      product: { label: 'Explore the durable runtime', url: 'runtime.html' },
+      video: { title: 'CNCF official Kubernetes video library', url: 'https://www.youtube.com/@cncf/videos', duration: 'Video library', provider: 'CNCF' },
+      resources: [
+        { title: 'Kubernetes documentation', url: 'https://kubernetes.io/docs/home/', type: 'Documentation' },
+        { title: 'Cloud Native Computing Foundation', url: 'https://www.cncf.io/', type: 'Community' }
+      ]
+    },
+    'observability-reliability': {
+      customer: 'Observability explains what a run attempted, where time was spent, which decision blocked it, and whether an external effect actually happened.',
+      developer: 'Correlate durable events, traces, metrics, logs, policy decisions, model calls, retrieval, and receipts without treating those signals as interchangeable.',
+      roles: ['Instrumented service', 'Telemetry collector', 'Evidence store', 'Operator or incident responder'],
+      scenarios: ['Support follows one run from user intent through policy, retrieval, model, tool effect, and final evidence.', 'A developer uses boundary spans for service flow and internal spans for detailed timing instead of counting every span as a business event.'],
+      misconception: 'More spans do not mean more business events; telemetry detail and durable workflow history answer different questions.',
+      troubleshooting: ['Start from the run or correlation identifier.', 'Separate durable events from telemetry spans.', 'Find the first failing boundary, then inspect its internal spans, logs, and decisions.'],
+      product: { label: 'See evidence and operations in ContextWeaver', url: 'runtime.html' },
+      video: { title: 'OpenTelemetry official video library', url: 'https://www.youtube.com/channel/UCHZDBZTIfdy94xMjMKz-_MA/videos', duration: 'Video library', provider: 'OpenTelemetry' },
+      resources: [
+        { title: 'OpenTelemetry documentation', url: 'https://opentelemetry.io/docs/', type: 'Documentation' },
+        { title: 'Google SRE workbook', url: 'https://sre.google/workbook/table-of-contents/', type: 'Workbook' }
+      ]
+    },
+    'hardware-compute': {
+      customer: 'Compute, memory, storage, and network capacity shape speed, cost, and reliability even when the product presents a simple AI experience.',
+      developer: 'Measure the actual bottleneck—CPU, accelerator, memory capacity, memory bandwidth, storage, or network—before changing infrastructure.',
+      roles: ['Application workload', 'CPU or accelerator', 'Memory and storage', 'Network and scheduler'],
+      scenarios: ['A product team selects the right model tier and capacity for its latency and cost target.', 'A developer profiles memory, data movement, provider latency, and concurrency before adding more compute.'],
+      misconception: 'A faster GPU or larger server cannot compensate for poor data, excessive context, inefficient architecture, or an external dependency bottleneck.',
+      troubleshooting: ['Measure CPU, memory, storage, network, and provider wait separately.', 'Check batching, concurrency, and data movement.', 'Compare requested resources with observed utilization and latency.'],
+      product: { label: 'See how the platform scales', url: 'architecture.html' },
+      video: { title: 'NVIDIA Developer accelerated-computing videos', url: 'https://www.youtube.com/@NVIDIADeveloper/videos', duration: 'Video library', provider: 'NVIDIA Developer' },
+      resources: [
+        { title: 'NVIDIA accelerated computing glossary', url: 'https://www.nvidia.com/en-us/glossary/', type: 'Reference' },
+        { title: 'Kubernetes resource management', url: 'https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/', type: 'Documentation' }
+      ]
+    },
+    'contextweaver': {
+      customer: 'ContextWeaver turns a governed business intent into a durable outcome with visible policy, approvals, evidence, and operational control.',
+      developer: 'Compose versioned Services, Workflows, Agents, MCP capabilities, knowledge, and policies; publish only evaluated versions and execute them through durable runtime contracts.',
+      roles: ['Solution experience', 'Governed capability registry', 'Durable run coordinator', 'Evidence and operations plane'],
+      scenarios: ['A customer launches one Solution and can see what was approved, executed, produced, and affected.', 'A developer builds a Service in Studio, evaluates it, publishes a version, and traces one production run through every governed boundary.'],
+      misconception: 'ContextWeaver is not one giant Agent; it separates design, policy, execution, evidence, and operations so each can be governed and improved.',
+      troubleshooting: ['Identify the exact capability and active version.', 'Trace the run through policy, task, Agent, MCP, and provider boundaries.', 'Compare the expected evidence with what the run actually recorded.'],
+      product: { label: 'Open the ContextWeaver overview', url: 'overview.html' },
+      video: { title: 'ContextWeaver: intent to evidence', url: 'assets/brand/brainzbytes-contextweaver-overview.html?popout=1', duration: 'Interactive walkthrough', provider: 'BrainzBytes' },
+      resources: [
+        { title: 'ContextWeaver overview', url: 'overview.html', type: 'Product guide' },
+        { title: 'ContextWeaver architecture', url: 'architecture.html', type: 'Architecture' },
+        { title: 'ContextWeaver governance', url: 'governance.html', type: 'Product guide' }
+      ]
+    }
+  };
+
+  Object.keys(learningGuides).forEach(function (categoryId) {
+    Object.assign(categories[categoryId], learningGuides[categoryId]);
+  });
+
   var terms = [];
 
   function slugify(value) {

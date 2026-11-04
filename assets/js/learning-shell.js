@@ -8,6 +8,12 @@
       var open = header.classList.toggle('open');
       menu.setAttribute('aria-expanded', String(open));
     });
+    header.querySelectorAll('.cw-nav-links a').forEach(function (link) {
+      link.addEventListener('click', function () {
+        header.classList.remove('open');
+        menu.setAttribute('aria-expanded', 'false');
+      });
+    });
   }
 
   var progress = document.querySelector('.cw-progress');

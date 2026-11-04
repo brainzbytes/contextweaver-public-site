@@ -363,6 +363,18 @@ test("product hierarchy and consumer journey remain explicit", async () => {
   assert.match(learning, /id="lesson-next"/);
   assert.match(learning, /Complete A–Z glossary/);
   assert.match(learning, /Latest capabilities connected to the master architecture/);
+  assert.match(learning, /aria-label="Primary navigation"/);
+  assert.match(learning, /href="index\.html">Home</);
+  assert.match(learning, /href="learning\.html" aria-current="page">Learn</);
+  assert.match(learning, /id="paths"/);
+  assert.match(learning, /data-term="distributed-tracing"/);
+  assert.match(learning, /Quick-reference sections/);
+  assert.match(learning, />Quick answer</);
+  assert.match(learning, />In ContextWeaver</);
+  assert.match(learning, /id="lesson-customer-view"/);
+  assert.match(learning, /id="lesson-developer-view"/);
+  assert.match(learning, /id="lesson-troubleshooting-list"/);
+  assert.doesNotMatch(learning, /lesson-consent|>Allow<|>Deny</);
   assert.doesNotMatch(
     [landing, overview, studio, runtime, solutions, architecture, company, learning].join("\n"),
     /href="library\.html/,
@@ -375,12 +387,25 @@ test("product hierarchy and consumer journey remain explicit", async () => {
   assert.match(learningJs, /history\.pushState/);
   assert.match(learningJs, /history\.replaceState/);
   assert.match(learningJs, /renderLessonNavigation/);
+  assert.match(learningJs, /setActiveLessonTab/);
+  assert.match(learningJs, /scrollIntoView\(\{ behavior: 'smooth'/);
+  assert.match(learningJs, /lessonCanvas\.scrollTop \+ lessonCanvas\.clientHeight >= lessonCanvas\.scrollHeight - 8/);
+  assert.match(learningJs, /category\.resources/);
+  assert.match(learningJs, /lesson-customer-view/);
   assert.match(learningCss, /\.atlas-hotspot/);
   assert.match(learningCss, /\.lesson-dialog/);
   assert.match(learningCss, /\.glossary-grid/);
+  assert.match(learningCss, /\.learning-path-grid/);
+  assert.match(learningCss, /\.lesson-tabs a\.active/);
+  assert.match(learningCss, /\.lesson-audience-example/);
   assert.match(learningData, /Retrieval-Augmented Generation/);
   assert.match(learningData, /Agentic RAG/);
   assert.match(learningData, /Cross-Engine Dependency/);
+  assert.match(learningData, /AI Agents for Beginners/);
+  assert.match(learningData, /Model Context Protocol: an introduction/);
+  assert.match(learningData, /OpenTelemetry official video library/);
+  assert.match(learningData, /customer:/);
+  assert.match(learningData, /developer:/);
   assert.match(learningData, /window\.CW_LEARNING/);
   assert.match(siteJs, /page === "architecture" && !location\.hash/);
   assert.match(siteJs, /history\.scrollRestoration = "manual"/);

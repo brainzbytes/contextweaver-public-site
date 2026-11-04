@@ -18,6 +18,8 @@
   var resultCount = document.getElementById('result-count');
   var emptyState = document.getElementById('empty-state');
   var lessonSearch = document.getElementById('lesson-search');
+  var lessonCanvas = dialog.querySelector('.lesson-canvas');
+  var lessonTabs = Array.prototype.slice.call(dialog.querySelectorAll('.lesson-tabs a'));
   var bookmarks = readSet('cw-learning-bookmarks');
   var completed = readSet('cw-learning-completed');
 
@@ -57,10 +59,16 @@
   document.getElementById('complete-term').addEventListener('click', toggleComplete);
   document.querySelector('.lesson-back').addEventListener('click', closeLesson);
   lessonSearch.addEventListener('input', function () { renderLessonNav(state.active, lessonSearch.value.trim().toLowerCase()); });
-  document.getElementById('lesson-video-link').addEventListener('click', function () {
-    var target = document.getElementById('lesson-architecture');
-    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  lessonTabs.forEach(function (tab) {
+    tab.addEventListener('click', function (event) {
+      event.preventDefault();
+      var target = dialog.querySelector(tab.getAttribute('href'));
+      if (!target) return;
+      setActiveLessonTab(tab);
+      target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
   });
+  lessonCanvas.addEventListener('scroll', syncLessonTabs, { passive: true });
 
   function readSet(key) {
     try { return new Set(JSON.parse(localStorage.getItem(key) || '[]')); }
@@ -160,29 +168,38 @@
     text('lesson-title', term.name + (term.acronym ? ' (' + term.acronym + ')' : ''));
     text('lesson-summary', learningPromise(term, category));
     text('lesson-definition', term.definition);
-    text('lesson-solves', solvesFor(term));
+    text('lesson-solves', solvesFor(term, category));
     text('lesson-not-does', misconceptionFor(term, category));
     text('lesson-misconception', misconceptionFor(term, category));
-    text('lesson-takeaway', term.definition);
-    text('lesson-video-title', term.id === 'oauth-2-0' ? 'OAuth in Five Minutes — Visual guide' : term.name + ' — Visual guide');
-    text('lesson-consent-copy', term.id === 'oauth-2-0' ? 'Allow this application to access your calendar?' : 'Allow this capability to act for this request?');
+    text('lesson-takeaway', category.customer || term.definition);
+    text('lesson-video-title', category.video ? category.video.title : term.name + ' — official documentation');
+    text('lesson-video-duration', category.video ? category.video.duration : 'Documentation');
+    text('lesson-video-copy', category.video ? category.video.provider + ' · Opens in a new tab.' : 'Opens official documentation in a new tab.');
+    document.getElementById('lesson-video-link').href = category.video ? category.video.url : data.references[0].url;
+    text('lesson-customer-view', category.customer || term.definition);
+    text('lesson-developer-view', category.developer || (term.context || category.fit));
+    var productLink = document.getElementById('lesson-product-link');
+    productLink.href = category.product ? category.product.url : 'overview.html';
+    productLink.textContent = (category.product ? category.product.label : 'See where this is used in the product') + ' →';
     text('lesson-fit-copy', term.context || category.fit);
     text('lesson-crumb-category', category.label);
     text('lesson-crumb-term', term.name);
-    renderFacts(term);
+    renderFacts(term, category);
     renderFlow(flowFor(term, category));
     renderList('lesson-cautions', cautionsFor(term, category));
-    renderRoles(term);
+    renderList('lesson-troubleshooting-list', category.troubleshooting || category.cautions);
+    renderRoles(term, category);
     renderTermTable(term);
     renderFitFlow(term);
     renderExample(term, category);
     renderLessonNav(term, '');
     renderLessonNavigation(term);
     renderRelated(term);
-    renderSources(term);
+    renderSources(term, category);
     updateProgressButtons();
     if (!dialog.open) dialog.showModal();
-    dialog.querySelector('.lesson-canvas').scrollTop = 0;
+    lessonCanvas.scrollTop = 0;
+    setActiveLessonTab(lessonTabs[0]);
     if (!preserveHistory) {
       var url = new URL(window.location.href);
       url.searchParams.set('term', term.id);
@@ -191,16 +208,16 @@
   }
 
   function learningPromise(term, category) {
-    return term.definition;
+    return category.customer || term.definition;
   }
 
-  function solvesFor(term) {
-    return term.definition + ' It gives teams a shared, operational way to reason about this capability without losing its security and lifecycle boundaries.';
+  function solvesFor(term, category) {
+    return term.definition + ' ' + (category.developer || category.fit);
   }
 
   function misconceptionFor(term, category) {
     if (term.id === 'oauth-2-0') return 'OAuth 2.0 is authorization, not authentication. OpenID Connect adds identity on top of OAuth 2.0.';
-    return (category.cautions && category.cautions[0]) || term.name + ' is not a substitute for explicit policy, validation, and operational evidence.';
+    return category.misconception || (category.cautions && category.cautions[0]) || term.name + ' is not a substitute for explicit policy, validation, and operational evidence.';
   }
 
   function flowFor(term, category) {
@@ -221,10 +238,10 @@
   }
 
   function exampleFor(term, category) {
-    return 'ContextWeaver example: ' + (term.context || category.fit) + ' A production implementation also records the selected version, identity context, policy decision, dependency result, and correlated evidence.';
+    return (category.scenarios && category.scenarios[0]) || ('ContextWeaver example: ' + (term.context || category.fit));
   }
 
-  function rolesFor(term) {
+  function rolesFor(term, category) {
     if (term.id === 'oauth-2-0') return [
       ['Resource Owner', 'The user who owns the resources.'],
       ['Client', 'The application that requests access.'],
@@ -237,19 +254,22 @@
       ['Generator', 'Uses evidence to form an answer.'],
       ['Evaluator', 'Checks grounding, quality, and safety.']
     ];
-    return [
-      ['Requester', 'Expresses the goal and accountable intent.'],
-      ['ContextWeaver', 'Coordinates identity, policy, and execution.'],
-      [term.name, 'Provides the focused capability described here.'],
-      ['Evidence Store', 'Retains decisions, results, and provenance.']
+    var descriptions = [
+      'Starts the accountable request or business goal.',
+      'Coordinates the focused capability described here.',
+      'Provides the approved system or decision boundary.',
+      'Validates the result and preserves evidence.'
     ];
+    return (category.roles || ['Requester', 'ContextWeaver', term.name, 'Evidence Store']).map(function (role, index) {
+      return [role, descriptions[index]];
+    });
   }
 
-  function renderRoles(term) {
+  function renderRoles(term, category) {
     var target = document.getElementById('lesson-role-grid');
     target.textContent = '';
     var icons = ['user', 'application', 'shield', 'database'];
-    rolesFor(term).forEach(function (role, index) {
+    rolesFor(term, category).forEach(function (role, index) {
       var item = document.createElement('div');
       item.className = 'lesson-role';
       item.innerHTML = '<i>' + iconSvg(icons[index]) + '</i><b>' + escapeHtml(role[0]) + '</b><span>' + escapeHtml(role[1]) + '</span>';
@@ -349,10 +369,10 @@
     nextButton.onclick = function () { openLesson(next.id); };
   }
 
-  function renderFacts(term) {
+  function renderFacts(term, category) {
     var facts = document.getElementById('lesson-facts');
     facts.textContent = '';
-    [term.level, '12 min lesson', 'Visual guide', 'Video included']
+    [term.level, 'Quick reference', 'Customer + developer views', category.video ? 'Official video' : 'Official resources']
       .filter(Boolean).forEach(function (value) {
         var item = document.createElement('span');
         item.textContent = value;
@@ -389,15 +409,22 @@
     }
   }
 
-  function renderSources(term) {
+  function renderSources(term, category) {
     var target = document.getElementById('lesson-sources');
     target.textContent = '';
-    data.references.forEach(function (source) {
+    var sources = [];
+    if (category.video) {
+      sources.push({ title: category.video.title, url: category.video.url, type: 'Video' });
+    }
+    sources = sources.concat(category.resources || data.references.slice(0, 3));
+    sources.forEach(function (source) {
       var link = document.createElement('a');
       link.href = source.url;
-      link.target = '_blank';
-      link.rel = 'noopener';
-      link.textContent = source.title + ' ↗';
+      if (/^https?:/i.test(source.url)) {
+        link.target = '_blank';
+        link.rel = 'noopener noreferrer';
+      }
+      link.innerHTML = '<b>' + escapeHtml(source.type || 'Reference') + '</b><span>' + escapeHtml(source.title) + '</span><em>↗</em>';
       target.appendChild(link);
     });
   }
@@ -407,7 +434,7 @@
     toggleSet(bookmarks, state.active.id);
     saveSet('cw-learning-bookmarks', bookmarks);
     updateProgressButtons();
-    renderFacts(state.active);
+    renderFacts(state.active, data.categories[state.active.category]);
   }
 
   function toggleComplete() {
@@ -415,7 +442,7 @@
     toggleSet(completed, state.active.id);
     saveSet('cw-learning-completed', completed);
     updateProgressButtons();
-    renderFacts(state.active);
+    renderFacts(state.active, data.categories[state.active.category]);
   }
 
   function toggleSet(set, id) { set.has(id) ? set.delete(id) : set.add(id); }
@@ -436,6 +463,29 @@
   function closeLesson() {
     updateUrlWithoutTerm();
     if (dialog.open) dialog.close();
+  }
+
+  function setActiveLessonTab(activeTab) {
+    lessonTabs.forEach(function (tab) {
+      var active = tab === activeTab;
+      tab.classList.toggle('active', active);
+      if (active) tab.setAttribute('aria-current', 'location');
+      else tab.removeAttribute('aria-current');
+    });
+  }
+
+  function syncLessonTabs() {
+    if (lessonCanvas.scrollTop + lessonCanvas.clientHeight >= lessonCanvas.scrollHeight - 8) {
+      setActiveLessonTab(lessonTabs[lessonTabs.length - 1]);
+      return;
+    }
+    var canvasTop = lessonCanvas.getBoundingClientRect().top + 92;
+    var activeTab = lessonTabs[0];
+    lessonTabs.forEach(function (tab) {
+      var section = dialog.querySelector(tab.getAttribute('href'));
+      if (section && section.getBoundingClientRect().top <= canvasTop) activeTab = tab;
+    });
+    setActiveLessonTab(activeTab);
   }
 
   function updateUrlWithoutTerm() {
