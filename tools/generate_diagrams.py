@@ -1299,6 +1299,17 @@ SVG_STYLE = f"""
 """
 
 
+def svg_style(diagram: Diagram) -> str:
+    if diagram.slug != "service-factory":
+        return SVG_STYLE
+    return SVG_STYLE + """
+  .diagram-service-factory .image-overlay-edge.complete { opacity:0; }
+  body.portal .diagram-service-factory .image-overlay-edges { display:none; }
+  .diagram-service-factory .image-hotspot.active .hotspot-ring,.diagram-service-factory .image-hotspot.selected .hotspot-ring { fill-opacity:.04; stroke-width:2.5; opacity:.88; }
+  .diagram-service-factory .image-hotspot.active .hotspot-pulse { stroke-width:1.5; opacity:.48; }
+"""
+
+
 def write_static_svg(diagram: Diagram) -> None:
     image_first = image_config(diagram) is not None
     svg_width = IMAGE_MASTER_WIDTH if image_first else WIDTH
@@ -1306,7 +1317,7 @@ def write_static_svg(diagram: Diagram) -> None:
     content = (
         '<?xml version="1.0" encoding="UTF-8"?>\n'
         f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {svg_width} {svg_height}">'
-        f"<style>{SVG_STYLE}</style>"
+        f"<style>{svg_style(diagram)}</style>"
         + svg_content(diagram).replace(
             f'<svg class="architecture diagram-{diagram.slug}'
             + (' image-first-diagram' if image_first else '')
@@ -1362,7 +1373,7 @@ const nodeEls=[...document.querySelectorAll(".node")],edgeEls=[...document.query
 .storybar{{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;gap:22px;min-height:88px;padding:14px 18px;border-bottom:1px solid var(--line);background:#091710eb;backdrop-filter:blur(20px)}}
 .storybar>div,.detailbar>div{{min-width:0}}.stage-count{{color:var(--mint);font-size:9px;font-weight:900;letter-spacing:.15em;text-transform:uppercase}}.stage-title{{display:block;margin-top:4px;font:700 clamp(18px,2vw,28px)/1.08 {FONT_STACK};letter-spacing:-.025em}}.stage-caption{{display:block;max-width:980px;margin-top:6px;overflow-wrap:anywhere;color:var(--muted);font-size:11px}}
 .canvas{{position:relative;min-height:0;overflow:hidden;background:radial-gradient(circle at 52% 42%,#173f2e55 0,transparent 42%),var(--bg)}}.architecture{{display:block;min-width:900px;width:100%;height:100%;object-fit:contain}}
-{SVG_STYLE}
+{svg_style(diagram)}
 .node{{cursor:pointer;transition:opacity .35s}}.node-face,.node-depth,.edge path{{transition:.35s}}.node:hover .node-face,.node.selected .node-face{{stroke-width:4}}.node.active .node-face{{stroke-width:5;filter:url(#glow)}}.node.active .node-depth{{stroke:var(--mint)}}.node.active .node-step{{opacity:1}}.node.complete{{opacity:.94}}.node.dim{{opacity:.82}}
 .edge{{opacity:.42;transition:opacity .35s}}.edge.complete{{opacity:.7}}.edge.dim{{opacity:.32}}.edge.active{{opacity:1}}.edge.active .edge-route{{stroke-width:5;stroke-dasharray:15 9;animation:flow .75s linear infinite;filter:url(#glow)}}.edge.active .flow-pulse{{opacity:1}}.edge-governance.active .edge-route{{stroke:var(--amber)}}.edge-success.active .edge-route{{stroke:var(--mint)}}.edge-waiting.active .edge-route{{stroke:var(--amber)}}.edge-evidence.active .edge-route{{stroke:#d8fff0;stroke-dasharray:3 8}}
 {factory_focus_css}

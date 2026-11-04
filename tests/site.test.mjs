@@ -134,6 +134,28 @@ test("architecture players preserve approved image-first masters and semantic to
   }
 });
 
+test("service factory preserves the approved image-first glass master", async () => {
+  const html = await readFile(join(root, "diagrams", "service-factory.html"), "utf8");
+  assert.match(html, /<svg class="architecture diagram-service-factory image-first-diagram" viewBox="0 0 1536 1024"/);
+  assert.match(html, /<image[^>]*href="data:image\/png;base64,/);
+  assert.match(html, /class="image-overlay-edges"/);
+  assert.match(html, /class="image-overlay-hotspots"/);
+  assert.doesNotMatch(html, /class="glass-deck deck-1"/);
+  assert.match(html, /body\.portal \.diagram-service-factory \.image-overlay-edges \{ display:none; \}/);
+  assert.match(html, /\.diagram-service-factory \.image-overlay-edge\.complete \{ opacity:0; \}/);
+  assert.match(html, /class="hotspot-ring" cx="290" cy="252" r="43"/);
+  assert.match(html, /markerUnits="userSpaceOnUse"/);
+  assert.match(html, /class="edge-route"[^>]*fill="none"/);
+  for (const node of ["inputs", "studio", "contracts", "admission", "registry", "operator", "discovery", "compose", "execute", "outcome"]) {
+    assert.match(html, new RegExp(`data-node-id="${node}"`));
+  }
+  for (let edge = 1; edge <= 11; edge += 1) {
+    assert.match(html, new RegExp(`id="edge-f${edge}"`));
+  }
+  assert.match(html, /Product inputs/);
+  assert.match(html, /Solution result \+ proof/);
+});
+
 test("nextgen compatibility outputs use the rendered-glass atlas", async () => {
   const html = await readFile(join(root, "diagrams", "contextweaver-nextgen-architecture.html"), "utf8");
   const manifest = JSON.parse(await readFile(join(root, "diagrams", "contextweaver-nextgen-architecture", "manifest.json"), "utf8"));
@@ -196,6 +218,29 @@ test("product hierarchy and consumer journey remain explicit", async () => {
   const companyIntro = await readFile(join(root, "assets", "brand", "brainzbytes-contextweaver-overview.html"), "utf8");
 
   assert.match(overview, /working Solution/);
+  for (const example of [
+    "Book a flight",
+    "Spec to pull request",
+    "CRM and sales",
+    "Customer service",
+  ]) {
+    assert.match(overview, new RegExp(example));
+  }
+  for (const stage of ["Ask", "Understand", "Plan", "Authorize", "Execute", "Prove", "Improve"]) {
+    assert.match(overview, new RegExp(`>${stage}<`));
+  }
+  for (const buildingBlock of ["Solution", "Services", "Workflows", "Agents", "MCP capabilities"]) {
+    assert.match(overview, new RegExp(`>${buildingBlock}<`));
+  }
+  assert.match(overview, /class="outcome-workspace"/);
+  assert.match(overview, /class="outcome-story-rail"/);
+  assert.match(overview, /aria-orientation="vertical"/);
+  assert.match(overview, /class="outcome-detail-nav"/);
+  assert.match(siteCss, /\.outcome-workspace \{/);
+  assert.match(siteCss, /grid-template-areas:[\s\S]*"journey proof"/);
+  assert.match(siteJs, /"ArrowUp", "ArrowDown"/);
+  assert.match(overview, /Models propose; policy authorizes/);
+  assert.doesNotMatch(overview, /What changed since the October 28 public baseline/);
   for (const provider of ["Azure", "AWS", "Google Cloud"]) {
     assert.match(overview, new RegExp(provider));
     assert.match(story, new RegExp(provider));
@@ -270,7 +315,7 @@ test("product hierarchy and consumer journey remain explicit", async () => {
   assert.doesNotMatch(architecture, /architecture-block-view/);
   assert.match(story, /user-facing Solution/);
   assert.match(landing, /data-site-intro/);
-  assert.match(landing, /assets\/js\/site\.js\?v=20261102-4/);
+  assert.match(landing, /assets\/js\/site\.js\?v=20261104-2/);
   assert.match(landing, /data-src="assets\/brand\/brainzbytes-contextweaver-overview\.html\?embedded=1&amp;intro=1&amp;v=20261103-9"/);
   assert.match(landing, /data-intro-skip/);
   assert.match(landing, /data-intro-enter/);
@@ -278,7 +323,7 @@ test("product hierarchy and consumer journey remain explicit", async () => {
   assert.match(landing, /assets\/brand\/brainzbytes-b4\.svg/);
   assert.match(landing, /assets\/brand\/contextweaver-c1\.svg/);
   assert.match(landing, /sandbox="allow-scripts allow-same-origin"/);
-  assert.match(landing, /assets\/css\/site\.css\?v=20261102-4/);
+  assert.match(landing, /assets\/css\/site\.css\?v=20261104-2/);
   assert.doesNotMatch(landing, /assets\/js\/site\.js\?v=20261101-18/);
   assert.match(siteJs, /contextweaver-company-intro-seen/);
   assert.match(siteJs, /brainzbytes-intro-complete/);

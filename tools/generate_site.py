@@ -85,7 +85,7 @@ def footer() -> str:
       </div>
       <div class="container footer-bottom">
         <span>© 2026 BrainzBytes. ContextWeaver product architecture.</span>
-        <span>Architecture refreshed {CURRENT_DATE}. Compliance and deployment outcomes remain customer-specific.</span>
+        <span>Reference architecture only. Compliance and deployment outcomes remain customer-specific.</span>
       </div>
     </footer>
     """
@@ -149,7 +149,7 @@ def page(name: str, title: str, description: str, content: str) -> str:
       <meta name="theme-color" content="#07110f">
       <title>{title}</title>
       <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
-      <link rel="stylesheet" href="assets/css/site.css?v=20261102-4">
+      <link rel="stylesheet" href="assets/css/site.css?v=20261104-2">
     </head>
     <body data-page="{name}">
       {intro}
@@ -159,7 +159,7 @@ def page(name: str, title: str, description: str, content: str) -> str:
       </main>
       {spatial_dialog}
       {footer()}
-      <script src="assets/js/site.js?v=20261102-4"></script>
+      <script src="assets/js/site.js?v=20261104-2"></script>
     </body>
     </html>
     """).lstrip()
@@ -278,12 +278,172 @@ HOME = """
   <span>Specifications & RFCs</span><span>OpenAPI & AsyncAPI</span><span>Wikis & enterprise data</span><span>MCPs, Agents & Workflows</span><span>Services & solution packs</span>
 </div>
 
-<section class="container section current-realization">
+<section id="intent-outcome-examples" class="container section outcome-overview" aria-labelledby="outcome-overview-title">
   <div class="section-head">
-    <div><p class="section-kicker">Implementation snapshot · November 1, 2026</p><h2>What changed since the October 28 public baseline.</h2></div>
-    <p>These are reviewed implementation facts, not roadmap promises. Detailed readiness remains release-, environment-, risk-, and customer-profile specific.</p>
+    <div><p class="section-kicker">See the product through familiar moments</p><h2 id="outcome-overview-title">Start with a story people already understand.</h2></div>
+    <p>Choose a real-world goal and see how ContextWeaver turns it into a trusted result—without making the reader learn the platform before the value becomes clear.</p>
   </div>
-  <div class="grid three">{current_facts}</div>
+
+  <div class="outcome-primer" data-reveal>
+    <div>
+      <span class="outcome-primer__label">The experience in one sentence</span>
+      <h3>Ask for the result. ContextWeaver handles the governed journey.</h3>
+      <p>Identity, knowledge, policy, approvals, reusable capabilities, execution, and evidence work together behind one clear experience.</p>
+    </div>
+    <ul class="outcome-primer__flow" aria-label="The shared intent-to-outcome path">
+      <li><span aria-hidden="true"></span><b>Ask</b><small>Describe the result</small></li>
+      <li><span aria-hidden="true"></span><b>Understand</b><small>Gather trusted context</small></li>
+      <li><span aria-hidden="true"></span><b>Plan</b><small>Compose the right path</small></li>
+      <li><span aria-hidden="true"></span><b>Authorize</b><small>Apply policy and approval</small></li>
+      <li><span aria-hidden="true"></span><b>Execute</b><small>Coordinate durable work</small></li>
+      <li><span aria-hidden="true"></span><b>Prove</b><small>Attach evidence</small></li>
+      <li><span aria-hidden="true"></span><b>Improve</b><small>Learn from outcomes</small></li>
+    </ul>
+  </div>
+
+  <div class="outcome-workspace">
+    <aside class="outcome-story-rail" aria-label="Choose a real-world story">
+      <div class="outcome-story-rail__head">
+        <span>Explore by outcome</span>
+        <h3>Choose a familiar goal</h3>
+        <p>Each story follows the same governed path from a person’s request to a proven result.</p>
+      </div>
+      <div class="outcome-tabs" role="tablist" aria-orientation="vertical" aria-label="Real-world ContextWeaver examples">
+        <button class="outcome-tab active" id="outcome-tab-travel" type="button" role="tab" aria-selected="true" aria-controls="outcome-travel" data-outcome-tab="outcome-travel"><span>Travel</span><strong>Book a flight</strong><small>Request to confirmed trip</small><i aria-hidden="true">→</i></button>
+        <button class="outcome-tab" id="outcome-tab-developer" type="button" role="tab" aria-selected="false" aria-controls="outcome-developer" data-outcome-tab="outcome-developer"><span>Software delivery</span><strong>Spec to pull request</strong><small>Requirement to review-ready code</small><i aria-hidden="true">→</i></button>
+        <button class="outcome-tab" id="outcome-tab-crm" type="button" role="tab" aria-selected="false" aria-controls="outcome-crm" data-outcome-tab="outcome-crm"><span>Revenue</span><strong>CRM and sales</strong><small>Account insight to approved renewal</small><i aria-hidden="true">→</i></button>
+        <button class="outcome-tab" id="outcome-tab-service" type="button" role="tab" aria-selected="false" aria-controls="outcome-service" data-outcome-tab="outcome-service"><span>Customer care</span><strong>Customer service</strong><small>Billing issue to proven resolution</small><i aria-hidden="true">→</i></button>
+      </div>
+      <div class="outcome-story-rail__promise">
+        <span aria-hidden="true">✓</span>
+        <p><b>Same trust model.</b> Identity, policy, approvals, durable execution, evidence, and observability follow every story.</p>
+      </div>
+    </aside>
+
+    <div class="outcome-stage">
+    <article class="outcome-panel active" id="outcome-travel" role="tabpanel" aria-labelledby="outcome-tab-travel">
+      <header class="outcome-panel__head">
+        <div><span>Travel story</span><h3>“Book me a policy-compliant flight to Seattle next Tuesday and send me the itinerary.”</h3></div>
+        <div class="outcome-result"><span>Outcome</span><strong>A confirmed trip—not a list of links.</strong><p>The traveler receives an approved itinerary, booking reference, calendar entry, and notification. The business receives the policy, approval, payment, and booking evidence.</p></div>
+      </header>
+      <nav class="outcome-detail-nav" aria-label="Travel story sections"><a class="active" href="#outcome-travel">Overview</a><a href="#outcome-travel-journey">Journey</a><a href="#outcome-travel-blocks">What powers it</a><a href="#outcome-travel-trust">Guardrails and evidence</a></nav>
+      <div class="outcome-building-blocks" id="outcome-travel-blocks" aria-label="Travel solution building blocks">
+        <section><span>Solution</span><b>Business Travel Assistant</b><p>The final experience the traveler opens and uses.</p></section>
+        <section><span>Services</span><b>Trip planning · Booking · Payment · Notification</b><p>Reusable business outcomes with typed inputs and results.</p></section>
+        <section><span>Workflows</span><b>Search → compare → approve → reserve → pay → confirm</b><p>Durable steps that can wait, retry, or compensate safely.</p></section>
+        <section><span>Agents</span><b>Travel planner · Policy specialist</b><p>Bounded reasoning specialists that interpret choices and propose a plan.</p></section>
+        <section><span>MCP capabilities</span><b>Airline · expense policy · traveler profile · payment · calendar · email</b><p>Governed access to the systems that can read data or take action.</p></section>
+      </div>
+      <ul class="outcome-journey" id="outcome-travel-journey" aria-label="How the travel story unfolds">
+        <li><span aria-hidden="true"></span><div><b>Ask</b><p>The traveler states dates, destination, preferences, and the desired result in ordinary language.</p></div></li>
+        <li><span aria-hidden="true"></span><div><b>Understand</b><p>Identity, role, traveler profile, loyalty numbers, company travel policy, budget, calendar, and purpose are gathered from approved sources.</p></div></li>
+        <li><span aria-hidden="true"></span><div><b>Plan</b><p>The Travel Agent compares viable flights and proposes an exact itinerary using approved airline and policy capabilities.</p></div></li>
+        <li><span aria-hidden="true"></span><div><b>Authorize</b><p>Policy checks cabin, price, route, and purpose. An out-of-policy choice pauses for the traveler or manager to approve.</p></div></li>
+        <li><span aria-hidden="true"></span><div><b>Execute</b><p>The Workflow reserves the seat, brokers a scoped payment credential, confirms the booking, writes the calendar event, and sends the itinerary.</p></div></li>
+        <li><span aria-hidden="true"></span><div><b>Prove</b><p>The result includes the selected fare, policy decision, approval, booking locator, payment receipt reference, messages sent, and complete run history.</p></div></li>
+        <li><span aria-hidden="true"></span><div><b>Improve</b><p>Latency, failures, retries, price changes, traveler feedback, and provider reliability help improve future runs without silently changing authority.</p></div></li>
+      </ul>
+      <div class="outcome-proof" id="outcome-travel-trust">
+        <section><span>Guardrails a person can understand</span><ul><li>The Agent can recommend a flight; it cannot invent permission to buy it.</li><li>Payment credentials stay in a trusted gateway and are never exposed to the Agent.</li><li>Price or itinerary changes beyond the approved scope require a new decision.</li><li>A failed booking can release the reservation or reverse the charge through compensation.</li></ul></section>
+        <section><span>What is gathered as evidence</span><ul><li>Who asked, for what purpose, and under which role</li><li>Options considered, citations, policy rules, and the chosen plan</li><li>Approval and entitlement decisions</li><li>Tool receipts, booking and payment references, logs, metrics, and traces</li></ul></section>
+      </div>
+    </article>
+
+    <article class="outcome-panel" id="outcome-developer" role="tabpanel" aria-labelledby="outcome-tab-developer" hidden>
+      <header class="outcome-panel__head">
+        <div><span>Software delivery story</span><h3>“Implement this approved specification, add tests, commit it, and open a pull request.”</h3></div>
+        <div class="outcome-result"><span>Outcome</span><strong>A reviewable pull request tied back to the specification.</strong><p>The developer receives code, tests, build results, a commit, and a PR. Reviewers receive traceability from each requirement to the changed files and validation evidence.</p></div>
+      </header>
+      <nav class="outcome-detail-nav" aria-label="Software delivery story sections"><a class="active" href="#outcome-developer">Overview</a><a href="#outcome-developer-journey">Journey</a><a href="#outcome-developer-blocks">What powers it</a><a href="#outcome-developer-trust">Guardrails and evidence</a></nav>
+      <div class="outcome-building-blocks" id="outcome-developer-blocks" aria-label="Software delivery solution building blocks">
+        <section><span>Solution</span><b>Governed Software Delivery Assistant</b><p>The developer experience from approved specification to review.</p></section>
+        <section><span>Services</span><b>Change implementation · Validation · Pull-request delivery</b><p>Reusable contracts for producing and reviewing a software change.</p></section>
+        <section><span>Workflows</span><b>Analyze → branch → edit → test → scan → commit → open PR</b><p>A durable delivery path with explicit gates and recovery.</p></section>
+        <section><span>Agents</span><b>Spec analyst · Coding Agent · Test Agent · Review Agent</b><p>Specialists with separate responsibilities and bounded tools.</p></section>
+        <section><span>MCP capabilities</span><b>Specification · repository · work items · CI · security scanner · artifact registry</b><p>Least-privilege access to engineering systems.</p></section>
+      </div>
+      <ul class="outcome-journey" id="outcome-developer-journey" aria-label="How the software delivery story unfolds">
+        <li><span aria-hidden="true"></span><div><b>Ask</b><p>The developer selects an approved specification and asks for a complete, review-ready implementation.</p></div></li>
+        <li><span aria-hidden="true"></span><div><b>Understand</b><p>The platform gathers repository instructions, architecture, code owners, work items, dependency rules, test conventions, and protected-branch policy.</p></div></li>
+        <li><span aria-hidden="true"></span><div><b>Plan</b><p>The Spec Analyst maps requirements to components. The Coding and Test Agents propose file changes, tests, and validation commands.</p></div></li>
+        <li><span aria-hidden="true"></span><div><b>Authorize</b><p>Policy verifies repository access, allowed tools, branch scope, change risk, data classification, and whether a human must approve execution.</p></div></li>
+        <li><span aria-hidden="true"></span><div><b>Execute</b><p>The Workflow creates a branch, edits only permitted files, runs tests and scans, records results, commits with traceability, and opens the PR.</p></div></li>
+        <li><span aria-hidden="true"></span><div><b>Prove</b><p>The PR links requirements, code changes, test output, security findings, model and capability versions, approvals, and the immutable execution plan.</p></div></li>
+        <li><span aria-hidden="true"></span><div><b>Improve</b><p>Review feedback, escaped defects, flaky tests, build time, and acceptance results improve evaluation and planning—not branch protection or approval rules.</p></div></li>
+      </ul>
+      <div class="outcome-proof" id="outcome-developer-trust">
+        <section><span>Guardrails a person can understand</span><ul><li>The Coding Agent works only in the approved repository, branch, and file scope.</li><li>Protected branches remain protected; the platform opens a PR but does not autonomously merge it.</li><li>Code generation and independent review use separate identities and evidence.</li><li>Secret scanning, dependency checks, tests, and required reviewers still apply.</li></ul></section>
+        <section><span>What is gathered as evidence</span><ul><li>Specification revision and requirement-to-code mapping</li><li>Repository digest, branch, changed files, prompts, and capability versions</li><li>Test, lint, build, security, and policy results</li><li>Commit SHA, PR link, reviewer decisions, logs, metrics, and traces</li></ul></section>
+      </div>
+    </article>
+
+    <article class="outcome-panel" id="outcome-crm" role="tabpanel" aria-labelledby="outcome-tab-crm" hidden>
+      <header class="outcome-panel__head">
+        <div><span>Revenue story</span><h3>“Prepare Acme’s renewal, propose the right offer, update the CRM, and schedule the follow-up.”</h3></div>
+        <div class="outcome-result"><span>Outcome</span><strong>A prepared renewal with approved next actions.</strong><p>The account owner receives a concise account brief, recommended offer, updated opportunity, drafted outreach, and scheduled follow-up—without losing control of pricing or customer communication.</p></div>
+      </header>
+      <nav class="outcome-detail-nav" aria-label="Revenue story sections"><a class="active" href="#outcome-crm">Overview</a><a href="#outcome-crm-journey">Journey</a><a href="#outcome-crm-blocks">What powers it</a><a href="#outcome-crm-trust">Guardrails and evidence</a></nav>
+      <div class="outcome-building-blocks" id="outcome-crm-blocks" aria-label="CRM solution building blocks">
+        <section><span>Solution</span><b>Account Growth Assistant</b><p>The seller-facing workspace for renewals and customer growth.</p></section>
+        <section><span>Services</span><b>Account insight · Offer preparation · CRM update · Outreach</b><p>Reusable outcomes shared across sales Solutions.</p></section>
+        <section><span>Workflows</span><b>Gather → assess → recommend → approve → update → communicate</b><p>A repeatable process that keeps pricing and outreach governed.</p></section>
+        <section><span>Agents</span><b>Account Analyst · Offer Agent · Compliance Reviewer</b><p>Specialists that summarize, reason, and recommend within policy.</p></section>
+        <section><span>MCP capabilities</span><b>CRM · product usage · support history · pricing · contracts · calendar · email</b><p>Identity-aware access to customer and commercial systems.</p></section>
+      </div>
+      <ul class="outcome-journey" id="outcome-crm-journey" aria-label="How the revenue story unfolds">
+        <li><span aria-hidden="true"></span><div><b>Ask</b><p>The account owner requests a renewal plan for a named customer and target date.</p></div></li>
+        <li><span aria-hidden="true"></span><div><b>Understand</b><p>The platform gathers the customer record, contract, usage, open issues, previous commitments, renewal policy, pricing authority, and communication history.</p></div></li>
+        <li><span aria-hidden="true"></span><div><b>Plan</b><p>The Account Analyst summarizes health and risks. The Offer Agent proposes the next-best action, package, and outreach sequence with cited reasons.</p></div></li>
+        <li><span aria-hidden="true"></span><div><b>Authorize</b><p>Discount, data-use, legal, territory, and communication policies determine what the seller can approve and what must go to finance, legal, or management.</p></div></li>
+        <li><span aria-hidden="true"></span><div><b>Execute</b><p>The Workflow updates the opportunity, creates tasks, prepares the quote, drafts the email, and schedules the meeting. Sending or discounting waits for required approval.</p></div></li>
+        <li><span aria-hidden="true"></span><div><b>Prove</b><p>The account record shows source data, cited insights, policy decisions, approved offer, CRM changes, communications, and the resulting customer response.</p></div></li>
+        <li><span aria-hidden="true"></span><div><b>Improve</b><p>Conversion, response, forecast accuracy, discount effectiveness, stale data, and customer feedback improve recommendations and operational health.</p></div></li>
+      </ul>
+      <div class="outcome-proof" id="outcome-crm-trust">
+        <section><span>Guardrails a person can understand</span><ul><li>The Agent may recommend a discount but cannot exceed the seller’s authority.</li><li>Customer data is filtered by identity, role, account ownership, and purpose.</li><li>External messages remain drafts until the appropriate person approves sending.</li><li>Every CRM change records the old value, new value, reason, and actor.</li></ul></section>
+        <section><span>What is gathered as evidence</span><ul><li>Customer sources, timestamps, citations, and data-access decisions</li><li>Account-health calculation and offer rationale</li><li>Discount, legal, and communication approvals</li><li>CRM mutations, quote versions, messages, outcomes, logs, metrics, and traces</li></ul></section>
+      </div>
+    </article>
+
+    <article class="outcome-panel" id="outcome-service" role="tabpanel" aria-labelledby="outcome-tab-service" hidden>
+      <header class="outcome-panel__head">
+        <div><span>Customer care story</span><h3>“This customer was charged twice. Verify it, fix it, and explain what happened.”</h3></div>
+        <div class="outcome-result"><span>Outcome</span><strong>A resolved case with a clear explanation and proof.</strong><p>The customer receives an accurate response and, when authorized, a refund. The service team receives a complete case history, policy basis, financial receipt, and operational signals.</p></div>
+      </header>
+      <nav class="outcome-detail-nav" aria-label="Customer care story sections"><a class="active" href="#outcome-service">Overview</a><a href="#outcome-service-journey">Journey</a><a href="#outcome-service-blocks">What powers it</a><a href="#outcome-service-trust">Guardrails and evidence</a></nav>
+      <div class="outcome-building-blocks" id="outcome-service-blocks" aria-label="Customer service solution building blocks">
+        <section><span>Solution</span><b>Customer Resolution Console</b><p>The agent-facing experience for understanding and resolving cases.</p></section>
+        <section><span>Services</span><b>Case triage · Billing investigation · Refund · Customer notification</b><p>Reusable resolution outcomes with controlled side effects.</p></section>
+        <section><span>Workflows</span><b>Classify → verify → investigate → approve → resolve → notify → close</b><p>A durable case path that can pause for people or external systems.</p></section>
+        <section><span>Agents</span><b>Case Triage Agent · Billing Specialist · Response Agent</b><p>Specialists that reason over the case without owning financial authority.</p></section>
+        <section><span>MCP capabilities</span><b>Ticketing · CRM · orders · billing · payment · policy knowledge · messaging</b><p>Governed connections to customer and transaction systems.</p></section>
+      </div>
+      <ul class="outcome-journey" id="outcome-service-journey" aria-label="How the customer care story unfolds">
+        <li><span aria-hidden="true"></span><div><b>Ask</b><p>A customer or service representative reports the duplicate charge and asks for resolution.</p></div></li>
+        <li><span aria-hidden="true"></span><div><b>Understand</b><p>The platform gathers the authenticated customer, case history, order, invoice, payment events, refund policy, communication preference, and agent authority.</p></div></li>
+        <li><span aria-hidden="true"></span><div><b>Plan</b><p>The Billing Specialist compares the order and payment timeline, determines whether the charge is duplicate, and proposes the permitted remedy.</p></div></li>
+        <li><span aria-hidden="true"></span><div><b>Authorize</b><p>Policy checks refund amount, transaction age, fraud signals, customer identity, service-agent limits, and whether supervisor approval is required.</p></div></li>
+        <li><span aria-hidden="true"></span><div><b>Execute</b><p>The Workflow issues the authorized refund, updates the ticket and CRM, sends the explanation, and schedules follow-up if settlement is delayed.</p></div></li>
+        <li><span aria-hidden="true"></span><div><b>Prove</b><p>The closed case includes the payment comparison, policy applied, approval, refund receipt, customer message, timestamps, and full run history.</p></div></li>
+        <li><span aria-hidden="true"></span><div><b>Improve</b><p>Repeat incidents, refund latency, escalation rate, customer sentiment, and payment-provider errors become observable signals for product and operations teams.</p></div></li>
+      </ul>
+      <div class="outcome-proof" id="outcome-service-trust">
+        <section><span>Guardrails a person can understand</span><ul><li>The Agent can diagnose and recommend; only policy-authorized capabilities can issue money.</li><li>Customer identity and account ownership are verified before private data is exposed.</li><li>High-value or suspicious refunds pause for independent approval.</li><li>Messages cite verified transaction facts instead of inventing an explanation.</li></ul></section>
+        <section><span>What is gathered as evidence</span><ul><li>Customer, case, order, invoice, and payment-event lineage</li><li>Diagnosis, policy version, authority, and approval decision</li><li>Refund transaction and downstream update receipts</li><li>Customer communication, settlement status, logs, metrics, traces, and outcome</li></ul></section>
+      </div>
+    </article>
+    </div>
+  </div>
+
+  <div class="outcome-shared" data-reveal>
+    <div><span>What stays the same in every example</span><h3>The domain changes. The trust model does not.</h3></div>
+    <div class="outcome-shared__grid">
+      <p><b>Identity follows the request.</b> The platform knows who is acting, for what purpose, and under which role and entitlements.</p>
+      <p><b>Models propose; policy authorizes.</b> An Agent can reason about a plan, but it cannot grant itself access, credentials, approval, or authority.</p>
+      <p><b>Work survives interruption.</b> Durable Workflows can wait for approval, retry transient failures, resume, or compensate completed steps.</p>
+      <p><b>Every important step leaves proof.</b> Plans, citations, decisions, approvals, receipts, artifacts, metrics, logs, traces, and outcomes remain connected.</p>
+    </div>
+  </div>
 </section>
 
 <section id="reading-path" class="container section reader-journey" aria-labelledby="reader-journey-title">
@@ -308,10 +468,10 @@ HOME = """
     <p>A ContextWeaver run can return a typed result, citations, approvals, policy decisions, tool receipts, artifacts, retries, compensation evidence, metrics, logs, traces, and a durable audit trail.</p>
   </div>
   <div class="grid four">
-    <article class="card mint" data-reveal><div class="meta">01 · Understand</div><h3>Make intent explicit</h3><p>Classify purpose, risk, data, entities, required capabilities, ambiguity, and approval needs before protected work begins.</p></article>
-    <article class="card violet" data-reveal><div class="meta">02 · Compile</div><h3>Freeze an authorized plan</h3><p>Resolve exact compatible capability versions, validate typed contracts, bind data fields, and pin one immutable execution plan.</p></article>
-    <article class="card amber" data-reveal><div class="meta">03 · Execute</div><h3>Coordinate durable work</h3><p>Run Agents in parallel, pause without wasting compute, call tools through governed gateways, retry safely, and compensate when required.</p></article>
-    <article class="card coral" data-reveal><div class="meta">04 · Prove</div><h3>Attach evidence</h3><p>Preserve lineage, citations, policy and approval decisions, release digests, side-effect receipts, telemetry, and evaluation results.</p></article>
+    <article class="card mint" data-reveal><div class="meta">Understand</div><h3>Make intent explicit</h3><p>Classify purpose, risk, data, entities, required capabilities, ambiguity, and approval needs before protected work begins.</p></article>
+    <article class="card mint" data-reveal><div class="meta">Compile</div><h3>Freeze an authorized plan</h3><p>Resolve exact compatible capability versions, validate typed contracts, bind data fields, and pin one immutable execution plan.</p></article>
+    <article class="card mint" data-reveal><div class="meta">Execute</div><h3>Coordinate durable work</h3><p>Run Agents in parallel, pause without wasting compute, call tools through governed gateways, retry safely, and compensate when required.</p></article>
+    <article class="card mint" data-reveal><div class="meta">Prove</div><h3>Attach evidence</h3><p>Preserve lineage, citations, policy and approval decisions, release digests, side-effect receipts, telemetry, and evaluation results.</p></article>
   </div>
 </section>
 

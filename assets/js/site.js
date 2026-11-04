@@ -56,6 +56,38 @@
       scenarioTabs[next].focus();
       selectScenario(scenarioTabs[next]);
     });
+
+  });
+
+  const outcomeTabs = [...document.querySelectorAll("[data-outcome-tab]")];
+  const selectOutcome = (tab) => {
+    const panelId = tab.dataset.outcomeTab;
+    outcomeTabs.forEach((item) => {
+      const selected = item === tab;
+      item.classList.toggle("active", selected);
+      item.setAttribute("aria-selected", String(selected));
+      item.tabIndex = selected ? 0 : -1;
+    });
+    document.querySelectorAll(".outcome-panel").forEach((panel) => {
+      const selected = panel.id === panelId;
+      panel.classList.toggle("active", selected);
+      panel.hidden = !selected;
+    });
+  };
+  outcomeTabs.forEach((tab, index) => {
+    tab.tabIndex = tab.classList.contains("active") ? 0 : -1;
+    tab.addEventListener("click", () => selectOutcome(tab));
+    tab.addEventListener("keydown", (event) => {
+      if (!["ArrowLeft", "ArrowRight", "ArrowUp", "ArrowDown", "Home", "End"].includes(event.key)) return;
+      event.preventDefault();
+      let next = index;
+      if (["ArrowLeft", "ArrowUp"].includes(event.key)) next = (index - 1 + outcomeTabs.length) % outcomeTabs.length;
+      if (["ArrowRight", "ArrowDown"].includes(event.key)) next = (index + 1) % outcomeTabs.length;
+      if (event.key === "Home") next = 0;
+      if (event.key === "End") next = outcomeTabs.length - 1;
+      outcomeTabs[next].focus();
+      selectOutcome(outcomeTabs[next]);
+    });
   });
 
   const page = document.body.dataset.page;
