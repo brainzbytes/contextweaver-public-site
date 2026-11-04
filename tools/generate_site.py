@@ -15,6 +15,11 @@ PUBLIC_SITE_URL = os.environ.get(
 SOURCE_TRUTH = json.loads((ROOT / "content" / "source-truth.json").read_text(encoding="utf-8"))
 FACTS = {fact["id"]: fact for fact in SOURCE_TRUTH["facts"]}
 
+
+def standalone_page(filename: str) -> str:
+    return (ROOT / "content" / "pages" / filename).read_text(encoding="utf-8")
+
+
 NAV = (
     ("landing", "Home", "index.html"),
     ("overview", "Overview", "overview.html"),
@@ -1614,18 +1619,8 @@ def main() -> None:
             "Explore clickable animated ContextWeaver architecture diagrams and download editable Draw.io, static SVG, and GIF assets.",
             ARCHITECTURE.format(**diagrams),
         ),
-        "learning.html": page(
-            "learning",
-            "ContextWeaver Learning Atlas — From AI basics to platform architecture",
-            "Choose a role and depth to learn ContextWeaver from AI fundamentals through MCPs, Agents, Workflows, Services, Solutions, identity, data, Kubernetes, governance, operations, and every platform component.",
-            LEARNING,
-        ),
-        "library.html": page(
-            "library",
-            "ContextWeaver Technical Library",
-            "Explore curated ContextWeaver technical briefs covering architecture, credential non-possession, authorization, runtime resilience, RAG, observability, cloud neutrality, and readiness.",
-            LIBRARY,
-        ),
+        "learning.html": standalone_page("learning.html"),
+        "library.html": standalone_page("library.html"),
         "company.html": page(
             "company",
             "BrainzBytes Company — About and Founder",
