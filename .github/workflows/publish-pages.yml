@@ -48,7 +48,7 @@ jobs:
           mkdir _site
           cp ./*.html sitemap.xml robots.txt CNAME _site/
           cp learning.css learning.js learning-data.js _site/
-          cp -R assets diagrams experiences _site/
+          cp -R assets diagrams experiences intent-to-outcome _site/
           touch _site/.nojekyll
 
       - name: Upload validated site artifact
