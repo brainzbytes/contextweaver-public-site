@@ -284,6 +284,7 @@ HOME = """
     <div class="hero-actions">
       <a class="button primary" href="studio.html">Explore Studio <span aria-hidden="true">→</span></a>
       <a class="button" href="architecture.html">Explore the architecture</a>
+      <a class="button" href="intent-to-outcome/">Try the guardrails simulator</a>
     </div>
     <div class="pills" style="margin-top:24px">
       <span class="pill">No-code GUI</span><span class="pill">VS Code + CLI</span><span class="pill">Jupyter</span><span class="pill">OpenAPI + MCP + A2A</span><span class="pill">Kubernetes + GitOps</span>
@@ -866,6 +867,7 @@ GOVERNANCE = """
     <p class="eyebrow">Governance built into execution</p>
     <h1>Authority is explicit. <em>Evidence is automatic.</em></h1>
     <p class="lede">Every protected human and workload action carries verified identity, tenant, purpose, policy version, correlation, and bounded authority. No prompt, model, Agent, tool, or generated package can expand its own privileges.</p>
+    <div class="hero-actions"><a class="button primary" href="intent-to-outcome/">Try the guardrails simulator <span aria-hidden="true">→</span></a><a class="button" href="intent-to-outcome/presentation.html">View the presentation</a></div>
   </div>
   {governed_call_flow}
 </section>
@@ -1835,7 +1837,12 @@ def main() -> None:
         filename
         for filename in pages
         if filename != "library.html"
-    ] + ["experiences/contextweaver-airline-journey/"]
+    ] + [
+        "experiences/contextweaver-airline-journey/",
+        "intent-to-outcome/",
+        "intent-to-outcome/presentation.html",
+        "intent-to-outcome/overview.html",
+    ]
     sitemap = "\n".join(
         f"  <url><loc>{PUBLIC_SITE_URL}/{path}</loc></url>"
         for path in sitemap_paths
